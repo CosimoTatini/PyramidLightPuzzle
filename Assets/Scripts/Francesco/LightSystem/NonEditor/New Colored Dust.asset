@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2e10055551cc3e4bad415bad2206f4d, type: 3}
+  m_Name: New Colored Dust
+  m_EditorClassIdentifier: LightSystem::ColoredDust
+  _color: {r: 1, g: 0, b: 0, a: 1}
+  _baseSprite: {fileID: 21300000, guid: 271a80aa962fd0b4a83b2ee9cbe3ba0c, type: 3}
+  _personalizedSprite: {fileID: 0}
+  _recipe:
+    Ingredients:
+    - Dust: {fileID: 11400000}
+      Quantity: 1
+    - Dust: {fileID: 0}
+      Quantity: 1
+    - Dust: {fileID: 0}
+      Quantity: 1
