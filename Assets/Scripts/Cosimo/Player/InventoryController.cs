@@ -48,6 +48,7 @@ public class InventoryController : MonoBehaviour
         else
         {
             Time.timeScale = 1f;
+
         }
     }
 }
