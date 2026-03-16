@@ -4,13 +4,13 @@ using UnityEngine;
 public class InventoryManager : MonoBehaviour
 {
     [SerializeField] private ItemSlot [] _itemSlots;
-    internal bool AddItemInInventory(string itemName, int quantity, Sprite sprite)
+    internal bool AddItemInInventory(string itemName, int quantity, Sprite sprite,string description)
     {
        for(int i = 0; i < _itemSlots.Length; i++)
         {
             if (_itemSlots[i].IsFull == false)
             {
-                _itemSlots[i].AddItemInSlot(itemName, quantity, sprite);
+                _itemSlots[i].AddItemInSlot(itemName, quantity, sprite, description);
                 return true;
             }
             

@@ -307,8 +307,12 @@ MonoBehaviour:
   _quantity: 0
   _sprite: {fileID: 0}
   IsFull: 0
+  ItemDescription: 
   _quantityText: {fileID: 4129475590275637246}
   _itemImage: {fileID: 227125212500514395}
+  _itemImageDescription: {fileID: 0}
+  _itemNameText: {fileID: 0}
+  _itemDescriptionText: {fileID: 0}
   SelectedShader: {fileID: 8757074056582075665}
   IsSelected: 0
 --- !u!1 &8757074056582075665

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -16,11 +17,14 @@ public class InventoryController : MonoBehaviour
 
     [SerializeField] bool _isActive;
 
+    private InventoryManager _inventoryManager;
+
 
     private void Awake()
     {
         _inventoryPanel.SetActive(false);
         _inputActions = new InputSystem_Actions();
+        _inventoryManager= GameObject.FindObjectsByType(typeof(InventoryManager), FindObjectsInactive.Include, FindObjectsSortMode.None).Cast<InventoryManager>().First();
     }
 
     private void OnEnable()
@@ -48,7 +52,7 @@ public class InventoryController : MonoBehaviour
         else
         {
             Time.timeScale = 1f;
-
+            _inventoryManager.DeselectAllSlots();
         }
     }
 }
