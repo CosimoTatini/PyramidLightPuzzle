@@ -1,0 +1,7 @@
+﻿<Solution>
+  <Project Path="InventorySystem.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
+  <Project Path="LightSystem.csproj" />
+  <Project Path="CraftingSystem.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
+</Solution>

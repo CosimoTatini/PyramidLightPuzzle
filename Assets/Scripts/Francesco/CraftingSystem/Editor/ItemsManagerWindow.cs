@@ -96,13 +96,29 @@ public class ItemsManagerWindow : EditorWindow
                     {
                         EditorGUI.BeginChangeCheck();
 
+                        EditorGUILayout.BeginHorizontal();
+                        GUIStyle labelStyle = EditorStyles.label;
+
+                        GUIContent labelContent = new("Result:");
+                        labelStyle.CalcMinMaxWidth(labelContent, out float minLabelWidth, out float maxLabelWidth);
+
+                        EditorGUILayout.LabelField(labelContent, GUILayout.Width(minLabelWidth));
                         itemSO = (ItemSO)EditorGUILayout.ObjectField(itemSO, typeof(ItemSO), false);
 
+                        EditorGUILayout.EndHorizontal();
                         if (EditorGUI.EndChangeCheck())
                         {
                             EditorUtility.SetDirty(_currentItemRecipeCollectionSO);
                             ADU.SaveAndRefresh();
                         }
+
+                        using (new EditorGUI.DisabledGroupScope(true))
+                        {
+                            EditorGUILayout.ObjectField(itemSO, typeof(ItemSO), false);
+                        }
+
+                        // add label or something for nnumber of recipes
+
                     }
                 }
             }
@@ -115,7 +131,15 @@ public class ItemsManagerWindow : EditorWindow
                     GUILayout.Label(EditorGUIUtility.IconContent("Sprite Icon").image, GUILayout.Width(50), GUILayout.Height(50));
                     using (new EditorGUILayout.VerticalScope(GUI.skin.box))
                     {
+                        EditorGUILayout.BeginHorizontal();
+                        GUIStyle labelStyle = EditorStyles.label;
+
+                        GUIContent labelContent = new("Result:");
+                        labelStyle.CalcMinMaxWidth(labelContent, out float minLabelWidth, out float maxLabelWidth);
+
+                        EditorGUILayout.LabelField(labelContent, GUILayout.Width(minLabelWidth));
                         recipe.ResultingSO = (ItemSO)EditorGUILayout.ObjectField(recipe.ResultingSO, typeof(ItemSO), false);
+                        EditorGUILayout.EndHorizontal();
                         if (GUILayout.Button("Create"))
                         {
                             ItemSO newItemSO = CreateInstance<ItemSO>();

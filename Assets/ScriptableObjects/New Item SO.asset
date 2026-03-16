@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a59fbc9e945e30458193ce22bbd5918, type: 3}
   m_Name: New Item SO
   m_EditorClassIdentifier: InventorySystem::ItemSO
-  _name: 
+  _name: RedDust
   _description: 
-  _icon: {fileID: 0}
+  _icon: {fileID: 21300000, guid: 271a80aa962fd0b4a83b2ee9cbe3ba0c, type: 3}
   _maxStackSize: 1
