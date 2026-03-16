@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d6bdfc71586fdf489f805eddc8f4916, type: 3}
+  m_Name: New Item Recipe Collection SO
+  m_EditorClassIdentifier: CraftingSystem::ItemRecipeCollectionSO
+  _itemRecipes:
+  - {fileID: 11400000, guid: 7d3c14f4861291345bb6c2a5ee5c4fa2, type: 2}
+  - {fileID: 11400000, guid: 7b706521d274e714ab4d0b8bdd10265b, type: 2}
+  - {fileID: 11400000, guid: 07b7883491426334ca7709c2e956855b, type: 2}
+  - {fileID: 11400000, guid: 0286cdb19bf7bab4ba53fda17baa96dd, type: 2}
