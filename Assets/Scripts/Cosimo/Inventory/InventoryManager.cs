@@ -4,7 +4,7 @@ using UnityEngine;
 public class InventoryManager : MonoBehaviour
 {
     [SerializeField] private ItemSlot [] _itemSlots;
-    internal bool AddItemInInventory(string itemName, int quantity, Sprite sprite,string description)
+    public bool AddItemInInventory(string itemName, int quantity, Sprite sprite,string description)
     {
        for(int i = 0; i < _itemSlots.Length; i++)
         {

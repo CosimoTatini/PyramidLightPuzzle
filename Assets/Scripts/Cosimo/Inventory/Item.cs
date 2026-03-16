@@ -7,12 +7,15 @@ public class Item : MonoBehaviour
     [SerializeField] private string _itemName;
     [SerializeField] private int _quantity;
     [SerializeField] private Sprite _sprite;
-    //// Only for debug purpose
-    //[SerializeField] private Color _color;
-    private InventoryManager _inventoryManager;
-
     [TextArea]
     [SerializeField] private string _itemDescription;
+    public string ItemName => _itemName;
+    public int Quantity => _quantity;
+    public Sprite Sprite => _sprite;
+    public string ItemDescription => _itemDescription;
+    private InventoryManager _inventoryManager;
+
+    
 
     private void Start()
     {
@@ -20,16 +23,5 @@ public class Item : MonoBehaviour
         Debug.Log("Find:" + _inventoryManager);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.tag == "Player")
-        {
-            bool added = _inventoryManager.AddItemInInventory(_itemName, _quantity,_sprite,_itemDescription);
-            if(added)
-            {
-                Destroy(gameObject);
-            }
-            
-        }
-    }
+   
 }

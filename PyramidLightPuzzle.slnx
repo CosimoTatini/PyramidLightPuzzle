@@ -1,0 +1,5 @@
+﻿<Solution>
+  <Project Path="Input.csproj" />
+  <Project Path="inventory.csproj" />
+  <Project Path="InputSystem.csproj" />
+</Solution>
