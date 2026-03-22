@@ -7,7 +7,7 @@ public class ItemRecipeSO : ScriptableObject
     [SerializeField] private ItemRecipeQuantity[] _requiredItems;
 
     public ItemSO ResultingSO { get { return _resultingSO; } set { _resultingSO = value; } }
-    public ItemRecipeQuantity[] RequiredItems { get { return _requiredItems; } set { _requiredItems = value; } }
+    public ItemRecipeQuantity[] RequiredItems { get { return _requiredItems ?? new ItemRecipeQuantity[0]; } set { _requiredItems = value; } }
 }
 
 [Serializable]

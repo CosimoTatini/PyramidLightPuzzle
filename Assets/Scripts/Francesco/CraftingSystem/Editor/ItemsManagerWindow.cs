@@ -33,6 +33,7 @@ public class ItemsManagerWindow : EditorWindow
 
     private Vector2 _itemRecipeSOsScrollPos;
     private bool _showUniqueItemRecipeSOs = true;
+    private ItemRecipeSO _currentlySelectedRecipe;
 
     private void OnEnable()
     {
@@ -45,7 +46,7 @@ public class ItemsManagerWindow : EditorWindow
         EditorGUILayout.BeginVertical();
 
         // +TOP HORIZONTAL
-        EditorGUILayout.BeginHorizontal(GUI.skin.window, GUILayout.MaxHeight(50));
+        EditorGUILayout.BeginHorizontal(GUI.skin.window, GUILayout.Height(50));
 
         _currentItemRecipeCollectionSO = (ItemRecipeCollectionSO)EditorGUILayout.ObjectField("Item Collection SO:", _currentItemRecipeCollectionSO, typeof(ItemRecipeCollectionSO), false, GUILayout.Width(300));
         EditorGUILayout.EndHorizontal();
@@ -83,18 +84,18 @@ public class ItemsManagerWindow : EditorWindow
         //TODO: use an altern color for each row, so it's clearer
         if (_showUniqueItemRecipeSOs)
         {
+            // draw a single entry for each unique ItemSO, with the number of recipes that have that ItemSO as result
             foreach (var kvp in dictRecipes)
             {
                 ItemSO itemSO = kvp.Key;
                 ItemRecipeSO[] recipes = kvp.Value;
 
-                using (new EditorGUILayout.HorizontalScope(GUI.skin.box, GUILayout.Height(120)))
+                using (new EditorGUILayout.HorizontalScope(GUI.skin.box, GUILayout.Height(50)))
                 {
                     Sprite itemSprite = itemSO ? itemSO.Icon : null;
                     GUILayout.Label(itemSprite ? itemSprite.texture : EditorGUIUtility.IconContent("Sprite Icon").image, GUILayout.Width(50), GUILayout.Height(50));
                     using (new EditorGUILayout.VerticalScope(GUI.skin.box))
                     {
-                        EditorGUI.BeginChangeCheck();
 
                         EditorGUILayout.BeginHorizontal();
                         GUIStyle labelStyle = EditorStyles.label;
@@ -103,22 +104,17 @@ public class ItemsManagerWindow : EditorWindow
                         labelStyle.CalcMinMaxWidth(labelContent, out float minLabelWidth, out float maxLabelWidth);
 
                         EditorGUILayout.LabelField(labelContent, GUILayout.Width(minLabelWidth));
-                        itemSO = (ItemSO)EditorGUILayout.ObjectField(itemSO, typeof(ItemSO), false);
-
-                        EditorGUILayout.EndHorizontal();
-                        if (EditorGUI.EndChangeCheck())
-                        {
-                            EditorUtility.SetDirty(_currentItemRecipeCollectionSO);
-                            ADU.SaveAndRefresh();
-                        }
+                        EditorGUI.BeginChangeCheck();
 
                         using (new EditorGUI.DisabledGroupScope(true))
                         {
                             EditorGUILayout.ObjectField(itemSO, typeof(ItemSO), false);
                         }
 
-                        // add label or something for nnumber of recipes
+                        EditorGUILayout.EndHorizontal();
 
+                        // add label or something for nnumber of recipes
+                        EditorGUILayout.LabelField($"{recipes.Length} recipe(s) for this item");
                     }
                 }
             }
@@ -126,7 +122,7 @@ public class ItemsManagerWindow : EditorWindow
             // draw recipes that have no assigned result
             foreach (var recipe in recipesWithNullResults)
             {
-                using (new EditorGUILayout.HorizontalScope(GUI.skin.box, GUILayout.Height(120)))
+                using (new EditorGUILayout.HorizontalScope(GUI.skin.box, GUILayout.Height(50)))
                 {
                     GUILayout.Label(EditorGUIUtility.IconContent("Sprite Icon").image, GUILayout.Width(50), GUILayout.Height(50));
                     using (new EditorGUILayout.VerticalScope(GUI.skin.box))
@@ -138,7 +134,16 @@ public class ItemsManagerWindow : EditorWindow
                         labelStyle.CalcMinMaxWidth(labelContent, out float minLabelWidth, out float maxLabelWidth);
 
                         EditorGUILayout.LabelField(labelContent, GUILayout.Width(minLabelWidth));
+
+                        EditorGUI.BeginChangeCheck();
                         recipe.ResultingSO = (ItemSO)EditorGUILayout.ObjectField(recipe.ResultingSO, typeof(ItemSO), false);
+
+                        if (EditorGUI.EndChangeCheck())
+                        {
+                            EditorUtility.SetDirty(recipe);
+                            ADU.SaveAndRefresh();
+                        }
+
                         EditorGUILayout.EndHorizontal();
                         if (GUILayout.Button("Create"))
                         {
@@ -161,7 +166,113 @@ public class ItemsManagerWindow : EditorWindow
         }
         else
         {
+            foreach (var recipe in _currentItemRecipeCollectionSO.ItemRecipes)
+            {
+                ItemSO itemSO = recipe.ResultingSO;
+                if (!itemSO) continue;
 
+                using (new EditorGUILayout.HorizontalScope(GUI.skin.box, GUILayout.Height(120)))
+                {
+                    Sprite itemSprite = itemSO ? itemSO.Icon : null;
+                    GUILayout.Label(itemSprite ? itemSprite.texture : EditorGUIUtility.IconContent("Sprite Icon").image, GUILayout.Width(50), GUILayout.Height(50));
+                    using (new EditorGUILayout.VerticalScope(GUI.skin.box))
+                    {
+                        GUIStyle labelStyle = EditorStyles.label;
+                        // RECIPE REF
+                        using (new EditorGUILayout.HorizontalScope(GUI.skin.box))
+                        {
+                            GUIContent labelRecipeRefContent = new("Recipe ref:");
+                            labelStyle.CalcMinMaxWidth(labelRecipeRefContent, out float minRecipeRefLabelWidth, out float maxRecipeRefLabelWidth);
+
+                            EditorGUILayout.LabelField(labelRecipeRefContent, GUILayout.Width(minRecipeRefLabelWidth));
+
+                            using (new EditorGUI.DisabledGroupScope(true))
+                            {
+                                EditorGUILayout.ObjectField(recipe, typeof(ItemRecipeSO), false);
+                            }
+                        }
+
+                        // RESULTING ITEMSO
+                        using (new EditorGUILayout.HorizontalScope(GUI.skin.box))
+                        {
+                            GUIContent labelResultContent = new("Result:");
+                            labelStyle.CalcMinMaxWidth(labelResultContent, out float minResultLabelWidth, out float maxResultLabelWidth);
+
+                            EditorGUILayout.LabelField(labelResultContent, GUILayout.Width(minResultLabelWidth));
+                            EditorGUI.BeginChangeCheck();
+
+                            recipe.ResultingSO = (ItemSO)EditorGUILayout.ObjectField(recipe.ResultingSO, typeof(ItemSO), false);
+
+                            if (EditorGUI.EndChangeCheck())
+                            {
+                                EditorUtility.SetDirty(recipe);
+                                ADU.SaveAndRefresh();
+                            }
+                        }
+
+                        EditorGUILayout.LabelField($"Number of ingredients: {recipe.RequiredItems.Length}");
+                    }
+                }
+
+                if (GUILayoutUtility.GetLastRect().Contains(Event.current.mousePosition) && Event.current.type == EventType.MouseDown)
+                {
+                    Debug.Log($"Clicked recipe: {recipe.name}");
+                    _currentlySelectedRecipe = recipe;
+                    Event.current.Use();
+                }
+
+                if (_currentlySelectedRecipe == recipe)
+                {
+                    Repaint();
+                    if (Event.current.type == EventType.Repaint)
+                        GUI.skin.FindStyle("SelectionRect").Draw(GUILayoutUtility.GetLastRect(), false, false, true, false);
+                }
+            }
+
+            // draw recipes that have no assigned result
+            foreach (var recipe in recipesWithNullResults)
+            {
+                using (new EditorGUILayout.HorizontalScope(GUI.skin.box, GUILayout.Height(50)))
+                {
+                    GUILayout.Label(EditorGUIUtility.IconContent("Sprite Icon").image, GUILayout.Width(50), GUILayout.Height(50));
+                    using (new EditorGUILayout.VerticalScope(GUI.skin.box))
+                    {
+                        GUIStyle labelStyle = EditorStyles.label;
+                        // RESULTING ITEMSO
+                        using (new EditorGUILayout.HorizontalScope(GUI.skin.box))
+                        {
+                            GUIContent labelResultContent = new("Result:");
+                            labelStyle.CalcMinMaxWidth(labelResultContent, out float minResultLabelWidth, out float maxResultLabelWidth);
+
+                            EditorGUILayout.LabelField(labelResultContent, GUILayout.Width(minResultLabelWidth));
+                            EditorGUI.BeginChangeCheck();
+
+                            recipe.ResultingSO = (ItemSO)EditorGUILayout.ObjectField(recipe.ResultingSO, typeof(ItemSO), false);
+
+                            if (EditorGUI.EndChangeCheck())
+                            {
+                                EditorUtility.SetDirty(recipe);
+                                ADU.SaveAndRefresh();
+                            }
+                        }
+                        if (GUILayout.Button("Create"))
+                        {
+                            ItemSO newItemSO = CreateInstance<ItemSO>();
+                            string path = EditorUtility.SaveFilePanelInProject("Save new ItemSO", "New Item SO", "asset", "Select location to save the new ItemSO");
+                            path = AD.GenerateUniqueAssetPath(path);
+
+                            if (!string.IsNullOrEmpty(path))
+                            {
+                                AD.CreateAsset(newItemSO, path);
+                                recipe.ResultingSO = newItemSO;
+                                EditorUtility.SetDirty(recipe);
+                                ADU.SaveAndRefresh();
+                            }
+                        }
+                    }
+
+                }
+            }
         }
 
 

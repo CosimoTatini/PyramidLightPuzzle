@@ -10,8 +10,13 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Inventory/" + nameof(ItemRecipeCollectionSO))]
 public class ItemRecipeCollectionSO : ScriptableObject
 {
-    [SerializeField] private List<ItemRecipeSO> _itemRecipes;
+    [SerializeField] private List<ItemRecipeSO> _itemRecipes = new();
     public List<ItemRecipeSO> ItemRecipes => _itemRecipes;
+
+    private void OnValidate()
+    {
+        _itemRecipes.RemoveAll(recipe => recipe == null);
+    }
 
     public Dictionary<ItemSO, ItemRecipeSO[]> GetDictionaryOfRecipes(out List<ItemRecipeSO> recipesWithNullResults)
     {

@@ -1,8 +1,8 @@
 {
-    "name": "LightSystem",
+    "name": "Puzzles",
     "rootNamespace": "",
     "references": [
-        "GUID:516a5277b8c3b4f4c8cc86b77b1591ff"
+        "GUID:45b841feb373fbd4bbfe60d1c7256a97"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

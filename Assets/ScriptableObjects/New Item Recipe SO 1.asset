@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f851e91c2d5a254b899b24bff197139, type: 3}
   m_Name: New Item Recipe SO 1
   m_EditorClassIdentifier: CraftingSystem::ItemRecipeSO
-  _resultingSO: {fileID: 0}
+  _resultingSO: {fileID: 11400000, guid: e6708af1db528ce479d3f10d1dcc74b8, type: 2}
   _requiredItems: []
