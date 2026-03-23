@@ -1,5 +1,6 @@
 ﻿<Solution>
   <Project Path="Input.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="inventory.csproj" />
   <Project Path="InputSystem.csproj" />
 </Solution>
