@@ -2,7 +2,8 @@
     "name": "LightSystem",
     "rootNamespace": "",
     "references": [
-        "GUID:516a5277b8c3b4f4c8cc86b77b1591ff"
+        "GUID:516a5277b8c3b4f4c8cc86b77b1591ff",
+        "GUID:e0204a6b485c98d46a43d40ed68bdb93"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

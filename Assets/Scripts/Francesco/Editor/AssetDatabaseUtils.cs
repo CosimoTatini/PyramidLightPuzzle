@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEditor;
 using AD = UnityEditor.AssetDatabase;
 using System.Linq;
+using System;
+using Object = UnityEngine.Object;
 
 /// <summary>
 /// AssetDatabase extension methods
@@ -36,6 +38,11 @@ public static class AssetDatabaseUtils
     {
         return GetAssets($"t:{typeof(T).Name}")
             ?.Cast<T>()
+            ?.ToArray();
+    }
+    public static Object[] GetAssetsByType(Type type) 
+    {
+        return GetAssets($"t:{type.Name}")
             ?.ToArray();
     }
 
