@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 493097101200126106}
   - component: {fileID: 6343464057119107953}
   - component: {fileID: 5930349341683594685}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -134,6 +134,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 936416d44f088dd4d81f7fdb2f087f06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Input::Player
+  CheckPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _fallDuration: 0.5
+  _fallCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &5550328600045715910
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,7 +155,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4951932229051494743}
   - component: {fileID: 4666284692352345179}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}

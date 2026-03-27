@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ public class Turret : MonoBehaviour
     [SerializeField] private LayerMask _playerMask;
     private float _currentAngle;
     [SerializeField] private float _speedRotation = 10f;
+    [SerializeField] private PolygonCollider2D _detectionPolygon;
 
     [Header("Shoot")]
     [SerializeField] private float _fireRate;
@@ -33,6 +35,33 @@ public class Turret : MonoBehaviour
     private void Start()
     {
         _barrelPivot.eulerAngles = new Vector3(_barrelPivot.eulerAngles.x, _barrelPivot.eulerAngles.y, _angleOffset);
+
+        List<Vector3> detectionPoints = new List<Vector3>();
+        Vector2 forward = transform.right;
+        Vector2 origin = _barrelPivot.position;
+        float barrelRot = _barrelPivot.eulerAngles.z;
+        Vector2 detectionEdgeA = GetPointOnCircle(origin, _detectionRadius, _detectionAngle / 2f + barrelRot + _angleOffset);
+        Vector2 detectionEdgeB = GetPointOnCircle(origin, _detectionRadius, -_detectionAngle / 2f + barrelRot + _angleOffset);
+        forward = transform.TransformPoint(forward);
+        detectionPoints.Add(origin);
+        detectionPoints.Add(detectionEdgeA);
+        int detectionCount = 20;
+        float detectionDistance = _detectionAngle / detectionCount;
+        for (int i = 1; i < detectionCount - 1; i++)
+        {
+            Vector2 arch = GetPointOnCircle(origin, _detectionRadius, _detectionAngle / 2f - detectionDistance * i + barrelRot + _angleOffset);
+            detectionPoints.Add(arch);
+        }
+        detectionPoints.Add(detectionEdgeB);
+        //detectionPoints.Add(origin);
+        Vector2[] detectionPoints2 = new Vector2[detectionPoints.Count];
+        int k = 0;
+        foreach (var item in detectionPoints)
+        {
+            detectionPoints2[k++] = _detectionPolygon.transform.InverseTransformPoint(item);
+        }
+        _detectionPolygon.points = detectionPoints2;
+
         Debug.Log("Converted Angle" + ConvertAngle(-1075));
     }
     private void Update()
@@ -51,7 +80,7 @@ public class Turret : MonoBehaviour
         float angle = Vector2.SignedAngle(forward, dirToPlayer);
         angle = ConvertAngle(angle);
 
-        _currentAngle = Mathf.MoveTowardsAngle(_barrelPivot.eulerAngles.z,_barrelPivot.eulerAngles.z+angle, _speedRotation * Time.deltaTime);
+        _currentAngle = Mathf.MoveTowardsAngle(_barrelPivot.eulerAngles.z, _barrelPivot.eulerAngles.z + angle, _speedRotation * Time.deltaTime);
         _barrelPivot.eulerAngles = new Vector3(_barrelPivot.eulerAngles.x, _barrelPivot.eulerAngles.y, _currentAngle);
 
         float detectionAngleA = ConvertAngle(-_detectionAngle / 2f + _angleOffset);
@@ -70,6 +99,23 @@ public class Turret : MonoBehaviour
 
 
 
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.TryGetComponent(out Player player))
+        {
+            _target = player.transform;
+            Debug.Log("Dected");
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision.gameObject.TryGetComponent(out Player player))
+        {
+            _target = null;
+        }
     }
 
     private void Shoot()
@@ -93,23 +139,29 @@ public class Turret : MonoBehaviour
             {
                 _target = null;
                 return;
+
             }
-
-            Vector2 dirToPlayer = (hit.transform.position - _barrelPivot.position).normalized;
-            Vector2 forward = _barrelPivot.right;
+            Debug.Log("Player Trovato:" + hit);
 
 
-            float angle = Vector2.SignedAngle(forward, dirToPlayer);
-            angle = ConvertAngle(angle);
-            float viewAngleA = ConvertAngle(-_viewAngle / 2f + _angleOffset);
-            float viewAngleB = ConvertAngle(_viewAngle / 2f + _angleOffset);
-            Debug.Log($"Angle:{angle} ViewAngleA:{viewAngleA} ViewAngleB:{viewAngleB}");
 
-            if (IsAngleInRange(angle, viewAngleA, viewAngleB))
-                _target = hit.transform;
 
-            else
-                _target = null;
+            //Vector2 dirToPlayer = (hit.transform.position - _barrelPivot.position).normalized;
+            //Vector2 forward = _barrelPivot.right;
+
+
+            //float angle = Vector2.SignedAngle(forward, dirToPlayer);
+            //angle = ConvertAngle(angle);
+            //float viewAngleA = ConvertAngle(-_viewAngle / 2f + _angleOffset);
+            //float viewAngleB = ConvertAngle(_viewAngle / 2f + _angleOffset);
+            //Debug.Log($"Angle:{angle} ViewAngleA:{viewAngleA} ViewAngleB:{viewAngleB}");
+
+            //if (IsAngleInRange(angle, viewAngleA, viewAngleB))
+            //    _target = hit.transform;
+
+            //else
+            //    _target = null;
+
 
 
 
