@@ -35,7 +35,13 @@ public class Turret : MonoBehaviour
     private void Start()
     {
         _barrelPivot.eulerAngles = new Vector3(_barrelPivot.eulerAngles.x, _barrelPivot.eulerAngles.y, _angleOffset);
+        SetDetectionTriggerPoints();
 
+        Debug.Log("Converted Angle" + ConvertAngle(-1075));
+    }
+
+    private void SetDetectionTriggerPoints()
+    {
         List<Vector3> detectionPoints = new List<Vector3>();
         Vector2 forward = transform.right;
         Vector2 origin = _barrelPivot.position;
@@ -53,7 +59,6 @@ public class Turret : MonoBehaviour
             detectionPoints.Add(arch);
         }
         detectionPoints.Add(detectionEdgeB);
-        //detectionPoints.Add(origin);
         Vector2[] detectionPoints2 = new Vector2[detectionPoints.Count];
         int k = 0;
         foreach (var item in detectionPoints)
@@ -61,9 +66,8 @@ public class Turret : MonoBehaviour
             detectionPoints2[k++] = _detectionPolygon.transform.InverseTransformPoint(item);
         }
         _detectionPolygon.points = detectionPoints2;
-
-        Debug.Log("Converted Angle" + ConvertAngle(-1075));
     }
+
     private void Update()
     {
         DetectPlayer();
@@ -106,7 +110,7 @@ public class Turret : MonoBehaviour
         if (collision.gameObject.TryGetComponent(out Player player))
         {
             _target = player.transform;
-            Debug.Log("Dected");
+            Debug.Log("Detected");
         }
     }
 
@@ -142,25 +146,6 @@ public class Turret : MonoBehaviour
 
             }
             Debug.Log("Player Trovato:" + hit);
-
-
-
-
-            //Vector2 dirToPlayer = (hit.transform.position - _barrelPivot.position).normalized;
-            //Vector2 forward = _barrelPivot.right;
-
-
-            //float angle = Vector2.SignedAngle(forward, dirToPlayer);
-            //angle = ConvertAngle(angle);
-            //float viewAngleA = ConvertAngle(-_viewAngle / 2f + _angleOffset);
-            //float viewAngleB = ConvertAngle(_viewAngle / 2f + _angleOffset);
-            //Debug.Log($"Angle:{angle} ViewAngleA:{viewAngleA} ViewAngleB:{viewAngleB}");
-
-            //if (IsAngleInRange(angle, viewAngleA, viewAngleB))
-            //    _target = hit.transform;
-
-            //else
-            //    _target = null;
 
 
 

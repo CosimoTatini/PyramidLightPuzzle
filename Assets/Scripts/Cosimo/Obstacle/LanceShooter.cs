@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class LanceShooter : MonoBehaviour
@@ -7,27 +8,18 @@ public class LanceShooter : MonoBehaviour
     [SerializeField] private Transform _firePoint;
     [SerializeField] private float _fireRate = 1f;
     [SerializeField] private Vector2 _direction;
+    [SerializeField] private BoxCollider2D _coll;
+    [SerializeField] private GameObject gameObjectToDestroy;
 
-    private bool _active;
-    private float _timer;
     public Projectile _prefabProjectile;
+    private float _disableTriggerDelay = 1f;
+    private bool _isShooting;
 
     private void Awake()
     {
         _pool = new ObjectPooler<Projectile>(_prefabProjectile);
     }
-    private void Update()
-    {
-        if (!_active) return;
-
-        _timer += Time.deltaTime;
-
-        if(_timer >= _fireRate)
-        {
-            Shoot();
-            _timer = 0f;
-        }
-    }
+  
 
     private void Shoot()
     {
@@ -42,15 +34,15 @@ public class LanceShooter : MonoBehaviour
     {
         if(collision.TryGetComponent(out Player player))
         {
-            _active = true;
+             Shoot();
+            _isShooting=true;
+            StartCoroutine(DisableTriggerCoroutine());
         }
     }
-
-    private void OnTriggerExit2D(Collider2D collision)
+    
+    private IEnumerator DisableTriggerCoroutine()
     {
-        if(collision.TryGetComponent(out Player player))
-        {
-            _active= false;
-        }
+       yield return new WaitForSeconds(_disableTriggerDelay);
+       _coll.enabled =false;     
     }
 }

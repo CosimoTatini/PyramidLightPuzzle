@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8711526962086320852}
   - component: {fileID: 6318192165801416670}
   m_Layer: 0
-  m_Name: lance
+  m_Name: Lance
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -164,6 +164,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a209b8b329a87c141822b614522cbe30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
-  _speed: 5
+  _speed: 15
   _lifetime: 10
   _direction: {x: 0, y: 0}
