@@ -51,7 +51,7 @@ public class Turret : MonoBehaviour
         float angle = Vector2.SignedAngle(forward, dirToPlayer);
         angle = ConvertAngle(angle);
 
-        _currentAngle = Mathf.MoveTowardsAngle(_barrelPivot.eulerAngles.z, angle, _speedRotation * Time.deltaTime);
+        _currentAngle = Mathf.MoveTowardsAngle(_barrelPivot.eulerAngles.z,_barrelPivot.eulerAngles.z+angle, _speedRotation * Time.deltaTime);
         _barrelPivot.eulerAngles = new Vector3(_barrelPivot.eulerAngles.x, _barrelPivot.eulerAngles.y, _currentAngle);
 
         float detectionAngleA = ConvertAngle(-_detectionAngle / 2f + _angleOffset);
@@ -119,18 +119,6 @@ public class Turret : MonoBehaviour
 
 
     }
-    //private bool IsValidTarget()
-    //{
-    //    if (_target == null) return false;
-
-    //    float distance = Vector2.Distance(_barrelPivot.position, _target.position);
-    //    if (distance > _detectionRadius) return false;
-
-    //    Vector2 dir = (_target.position - _barrelPivot.position).normalized;
-    //    float angle = Vector2.SignedAngle(_barrelPivot.right, dir);
-
-    //    return angle < _viewAngle / 2f;
-    //}
 
     Vector2 GetPointOnCircle(Vector2 center, float radius, float angle)
     {

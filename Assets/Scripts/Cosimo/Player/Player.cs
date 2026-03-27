@@ -1,7 +1,9 @@
 
 using NUnit.Framework;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 public class Player : MonoBehaviour
 {
@@ -10,6 +12,9 @@ public class Player : MonoBehaviour
     [Header("CheckpointSystem")]
     public List<Transform> CheckPoints = new List<Transform>();
     private Transform _currentCheckpoint;
+    [SerializeField] private float _fallDuration = 0.5f;
+    [SerializeField] private AnimationCurve _fallCurve;
+    private bool _isRespawning;
     
     private void Awake()
     {
@@ -24,6 +29,7 @@ public class Player : MonoBehaviour
         }
         transform.position = CheckPoints[0].position;
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.TryGetComponent<Item>(out Item item ))
@@ -51,8 +57,34 @@ public class Player : MonoBehaviour
 
         if(collision.TryGetComponent<Obstacle>(out Obstacle obstacle))
         {
-            Respawn();
+            if(!_isRespawning)
+            {
+                StartCoroutine(FallAndRespawnCoroutine());
+            }
+            
+;        }
+    }
+
+    private IEnumerator FallAndRespawnCoroutine()
+    {
+        _isRespawning = true;
+
+        float timer = 0f;
+        Vector3 startScale = transform.localScale;
+        while (timer < _fallDuration)
+        {
+            timer += Time.deltaTime;
+            float t = timer / _fallDuration;
+
+            float scale = Mathf.Lerp(0.5f,1f,_fallCurve.Evaluate(t));
+
+            transform.localScale = new Vector3(scale,scale,scale);
+            yield return null;
+
         }
+        Respawn();
+        transform.localScale = startScale;
+        _isRespawning=false;
     }
 
     private void Respawn()
@@ -68,4 +100,6 @@ public class Player : MonoBehaviour
             Debug.LogWarning("No checkpoint saved found");
         }
     }
+
+   
 }
