@@ -87,7 +87,7 @@ public class Player : MonoBehaviour
         _isRespawning=false;
     }
 
-    private void Respawn()
+    public void Respawn()
     {
         if(_currentCheckpoint!=null)
         {
