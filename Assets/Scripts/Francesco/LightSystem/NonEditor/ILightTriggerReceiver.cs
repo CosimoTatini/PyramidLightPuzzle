@@ -1,6 +1,8 @@
 public interface ILightTriggerReceiver
 {
-    void LightActivated(LightTrigger lightTrigger);
-    void LightChanged(LightTrigger lightTrigger);
-    void LightDeactivated(LightTrigger lightTrigger);
+    LightTrigger LightTrigger { get; }
+    void SetLightTrigger(LightTrigger lightTrigger);
+    void LightActivated();
+    void LightChanged();
+    void LightDeactivated();
 }

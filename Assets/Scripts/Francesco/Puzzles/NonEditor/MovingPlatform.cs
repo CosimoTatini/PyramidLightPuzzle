@@ -42,6 +42,9 @@ public class MovingPlatform : MonoBehaviour, ILightTriggerReceiver
 
         }
     }
+
+    public LightTrigger LightTrigger { get; private set; }
+
     private Rigidbody2D _rb;
     private bool _isMoving = true;
     private bool _isReturning = false;
@@ -71,14 +74,16 @@ public class MovingPlatform : MonoBehaviour, ILightTriggerReceiver
         _isMoving = false;
     }
 
+    [SerializeField] private bool _useRadius;
+    private bool _IsInsideRadius = false;
+
     //TODO: doesn't work properly since the radius check compares this transform's center with its transform center, the problem is the add is called
     // when we trigger, but in that moment our center is not inside the radius, so we don't actually subscribe
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent(out LightTrigger trigger))
         {
-            trigger.AddOnLightActivatedListener(this, OnLightActivated);
-            Debug.Log("subscribed to trigger: " + trigger.name);
+            
         }
     }
 
@@ -94,18 +99,19 @@ public class MovingPlatform : MonoBehaviour, ILightTriggerReceiver
         }
     }
 
-    public void LightActivated(LightTrigger lightTrigger)
+    public void LightActivated()
     {
-        throw new System.NotImplementedException();
     }
 
-    public void LightChanged(LightTrigger lightTrigger)
+    public void LightChanged()
     {
-        throw new System.NotImplementedException();
+    }
+    public void LightDeactivated()
+    {
     }
 
-    public void LightDeactivated(LightTrigger lightTrigger)
+    public void SetLightTrigger(LightTrigger lightTrigger)
     {
-        throw new System.NotImplementedException();
+        LightTrigger = lightTrigger;
     }
 }

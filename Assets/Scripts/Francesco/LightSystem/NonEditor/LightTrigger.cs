@@ -43,10 +43,9 @@ public class LightTrigger : MonoBehaviour
     [SerializeField] private List<TypeFilter> _filterTypes;
 
     [Header("Subscribers")]
-    [SerializeField] private List<InterfaceReferenceILightTriggerReceiver> _receivers;
+    [SerializeField] private List<IR_ILightTriggerReceiver> _receivers;
 
-    //TODO: update the status and make it accessible to others
-    private bool _isActive = false;
+    public bool IsActive => _lightSensor.IsActive;
 
     // keep track of all components subscribed at runtime to the different UnityEvents
     private List<MonoBehaviour> _runtimeOnLightActivatedTriggerReceivers = new();
@@ -64,6 +63,13 @@ public class LightTrigger : MonoBehaviour
     private void Awake()
     {
         _lightSensor = GetComponent<LightSensor>();
+        for (int i = 0; i < _receivers.Count; i++)
+        {
+            foreach (var lightTriggerReceiver in _receivers[i].Value)
+            {
+                lightTriggerReceiver.SetLightTrigger(this);
+            }
+        }
     }
 
     private void OnEnable()
@@ -84,15 +90,36 @@ public class LightTrigger : MonoBehaviour
     {
         Debug.Log("Activated");
         _onLightActivated.Invoke(this);
+        for (int i = 0; i < _receivers.Count; i++)
+        {
+            foreach (var lightTriggerReceiver in _receivers[i].Value)
+            {
+                lightTriggerReceiver.LightActivated();
+            }
+        }
     }
     private void InvokeOnLightChanged()
     { 
         _onLightChanged.Invoke(this);
+        for (int i = 0; i < _receivers.Count; i++)
+        {
+            foreach (var lightTriggerReceiver in _receivers[i].Value)
+            {
+                lightTriggerReceiver.LightChanged();
+            }
+        }
     }
 
     private void InvokeOnLightDeactivated()
     { 
         _onLightDeactivated.Invoke(this);
+        for (int i = 0; i < _receivers.Count; i++)
+        {
+            foreach (var lightTriggerReceiver in _receivers[i].Value)
+            {
+                lightTriggerReceiver.LightDeactivated();
+            }
+        }
     }
 
     // --- OnLightActivated ---
@@ -186,17 +213,5 @@ public class LightTrigger : MonoBehaviour
             if (!foundMatch) return false;
         }
         return true;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-
-    }
-
-    //TODO: Maybe check radius with trigger exit, this would require saving for each MonoBehavior the connected UnityActions, so 1 dictionary for each type (activated, changed, deactivated)
-    // and would be <MonoBehavior, List<UnityAction<LightTrigger>>> since a component could subscribe with different methods to the same UnityEvent
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-
     }
 }

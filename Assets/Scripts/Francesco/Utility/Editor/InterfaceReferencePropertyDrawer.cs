@@ -39,7 +39,6 @@ public class InterfaceReferencePropertyDrawer : PropertyDrawer
         if (baseType != null)
         {
             Type argumentType = baseType.GenericTypeArguments[0];
-
             using (var change = new EditorGUI.ChangeCheckScope())
             {
                 EditorGUILayout.PropertyField(propGameObject);
