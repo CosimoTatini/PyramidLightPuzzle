@@ -5,6 +5,7 @@ public class RevealingPlatform : MonoBehaviour
     [SerializeField] private Collider2D _platformCollider;
     [SerializeField] private SpriteRenderer _platformSprite;
     [SerializeField] private LightSensor _lightSensor;
+    [SerializeField] private InterfaceReferenceILightTriggerReceiver _lightTriggerReceiverSlot;
 
     private bool _isActive = false;
 

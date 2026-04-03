@@ -42,6 +42,12 @@ public class LightTrigger : MonoBehaviour
     [SerializeField] private bool _useFilter;
     [SerializeField] private List<TypeFilter> _filterTypes;
 
+    [Header("Subscribers")]
+    [SerializeField] private List<InterfaceReferenceILightTriggerReceiver> _receivers;
+
+    //TODO: update the status and make it accessible to others
+    private bool _isActive = false;
+
     // keep track of all components subscribed at runtime to the different UnityEvents
     private List<MonoBehaviour> _runtimeOnLightActivatedTriggerReceivers = new();
     private List<MonoBehaviour> _runtimeOnLightChangedTriggerReceivers = new();

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class MovingPlatform : MonoBehaviour
+public class MovingPlatform : MonoBehaviour, ILightTriggerReceiver
 {
     [SerializeField] private List<Transform> _wayPoints;
     [SerializeField] private float _moveSpeed = 5f;
@@ -92,5 +92,20 @@ public class MovingPlatform : MonoBehaviour
             trigger.RemoveOnLightActivatedListener(this, OnLightActivated);
             Debug.Log("unsubscribed to trigger: " + trigger.name);
         }
+    }
+
+    public void LightActivated(LightTrigger lightTrigger)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void LightChanged(LightTrigger lightTrigger)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void LightDeactivated(LightTrigger lightTrigger)
+    {
+        throw new System.NotImplementedException();
     }
 }
