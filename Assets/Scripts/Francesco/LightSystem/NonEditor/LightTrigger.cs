@@ -9,48 +9,34 @@ using UnityEngine.Events;
 [RequireComponent(typeof(LightSensor))]
 public class LightTrigger : MonoBehaviour
 {
-    /* VARIABLES
-        - LightSensor _lightSensor
-        - float _radius
-        - bool _useRadius // can't be changed during runtime to avoid discrepancies
-        - List<MonoBehaviour> _runtimeOnLightActivatedTriggerReceivers 
-        - List<MonoBehaviour> _runtimeOnLightChangedTriggerReceivers 
-        - List<MonoBehaviour> _runtimeOnLightDeactivatedTriggerReceivers 
-        - List<TypeSO> _filterType // filters trigger receivers based on type
-        - bool _useFilter
-        - UnityEvent _onLightActivated // these 3 events are private to avoid unintentional subscriptions, you can add listeners using public methods, also we don't need to pass LightSensor, we can just Get it with a public => LightSensor
-        - UnityEvent _onLightChanged
-        - UnityEvent _onLightDeactivated
-       METHODS
-        - public void AddOnLightActivatedListener(UnityAction) // adds an action (needs to be UnityAction, doesn't really change anything) to subscribe
-                                                               // we need to check if in radius (if toggled) and if part of the filter (if toggled) 
-        - ..................................................... // Same for the other 2 events
-        - public void RemoveOnLightActivatedListener(UnityAction) // removes an action
-                                                                  // we need to check if inside the List of _runtimeTriggerReceivers 
-        - ..................................................... // Same for the other 2 events
-        - private void OnLightActivated() // "repeats" the signal from the light Sensor to the subscribers of _onLightActivated
-        - private void OnLightChanged() // "repeats" the signal from the light Sensor to the subscribers of _onLightChanged
-        - private void OnLightDeactivated() // "repeats" the signal from the light Sensor to the subscribers of _onLightDeactivated
-    */
-
     [Header("Radius")]
     [Tooltip("The radius in which the light trigger can communicate with subscribers")]
-    [SerializeField] private bool _useRadius = true;
-    [SerializeField] private float _radius = 10f;
+    [Min(0.01f)]
+    [SerializeField] private float _activationRadius = 10f;
+    [SerializeField] private CircleCollider2D _detectionTrigger;
 
-    [Header("Filter")]
-    [SerializeField] private bool _useFilter;
-    [SerializeField] private List<TypeFilter> _filterTypes;
+    public float ActivationRadius
+    {
+        get
+        {
+            return _activationRadius;
+        }
+        set
+        {
+
+            if (value >= 0.01f)
+                _activationRadius = value;
+            if (_detectionTrigger)
+            {
+                _detectionTrigger.radius = _activationRadius;
+            }
+        }
+    }
 
     [Header("Subscribers")]
     [SerializeField] private List<IR_ILightTriggerReceiver> _receivers;
 
     public bool IsActive => _lightSensor.IsActive;
-
-    // keep track of all components subscribed at runtime to the different UnityEvents
-    private List<MonoBehaviour> _runtimeOnLightActivatedTriggerReceivers = new();
-    private List<MonoBehaviour> _runtimeOnLightChangedTriggerReceivers = new();
-    private List<MonoBehaviour> _runtimeOnLightDeactivatedTriggerReceivers = new();
 
     // these 3 events are private to avoid unintentional subscriptions, you can add listeners using public methods, also we don't need to pass LightSensor, we can just Get it with a public => LightSensor
     private UnityEvent<LightTrigger> _onLightActivated = new();
@@ -70,6 +56,10 @@ public class LightTrigger : MonoBehaviour
                 lightTriggerReceiver.SetLightTrigger(this);
             }
         }
+#if UNITY_EDITOR
+        _previousActivationRadius = _activationRadius;
+#endif
+        _detectionTrigger.radius = _activationRadius;
     }
 
     private void OnEnable()
@@ -86,9 +76,20 @@ public class LightTrigger : MonoBehaviour
         _lightSensor.OnLightDeactivated.RemoveListener(InvokeOnLightDeactivated);
     }
 
+#if UNITY_EDITOR
+    private float _previousActivationRadius;
+    private void OnValidate()
+    {
+        if (_previousActivationRadius != _activationRadius)
+        {
+            ActivationRadius = _activationRadius;
+            _previousActivationRadius = _activationRadius;
+        }
+    }
+#endif
+
     private void InvokeOnLightActivated()
     {
-        Debug.Log("Activated");
         _onLightActivated.Invoke(this);
         for (int i = 0; i < _receivers.Count; i++)
         {
@@ -99,7 +100,7 @@ public class LightTrigger : MonoBehaviour
         }
     }
     private void InvokeOnLightChanged()
-    { 
+    {
         _onLightChanged.Invoke(this);
         for (int i = 0; i < _receivers.Count; i++)
         {
@@ -111,7 +112,7 @@ public class LightTrigger : MonoBehaviour
     }
 
     private void InvokeOnLightDeactivated()
-    { 
+    {
         _onLightDeactivated.Invoke(this);
         for (int i = 0; i < _receivers.Count; i++)
         {
@@ -122,6 +123,19 @@ public class LightTrigger : MonoBehaviour
         }
     }
 
+    /* OLD RUNTIME CODE TO ADD/REMOVE LISTENERS
+     * 
+     * 
+     * 
+    [SerializeField] private bool _useRadius = true;
+    [SerializeField] private float _radius = 10f;
+    [Header("Filter")]
+    [SerializeField] private bool _useFilter;
+    [SerializeField] private List<TypeFilter> _filterTypes;
+    // keep track of all components subscribed at runtime to the different UnityEvents
+    private List<MonoBehaviour> _runtimeOnLightActivatedTriggerReceivers = new();
+    private List<MonoBehaviour> _runtimeOnLightChangedTriggerReceivers = new();
+    private List<MonoBehaviour> _runtimeOnLightDeactivatedTriggerReceivers = new();
     // --- OnLightActivated ---
     public void AddOnLightActivatedListener(MonoBehaviour subscriber, UnityAction<LightTrigger> action)
     {
@@ -171,7 +185,6 @@ public class LightTrigger : MonoBehaviour
         _onLightDeactivated.RemoveListener(action);
         _runtimeOnLightDeactivatedTriggerReceivers.Remove(subscriber);
     }
-
     private bool CanBeAdded(MonoBehaviour behavior)
     {
         if (behavior == null) return false;
@@ -214,4 +227,5 @@ public class LightTrigger : MonoBehaviour
         }
         return true;
     }
+    */
 }
