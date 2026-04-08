@@ -7,6 +7,7 @@ using UnityEngine.Events;
 /// Lets the user light this gameObject to interact with another one
 /// </summary>
 [RequireComponent(typeof(LightSensor))]
+[DefaultExecutionOrder(-10)]
 public class LightTrigger : MonoBehaviour
 {
     [Header("Radius")]

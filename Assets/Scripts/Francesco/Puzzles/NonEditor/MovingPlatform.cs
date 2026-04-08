@@ -83,7 +83,7 @@ public class MovingPlatform : MonoBehaviour, ILightTriggerReceiver
         }
         set
         {
-#if UNITY_EDITOR 
+#if UNITY_EDITOR
             bool previousValue = _previousUseRadius;
 #else
             bool previousValue = _useRadius;
