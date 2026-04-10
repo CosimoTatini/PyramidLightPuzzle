@@ -732,7 +732,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d92b08128e2455148a99b404eaf612b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Pit
-  delayBeforeRespawn: 1
+  delayBeforeRespawn: 0.2
 --- !u!66 &1281464131
 CompositeCollider2D:
   m_ObjectHideFlags: 0

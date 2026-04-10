@@ -34,13 +34,26 @@ public class Pit : MonoBehaviour
 
     private bool IsFullyContained(CompositeCollider2D container, Collider2D target)
     {
-        Bounds containerBounds = container.bounds;
-        Bounds targetBounds = target.bounds;
+        Bounds b = target.bounds;
 
-        return targetBounds.min.x >= containerBounds.min.x &&
-               targetBounds.max.x <= containerBounds.max.x &&
-               targetBounds.min.y >= containerBounds.min.y &&
-               targetBounds.max.y <= containerBounds.max.y;
+        Vector2[] pointsToTest = new Vector2[]
+        {
+        new Vector2(b.min.x, b.min.y), 
+        new Vector2(b.max.x, b.min.y), 
+        new Vector2(b.min.x, b.max.y), 
+        new Vector2(b.max.x, b.max.y), 
+       
+        };
+
+        foreach (Vector2 point in pointsToTest)
+        {
+            if (!container.OverlapPoint(point))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private IEnumerator RespawnCoroutine(Player player)
