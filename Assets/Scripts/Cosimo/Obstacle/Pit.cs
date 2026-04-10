@@ -8,18 +8,22 @@ public class Pit : MonoBehaviour
     [SerializeField] private float delayBeforeRespawn = 1f;
     private bool _isRespawning = false;
 
-    private CompositeCollider2D _collider;
+    private CompositeCollider2D _pitCollider;
+    private Collider2D _playerCollider;
 
     private void Awake()
     {
-        _collider = GetComponent<CompositeCollider2D>();
+        _pitCollider = GetComponent<CompositeCollider2D>();
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (_isRespawning || collision.GetComponent<Player>() == null) return;
 
-        if (IsFullyContained(_collider, collision))
+        
+        _playerCollider= collision.GetComponent<Collider2D>();
+
+        if (IsFullyContained(_pitCollider, collision))
         {
             if (collision.TryGetComponent(out Player player))
             {
@@ -43,7 +47,10 @@ public class Pit : MonoBehaviour
     {
         _isRespawning = true;
         yield return new WaitForSeconds(delayBeforeRespawn);
-        player.Respawn();
+        if(IsFullyContained(_pitCollider,_playerCollider))
+        {
+            player.Respawn();
+        }
         _isRespawning = false;
     }
 }
