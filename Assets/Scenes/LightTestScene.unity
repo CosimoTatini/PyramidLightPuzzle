@@ -853,7 +853,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Puzzles::RevealingPlatform
   _platformCollider: {fileID: 954771975}
   _platformSprite: {fileID: 954771972}
-  _useRadius: 0
+  _useRadius: 1
 --- !u!58 &954771977
 CircleCollider2D:
   m_ObjectHideFlags: 0

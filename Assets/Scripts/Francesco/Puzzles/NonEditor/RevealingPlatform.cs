@@ -35,25 +35,52 @@ public class RevealingPlatform : MonoBehaviour, ILightTriggerReceiver
                 if (_useRadius)
                 {
                     // if outside we need to check if the light is active, if so call deactivated
-                    if (!_IsInsideRadius && LightTrigger.IsActive)
+                    if (!_IsInsideRadius)
                     {
-                        SetAlpha(0f);
-                        SetInactive();
+                        if (_platformSprite.color.a != 0f)
+                        {
+                            SetInactive();
+                        }
+
                     }
                 }
                 // not using radius
                 else
                 {
                     // if outside we need to check if light is active, if so activate it
-                    if (!_IsInsideRadius && LightTrigger.IsActive)
+                    if (!_IsInsideRadius)
                     {
-                        LightChanged();
-                        LightActivated();
+                        if (LightTrigger.IsActive)
+                        {
+                            LightChanged();
+                            LightActivated();
+                        }
+                        else
+                        {
+                            LightChanged();
+                            LightDeactivated();
+                        }
                     }
                 }
             }
         }
     }
+    /*
+     * ✔️ UseRadius:
+     *  - Inside => Status can be either Active, Inactive, when value changes we need to change the alpha
+     *  - Outside => Status can only be Inactive
+     * ==================================================================================================
+     * ❌ Don't UseRadius:
+     *  Receives updates indipendently from radius
+     * ================================================================================================== 
+     * ❌ => ✔️ From Don't UseRadius to UseRadius
+     *  - Inside => We are already inside and since we weren't using Radius the status is already correct
+     *  - Outside => If it's active we need to turn it off
+     * ==================================================================================================
+     * ✔️ => ❌ From UseRadius to Don't UseRadius
+     *  - Inside => We are already inside, UseRadius already handled the status
+     *  - Outside => If light is active we need to turn it on since UseRadius couldn't handle it
+    */
 
 #if UNITY_EDITOR
 
@@ -96,13 +123,14 @@ public class RevealingPlatform : MonoBehaviour, ILightTriggerReceiver
 
             if (LightTrigger.IsActive)
             {
+                LightChanged();
                 LightActivated();
             }
             else
             {
+                LightChanged();
                 LightDeactivated();
             }
-            LightChanged();
         }
     }
 
@@ -201,4 +229,5 @@ public class RevealingPlatform : MonoBehaviour, ILightTriggerReceiver
     LightDeactivatedAction:
         SetInactive();
     }
+
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -114,13 +115,18 @@ public class MovingPlatform : MonoBehaviour, ILightTriggerReceiver
         }
     }
 
+    //CompositeCollider2D fs;
+    //PolygonCollider2D player;
+    //player.points; => Convert to world space
+    //    // check each point;
+    //fs.OverlapPoint();
+
 #if UNITY_EDITOR
 
     private bool _previousUseRadius;
-
     private void OnValidate()
     {
-        if (Application.isPlaying)
+        if (Application.isPlaying && Time.time > 1f)
         {
             Debug.Log(_previousUseRadius + " " + _useRadius);
             if (_previousUseRadius != _useRadius)
