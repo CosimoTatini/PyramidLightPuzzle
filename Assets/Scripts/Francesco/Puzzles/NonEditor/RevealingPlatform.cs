@@ -152,7 +152,6 @@ public class RevealingPlatform : MonoBehaviour, ILightTriggerReceiver
         _platformCollider.enabled = true;
         _isActive = true;
     }
-
     public void SetInactive()
     {
         _platformCollider.enabled = false;
@@ -197,8 +196,8 @@ public class RevealingPlatform : MonoBehaviour, ILightTriggerReceiver
         }
 
     LightChangedAction:
-        bool shouldBeActive = LightSensor.AreAmountsRight();
-        if (shouldBeActive && _isActive) return;
+        //bool shouldBeActive = LightSensor.AreAmountsRight();
+        //if (shouldBeActive && _isActive) return;
 
         // set alpha
         int redDifference = Mathf.Abs(LightSensor.NeededRedAmount - LightSensor.CurrentRedAmount);
@@ -207,7 +206,7 @@ public class RevealingPlatform : MonoBehaviour, ILightTriggerReceiver
 
         int totalNeededAmount = LightSensor.NeededRedAmount + LightSensor.NeededGreenAmount + LightSensor.NeededBlueAmount;
         int difference = redDifference + greenDifference + blueDifference;
-        if (difference == 0)
+        if (totalNeededAmount == 0)
         {
             SetAlpha(1f);
         }

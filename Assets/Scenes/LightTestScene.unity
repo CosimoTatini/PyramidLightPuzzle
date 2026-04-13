@@ -853,7 +853,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Puzzles::RevealingPlatform
   _platformCollider: {fileID: 954771975}
   _platformSprite: {fileID: 954771972}
-  _useRadius: 1
+  _useRadius: 0
 --- !u!58 &954771977
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1079,7 +1079,7 @@ Transform:
   m_GameObject: {fileID: 1144748693}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.34, y: 1.94, z: 0}
+  m_LocalPosition: {x: 12.32, y: 7.99, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1439,7 +1439,7 @@ Transform:
   m_GameObject: {fileID: 2106799284}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.51, y: 4.0299997, z: 0}
+  m_LocalPosition: {x: -5.84, y: 3.99, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

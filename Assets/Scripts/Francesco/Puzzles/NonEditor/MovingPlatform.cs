@@ -114,7 +114,6 @@ public class MovingPlatform : MonoBehaviour, ILightTriggerReceiver
             }
         }
     }
-
     //CompositeCollider2D fs;
     //PolygonCollider2D player;
     //player.points; => Convert to world space
