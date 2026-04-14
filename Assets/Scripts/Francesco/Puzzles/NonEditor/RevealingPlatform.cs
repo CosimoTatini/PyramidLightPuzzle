@@ -3,6 +3,7 @@ using UnityEngine;
 public class RevealingPlatform : MonoBehaviour, ILightTriggerReceiver
 {
     [SerializeField] private Collider2D _platformCollider;
+    [SerializeField] private TriggerArea2D _triggerArea;
     [SerializeField] private SpriteRenderer _platformSprite;
 
     private bool _isActive = false;
@@ -100,21 +101,25 @@ public class RevealingPlatform : MonoBehaviour, ILightTriggerReceiver
     }
 
 #endif
-
     private void OnEnable()
     {
+        _triggerArea.OnTriggerEnter += TriggerEnter;
+        _triggerArea.OnTriggerExit += TriggerExit;
     }
 
     private void OnDisable()
     {
+        _triggerArea.OnTriggerEnter -= TriggerEnter;
+        _triggerArea.OnTriggerExit -= TriggerExit;
     }
 
     private void Start()
     {
+        SetAlpha(0f);
         SetInactive();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void TriggerEnter(Collider2D collision)
     {
         if (collision.TryGetComponent(out LightTrigger trigger) && trigger == LightTrigger)
         {
@@ -134,7 +139,7 @@ public class RevealingPlatform : MonoBehaviour, ILightTriggerReceiver
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    public void TriggerExit(Collider2D collision)
     {
         if (collision.TryGetComponent(out LightTrigger trigger) && trigger == LightTrigger)
         {
@@ -157,7 +162,6 @@ public class RevealingPlatform : MonoBehaviour, ILightTriggerReceiver
         _platformCollider.enabled = false;
         _isActive = false;
     }
-
     private void SetAlpha(float alpha)
     {
         alpha = Mathf.Clamp01(alpha);
@@ -170,7 +174,18 @@ public class RevealingPlatform : MonoBehaviour, ILightTriggerReceiver
     {
         LightTrigger = lightTrigger;
         if (!_useRadius)
-            LightChanged();
+        {
+            if (LightTrigger.IsActive)
+            {
+                LightChanged();
+                LightActivated();
+            }
+            else
+            {
+                LightChanged();
+                LightDeactivated();
+            }
+        }
     }
 
     public void LightActivated()
