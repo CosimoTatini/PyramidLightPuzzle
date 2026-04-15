@@ -125,5 +125,12 @@ public class Player : MonoBehaviour,ISubject
         }
     }
 
-    
+    public void RespawnToFirst()
+    {
+        if(CheckPoints.Count>0 && !_isRespawning)
+        {
+            _currentCheckpoint= CheckPoints[0];
+            StartCoroutine(FallAndRespawnCoroutine());
+        }
+    }
 }
