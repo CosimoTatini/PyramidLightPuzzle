@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour,ISubject
 {
     private InventoryManager _inventoryManager;
 
@@ -15,7 +15,30 @@ public class Player : MonoBehaviour
     [SerializeField] private float _fallDuration = 0.5f;
     [SerializeField] private AnimationCurve _fallCurve;
     private bool _isRespawning;
-    
+    private List<IObserver> _observers= new List<IObserver>();
+
+    public void Attach(IObserver observer)
+    {
+        if (!_observers.Contains(observer))
+        {
+            Debug.Log($"[Subject] {observer} si è registrato correttamente!");
+            _observers.Add(observer);
+        }
+    }
+
+    public void Detach(IObserver observer)
+    {
+        _observers.Remove(observer);
+    }
+
+    public void Notify()
+    {
+        Debug.Log($"[Subject] Notifica inviata a {_observers.Count} osservatori.");
+        foreach (var item in _observers)
+        {
+            item.ObserverUpdate(this);
+        }
+    }
     private void Awake()
     {
         _inventoryManager = FindFirstObjectByType <InventoryManager>();
@@ -93,6 +116,7 @@ public class Player : MonoBehaviour
         {
             transform.position= _currentCheckpoint.transform.position;
             Debug.Log("Respawn done");
+            Notify();
         }
 
         else
@@ -101,5 +125,5 @@ public class Player : MonoBehaviour
         }
     }
 
-   
+    
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +11,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _moveSpeed;
     private Rigidbody2D _rb;
     private Vector2 _moveDirection;
+
+    private Vector2Int facingDirection = Vector2Int.right;
 
 
     private void Awake()
@@ -32,9 +35,15 @@ public class PlayerController : MonoBehaviour
     {
         _inputActions.Player.Move.performed += OnMovePerformed;
         _inputActions.Player.Move.canceled += OnMoveCanceled;
+        _inputActions.Player.Interact.performed += OnInteractPerformed;
     }
 
+    private void OnInteractPerformed(InputAction.CallbackContext context)
+    {
+        //HandleTorch();
+    }
 
+    
 
     private void OnMovePerformed(InputAction.CallbackContext context)
     {
@@ -52,5 +61,21 @@ public class PlayerController : MonoBehaviour
 
         _rb.linearVelocity = targetVelocity;
     }
+
+    //private void HandleTorch()
+    //{
+    //    TorchManager tm = TorchManager.Instance;
+    //    Vector2Int myCell = tm.WorldToCell(transform.position);
+
+    //    Torch torchHere= tm.GetTorchAt(myCell);
+
+    //    if(torchHere != null)
+    //    {
+    //        tm.CollectTorch(torchHere);
+    //        return;
+    //    }
+
+    //    Vector2Int frontCell = myCell + facingDirection;
+    //}
 
 }
