@@ -8,7 +8,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - 
@@ -40,24 +40,6 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: Ground
-    uniqueID: 2812701323
-    locked: 0
-  - name: WalkInFront
-    uniqueID: 3592141925
-    locked: 0
-  - name: Collision
-    uniqueID: 919569881
-    locked: 0
-  - name: Player
-    uniqueID: 3609360499
-    locked: 0
-  - name: WalkBehind
-    uniqueID: 3753648191
-    locked: 0
-  - name: Decor
-    uniqueID: 3578322369
     locked: 0
   m_RenderingLayers:
   - Default
