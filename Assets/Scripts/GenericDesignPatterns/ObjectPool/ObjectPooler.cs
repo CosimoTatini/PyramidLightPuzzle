@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 /// <summary>
 /// Object Pooler per un singolo tipo di MonoBehaviour.<br/>
 /// Se vengono inseriti MonoBehaviour di natura diversa, potrebbero esserci dei comportamenti inaspettati
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class ObjectPooler<T> where T : MonoBehaviour
+public class ObjectPooler<T> where T : Object
 {
     private T monoBehaviourPrefab;
     private Queue<T> objectPool;
@@ -28,7 +29,7 @@ public class ObjectPooler<T> where T : MonoBehaviour
         if (monoBehaviourPrefab == null)
             throw new NullReferenceException("Non è stato inizializzato il monoBehaviourPrefab.");
 
-        return GameObject.Instantiate(monoBehaviourPrefab);
+        return Object.Instantiate(monoBehaviourPrefab);
     }
 
     public void Set(T monoBehaviour)

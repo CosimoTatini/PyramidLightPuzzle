@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.U2D;
 
-public class Torch : MonoBehaviour
+public class MagicalTorch : MonoBehaviour
 {
     [SerializeField] private Light2DBase _light;
 

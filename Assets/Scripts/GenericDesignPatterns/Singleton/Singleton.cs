@@ -30,7 +30,7 @@ namespace DesignPatterns.Generics
                                 {
                                     GameObject singletonObject = new GameObject(typeof(T).Name);
                                     _instance = singletonObject.AddComponent<T>();
-                                    DontDestroyOnLoad(singletonObject);
+                                    //DontDestroyOnLoad(singletonObject);
                                 }
                             }
                             catch (Exception e)
@@ -50,13 +50,13 @@ namespace DesignPatterns.Generics
         {
             lock (_lock)
             {
-                if (_instance != null && _instance != this)
-                {
-                    Destroy(gameObject);
-                    return;
-                }
+                //if (_instance != null && _instance != this)
+                //{
+                //    Destroy(gameObject);
+                //    return;
+                //}
                 _instance = this as T;
-                DontDestroyOnLoad(gameObject);
+                //DontDestroyOnLoad(gameObject);
             }
         }
     }
