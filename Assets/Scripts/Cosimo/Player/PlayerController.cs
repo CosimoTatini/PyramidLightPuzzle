@@ -1,4 +1,5 @@
 using System;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,11 +15,18 @@ public class PlayerController : MonoBehaviour
 
     private Vector2Int facingDirection = Vector2Int.right;
 
+    public Rigidbody2D Rb => _rb;
+    public InputSystem_Actions InputActions => _inputActions;
+    public Vector2 MoveDirection => _moveDirection;
+
+    public float MoveSpeed => _moveSpeed;
+
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _inputActions = new InputSystem_Actions();
+        
     }
 
     private void OnEnable()

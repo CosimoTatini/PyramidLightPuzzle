@@ -16,6 +16,12 @@ public class Player : MonoBehaviour,ISubject
     [SerializeField] private AnimationCurve _fallCurve;
     private bool _isRespawning;
     private List<IObserver> _observers= new List<IObserver>();
+    public GenericStateMachine<ECharacterStates> StateMachine;
+    [HideInInspector] public Animator Animator;
+
+    private PlayerController _playerController;
+
+    private IState _currentState;
 
     public void Attach(IObserver observer)
     {
@@ -42,6 +48,26 @@ public class Player : MonoBehaviour,ISubject
     private void Awake()
     {
         _inventoryManager = FindFirstObjectByType <InventoryManager>();
+        Animator = GetComponentInChildren<Animator>();
+        _playerController = GetComponent<PlayerController>();
+
+        //StateMachine = new GenericStateMachine<ECharacterStates>();
+
+        //StateMachine.RegisterState(ECharacterStates.Idle, new IdleCharacterState(this, _playerController));
+        //StateMachine.RegisterState(ECharacterStates.Walk, new WalkCharacterState(this, _playerController));
+        //StateMachine.RegisterState(ECharacterStates.Place, new PlaceCharacterState(this, _playerController));
+        //StateMachine.RegisterState(ECharacterStates.Grab, new PlaceCharacterState(this, _playerController));
+        //StateMachine.RegisterState(ECharacterStates.Death, new DeathCharacterState(this, _playerController));
+        //StateMachine.RegisterState(ECharacterStates.Throw, new ThrowCharacterState(this, _playerController));
+
+        //StateMachine.SetState(ECharacterStates.Idle);
+        //_currentState= StateMachine.CurrentState;
+    }
+
+    public void SetState(ECharacterStates state)
+    {
+        StateMachine.SetState(state);
+        _currentState = StateMachine.CurrentState;
     }
 
     private void Start()
@@ -52,6 +78,7 @@ public class Player : MonoBehaviour,ISubject
         }
         transform.position = CheckPoints[0].position;
     }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -82,7 +109,7 @@ public class Player : MonoBehaviour,ISubject
         {
             if(!_isRespawning)
             {
-                StartCoroutine(FallAndRespawnCoroutine());
+                SetState(ECharacterStates.Death);
             }
             
 ;        }

@@ -171,6 +171,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 4951932229051494743, guid: bcbd17571cc4e58429f17cf9583a261c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5930349341683594685, guid: bcbd17571cc4e58429f17cf9583a261c, type: 3}
       propertyPath: 'CheckPoints.Array.data[0]'
       value: 
