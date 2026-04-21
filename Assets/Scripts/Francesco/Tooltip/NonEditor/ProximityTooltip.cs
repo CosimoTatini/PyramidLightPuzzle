@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ProximityTooltip : MonoBehaviour
 {
+    [Tooltip("Used for distance check")]
+    [SerializeField] private Transform _checkTransform;
     private InteractionTooltip _previousTooltip;
     private InteractionTooltip _currentTooltip;
     private List<InteractionTooltip> _detectedTooltips = new();
@@ -49,6 +51,6 @@ public class ProximityTooltip : MonoBehaviour
 
     private InteractionTooltip GetClosestTooltip()
     {
-        return _detectedTooltips.OrderBy(ttip => Vector2.Distance(ttip.transform.position, transform.position)).FirstOrDefault();
+        return _detectedTooltips.OrderBy(ttip => Vector2.Distance(ttip.transform.position, _checkTransform.position)).FirstOrDefault();
     }
 }
