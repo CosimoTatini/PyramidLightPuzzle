@@ -13,77 +13,23 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D _rb;
     private Vector2 _moveDirection;
 
-    private Vector2Int facingDirection = Vector2Int.right;
-
     public Rigidbody2D Rb => _rb;
     public InputSystem_Actions InputActions => _inputActions;
     public Vector2 MoveDirection => _moveDirection;
-
     public float MoveSpeed => _moveSpeed;
-
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _inputActions = new InputSystem_Actions();
-        
+
+        // Registriamo gli eventi una volta sola qui! 
+        _inputActions.Player.Move.performed += ctx => _moveDirection = ctx.ReadValue<Vector2>();
+        _inputActions.Player.Move.canceled += ctx => _moveDirection = Vector2.zero;
     }
 
-    private void OnEnable()
-    {
-        _inputActions.Enable();
-    }
 
-    private void OnDisable()
-    {
-        _inputActions.Disable();
-    }
-
-    private void Update()
-    {
-        _inputActions.Player.Move.performed += OnMovePerformed;
-        _inputActions.Player.Move.canceled += OnMoveCanceled;
-        _inputActions.Player.Interact.performed += OnInteractPerformed;
-    }
-
-    private void OnInteractPerformed(InputAction.CallbackContext context)
-    {
-        //HandleTorch();
-    }
-
-    
-
-    private void OnMovePerformed(InputAction.CallbackContext context)
-    {
-        _moveDirection = context.ReadValue<Vector2>();
-    }
-
-    private void OnMoveCanceled(InputAction.CallbackContext context)
-    {
-        _moveDirection = Vector2.zero;
-    }
-
-    private void FixedUpdate()
-    {
-        Vector2 targetVelocity = _moveDirection * _moveSpeed * Time.fixedDeltaTime;
-
-        _rb.linearVelocity = targetVelocity;
-    }
-
-    //private void HandleTorch()
-    //{
-    //    TorchManager tm = TorchManager.Instance;
-    //    Vector2Int myCell = tm.WorldToCell(transform.position);
-
-    //    Torch torchHere= tm.GetTorchAt(myCell);
-
-    //    if(torchHere != null)
-    //    {
-    //        tm.CollectTorch(torchHere);
-    //        return;
-    //    }
-
-    //    Vector2Int frontCell = myCell + facingDirection;
-    //}
+    private void OnEnable() => _inputActions.Enable();
+    private void OnDisable() => _inputActions.Disable();
 
 }

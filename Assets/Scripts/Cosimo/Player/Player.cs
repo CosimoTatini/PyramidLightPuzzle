@@ -18,6 +18,7 @@ public class Player : MonoBehaviour,ISubject
     private List<IObserver> _observers= new List<IObserver>();
     public GenericStateMachine<ECharacterStates> StateMachine;
     [HideInInspector] public Animator Animator;
+    private SpriteRenderer _renderer;
 
     private PlayerController _playerController;
 
@@ -50,18 +51,20 @@ public class Player : MonoBehaviour,ISubject
         _inventoryManager = FindFirstObjectByType <InventoryManager>();
         Animator = GetComponentInChildren<Animator>();
         _playerController = GetComponent<PlayerController>();
+        _renderer= GetComponentInChildren<SpriteRenderer>();
 
-        //StateMachine = new GenericStateMachine<ECharacterStates>();
 
-        //StateMachine.RegisterState(ECharacterStates.Idle, new IdleCharacterState(this, _playerController));
-        //StateMachine.RegisterState(ECharacterStates.Walk, new WalkCharacterState(this, _playerController));
+        StateMachine = new GenericStateMachine<ECharacterStates>();
+
+        StateMachine.RegisterState(ECharacterStates.Idle, new IdleCharacterState(this, _playerController));
+        StateMachine.RegisterState(ECharacterStates.Walk, new WalkCharacterState(this, _playerController));
         //StateMachine.RegisterState(ECharacterStates.Place, new PlaceCharacterState(this, _playerController));
         //StateMachine.RegisterState(ECharacterStates.Grab, new PlaceCharacterState(this, _playerController));
-        //StateMachine.RegisterState(ECharacterStates.Death, new DeathCharacterState(this, _playerController));
+        StateMachine.RegisterState(ECharacterStates.Death, new DeathCharacterState(this, _playerController));
         //StateMachine.RegisterState(ECharacterStates.Throw, new ThrowCharacterState(this, _playerController));
 
-        //StateMachine.SetState(ECharacterStates.Idle);
-        //_currentState= StateMachine.CurrentState;
+        StateMachine.SetState(ECharacterStates.Idle);
+        _currentState= StateMachine.CurrentState;
     }
 
     public void SetState(ECharacterStates state)
@@ -79,20 +82,21 @@ public class Player : MonoBehaviour,ISubject
         transform.position = CheckPoints[0].position;
     }
 
+    private void Update()
+    {
+        _currentState?.OnUpdate();
+        Debug.Log("Statemachine update attivo");
+    }
+
+    private void FixedUpdate()
+    {
+        _currentState?.OnFixedUpdate();
+        Debug.Log(" Statemachine fixedupdate attivo");
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.TryGetComponent<Item>(out Item item ))
-        {
-            bool added = _inventoryManager.AddItemInInventory(item.ItemName,item.Quantity,item.Sprite,item.ItemDescription);
-            Debug.Log(added);
-            if (added)
-            {
-                Destroy(collision.gameObject);
-            }
-
-        }
-
         if(collision.TryGetComponent<Checkpoint>(out Checkpoint checkpoint))
         {
             _currentCheckpoint = checkpoint.transform;
@@ -105,14 +109,23 @@ public class Player : MonoBehaviour,ISubject
             
         }
 
+        if(_currentState is IStateCollision2D collisionState)
+        {
+            collisionState.OnTriggerEnter2D(collision);
+        }
+
         if(collision.TryGetComponent<Obstacle>(out Obstacle obstacle))
         {
             if(!_isRespawning)
             {
                 SetState(ECharacterStates.Death);
+                if(_currentState is IStateCollision2D deathstate)
+                {
+                    deathstate.OnTriggerEnter2D(collision);
+                }
             }
             
-;        }
+;       }
     }
 
     private IEnumerator FallAndRespawnCoroutine()

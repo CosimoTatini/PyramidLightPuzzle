@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
 
-public class DeathCharacterState : IState
+public class DeathCharacterState : IState, IStateCollision2D
 {
 
     private Player _owner;
@@ -15,12 +17,12 @@ public class DeathCharacterState : IState
 
     public void OnEnd()
     {
-        throw new System.NotImplementedException();
+       
     }
 
     public void OnFixedUpdate()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public void OnStart()
@@ -29,11 +31,54 @@ public class DeathCharacterState : IState
 
         _ownerController.InputActions.Player.Disable();
 
-        //_owner.Animator.Play()
+        _owner.Animator.SetBool("IsAlive",false);
+
+        Debug.Log("Animazione di morte playata");
     }
 
     public void OnUpdate()
     {
-        throw new System.NotImplementedException();
+      
+    }
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        
+    }
+
+    public void OnCollisionExit2D(Collision2D collision)
+    {
+
+    }
+
+    public void OnCollisionStay2D(Collision2D collision)
+    {
+        
+    }
+
+    public void OnTriggerEnter2D(Collider2D collider)
+    {
+        if(collider.TryGetComponent<MummyObstacle>(out MummyObstacle mummy))
+        {
+            _owner.RespawnToFirst();
+        }
+
+        else if(collider.TryGetComponent<Obstacle>(out Obstacle obstacle))
+        {
+            _owner.Respawn();
+        }
+
+        _owner.SetState(ECharacterStates.Idle);
+        _ownerController.InputActions.Player.Enable();
+    }
+
+    public void OnTriggerStay2D(Collider2D collider)
+    {
+       
+    }
+
+    public void OnTriggerExit2D(Collider2D collider)
+    {
+       
     }
 }
