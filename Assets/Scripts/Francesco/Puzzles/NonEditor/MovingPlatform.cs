@@ -60,6 +60,10 @@ public class MovingPlatform : MonoBehaviour, ILightTriggerReceiver
 #endif
     }
 
+    private PlayerController _playerController;
+
+    private Vector2 _lastPosition;
+
     private void FixedUpdate()
     {
         if (!_isMoving) return;
@@ -67,10 +71,17 @@ public class MovingPlatform : MonoBehaviour, ILightTriggerReceiver
         Vector2 targetPos = _wayPoints[NextWayPoint].position;
         Vector2 reachPos = Vector2.MoveTowards(_rb.position, targetPos, _moveSpeed * Time.fixedDeltaTime);
         _rb.MovePosition(reachPos);
+        
         if (Vector2.Distance(targetPos, _rb.position) <= 0.1f)
         {
             _currentWaypoint = NextWayPoint;
         }
+
+        if (_playerController)
+        {
+            _playerController._externalVelocity = (_rb.position - _lastPosition) / Time.fixedDeltaTime;
+        }
+        _lastPosition = _rb.position;
     }
 
     [SerializeField] private bool _useRadius;
@@ -142,6 +153,10 @@ public class MovingPlatform : MonoBehaviour, ILightTriggerReceiver
     // when we trigger, but in that moment our center is not inside the radius, so we don't actually subscribe
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.TryGetComponent(out PlayerController controller))
+        {
+            _playerController = controller;
+        }
         if (collision.TryGetComponent(out LightTrigger trigger) && trigger == LightTrigger)
         {
             _IsInsideRadius = true;
@@ -156,6 +171,11 @@ public class MovingPlatform : MonoBehaviour, ILightTriggerReceiver
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if (collision.TryGetComponent(out PlayerController controller))
+        {
+            _playerController._externalVelocity = Vector2.zero;
+            _playerController = null;
+        }
         if (collision.TryGetComponent(out LightTrigger trigger) && trigger == LightTrigger)
         {
             if (_useRadius) LightDeactivated();
