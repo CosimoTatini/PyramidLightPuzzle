@@ -173,7 +173,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8155834168172638382, guid: bcbd17571cc4e58429f17cf9583a261c, type: 3}
       propertyPath: _moveSpeed
-      value: 200
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8523545448338647645, guid: bcbd17571cc4e58429f17cf9583a261c, type: 3}
       propertyPath: 'CheckPoints.Array.data[0]'

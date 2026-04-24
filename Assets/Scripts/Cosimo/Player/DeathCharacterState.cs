@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class DeathCharacterState : IState, IStateCollision2D
+public class DeathCharacterState : IStateCollision2D
 {
 
     private Player _owner;
@@ -61,6 +61,8 @@ public class DeathCharacterState : IState, IStateCollision2D
             {
                 _owner.Respawn();
             }
+
+            _owner.SetState(ECharacterStates.Idle);
         }
     }
 

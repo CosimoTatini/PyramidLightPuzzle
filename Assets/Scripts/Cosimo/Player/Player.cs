@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 public class Player : MonoBehaviour,ISubject
 {
     private InventoryManager _inventoryManager;
@@ -25,6 +26,9 @@ public class Player : MonoBehaviour,ISubject
     private IState _currentState;
 
     private DeathCharacterState _deathState;
+
+    [SerializeField] private Tilemap _placeableTilemap;
+    [SerializeField] private GameObject _torchPrefab;
 
     public void Attach(IObserver observer)
     {
@@ -61,7 +65,7 @@ public class Player : MonoBehaviour,ISubject
 
         StateMachine.RegisterState(ECharacterStates.Idle, new IdleCharacterState(this, _playerController));
         StateMachine.RegisterState(ECharacterStates.Walk, new WalkCharacterState(this, _playerController));
-        //StateMachine.RegisterState(ECharacterStates.Place, new PlaceCharacterState(this, _playerController));
+        StateMachine.RegisterState(ECharacterStates.Place, new PlaceCharacterState(this, _playerController,_placeableTilemap,_torchPrefab));
         //StateMachine.RegisterState(ECharacterStates.Grab, new PlaceCharacterState(this, _playerController));
         StateMachine.RegisterState(ECharacterStates.Death, new DeathCharacterState(this, _playerController));
         //StateMachine.RegisterState(ECharacterStates.Throw, new ThrowCharacterState(this, _playerController));
@@ -178,6 +182,19 @@ public class Player : MonoBehaviour,ISubject
         {
             _currentCheckpoint= CheckPoints[0];
             StartCoroutine(FallAndRespawnCoroutine());
+        }
+    }
+
+    public void EquipEmitter(GameObject newTorch)
+    {
+        _torchPrefab = newTorch;
+    }
+
+    public void HandleInteract()
+    {
+        if (!(StateMachine.CurrentState is DeathCharacterState) && !_isRespawning)
+        {
+            SetState(ECharacterStates.Place);
         }
     }
 }

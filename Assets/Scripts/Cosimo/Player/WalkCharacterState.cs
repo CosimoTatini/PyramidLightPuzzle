@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using static Codice.Client.Commands.WkTree.WorkspaceTreeNode;
 
-public class WalkCharacterState : IState, IStateCollision2D
+public class WalkCharacterState : IStateCollision2D
 {
     private Player _owner { get; }
     private PlayerController _ownerController;

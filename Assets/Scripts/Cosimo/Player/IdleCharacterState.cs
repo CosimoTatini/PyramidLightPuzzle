@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class IdleCharacterState : IState,IStateCollision2D
+public class IdleCharacterState : IStateCollision2D
 {
     private Player _owner { get; }
     private PlayerController _ownerController;
@@ -31,8 +31,13 @@ public class IdleCharacterState : IState,IStateCollision2D
         _ownerController.Rb.linearVelocity = Vector2.zero;
         _owner.Animator.SetBool("IsMoving",false);
         _owner.Animator.SetBool("IsAlive", true);
+        _owner.Animator.SetBool("IsPlacing", false);
+        _ownerController.InputActions.Player.Enable();
+        _ownerController.ResetMoveDirection();
 
-        
+        Vector2 look = _ownerController.LastLookDirection;
+        _owner.Animator.SetFloat("MoveX",look.x);
+        _owner.Animator.SetFloat("MoveY",look.y);        
     }
 
     
