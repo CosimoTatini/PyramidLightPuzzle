@@ -24,6 +24,8 @@ public class Player : MonoBehaviour,ISubject
 
     private IState _currentState;
 
+    private DeathCharacterState _deathState;
+
     public void Attach(IObserver observer)
     {
         if (!_observers.Contains(observer))
@@ -55,6 +57,7 @@ public class Player : MonoBehaviour,ISubject
 
 
         StateMachine = new GenericStateMachine<ECharacterStates>();
+        _deathState = new DeathCharacterState(this, _playerController);
 
         StateMachine.RegisterState(ECharacterStates.Idle, new IdleCharacterState(this, _playerController));
         StateMachine.RegisterState(ECharacterStates.Walk, new WalkCharacterState(this, _playerController));
@@ -114,19 +117,23 @@ public class Player : MonoBehaviour,ISubject
             collisionState.OnTriggerEnter2D(collision);
         }
 
-        if(collision.TryGetComponent<Obstacle>(out Obstacle obstacle))
+        if(!_isRespawning)
         {
-            if(!_isRespawning)
+            if(collision.TryGetComponent<MummyObstacle>(out var mummy))
             {
+                _deathState.SetUpDeath(true);
                 SetState(ECharacterStates.Death);
-                if(_currentState is IStateCollision2D deathstate)
-                {
-                    deathstate.OnTriggerEnter2D(collision);
-                }
             }
-            
-;       }
+
+            else if(collision.TryGetComponent<Obstacle>(out var obstacle))
+            {
+                _deathState.SetUpDeath(false);
+                SetState(ECharacterStates.Death);
+            }
+        }
+
     }
+
 
     private IEnumerator FallAndRespawnCoroutine()
     {
