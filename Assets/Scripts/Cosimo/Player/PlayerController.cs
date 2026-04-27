@@ -34,6 +34,12 @@ public class PlayerController : MonoBehaviour
         };
         _inputActions.Player.Move.canceled += ctx => _moveDirection = Vector2.zero;
         _inputActions.Player.Interact.performed += OnInteract;
+        _inputActions.Player.Switch.performed += OnSwitchItem;
+    }
+
+    private void OnSwitchItem(InputAction.CallbackContext context)
+    {
+        GetComponent<Player>().HandleSwitch();
     }
 
     private void OnInteract(InputAction.CallbackContext obj)

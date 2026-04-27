@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2167392735680867952}
   - component: {fileID: 698088045792025391}
   - component: {fileID: 4092582931437390265}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Torch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,7 +141,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 7
+  m_Radius: 6
 --- !u!50 &4092582931437390265
 Rigidbody2D:
   serializedVersion: 5
@@ -179,7 +179,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4642685088132137480}
   - component: {fileID: 6554969234424298063}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
