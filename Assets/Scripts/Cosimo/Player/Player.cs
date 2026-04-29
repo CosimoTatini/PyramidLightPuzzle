@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 public class Player : MonoBehaviour,ISubject
 {
-    private InventoryManager _inventoryManager;
+   
 
     [Header("CheckpointSystem")]
     public List<Transform> CheckPoints = new List<Transform>();
@@ -54,7 +54,7 @@ public class Player : MonoBehaviour,ISubject
     }
     private void Awake()
     {
-        _inventoryManager = FindFirstObjectByType<InventoryManager>();
+        
         Animator = GetComponentInChildren<Animator>();
         _playerController = GetComponent<PlayerController>();
         _renderer= GetComponentInChildren<SpriteRenderer>();
@@ -193,42 +193,14 @@ public class Player : MonoBehaviour,ISubject
     public void HandleInteract()
     {
         if (StateMachine.CurrentState is DeathCharacterState || _isRespawning) return;
-
-        // 1. Recuperiamo l'oggetto selezionato dall'inventario
-        var selected = _inventoryManager.GetSelectedItem();
-
-        // 2. Calcolo posizione (cella davanti al player)
+       
         Vector3 targetWorldPos = transform.position + (Vector3)_playerController.LastLookDirection * 0.8f;
         Vector3Int cellPos = _placeableTilemap.WorldToCell(targetWorldPos);
         Vector3 spawnPos = _placeableTilemap.GetCellCenterWorld(cellPos);
-
-        // 3. Controllo presenza torcia (usando il raggio corretto ora!)
         Collider2D hit = Physics2D.OverlapPoint(spawnPos);
-
-        // LOGICA DI DECISIONE
-        // Se troviamo un oggetto con Item -> GRAB
-        if (hit != null && hit.TryGetComponent<Item>(out var torch))
-        {
-            // Passiamo i dati necessari allo stato Grab (o li recuperiamo li)
-            SetState(ECharacterStates.Grab);
-
-            // Aggiungiamo all'inventario (usiamo il nome del prefab della torcia colpita)
-            _inventoryManager.AddItem(selected.Name, 1);
-
-            // Distruggiamo la torcia nel mondo
-            Destroy(hit.gameObject);
-        }
-        // Se la cella è vuota, ha una tile valida e abbiamo munizioni -> PLACE
-        else if (hit == null && _placeableTilemap.HasTile(cellPos) && selected.Quantity > 0)
-        {
-            // Aggiorniamo il prefab che il Player deve "emettere"
-            EquipEmitter(selected.Prefab);
-
-            SetState(ECharacterStates.Place);
-
-            // Sottraiamo dall'inventario
-            _inventoryManager.RemoveItem(selected.Name, 1);
-        }
+        Debug.Log("Premuto E");
+        SetState(ECharacterStates.Place);
+     
     }
 
     public void FinishPlacing()
@@ -238,7 +210,7 @@ public class Player : MonoBehaviour,ISubject
 
     public void HandleSwitch()
     {
-        _inventoryManager.ChangeSelection();
-        EquipEmitter(_inventoryManager.GetSelectedItem().Prefab);
+        //_inventoryManager.ChangeSelection();
+        //EquipEmitter(_inventoryManager.GetSelectedItem().Prefab);
     }
 }

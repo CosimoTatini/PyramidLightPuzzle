@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
         _inputActions.Player.Move.performed += ctx => {
             _moveDirection = ctx.ReadValue<Vector2>();
             if (_moveDirection.sqrMagnitude > 0.01f)
-                _lastLookDirection = _moveDirection.normalized; // Salviamo la direzione
+                _lastLookDirection = _moveDirection.normalized; 
         };
         _inputActions.Player.Move.canceled += ctx => _moveDirection = Vector2.zero;
         _inputActions.Player.Interact.performed += OnInteract;

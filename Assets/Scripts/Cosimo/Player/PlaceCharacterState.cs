@@ -56,22 +56,42 @@ public class PlaceCharacterState : IStateCollision2D
         Vector3 targetWorldPos = _owner.transform.position + (Vector3)_ownerController.LastLookDirection;
         Vector3Int cellPos = _tilemap.WorldToCell(targetWorldPos);
 
+        cellPos.z = 0;
+
         if (_tilemap.HasTile(cellPos))
         {
-            Vector3 spawnPos = _tilemap.GetCellCenterWorld(cellPos);
-            int torchLayer = LayerMask.GetMask("Torch");
-            Collider2D hit = Physics2D.OverlapPoint(spawnPos, torchLayer);
+            Item[] allItems = GameObject.FindObjectsByType<Item>(FindObjectsSortMode.None);
+            bool isOccupied = false;
+            int torchLayer = LayerMask.NameToLayer("Torch");
 
-            if (hit == null)
+            foreach (var item in allItems)
             {
+                if (item.gameObject.layer == torchLayer)
+                {
+                    Vector3Int torchCell = _tilemap.WorldToCell(item.transform.position);
+                    torchCell.z = 0; 
+                    Debug.Log($"Controllo: Cella Target {cellPos} vs Cella Oggetto {torchCell}");
+
+                    if (torchCell.x == cellPos.x && torchCell.y == cellPos.y && torchCell.z==cellPos.z)
+                    {
+                        isOccupied = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!isOccupied)
+            {
+                Vector3 spawnPos = _tilemap.GetCellCenterWorld(cellPos);
+                spawnPos.z = 0;
                 GameObject.Instantiate(_torch, spawnPos, Quaternion.identity);
+                Debug.Log("Torcia piazzata.");
             }
             else
             {
-                Debug.Log("Piazzamento bloccato da: " + hit.name);
+                Debug.Log("Impossibile piazzare: Cella già occupata.");
             }
         }
-
     }
 
 
@@ -100,4 +120,6 @@ public class PlaceCharacterState : IStateCollision2D
             _owner.SetState(ECharacterStates.Idle);
         }
     }
+
+
 }
