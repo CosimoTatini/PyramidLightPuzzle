@@ -3,25 +3,41 @@ using UnityEngine;
 
 public class PlatformHandler : MonoBehaviour
 {
-    [SerializeField] private Rigidbody2D _platformBody;
-
-    private Dictionary<Rigidbody2D, Vector2> _passengersVelocities;
-    private Dictionary<Rigidbody2D, Coroutine> _passengersCoroutines;
+    private List<PlatformVelocityGetter> _velocityGetters = new();
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // how do we recognize platform?
-        // passengers need to have a reference to this script,
-        // this means we can simply use a method to subscribe/unsubscribe from this, thus we already know which objects are going
-        // to use the handler
-        if (collision.attachedRigidbody)
-        { 
-            
+        if (collision.TryGetComponent(out PlatformVelocityGetter velocityGetter))
+        {
+            _velocityGetters.Add(velocityGetter);
         }
     }
 
-    private void FixedUpdate()
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        
+        if (collision.TryGetComponent(out PlatformVelocityGetter velocityGetter))
+        {
+            _velocityGetters.Remove(velocityGetter);
+        }
+    }
+
+    public Vector2? Velocity
+    {
+        get
+        {
+            Vector2 vector2 = Vector2.zero;
+            for (int i = _velocityGetters.Count - 1; i >= 0; i--)
+            {
+                if (!_velocityGetters[i])
+                {
+                    _velocityGetters.RemoveAt(i);
+                    continue;
+                }
+
+                Vector2? velocity = _velocityGetters[i].GetVelocity();
+                vector2 += velocity ?? Vector2.zero;
+            }
+            return vector2;
+        }
     }
 }
