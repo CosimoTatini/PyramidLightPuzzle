@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class MovingPlatform : MonoBehaviour, ILightTriggerReceiver
+public class MovingPlatform : MonoBehaviour, ILightTriggerReceiver, IVelocityProvider
 {
     [SerializeField] private List<Transform> _wayPoints;
     [SerializeField] private float _moveSpeed = 5f;
+
+    [SerializeField] private bool _reverseBehaviour = false;
 
     private int _currentWaypoint = 0;
     private int NextWayPoint
@@ -60,28 +62,22 @@ public class MovingPlatform : MonoBehaviour, ILightTriggerReceiver
 #endif
     }
 
-    private PlayerController _playerController;
-
-    private Vector2 _lastPosition;
-
     private void FixedUpdate()
     {
         if (!_isMoving) return;
 
         Vector2 targetPos = _wayPoints[NextWayPoint].position;
         Vector2 reachPos = Vector2.MoveTowards(_rb.position, targetPos, _moveSpeed * Time.fixedDeltaTime);
+        // NOTE: this calculates the current velocity, even if as this line of code the velocity isn't changed yet, this makes
+        // the passengers have the correct velocity, otherwise we would get an outdated one which leads to incorrect movement.
+        // This also requires the platform to be ran before the passengers in the execution order, otherwise we would get the velocity of the previous frame which leads to a stuttering movement.
+        Velocity = (reachPos - _rb.position) / Time.fixedDeltaTime;
         _rb.MovePosition(reachPos);
-        
+
         if (Vector2.Distance(targetPos, _rb.position) <= 0.1f)
         {
             _currentWaypoint = NextWayPoint;
         }
-
-        if (_playerController)
-        {
-            _playerController._externalVelocity = (_rb.position - _lastPosition) / Time.fixedDeltaTime;
-        }
-        _lastPosition = _rb.position;
     }
 
     [SerializeField] private bool _useRadius;
@@ -125,6 +121,12 @@ public class MovingPlatform : MonoBehaviour, ILightTriggerReceiver
             }
         }
     }
+
+    public Vector2 Velocity
+    {
+        get; set;
+    }
+
     //CompositeCollider2D fs;
     //PolygonCollider2D player;
     //player.points; => Convert to world space
@@ -153,10 +155,6 @@ public class MovingPlatform : MonoBehaviour, ILightTriggerReceiver
     // when we trigger, but in that moment our center is not inside the radius, so we don't actually subscribe
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out PlayerController controller))
-        {
-            _playerController = controller;
-        }
         if (collision.TryGetComponent(out LightTrigger trigger) && trigger == LightTrigger)
         {
             _IsInsideRadius = true;
@@ -171,11 +169,6 @@ public class MovingPlatform : MonoBehaviour, ILightTriggerReceiver
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out PlayerController controller))
-        {
-            _playerController._externalVelocity = Vector2.zero;
-            _playerController = null;
-        }
         if (collision.TryGetComponent(out LightTrigger trigger) && trigger == LightTrigger)
         {
             if (_useRadius) LightDeactivated();
@@ -193,7 +186,7 @@ public class MovingPlatform : MonoBehaviour, ILightTriggerReceiver
         }
 
     LightActivatedAction:
-        _isMoving = false;
+        _isMoving = _reverseBehaviour ? true : false;
     }
 
     public void LightChanged()
@@ -211,7 +204,7 @@ public class MovingPlatform : MonoBehaviour, ILightTriggerReceiver
         }
 
     LightDeactivatedAction:
-        _isMoving = true;
+        _isMoving = _reverseBehaviour ? false : true;
     }
 
     public void SetLightTrigger(LightTrigger lightTrigger)

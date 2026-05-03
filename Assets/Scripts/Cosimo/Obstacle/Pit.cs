@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class Pit : MonoBehaviour
 {
-    [SerializeField] private float delayBeforeRespawn = 1f;
+    [SerializeField] private LayerMask _groundLayer;
+    [SerializeField] private float delayBeforeRespawn = 0.1f;
     private bool _isRespawning = false;
 
     private CompositeCollider2D _pitCollider;
@@ -20,12 +21,14 @@ public class Pit : MonoBehaviour
     {
         if (_isRespawning || collision.GetComponent<Player>() == null) return;
 
-        
-        _playerCollider= collision.GetComponent<Collider2D>();
 
+        _playerCollider = collision.GetComponent<Collider2D>();
+
+        Debug.Log("contained:" + IsFullyContained(_pitCollider, collision) + " is touching ground:" + collision.IsTouchingLayers(_groundLayer));
         if (IsFullyContained(_pitCollider, collision))
         {
-            if (collision.TryGetComponent(out Player player))
+            
+            if (collision.TryGetComponent(out Player player) && !collision.IsTouchingLayers(_groundLayer))
             {
                 StartCoroutine(RespawnCoroutine(player));
             }
@@ -38,11 +41,11 @@ public class Pit : MonoBehaviour
 
         Vector2[] pointsToTest = new Vector2[]
         {
-        new Vector2(b.min.x, b.min.y), 
-        new Vector2(b.max.x, b.min.y), 
-        new Vector2(b.min.x, b.max.y), 
-        new Vector2(b.max.x, b.max.y), 
-       
+        new Vector2(b.min.x, b.min.y),
+        new Vector2(b.max.x, b.min.y),
+        new Vector2(b.min.x, b.max.y),
+        new Vector2(b.max.x, b.max.y),
+
         };
 
         foreach (Vector2 point in pointsToTest)
@@ -60,7 +63,7 @@ public class Pit : MonoBehaviour
     {
         _isRespawning = true;
         yield return new WaitForSeconds(delayBeforeRespawn);
-        if(IsFullyContained(_pitCollider,_playerCollider))
+        if (IsFullyContained(_pitCollider, _playerCollider) && !_playerCollider.IsTouchingLayers(_groundLayer))
         {
             player.Respawn();
         }

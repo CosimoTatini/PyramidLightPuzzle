@@ -27,12 +27,12 @@ public class ProximityTooltip : MonoBehaviour
             if (_currentTooltip != _previousTooltip)
             {
                 _previousTooltip?.Hide();
-                _currentTooltip?.Show();
+                _currentTooltip?.Show(); 
             }
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerExit2D(Collider2D collision)  
     {
         if (collision.TryGetComponent(out InteractionTooltip tooltip))
         {
@@ -42,7 +42,7 @@ public class ProximityTooltip : MonoBehaviour
             }
             _detectedTooltips.Remove(tooltip);
             if (_detectedTooltips.Count == 0)
-            {
+            { 
                 _currentTooltip = null;
                 _previousTooltip = null;
             }

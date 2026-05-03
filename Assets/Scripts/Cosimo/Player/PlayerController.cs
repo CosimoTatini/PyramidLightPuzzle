@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _moveSpeed;
     private Rigidbody2D _rb;
     private Vector2 _moveDirection;
-    public Vector2 _externalVelocity;
+    [SerializeField] private PlatformHandler _platformHandler;
 
     private Vector2Int facingDirection = Vector2Int.right;
 
@@ -60,8 +60,7 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 targetVelocity = _moveDirection * _moveSpeed * Time.fixedDeltaTime;
 
-        _rb.linearVelocity = targetVelocity + _externalVelocity;
-        Debug.Log(_rb.linearVelocity);
+        _rb.linearVelocity = targetVelocity + _platformHandler.Velocity;
     }
 
     //private void HandleTorch()
