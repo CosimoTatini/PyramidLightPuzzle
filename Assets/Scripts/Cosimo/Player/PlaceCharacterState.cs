@@ -12,7 +12,7 @@ public class PlaceCharacterState : IStateCollision2D
     {
         _owner = player;
         _ownerController = controller;
-        _tilemap = tilemap; 
+        _tilemap = tilemap;
         _torch = torch;
 
     }
@@ -45,13 +45,21 @@ public class PlaceCharacterState : IStateCollision2D
         Vector2 look = _ownerController.LastLookDirection;
         _owner.Animator.SetFloat("MoveX", look.x);
         _owner.Animator.SetFloat("MoveY", look.y);
-        _owner.Animator.SetBool("IsPlacing", true);
         PlaceTorchAttempt();
     }
+
+    // TODO: Singleton PlacementManager
+    // Handles tilemap cells status (free or occupied), only tracks the status, doesn't place anything
+    // - Has a dictionary<Vector2Int, Item>, (can make it more future-proof with dictionary<tilemap<dictionary<Vector2Int, Item>>)
+    // - Has methods to work with the dictionary => Add, Remove
 
     private void PlaceTorchAttempt()
     {
         if (_torch == null || _tilemap == null) return;
+
+        // Get cell
+        // Check singleton for cell availability
+        // if true place, else not
 
         Vector3 targetWorldPos = _owner.transform.position + (Vector3)_ownerController.LastLookDirection;
         Vector3Int cellPos = _tilemap.WorldToCell(targetWorldPos);
@@ -86,6 +94,7 @@ public class PlaceCharacterState : IStateCollision2D
                 spawnPos.z = 0;
                 GameObject.Instantiate(_torch, spawnPos, Quaternion.identity);
                 Debug.Log("Torcia piazzata.");
+                _owner.Animator.SetBool("IsPlacing", true);
             }
             else
             {

@@ -14,7 +14,9 @@ public class PlayerController : MonoBehaviour
     private Vector2 _moveDirection;
     private Vector2 _lastLookDirection = Vector2.down;
 
+    [SerializeField] private PlatformHandler _platformHandler;
 
+    public PlatformHandler PlatformHandler => _platformHandler;
     public Rigidbody2D Rb => _rb;
     public InputSystem_Actions InputActions => _inputActions;
     public Vector2 MoveDirection => _moveDirection;

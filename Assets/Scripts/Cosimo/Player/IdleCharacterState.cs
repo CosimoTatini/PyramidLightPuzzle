@@ -20,7 +20,9 @@ public class IdleCharacterState : IStateCollision2D
 
     public void OnFixedUpdate()
     {
-        if(_ownerController.MoveDirection.sqrMagnitude >0.01f)
+        Debug.Log("Velocity s"+_ownerController.PlatformHandler.Velocity);
+        _ownerController.Rb.linearVelocity = Vector2.zero + _ownerController.PlatformHandler.Velocity;
+        if (_ownerController.MoveDirection.sqrMagnitude >0.01f)
         {
             _owner.SetState(ECharacterStates.Walk);
         }
@@ -28,7 +30,7 @@ public class IdleCharacterState : IStateCollision2D
 
     public void OnStart()
     {
-        _ownerController.Rb.linearVelocity = Vector2.zero;
+        _ownerController.Rb.linearVelocity = Vector2.zero + _ownerController.PlatformHandler.Velocity;
         _owner.Animator.SetBool("IsMoving",false);
         _owner.Animator.SetBool("IsAlive", true);
         _owner.Animator.SetBool("IsPlacing", false);

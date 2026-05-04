@@ -33,7 +33,8 @@ public class WalkCharacterState : IStateCollision2D
     public void OnFixedUpdate()
     {
         Vector2 direction = _ownerController.MoveDirection;
-        _ownerController.Rb.linearVelocity = _ownerController.MoveDirection * _ownerController.MoveSpeed * Time.fixedDeltaTime;
+        Vector2 targetVelocity = _ownerController.MoveDirection * _ownerController.MoveSpeed * Time.fixedDeltaTime;
+        _ownerController.Rb.linearVelocity = targetVelocity + _ownerController.PlatformHandler.Velocity;
 
         if (direction.sqrMagnitude > 0.01f)
         {
