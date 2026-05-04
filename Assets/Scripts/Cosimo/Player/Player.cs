@@ -5,9 +5,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 public class Player : MonoBehaviour,ISubject
 {
-    private InventoryManager _inventoryManager;
+   
 
     [Header("CheckpointSystem")]
     public List<Transform> CheckPoints = new List<Transform>();
@@ -16,6 +17,18 @@ public class Player : MonoBehaviour,ISubject
     [SerializeField] private AnimationCurve _fallCurve;
     private bool _isRespawning;
     private List<IObserver> _observers= new List<IObserver>();
+    public GenericStateMachine<ECharacterStates> StateMachine;
+    [HideInInspector] public Animator Animator;
+    private SpriteRenderer _renderer;
+
+    private PlayerController _playerController;
+
+    private IState _currentState;
+
+    private DeathCharacterState _deathState;
+
+    [SerializeField] private Tilemap _placeableTilemap;
+    [SerializeField] private GameObject _torchPrefab;
 
     public void Attach(IObserver observer)
     {
@@ -41,7 +54,30 @@ public class Player : MonoBehaviour,ISubject
     }
     private void Awake()
     {
-        _inventoryManager = FindFirstObjectByType <InventoryManager>();
+        
+        Animator = GetComponentInChildren<Animator>();
+        _playerController = GetComponent<PlayerController>();
+        _renderer= GetComponentInChildren<SpriteRenderer>();
+
+
+        StateMachine = new GenericStateMachine<ECharacterStates>();
+        _deathState = new DeathCharacterState(this, _playerController);
+
+        StateMachine.RegisterState(ECharacterStates.Idle, new IdleCharacterState(this, _playerController));
+        StateMachine.RegisterState(ECharacterStates.Walk, new WalkCharacterState(this, _playerController));
+        StateMachine.RegisterState(ECharacterStates.Place, new PlaceCharacterState(this, _playerController,_placeableTilemap,_torchPrefab));
+        StateMachine.RegisterState(ECharacterStates.Grab, new GrabCharacterState(this, _playerController,_torchPrefab,_placeableTilemap));
+        StateMachine.RegisterState(ECharacterStates.Death, new DeathCharacterState(this, _playerController));
+        //StateMachine.RegisterState(ECharacterStates.Throw, new ThrowCharacterState(this, _playerController));
+
+        StateMachine.SetState(ECharacterStates.Idle);
+        _currentState= StateMachine.CurrentState;
+    }
+
+    public void SetState(ECharacterStates state)
+    {
+        StateMachine.SetState(state);
+        _currentState = StateMachine.CurrentState;
     }
 
     private void Start()
@@ -53,19 +89,21 @@ public class Player : MonoBehaviour,ISubject
         transform.position = CheckPoints[0].position;
     }
 
+    private void Update()
+    {
+        _currentState?.OnUpdate();
+        Debug.Log("Statemachine update attivo");
+    }
+
+    private void FixedUpdate()
+    {
+        _currentState?.OnFixedUpdate();
+        Debug.Log(" Statemachine fixedupdate attivo");
+    }
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.TryGetComponent<Item>(out Item item ))
-        {
-            bool added = _inventoryManager.AddItemInInventory(item.ItemName,item.Quantity,item.Sprite,item.ItemDescription);
-            Debug.Log(added);
-            if (added)
-            {
-                Destroy(collision.gameObject);
-            }
-
-        }
-
         if(collision.TryGetComponent<Checkpoint>(out Checkpoint checkpoint))
         {
             _currentCheckpoint = checkpoint.transform;
@@ -78,15 +116,28 @@ public class Player : MonoBehaviour,ISubject
             
         }
 
-        if(collision.TryGetComponent<Obstacle>(out Obstacle obstacle))
+        if(_currentState is IStateCollision2D collisionState)
         {
-            if(!_isRespawning)
+            collisionState.OnTriggerEnter2D(collision);
+        }
+
+        if(!_isRespawning)
+        {
+            if(collision.TryGetComponent<MummyObstacle>(out var mummy))
             {
-                StartCoroutine(FallAndRespawnCoroutine());
+                _deathState.SetUpDeath(true);
+                SetState(ECharacterStates.Death);
             }
-            
-;        }
+
+            else if(collision.TryGetComponent<Obstacle>(out var obstacle))
+            {
+                _deathState.SetUpDeath(false);
+                SetState(ECharacterStates.Death);
+            }
+        }
+
     }
+
 
     private IEnumerator FallAndRespawnCoroutine()
     {
@@ -132,5 +183,34 @@ public class Player : MonoBehaviour,ISubject
             _currentCheckpoint= CheckPoints[0];
             StartCoroutine(FallAndRespawnCoroutine());
         }
+    }
+
+    public void EquipEmitter(GameObject newTorch)
+    {
+        _torchPrefab = newTorch;
+    }
+
+    public void HandleInteract()
+    {
+        if (StateMachine.CurrentState is DeathCharacterState || _isRespawning) return;
+       
+        Vector3 targetWorldPos = transform.position + (Vector3)_playerController.LastLookDirection * 0.8f;
+        Vector3Int cellPos = _placeableTilemap.WorldToCell(targetWorldPos);
+        Vector3 spawnPos = _placeableTilemap.GetCellCenterWorld(cellPos);
+        Collider2D hit = Physics2D.OverlapPoint(spawnPos);
+        Debug.Log("Premuto E");
+        SetState(ECharacterStates.Place);
+     
+    }
+
+    public void FinishPlacing()
+    {
+        SetState(ECharacterStates.Idle);
+    }
+
+    public void HandleSwitch()
+    {
+        //_inventoryManager.ChangeSelection();
+        //EquipEmitter(_inventoryManager.GetSelectedItem().Prefab);
     }
 }

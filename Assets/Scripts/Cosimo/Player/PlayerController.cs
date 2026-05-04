@@ -1,4 +1,5 @@
 using System;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,72 +12,46 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _moveSpeed;
     private Rigidbody2D _rb;
     private Vector2 _moveDirection;
-    [SerializeField] private PlatformHandler _platformHandler;
+    private Vector2 _lastLookDirection = Vector2.down;
 
-    private Vector2Int facingDirection = Vector2Int.right;
 
+    public Rigidbody2D Rb => _rb;
+    public InputSystem_Actions InputActions => _inputActions;
+    public Vector2 MoveDirection => _moveDirection;
+    public float MoveSpeed => _moveSpeed;
+
+    public Vector2 LastLookDirection => _lastLookDirection;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _inputActions = new InputSystem_Actions();
+
+        _inputActions.Player.Move.performed += ctx => {
+            _moveDirection = ctx.ReadValue<Vector2>();
+            if (_moveDirection.sqrMagnitude > 0.01f)
+                _lastLookDirection = _moveDirection.normalized; 
+        };
+        _inputActions.Player.Move.canceled += ctx => _moveDirection = Vector2.zero;
+        _inputActions.Player.Interact.performed += OnInteract;
+        _inputActions.Player.Switch.performed += OnSwitchItem;
     }
 
-    private void OnEnable()
+    private void OnSwitchItem(InputAction.CallbackContext context)
     {
-        _inputActions.Enable();
+        GetComponent<Player>().HandleSwitch();
     }
 
-    private void OnDisable()
+    private void OnInteract(InputAction.CallbackContext obj)
     {
-        _inputActions.Disable();
+        GetComponent<Player>().HandleInteract();
     }
 
-    private void Update()
-    {
-        _inputActions.Player.Move.performed += OnMovePerformed;
-        _inputActions.Player.Move.canceled += OnMoveCanceled;
-        _inputActions.Player.Interact.performed += OnInteractPerformed;
-    }
-
-    private void OnInteractPerformed(InputAction.CallbackContext context)
-    {
-        //HandleTorch();
-    }
-
-    
-
-    private void OnMovePerformed(InputAction.CallbackContext context)
-    {
-        _moveDirection = context.ReadValue<Vector2>();
-    }
-
-    private void OnMoveCanceled(InputAction.CallbackContext context)
+    public void ResetMoveDirection()
     {
         _moveDirection = Vector2.zero;
     }
-
-    private void FixedUpdate()
-    {
-        Vector2 targetVelocity = _moveDirection * _moveSpeed * Time.fixedDeltaTime;
-
-        _rb.linearVelocity = targetVelocity + _platformHandler.Velocity;
-    }
-
-    //private void HandleTorch()
-    //{
-    //    TorchManager tm = TorchManager.Instance;
-    //    Vector2Int myCell = tm.WorldToCell(transform.position);
-
-    //    Torch torchHere= tm.GetTorchAt(myCell);
-
-    //    if(torchHere != null)
-    //    {
-    //        tm.CollectTorch(torchHere);
-    //        return;
-    //    }
-
-    //    Vector2Int frontCell = myCell + facingDirection;
-    //}
+    private void OnEnable() => _inputActions.Enable();
+    private void OnDisable() => _inputActions.Disable();
 
 }
