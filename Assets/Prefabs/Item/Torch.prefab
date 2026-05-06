@@ -57,7 +57,7 @@ MonoBehaviour:
   m_Intensity: 0.4
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 00000000
+  m_ApplyToSortingLayers: 000000001d27dff40d6edae2fd3f91b7499d50f56794303939aec074
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -78,7 +78,7 @@ MonoBehaviour:
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 7
+  m_PointLightOuterRadius: 4
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: LightSystem::LightEmitter
   _light: {fileID: 6065720178118274790}
-  _baseColor: {r: 0.03773582, g: 0.03773582, b: 0.03773582, a: 1}
+  _baseColor: {r: 0.93207544, g: 0.40624416, b: 0.40624416, a: 1}
   _redAmount: 1
   _greenAmount: 2
   _blueAmount: 2
@@ -142,7 +142,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 6
+  m_Radius: 4
 --- !u!50 &4092582931437390265
 Rigidbody2D:
   serializedVersion: 5
@@ -268,7 +268,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.04905659, g: 0.047668196, b: 0.047668196, a: 1}
+  m_Color: {r: 1, g: 0.51886785, b: 0.51886785, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
