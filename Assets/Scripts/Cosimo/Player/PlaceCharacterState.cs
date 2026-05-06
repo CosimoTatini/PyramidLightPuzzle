@@ -52,6 +52,7 @@ public class PlaceCharacterState : IStateCollision2D
     // Handles tilemap cells status (free or occupied), only tracks the status, doesn't place anything
     // - Has a dictionary<Vector2Int, Item>, (can make it more future-proof with dictionary<tilemap<dictionary<Vector2Int, Item>>)
     // - Has methods to work with the dictionary => Add, Remove
+    // - For each tileMap you have a List<Vector2Int> (so a dictionary<tilemap, List>) that prevents the player from interacting, cells can be removed, added from these lists
 
     private void PlaceTorchAttempt()
     {
@@ -121,7 +122,9 @@ public class PlaceCharacterState : IStateCollision2D
 
     public void OnUpdate()
     {
-       
+       // TODO: Player needs animation clips to be passed, so each state that has a exit time (not in the animator) which is the same
+       // as the duration of the clip should use the clip's length
+       // Also you can go from Walk to Place and viceversa in the animator
         AnimatorStateInfo stateInfo = _owner.Animator.GetCurrentAnimatorStateInfo(0);
         
         if(stateInfo.IsTag("Place") && stateInfo.normalizedTime >= 1f)

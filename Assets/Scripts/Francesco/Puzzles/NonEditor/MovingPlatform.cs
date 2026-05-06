@@ -64,7 +64,11 @@ public class MovingPlatform : MonoBehaviour, ILightTriggerReceiver, IVelocityPro
 
     private void FixedUpdate()
     {
-        if (!_isMoving) return;
+        if (!_isMoving)
+        {
+            Velocity = Vector2.zero;
+            return;
+        }
 
         Vector2 targetPos = _wayPoints[NextWayPoint].position;
         Vector2 reachPos = Vector2.MoveTowards(_rb.position, targetPos, _moveSpeed * Time.fixedDeltaTime);
@@ -72,6 +76,7 @@ public class MovingPlatform : MonoBehaviour, ILightTriggerReceiver, IVelocityPro
         // the passengers have the correct velocity, otherwise we would get an outdated one which leads to incorrect movement.
         // This also requires the platform to be ran before the passengers in the execution order, otherwise we would get the velocity of the previous frame which leads to a stuttering movement.
         Velocity = (reachPos - _rb.position) / Time.fixedDeltaTime;
+
         _rb.MovePosition(reachPos);
 
         if (Vector2.Distance(targetPos, _rb.position) <= 0.1f)

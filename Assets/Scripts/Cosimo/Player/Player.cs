@@ -93,13 +93,11 @@ public class Player : MonoBehaviour, ISubject
     private void Update()
     {
         _currentState?.OnUpdate();
-        Debug.Log("Statemachine update attivo");
     }
 
     private void FixedUpdate()
     {
         _currentState?.OnFixedUpdate();
-        Debug.Log(" Statemachine fixedupdate attivo");
     }
 
 
@@ -123,20 +121,20 @@ public class Player : MonoBehaviour, ISubject
         }
 
         // TODO: Remove
-        if (!_isRespawning)
-        {
-            if (collision.TryGetComponent<MummyObstacle>(out var mummy))
-            {
-                _deathState.SetUpDeath(true);
-                SetState(ECharacterStates.Death);
-            }
+        //if (!_isRespawning)
+        //{
+        //    if (collision.TryGetComponent<MummyObstacle>(out var mummy))
+        //    {
+        //        _deathState.SetUpDeath(true);
+        //        SetState(ECharacterStates.Death);
+        //    }
 
-            else if (collision.TryGetComponent<Obstacle>(out var obstacle))
-            {
-                _deathState.SetUpDeath(false);
-                SetState(ECharacterStates.Death);
-            }
-        }
+        //    else if (collision.TryGetComponent<Obstacle>(out var obstacle))
+        //    {
+        //        _deathState.SetUpDeath(false);
+        //        SetState(ECharacterStates.Death);
+        //    }
+        //}
 
     }
 
@@ -166,7 +164,11 @@ public class Player : MonoBehaviour, ISubject
     // TODO: create private and public getter for DeathType var
     public void SetDeath(DeathType type)
     {
-        SetState(ECharacterStates.Death);
+        if (!_isRespawning)
+        {
+            _isRespawning = true;
+            SetState(ECharacterStates.Death);
+        }
     }
     // TODO: move to single script
     public enum DeathType
@@ -182,6 +184,7 @@ public class Player : MonoBehaviour, ISubject
             transform.position = _currentCheckpoint.transform.position;
             Debug.Log("Respawn done");
             Notify();
+            _isRespawning = false;
         }
 
         else

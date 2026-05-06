@@ -20,7 +20,6 @@ public class IdleCharacterState : IStateCollision2D
 
     public void OnFixedUpdate()
     {
-        Debug.Log("Velocity s"+_ownerController.PlatformHandler.Velocity);
         _ownerController.Rb.linearVelocity = Vector2.zero + _ownerController.PlatformHandler.Velocity;
         if (_ownerController.MoveDirection.sqrMagnitude >0.01f)
         {
