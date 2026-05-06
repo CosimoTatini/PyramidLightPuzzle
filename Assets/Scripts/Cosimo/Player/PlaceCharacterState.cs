@@ -58,52 +58,51 @@ public class PlaceCharacterState : IStateCollision2D
     {
         if (_torch == null || _tilemap == null) return;
 
-        // Get cell
-        // Check singleton for cell availability
-        // if true place, else not
-
+       
         Vector3 targetWorldPos = _owner.transform.position + (Vector3)_ownerController.LastLookDirection;
         Vector3Int cellPos = _tilemap.WorldToCell(targetWorldPos);
-
-        cellPos.z = 0;
-
-        if (_tilemap.HasTile(cellPos))
+        cellPos.z = 0; 
+        
+        if (!_tilemap.HasTile(cellPos))
         {
-            Item[] allItems = GameObject.FindObjectsByType<Item>(FindObjectsSortMode.None);
-            bool isOccupied = false;
-            int torchLayer = LayerMask.NameToLayer("Torch");
+            CancelPlacement("Nessun terreno valido qui.");
+            return;
+        }
 
-            foreach (var item in allItems)
-            {
-                if (item.gameObject.layer == torchLayer)
-                {
-                    Vector3Int torchCell = _tilemap.WorldToCell(item.transform.position);
-                    torchCell.z = 0; 
-                    Debug.Log($"Controllo: Cella Target {cellPos} vs Cella Oggetto {torchCell}");
-
-                    if (torchCell.x == cellPos.x && torchCell.y == cellPos.y && torchCell.z==cellPos.z)
-                    {
-                        isOccupied = true;
-                        break;
-                    }
-                }
-            }
-
-            if (!isOccupied)
-            {
-                Vector3 spawnPos = _tilemap.GetCellCenterWorld(cellPos);
-                spawnPos.z = 0;
-                GameObject.Instantiate(_torch, spawnPos, Quaternion.identity);
-                Debug.Log("Torcia piazzata.");
-                _owner.Animator.SetBool("IsPlacing", true);
-            }
-            else
-            {
-                Debug.Log("Impossibile piazzare: Cella già occupata.");
-            }
+      
+        if (PlacementManager.Instance.IsCellAvailable(cellPos))
+        {
+            ExecutePlacement(cellPos);
+        }
+        else
+        {
+            Debug.Log($"[Placement] Cella {cellPos} già occupata.");
+            _owner.SetState(ECharacterStates.Idle);
         }
     }
 
+    private void ExecutePlacement(Vector3Int cellPos)
+    {
+       Vector3 spawnPos = _tilemap.GetCellCenterWorld(cellPos);
+        spawnPos.z = 0;
+
+        GameObject torchPrefab = GameObject.Instantiate(_torch,spawnPos,Quaternion.identity);
+
+        if (PlacementManager.Instance.IsPossibleToRegisterItem(cellPos, torchPrefab))
+        {
+            _owner.Animator.SetBool("IsPlacing", true);
+            Debug.Log("Torcia piazzata correttamente.");
+        }
+        else
+        {
+            GameObject.Destroy(torchPrefab);
+        }
+    }
+
+    private void CancelPlacement(string v)
+    {
+       _owner.SetState(ECharacterStates.Idle);
+    }
 
     public void OnTriggerEnter2D(Collider2D collider)
     {
