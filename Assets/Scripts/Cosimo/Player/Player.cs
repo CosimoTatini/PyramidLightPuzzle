@@ -26,9 +26,12 @@ public class Player : MonoBehaviour, ISubject
     private IState _currentState;
     [SerializeField] private ECharacterStates _currentStateEnum;
     private DeathCharacterState _deathState;
+    [SerializeField] private DeathType _deathType;
 
     [SerializeField] private Tilemap _placeableTilemap;
     [SerializeField] private GameObject _torchPrefab;
+
+    public DeathType Deathtype => _deathType;
 
     public void Attach(IObserver observer)
     {
@@ -122,57 +125,13 @@ public class Player : MonoBehaviour, ISubject
             collisionState.OnTriggerEnter2D(collision);
         }
 
-        // TODO: Remove
-        if (!_isRespawning)
-        {
-            if (collision.TryGetComponent<MummyObstacle>(out var mummy))
-            {
-                _deathState.SetUpDeath(true);
-                SetState(ECharacterStates.Death);
-            }
-
-            else if (collision.TryGetComponent<Obstacle>(out var obstacle))
-            {
-                _deathState.SetUpDeath(false);
-                SetState(ECharacterStates.Death);
-            }
-        }
-
     }
-
-    // TODO: Remove
-    private IEnumerator FallAndRespawnCoroutine()
-    {
-        _isRespawning = true;
-
-        float timer = 0f;
-        Vector3 startScale = transform.localScale;
-        while (timer < _fallDuration)
-        {
-            timer += Time.deltaTime;
-            float t = timer / _fallDuration;
-
-            float scale = Mathf.Lerp(0.5f, 1f, _fallCurve.Evaluate(t));
-
-            transform.localScale = new Vector3(scale, scale, scale);
-            yield return null;
-
-        }
-        Respawn();
-        transform.localScale = startScale;
-        _isRespawning = false;
-    }
-
-    // TODO: create private and public getter for DeathType var
     public void SetDeath(DeathType type)
     {
+        _deathType = type;
         SetState(ECharacterStates.Death);
-    }
-    // TODO: move to single script
-    public enum DeathType
-    {
-        Normal,
-        RespawnToFirst,
+
+ 
     }
 
     public void Respawn()

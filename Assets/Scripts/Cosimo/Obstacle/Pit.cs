@@ -65,7 +65,7 @@ public class Pit : MonoBehaviour
         yield return new WaitForSeconds(delayBeforeRespawn);
         if (IsFullyContained(_pitCollider, _playerCollider) && !_playerCollider.IsTouchingLayers(_groundLayer))
         {
-            player.SetDeath(Player.DeathType.Normal);
+            player.SetDeath(DeathType.Normal);
         }
         _isRespawning = false;
     }

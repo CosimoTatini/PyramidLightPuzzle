@@ -32,9 +32,8 @@ public class IdleCharacterState : IStateCollision2D
     {
         _ownerController.Rb.linearVelocity = Vector2.zero + _ownerController.PlatformHandler.Velocity;
         _owner.Animator.SetBool("IsMoving",false);
-        _owner.Animator.SetBool("IsAlive", true);
         _owner.Animator.SetBool("IsPlacing", false);
-        _ownerController.InputActions.Player.Enable();
+        _owner.Animator.SetBool("IsAlive",true);
         _ownerController.ResetMoveDirection();
 
         Vector2 look = _ownerController.LastLookDirection;
