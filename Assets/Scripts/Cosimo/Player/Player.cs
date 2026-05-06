@@ -61,8 +61,6 @@ public class Player : MonoBehaviour, ISubject
 
 
         StateMachine = new GenericStateMachine<ECharacterStates>();
-        _deathState = new DeathCharacterState(this, _playerController);
-
         StateMachine.RegisterState(ECharacterStates.Idle, new IdleCharacterState(this, _playerController));
         StateMachine.RegisterState(ECharacterStates.Walk, new WalkCharacterState(this, _playerController));
         StateMachine.RegisterState(ECharacterStates.Place, new PlaceCharacterState(this, _playerController, _placeableTilemap, _torchPrefab));
@@ -119,62 +117,15 @@ public class Player : MonoBehaviour, ISubject
         {
             collisionState.OnTriggerEnter2D(collision);
         }
-
-        // TODO: Remove
-        //if (!_isRespawning)
-        //{
-        //    if (collision.TryGetComponent<MummyObstacle>(out var mummy))
-        //    {
-        //        _deathState.SetUpDeath(true);
-        //        SetState(ECharacterStates.Death);
-        //    }
-
-        //    else if (collision.TryGetComponent<Obstacle>(out var obstacle))
-        //    {
-        //        _deathState.SetUpDeath(false);
-        //        SetState(ECharacterStates.Death);
-        //    }
-        //}
-
     }
 
-    // TODO: Remove
-    private IEnumerator FallAndRespawnCoroutine()
-    {
-        _isRespawning = true;
-
-        float timer = 0f;
-        Vector3 startScale = transform.localScale;
-        while (timer < _fallDuration)
-        {
-            timer += Time.deltaTime;
-            float t = timer / _fallDuration;
-
-            float scale = Mathf.Lerp(0.5f, 1f, _fallCurve.Evaluate(t));
-
-            transform.localScale = new Vector3(scale, scale, scale);
-            yield return null;
-
-        }
-        Respawn();
-        transform.localScale = startScale;
-        _isRespawning = false;
-    }
-
-    // TODO: create private and public getter for DeathType var
-    public void SetDeath(DeathType type)
+    public void SetDeath()
     {
         if (!_isRespawning)
         {
             _isRespawning = true;
             SetState(ECharacterStates.Death);
         }
-    }
-    // TODO: move to single script
-    public enum DeathType
-    {
-        Normal,
-        RespawnToFirst,
     }
 
     public void Respawn()
@@ -193,13 +144,7 @@ public class Player : MonoBehaviour, ISubject
         }
     }
 
-    public void RespawnToFirst()
-    {
-        if (CheckPoints.Count > 0 && !_isRespawning)
-        {
-            _currentCheckpoint = CheckPoints[0];
-        }
-    }
+ 
 
     public void EquipEmitter(GameObject newTorch)
     {
