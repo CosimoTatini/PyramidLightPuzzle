@@ -7,6 +7,7 @@ using UnityEngine.Events;
 public class LightSensor : MonoBehaviour, ILightReceiver
 {
     [SerializeField] private bool _isActive = false;
+    [SerializeField] private List<LightEmitter> _excludedEmitters = new();
     public bool IsActive
     {
         get { return _isActive; }
@@ -123,7 +124,7 @@ public class LightSensor : MonoBehaviour, ILightReceiver
 
     public void AddLight(LightEmitter emitter)
     {
-        if (_emittersInRangeAndValues.ContainsKey(emitter)) return;
+        if (_emittersInRangeAndValues.ContainsKey(emitter) || _excludedEmitters.Contains(emitter)) return;
 
         _emittersInRangeAndValues[emitter] = emitter.RgbAmounts;
         if (emitter.RgbAmounts != Vector3Int.zero)
@@ -138,7 +139,7 @@ public class LightSensor : MonoBehaviour, ILightReceiver
 
     public void RemoveLight(LightEmitter emitter)
     {
-        if (!_emittersInRangeAndValues.ContainsKey(emitter)) return;
+        if (!_emittersInRangeAndValues.ContainsKey(emitter) || _excludedEmitters.Contains(emitter)) return;
 
         _emittersInRangeAndValues.Remove(emitter);
         if (emitter.RgbAmounts != Vector3Int.zero)
