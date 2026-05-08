@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Codice.Client.Common.GameUI;
+using UnityEngine;
 using UnityEngine.Tilemaps;
 
 internal class GrabCharacterState : IStateCollision2D
@@ -7,16 +8,16 @@ internal class GrabCharacterState : IStateCollision2D
     private PlayerController _ownerController;
     private GameObject _torch;
     private Tilemap _tilemap;
+    private Animator _animator;
+    private float _timer;
 
-    public GrabCharacterState(Player player, PlayerController controller, GameObject torch, Tilemap tilemap)
+    public GrabCharacterState(Player player, PlayerController controller, GameObject torch, Tilemap tilemap,Animator animator)
     {
-        
         _owner= player;
         _ownerController = controller;
         _torch = torch;
         _tilemap = tilemap;
-        
-
+        _animator=animator;
     }
     public void OnCollisionEnter2D(Collision2D collision)
     {
@@ -44,7 +45,23 @@ internal class GrabCharacterState : IStateCollision2D
 
     public void OnStart()
     {
-       
+        _timer = 0;
+        _ownerController.Rb.linearVelocity= Vector2.zero;
+        Vector3 interactionPos = _owner.transform.position + (Vector3)_ownerController.LastLookDirection * _owner.CellOffset;
+        Vector3Int cellPos= _owner.PlaceableTilemap.WorldToCell(interactionPos);
+
+        Vector3 cellCenter= _owner.PlaceableTilemap.GetCellCenterWorld(cellPos);
+        _owner.transform.position= new Vector3(cellCenter.x,cellCenter.y, _owner.transform.position.z);
+
+        _owner.Animator.Play(_owner.GrabSettings.clipName);
+
+        GameObject itemToPick= PlacementManager.Instance.GetItemAt(cellPos);
+
+        if(itemToPick != null)
+        {
+            PlacementManager.Instance.UnregisterItem(cellPos);
+            GameObject.Destroy(itemToPick);
+        }
     }
 
     public void OnTriggerEnter2D(Collider2D collider)
@@ -63,6 +80,11 @@ internal class GrabCharacterState : IStateCollision2D
 
     public void OnUpdate()
     {
-        
+        _timer += Time.deltaTime;
+
+        if(_timer >= _owner.GrabSettings.clip.length)
+        {
+            _owner.SetState(ECharacterStates.Idle);
+        }
     }
 }

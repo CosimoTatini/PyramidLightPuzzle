@@ -5,10 +5,12 @@ public class WalkCharacterState : IStateCollision2D
 {
     private Player _owner { get; }
     private PlayerController _ownerController;
-    public WalkCharacterState(Player player, PlayerController controller)
+    private Animator _animator;
+    public WalkCharacterState(Player player, PlayerController controller,Animator animator)
     {
         _owner = player;
         _ownerController = controller;
+        _animator= animator;
     }
     public void OnCollisionEnter2D(Collision2D collision)
     {
@@ -53,8 +55,7 @@ public class WalkCharacterState : IStateCollision2D
 
     public void OnStart()
     {
-        _owner.Animator.SetBool("IsMoving",true);
-        _owner.Animator.SetBool("IsAlive",true);
+        _owner.Animator.Play(_owner.WalkSettings.clipName);
     }
 
     public void OnTriggerEnter2D(Collider2D collider)

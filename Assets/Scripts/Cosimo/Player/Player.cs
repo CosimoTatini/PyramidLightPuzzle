@@ -1,13 +1,15 @@
-
-using NUnit.Framework;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 public class Player : MonoBehaviour, ISubject
 {
+    [Header("Animation Settings")]
+    public AnimSettings IdleSettings;
+    public AnimSettings WalkSettings;
+    public AnimSettings PlaceSettings;
+    public AnimSettings GrabSettings;
+    public AnimSettings DeathSettings;
+    //public AnimSettings ThrowSettings;
 
 
     [Header("CheckpointSystem")]
@@ -29,6 +31,10 @@ public class Player : MonoBehaviour, ISubject
 
     [SerializeField] private Tilemap _placeableTilemap;
     [SerializeField] private GameObject _torchPrefab;
+    private float _cellOffset = 0.2f;
+
+    public Tilemap PlaceableTilemap => _placeableTilemap;
+    public float CellOffset => _cellOffset;
 
     public void Attach(IObserver observer)
     {
@@ -61,11 +67,11 @@ public class Player : MonoBehaviour, ISubject
 
 
         StateMachine = new GenericStateMachine<ECharacterStates>();
-        StateMachine.RegisterState(ECharacterStates.Idle, new IdleCharacterState(this, _playerController));
-        StateMachine.RegisterState(ECharacterStates.Walk, new WalkCharacterState(this, _playerController));
-        StateMachine.RegisterState(ECharacterStates.Place, new PlaceCharacterState(this, _playerController, _placeableTilemap, _torchPrefab));
-        StateMachine.RegisterState(ECharacterStates.Grab, new GrabCharacterState(this, _playerController, _torchPrefab, _placeableTilemap));
-        StateMachine.RegisterState(ECharacterStates.Death, new DeathCharacterState(this, _playerController));
+        StateMachine.RegisterState(ECharacterStates.Idle, new IdleCharacterState(this, _playerController, Animator));
+        StateMachine.RegisterState(ECharacterStates.Walk, new WalkCharacterState(this, _playerController, Animator));
+        StateMachine.RegisterState(ECharacterStates.Place, new PlaceCharacterState(this, _playerController, _placeableTilemap, _torchPrefab, Animator));
+        StateMachine.RegisterState(ECharacterStates.Grab, new GrabCharacterState(this, _playerController, _torchPrefab, _placeableTilemap, Animator));
+        StateMachine.RegisterState(ECharacterStates.Death, new DeathCharacterState(this, _playerController, Animator));
         //StateMachine.RegisterState(ECharacterStates.Throw, new ThrowCharacterState(this, _playerController));
 
         StateMachine.SetState(ECharacterStates.Idle);
@@ -144,7 +150,7 @@ public class Player : MonoBehaviour, ISubject
         }
     }
 
- 
+
 
     public void EquipEmitter(GameObject newTorch)
     {
@@ -155,9 +161,19 @@ public class Player : MonoBehaviour, ISubject
     {
         if (StateMachine.CurrentState is DeathCharacterState || _isRespawning) return;
 
-        Vector3 targetWorldPos = transform.position + (Vector3)_playerController.LastLookDirection * 0.8f;
+        Vector3 targetWorldPos = transform.position + (Vector3)_playerController.LastLookDirection * _cellOffset;
+        Vector3Int cellPos = _placeableTilemap.WorldToCell(targetWorldPos);
 
-        Debug.Log("Premuto E");
+        if (!PlacementManager.Instance.IsCellAvailable(cellPos))
+        {
+
+            Vector3 cellCenter = _placeableTilemap.GetCellCenterWorld(cellPos);
+            if (Vector2.Distance(transform.position, cellCenter) <= 0.6f)
+            {
+                SetState(ECharacterStates.Grab);
+                return;
+            }
+        }
         SetState(ECharacterStates.Place);
     }
 

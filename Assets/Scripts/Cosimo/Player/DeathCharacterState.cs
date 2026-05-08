@@ -9,11 +9,13 @@ public class DeathCharacterState : IStateCollision2D
     private PlayerController _ownerController;
     private float _deathDuration = 1.5f;
     private float _timer;
+    private Animator _animator;
 
-    public DeathCharacterState(Player player,PlayerController controller)
+    public DeathCharacterState(Player player,PlayerController controller,Animator animator)
     {
         _owner = player;
         _ownerController = controller;
+        _animator = animator;
     }
 
   
@@ -36,7 +38,7 @@ public class DeathCharacterState : IStateCollision2D
         _ownerController.InputActions.Player.Disable();
 
         _owner.Animator.SetBool("IsAlive", false);
-
+        _owner.Animator.Play(_owner.DeathSettings.clipName);
         _timer = 0;
 
         Debug.Log("Animazione di morte playata");

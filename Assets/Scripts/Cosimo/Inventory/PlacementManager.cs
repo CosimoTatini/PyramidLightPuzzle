@@ -41,5 +41,14 @@ public class PlacementManager : MonoBehaviour
         }
     }
 
+    public GameObject GetItemAt(Vector3Int cellPos)
+    {
+        if (_placedItems.TryGetValue(cellPos, out GameObject item))
+        {
+            return item;
+        }
+        return null;
+    }
+
 
 }

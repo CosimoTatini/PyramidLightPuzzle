@@ -7,11 +7,13 @@ public class IdleCharacterState : IStateCollision2D
 {
     private Player _owner { get; }
     private PlayerController _ownerController;
+    private Animator _animator;
 
-    public IdleCharacterState(Player player, PlayerController controller)
+    public IdleCharacterState(Player player, PlayerController controller,Animator animator)
     {
         _owner = player;
         _ownerController = controller;
+        _animator = animator;
     }
     public void OnEnd()
     {
@@ -30,9 +32,10 @@ public class IdleCharacterState : IStateCollision2D
     public void OnStart()
     {
         _ownerController.Rb.linearVelocity = Vector2.zero + _ownerController.PlatformHandler.Velocity;
-        _owner.Animator.SetBool("IsMoving",false);
-        _owner.Animator.SetBool("IsAlive", true);
-        _owner.Animator.SetBool("IsPlacing", false);
+        //_owner.Animator.SetBool("IsMoving",false);
+        //_owner.Animator.SetBool("IsAlive", true);
+        //_owner.Animator.SetBool("IsPlacing", false);
+        _owner.Animator.Play(_owner.IdleSettings.clipName);
         _ownerController.InputActions.Player.Enable();
         _ownerController.ResetMoveDirection();
 
