@@ -66,7 +66,7 @@ public class PlaceCharacterState : IStateCollision2D
         }
 
       
-        if (PlacementManager.Instance.IsCellAvailable(cellPos))
+        if (PlacementManager.Instance.IsCellAvailable(_tilemap,cellPos))
         {
             ExecutePlacement(cellPos);
         }
@@ -84,7 +84,7 @@ public class PlaceCharacterState : IStateCollision2D
 
         GameObject torchPrefab = GameObject.Instantiate(_torch,spawnPos,Quaternion.identity);
 
-        if (PlacementManager.Instance.IsPossibleToRegisterItem(cellPos, torchPrefab))
+        if (PlacementManager.Instance.IsPossibleToRegisterItem(_tilemap,cellPos, torchPrefab))
         {
             _owner.Animator.Play(_owner.PlaceSettings.clipName);
             Debug.Log("Torcia piazzata correttamente.");

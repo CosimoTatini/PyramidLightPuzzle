@@ -164,7 +164,7 @@ public class Player : MonoBehaviour, ISubject
         Vector3 targetWorldPos = transform.position + (Vector3)_playerController.LastLookDirection * _cellOffset;
         Vector3Int cellPos = _placeableTilemap.WorldToCell(targetWorldPos);
 
-        if (!PlacementManager.Instance.IsCellAvailable(cellPos))
+        if (!PlacementManager.Instance.IsCellAvailable(_placeableTilemap,cellPos))
         {
 
             Vector3 cellCenter = _placeableTilemap.GetCellCenterWorld(cellPos);

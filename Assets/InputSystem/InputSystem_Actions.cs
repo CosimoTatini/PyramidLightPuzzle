@@ -168,7 +168,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""name"": ""Sprint"",
                     ""type"": ""Button"",
                     ""id"": ""641cd816-40e6-41b4-8c3d-04687c349290"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -177,6 +177,33 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""name"": ""Switch"",
                     ""type"": ""Button"",
                     ""id"": ""8111a4e7-2ecc-44e0-be3e-8845bf8cb323"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SetRed"",
+                    ""type"": ""Button"",
+                    ""id"": ""caf14774-abd8-4d43-9996-dc353909bc3f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SetGreen"",
+                    ""type"": ""Button"",
+                    ""id"": ""99a84728-3311-4211-a8a1-17a929539c1b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SetBlue"",
+                    ""type"": ""Button"",
+                    ""id"": ""539c73e2-8745-4bcd-9f54-57bb70274ce9"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -577,6 +604,39 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Switch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""104b7783-e416-4b48-a9dd-b67e08607e88"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SetRed"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7c8698ab-f4c0-4d63-94a1-bc36a48d6f34"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SetBlue"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""efc36d98-84cf-4674-88ed-bca0d0b89345"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SetGreen"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1214,6 +1274,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Next = m_Player.FindAction("Next", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_Switch = m_Player.FindAction("Switch", throwIfNotFound: true);
+        m_Player_SetRed = m_Player.FindAction("SetRed", throwIfNotFound: true);
+        m_Player_SetGreen = m_Player.FindAction("SetGreen", throwIfNotFound: true);
+        m_Player_SetBlue = m_Player.FindAction("SetBlue", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1319,6 +1382,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Next;
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_Switch;
+    private readonly InputAction m_Player_SetRed;
+    private readonly InputAction m_Player_SetGreen;
+    private readonly InputAction m_Player_SetBlue;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1370,6 +1436,18 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Switch".
         /// </summary>
         public InputAction @Switch => m_Wrapper.m_Player_Switch;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SetRed".
+        /// </summary>
+        public InputAction @SetRed => m_Wrapper.m_Player_SetRed;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SetGreen".
+        /// </summary>
+        public InputAction @SetGreen => m_Wrapper.m_Player_SetGreen;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SetBlue".
+        /// </summary>
+        public InputAction @SetBlue => m_Wrapper.m_Player_SetBlue;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1426,6 +1504,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Switch.started += instance.OnSwitch;
             @Switch.performed += instance.OnSwitch;
             @Switch.canceled += instance.OnSwitch;
+            @SetRed.started += instance.OnSetRed;
+            @SetRed.performed += instance.OnSetRed;
+            @SetRed.canceled += instance.OnSetRed;
+            @SetGreen.started += instance.OnSetGreen;
+            @SetGreen.performed += instance.OnSetGreen;
+            @SetGreen.canceled += instance.OnSetGreen;
+            @SetBlue.started += instance.OnSetBlue;
+            @SetBlue.performed += instance.OnSetBlue;
+            @SetBlue.canceled += instance.OnSetBlue;
         }
 
         /// <summary>
@@ -1467,6 +1554,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Switch.started -= instance.OnSwitch;
             @Switch.performed -= instance.OnSwitch;
             @Switch.canceled -= instance.OnSwitch;
+            @SetRed.started -= instance.OnSetRed;
+            @SetRed.performed -= instance.OnSetRed;
+            @SetRed.canceled -= instance.OnSetRed;
+            @SetGreen.started -= instance.OnSetGreen;
+            @SetGreen.performed -= instance.OnSetGreen;
+            @SetGreen.canceled -= instance.OnSetGreen;
+            @SetBlue.started -= instance.OnSetBlue;
+            @SetBlue.performed -= instance.OnSetBlue;
+            @SetBlue.canceled -= instance.OnSetBlue;
         }
 
         /// <summary>
@@ -1859,6 +1955,27 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSwitch(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SetRed" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetRed(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SetGreen" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetGreen(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SetBlue" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetBlue(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

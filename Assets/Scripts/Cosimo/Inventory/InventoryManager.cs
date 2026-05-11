@@ -1,38 +1,45 @@
+using Assets.Scripts.Cosimo.Inventory;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-[Serializable]
-
 public class InventoryManager : MonoBehaviour
 {
-    public List<Item> Items= new List<Item>();
-    private int _selectedIndex = 0;
+  public static InventoryManager Instance;
 
-    public Item GetSelectedItem()=> Items[_selectedIndex];
+    [Header("Settings")]
+    public int TorchMaxQuanitity = 5;
+    public readonly int MagicalTorchQuantity = 1;
 
-    public void ChangeSelection()
+    private Dictionary<PowderColor,int> _powders= new Dictionary<PowderColor,int>();
+
+    private void Awake()
     {
-        _selectedIndex= (_selectedIndex+1) % Items.Count;
-    }
-
-    public void AddItem(string name,int amount)
-    {
-        var item = Items.Find(i => i.name == name);
-        if(item!=null)
+        if(Instance != null && Instance!=this)
         {
-            item.Quantity += amount;
+            Destroy(gameObject);
+            return;
         }
-    }
-    public void RemoveItem(string name, int amount)
-    {
-        var item= Items.Find(i => i.name == name);
-        if(item!=null)
+        Instance=this;
+
+        foreach(PowderColor color in Enum.GetValues(typeof(PowderColor)))
         {
-            item.Quantity= Mathf.Max(0, item.Quantity -amount);
+            _powders[color] = 0;
         }
     }
 
+    public void AddPowder(PowderColor color,int amount) => _powders[color] += amount;
+
+
+
+
+    public int GetPowder(PowderColor color) => _powders[color]; 
+
+
+    public bool ConsumePowder(PowderColor color)
+    {
+        if (_powders[color])
+    }
+    
 }
