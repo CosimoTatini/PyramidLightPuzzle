@@ -104,6 +104,16 @@ public class Player : MonoBehaviour, ISubject
         _currentState?.OnFixedUpdate();
     }
 
+    private void OnEnable()
+    {
+        InventoryManager.Instance.OnSelectionChange += EquipEmitter;
+    }
+
+    private void OnDisable()
+    {
+        InventoryManager.Instance.OnSelectionChange -= EquipEmitter;
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -184,7 +194,6 @@ public class Player : MonoBehaviour, ISubject
 
     public void HandleSwitch()
     {
-        //_inventoryManager.ChangeSelection();
-        //EquipEmitter(_inventoryManager.GetSelectedItem().Prefab);
+        InventoryManager.Instance.SwitchSelection();
     }
 }

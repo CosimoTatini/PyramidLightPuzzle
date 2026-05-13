@@ -1,4 +1,5 @@
 using Assets.Scripts.Cosimo.Inventory;
+using Codice.Client.Common.GameUI;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -6,14 +7,21 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
-  public static InventoryManager Instance;
-
+    public static InventoryManager Instance;
+    [Header("Prefabs")]
+    public GameObject TorchPrefab;
+    public GameObject MagicalTorchPrefab;
+    
     [Header("Settings")]
-    public int TorchMaxQuanitity = 5;
+    public readonly int TorchMaxQuanitity = 4;
     public readonly int MagicalTorchQuantity = 1;
+    private int _currentTorchQuantity;
+    public int CurrentTorchQuantity => _currentTorchQuantity;
+    public TorchType SelectedType {  get; private set; }= TorchType.Normal;
 
-    private Dictionary<PowderColor,int> _powders= new Dictionary<PowderColor,int>();
+    public event Action<GameObject> OnSelectionChange;
 
+    
     private void Awake()
     {
         if(Instance != null && Instance!=this)
@@ -22,24 +30,19 @@ public class InventoryManager : MonoBehaviour
             return;
         }
         Instance=this;
+        _currentTorchQuantity = TorchMaxQuanitity;
 
-        foreach(PowderColor color in Enum.GetValues(typeof(PowderColor)))
-        {
-            _powders[color] = 0;
-        }
     }
+    public void UseTorch() => _currentTorchQuantity--;
+    public void ReturnTorch()=>_currentTorchQuantity= Mathf.Min(_currentTorchQuantity+1,TorchMaxQuanitity);
 
-    public void AddPowder(PowderColor color,int amount) => _powders[color] += amount;
-
-
-
-
-    public int GetPowder(PowderColor color) => _powders[color]; 
-
-
-    public bool ConsumePowder(PowderColor color)
+    public bool CanPlace() => _currentTorchQuantity > 0;
+    public void SwitchSelection()
     {
-        if (_powders[color])
+        SelectedType= (SelectedType==TorchType.Normal) ? TorchType.Magical:TorchType.Magical;
+
+        GameObject prefabToEquip = (SelectedType == TorchType.Normal) ? TorchPrefab : MagicalTorchPrefab;
+        OnSelectionChange?.Invoke(prefabToEquip);
     }
     
 }

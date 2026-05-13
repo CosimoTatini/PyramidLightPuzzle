@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -10,6 +12,7 @@ public class PlaceCharacterState : IStateCollision2D
     private GameObject _torch;
     private Animator _animator;
     private float _timer;
+    private float _torchDuration = 30f;
     public PlaceCharacterState(Player player,PlayerController controller, Tilemap tilemap, GameObject torch,Animator animator)
     {
         _owner = player;
@@ -83,15 +86,31 @@ public class PlaceCharacterState : IStateCollision2D
         spawnPos.z = 0;
 
         GameObject torchPrefab = GameObject.Instantiate(_torch,spawnPos,Quaternion.identity);
+       
 
         if (PlacementManager.Instance.IsPossibleToRegisterItem(_tilemap,cellPos, torchPrefab))
         {
             _owner.Animator.Play(_owner.PlaceSettings.clipName);
+            InventoryManager.Instance.UseTorch();
+            _owner.StartCoroutine(TorchLifetimeCoroutine(torchPrefab));
+          
             Debug.Log("Torcia piazzata correttamente.");
         }
         else
         {
             GameObject.Destroy(torchPrefab);
+        }
+    }
+
+    private IEnumerator TorchLifetimeCoroutine(GameObject torchPrefab)
+    {
+        yield return new WaitForSeconds(_torchDuration);
+
+        if(torchPrefab!=null)
+        {
+            GameObject.Destroy(torchPrefab);
+            InventoryManager.Instance.ReturnTorch();
+            Debug.Log("Torcia tornata");
         }
     }
 
