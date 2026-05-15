@@ -81,6 +81,14 @@ public class LightSensor : MonoBehaviour, ILightReceiver
         }
     }
 
+    public int MaxAmount
+    {
+        get
+        {
+            return _emittersInRangeAndValues.Sum(kvp => kvp.Key.MaxAmount);
+        }
+    }
+
     public Vector3Int CurrentRgbAmounts => new(CurrentRedAmount, CurrentGreenAmount, CurrentBlueAmount);
 
 #if UNITY_EDITOR
