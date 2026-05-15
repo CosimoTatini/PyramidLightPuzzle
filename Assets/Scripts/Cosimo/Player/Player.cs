@@ -36,6 +36,8 @@ public class Player : MonoBehaviour, ISubject
     public Tilemap PlaceableTilemap => _placeableTilemap;
     public float CellOffset => _cellOffset;
 
+    public GameObject TorchPrefab => _torchPrefab;
+
     public void Attach(IObserver observer)
     {
         if (!_observers.Contains(observer))
@@ -105,12 +107,15 @@ public class Player : MonoBehaviour, ISubject
     }
 
     private void OnEnable()
+
     {
+        if(InventoryManager.Instance != null) 
         InventoryManager.Instance.OnSelectionChange += EquipEmitter;
     }
 
     private void OnDisable()
     {
+        if(InventoryManager.Instance!= null)
         InventoryManager.Instance.OnSelectionChange -= EquipEmitter;
     }
 

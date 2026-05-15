@@ -20,8 +20,8 @@ public class UiManager : MonoBehaviour
     {
         bool isNormal = InventoryManager.Instance.SelectedType == TorchType.Normal;
 
-        UpdateSlot(TorchSlot, isNormal, InventoryManager.Instance.TorchMaxQuanitity);
-        UpdateSlot(MagicTorchSlot, !isNormal, InventoryManager.Instance.MagicalTorchQuantity);
+        UpdateSlot(TorchSlot, isNormal, InventoryManager.Instance.CurrentTorchQuantity);
+        UpdateSlot(MagicTorchSlot, !isNormal, InventoryManager.Instance.CurrentMagicTorchQuantity);
     }
 
     private void UpdateSlot(SlotUI slot, bool isActive, int currentCount)

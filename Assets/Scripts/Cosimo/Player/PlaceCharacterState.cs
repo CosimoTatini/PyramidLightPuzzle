@@ -37,7 +37,7 @@ public class PlaceCharacterState : IStateCollision2D
 
     public void OnEnd()
     {
-      
+        _timer = 0;
     }
 
     public void OnFixedUpdate()
@@ -51,13 +51,20 @@ public class PlaceCharacterState : IStateCollision2D
         Vector2 look = _ownerController.LastLookDirection;
         _owner.Animator.SetFloat("MoveX", look.x);
         _owner.Animator.SetFloat("MoveY", look.y);
+
+        if(!InventoryManager.Instance.CanPlace())
+        {
+            _owner.SetState(ECharacterStates.Idle);
+            return;
+          
+        }
         PlaceTorchAttempt();
+    
     }
     private void PlaceTorchAttempt()
     {
+        GameObject torchPrefab = _owner.TorchPrefab;
         if (_torch == null || _tilemap == null) return;
-
-       
         Vector3 targetWorldPos = _owner.transform.position + (Vector3)_ownerController.LastLookDirection;
         Vector3Int cellPos = _tilemap.WorldToCell(targetWorldPos);
         cellPos.z = 0; 
@@ -71,7 +78,7 @@ public class PlaceCharacterState : IStateCollision2D
       
         if (PlacementManager.Instance.IsCellAvailable(_tilemap,cellPos))
         {
-            ExecutePlacement(cellPos);
+            ExecutePlacement(cellPos,torchPrefab);
         }
         else
         {
@@ -80,36 +87,38 @@ public class PlaceCharacterState : IStateCollision2D
         }
     }
 
-    private void ExecutePlacement(Vector3Int cellPos)
+    private void ExecutePlacement(Vector3Int cellPos,GameObject prefab)
     {
        Vector3 spawnPos = _tilemap.GetCellCenterWorld(cellPos);
         spawnPos.z = 0;
 
-        GameObject torchPrefab = GameObject.Instantiate(_torch,spawnPos,Quaternion.identity);
+       GameObject torchInstance= GameObject.Instantiate(prefab,spawnPos,Quaternion.identity);
        
 
-        if (PlacementManager.Instance.IsPossibleToRegisterItem(_tilemap,cellPos, torchPrefab))
+        if (PlacementManager.Instance.IsPossibleToRegisterItem(_tilemap,cellPos, prefab))
         {
             _owner.Animator.Play(_owner.PlaceSettings.clipName);
+            TorchType type = InventoryManager.Instance.SelectedType;
             InventoryManager.Instance.UseTorch();
-            _owner.StartCoroutine(TorchLifetimeCoroutine(torchPrefab));
+            _owner.StartCoroutine(TorchLifetimeCoroutine(prefab,type));
           
             Debug.Log("Torcia piazzata correttamente.");
         }
         else
         {
-            GameObject.Destroy(torchPrefab);
+            GameObject.Destroy(prefab);
+            _owner.SetState(ECharacterStates.Idle);
         }
     }
 
-    private IEnumerator TorchLifetimeCoroutine(GameObject torchPrefab)
+    private IEnumerator TorchLifetimeCoroutine(GameObject torchPrefab,TorchType type)
     {
         yield return new WaitForSeconds(_torchDuration);
 
         if(torchPrefab!=null)
         {
             GameObject.Destroy(torchPrefab);
-            InventoryManager.Instance.ReturnTorch();
+            InventoryManager.Instance.ReturnTorch(type);
             Debug.Log("Torcia tornata");
         }
     }
