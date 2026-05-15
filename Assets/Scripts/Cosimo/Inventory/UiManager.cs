@@ -1,40 +1,76 @@
+using Assets.Scripts.Cosimo.Inventory;
 using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour
 {
     [Serializable]
-    public struct SlotUI
+    public struct TorchSlotUI
     {
         public GameObject SelectionImage;
-        public Image ObjectImage;
-        public TextMeshProUGUI quantityText;
+        public TextMeshProUGUI QuantityText;
     }
 
-    public SlotUI TorchSlot;
-    public SlotUI MagicTorchSlot;
+    [Serializable]
+    public struct PowderSlotUI
+    {
+        public GameObject PowderSelectedColor;
+        public TextMeshProUGUI QuantityText;
+    }
 
+    public TorchSlotUI TorchSlot;
+    public TorchSlotUI MagicTorchSlot;
+
+    public PowderSlotUI RedPowderSlot;
+    public PowderSlotUI GreenPowderSlot;
+    public PowderSlotUI BluePowderSlot;
+    private void OnEnable()
+    {
+        // Ci iscriviamo all'evento così la UI si aggiorna da sola quando serve
+        if (InventoryManager.Instance != null)
+            InventoryManager.Instance.OnPowderChanged += UpdatePowderUI;
+    }
+
+    private void OnDisable()
+    {
+        if (InventoryManager.Instance != null)
+            InventoryManager.Instance.OnPowderChanged -= UpdatePowderUI;
+    }
+
+    private void Start()
+    {
+        
+        UpdatePowderSlot();
+    }
     private void Update()
     {
         bool isNormal = InventoryManager.Instance.SelectedType == TorchType.Normal;
+        var inv = InventoryManager.Instance;
+        var selected = inv.SelectedPowder;
 
-        UpdateSlot(TorchSlot, isNormal, InventoryManager.Instance.CurrentTorchQuantity);
-        UpdateSlot(MagicTorchSlot, !isNormal, InventoryManager.Instance.CurrentMagicTorchQuantity);
+        UpdateTorchSlot(TorchSlot, isNormal, InventoryManager.Instance.CurrentTorchQuantity);
+        UpdateTorchSlot(MagicTorchSlot, !isNormal, InventoryManager.Instance.CurrentMagicTorchQuantity);
+        UpdatePowderSlot(RedPowderSlot, selected == PowderColor.Red, inv.GetPowderCount(PowderColor.Red));
+        UpdatePowderSlot(GreenPowderSlot, selected == PowderColor.Green, inv.GetPowderCount(PowderColor.Green));
+        UpdatePowderSlot(BluePowderSlot, selected == PowderColor.Blue, inv.GetPowderCount(PowderColor.Blue));
     }
 
-    private void UpdateSlot(SlotUI slot, bool isActive, int currentCount)
+    private void UpdatePowderSlot(PowderSlotUI slot, bool isActive, int count)
     {
-       if(slot.SelectionImage != null)
-       {
-            slot.SelectionImage.SetActive(isActive);
-       }
-       slot.quantityText.text= currentCount.ToString();
+        if (slot.PowderSelectedColor != null)
+            slot.PowderSelectedColor.SetActive(isActive);
 
-       if (slot.ObjectImage != null)
+        slot.QuantityText.text = count.ToString();
+    }
+
+    private void UpdateTorchSlot(TorchSlotUI slot, bool isActive, int currentCount)
+    {
+        if (slot.SelectionImage != null)
         {
-            slot.ObjectImage.color = isActive ? Color.white : new Color(1, 1, 1, 0.5f);
+            slot.SelectionImage.SetActive(isActive);
         }
+        slot.QuantityText.text = currentCount.ToString();
+
     }
 }

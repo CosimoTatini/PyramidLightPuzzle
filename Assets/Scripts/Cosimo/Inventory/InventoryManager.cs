@@ -23,6 +23,14 @@ public class InventoryManager : MonoBehaviour
 
     public event Action<GameObject> OnSelectionChange;
 
+    private Dictionary<PowderColor, int> _powders= new Dictionary<PowderColor, int>()
+    {
+        {PowderColor.Red,5 },
+        {PowderColor.Green,5},
+        {PowderColor.Blue,5},
+    };
+    public PowderColor SelectedPowder {  get; private set; } = PowderColor.Red;
+    public event Action OnPowderChanged;
     
     private void Awake()
     {
@@ -36,6 +44,8 @@ public class InventoryManager : MonoBehaviour
         _currentMagicalTorchQuantity= MagicalTorchQuantity;
 
     }
+
+    #region TORCH_METHODS
     public void UseTorch()
     {
         if(SelectedType== TorchType.Normal)
@@ -78,5 +88,37 @@ public class InventoryManager : MonoBehaviour
         GameObject prefabToEquip = (SelectedType == TorchType.Normal) ? TorchPrefab : MagicalTorchPrefab;
         OnSelectionChange?.Invoke(prefabToEquip);
     }
+    #endregion
+
+    #region POWDER_METHODS
+    public int GetPowderCount(PowderColor color) => _powders[color];
     
+    public void SelectPowder(PowderColor color)
+    {
+        SelectedPowder = color;
+        OnPowderChanged?.Invoke();
+    }
+
+
+    public void CyclePowder(int direction)
+    {
+        int totalColors= Enum.GetValues(typeof(PowderColor)).Length;
+        int nextIndex = ((int) SelectedPowder+direction+totalColors) % totalColors;
+        SelectPowder((PowderColor)nextIndex);
+    }
+
+    public bool CanThrowPowder() => _powders[SelectedPowder] > 0;
+
+
+    public void UsePowder()
+    {
+        if(CanThrowPowder())
+        {
+            _powders[SelectedPowder]--;
+            OnPowderChanged?.Invoke();
+        }
+    }
+
+    #endregion
+
 }

@@ -9,7 +9,7 @@ public class Player : MonoBehaviour, ISubject
     public AnimSettings PlaceSettings;
     public AnimSettings GrabSettings;
     public AnimSettings DeathSettings;
-    //public AnimSettings ThrowSettings;
+    public AnimSettings ThrowSettings;
 
 
     [Header("CheckpointSystem")]
@@ -74,8 +74,7 @@ public class Player : MonoBehaviour, ISubject
         StateMachine.RegisterState(ECharacterStates.Place, new PlaceCharacterState(this, _playerController, _placeableTilemap, _torchPrefab, Animator));
         StateMachine.RegisterState(ECharacterStates.Grab, new GrabCharacterState(this, _playerController, _torchPrefab, _placeableTilemap, Animator));
         StateMachine.RegisterState(ECharacterStates.Death, new DeathCharacterState(this, _playerController, Animator));
-        //StateMachine.RegisterState(ECharacterStates.Throw, new ThrowCharacterState(this, _playerController));
-
+        StateMachine.RegisterState(ECharacterStates.Throw, new ThrowCharacterState(this,_playerController,Animator));
         StateMachine.SetState(ECharacterStates.Idle);
         _currentState = StateMachine.CurrentState;
     }
