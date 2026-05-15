@@ -73,7 +73,7 @@ public class InventoryManager : MonoBehaviour
     }
     public void SwitchSelection()
     {
-        SelectedType= (SelectedType==TorchType.Normal) ? TorchType.Magical:TorchType.Magical;
+        SelectedType= (SelectedType==TorchType.Normal) ? TorchType.Magical:TorchType.Normal;
 
         GameObject prefabToEquip = (SelectedType == TorchType.Normal) ? TorchPrefab : MagicalTorchPrefab;
         OnSelectionChange?.Invoke(prefabToEquip);
