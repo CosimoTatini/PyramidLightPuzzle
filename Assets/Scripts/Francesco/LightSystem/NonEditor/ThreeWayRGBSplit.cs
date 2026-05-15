@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class ThreeWayRGBSplit : MonoBehaviour
 {
+    string diagram = "https://app.diagrams.net/?src=about#LDiagramma%20senza%20titolo.drawio#%7B%22pageId%22%3A%227t_RhQeSFkzK3E7iq9TL%22%7D";
     [Header("Settings")]
     [SerializeField] private float _rotationSpeed = 5f;
     [SerializeField] private LayerMask _hitMask;
