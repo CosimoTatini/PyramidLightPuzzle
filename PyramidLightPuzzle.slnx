@@ -3,13 +3,13 @@
   <Project Path="Assembly-CSharp-Editor.csproj" />
   <Project Path="DesignPatterns.csproj" />
   <Project Path="InventorySystem.csproj" />
-  <Project Path="Obstacle.csproj" />
+  <Project Path="inventory.csproj" />
+  <Project Path="Obstacles.csproj" />
   <Project Path="Enemy.csproj" />
   <Project Path="NewAssembly.csproj" />
   <Project Path="Puzzles.csproj" />
   <Project Path="LightSystem.csproj" />
   <Project Path="Utility.csproj" />
-  <Project Path="inventory.csproj" />
   <Project Path="CraftingSystem.csproj" />
   <Project Path="InputSystem.csproj" />
 </Solution>
