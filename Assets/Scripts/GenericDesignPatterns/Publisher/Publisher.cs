@@ -1,21 +1,23 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public static class Publisher
 {
-    private static Dictionary<Type, List<ISubscriber>> _allSubscribers = new Dictionary<Type, List<ISubscriber>>();
+    private static readonly Dictionary<Type, HashSet<ISubscriber>> _allSubscribers = new();
 
     public static void Subscribe(ISubscriber subscriber, Type messageType)
     {
-        // se esiste già la chiave di questo messaggio allora aggiungo il subscriber alla lista
         if (_allSubscribers.ContainsKey(messageType))
         {
-            _allSubscribers[messageType].Add(subscriber);
+            bool isAlreadySubscribed = !_allSubscribers[messageType].Add(subscriber);
+
+            if (isAlreadySubscribed)
+                Debug.LogWarning($"Subscriber {subscriber} is already subscribed to message type {messageType}");
         }
         else
         {
-            List<ISubscriber> subscriberList = new List<ISubscriber> { subscriber };
-
+            HashSet<ISubscriber> subscriberList = new() { subscriber };
             _allSubscribers.Add(messageType, subscriberList);
         }
     }
@@ -26,7 +28,9 @@ public static class Publisher
 
         if (_allSubscribers.ContainsKey(messageType))
         {
-            foreach (ISubscriber subscriber in _allSubscribers[messageType])
+            var subscribers = new List<ISubscriber>(_allSubscribers[messageType]);
+
+            foreach (var subscriber in subscribers)
             {
                 subscriber.OnPublish(message);
             }
