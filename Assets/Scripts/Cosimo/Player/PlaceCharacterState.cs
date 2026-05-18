@@ -99,6 +99,8 @@ public class PlaceCharacterState : IStateCollision2D
             _owner.SetState(ECharacterStates.Idle);
         }
     }
+
+    //TODO: This coroutine probably will be only applied in the case of a normal torch, the magical one need to be retrieved manually
     private IEnumerator TorchLifetimeCoroutine(GameObject torchInstance, TorchType type, Vector3Int cellPos)
     {
         yield return new WaitForSeconds(_torchDuration);

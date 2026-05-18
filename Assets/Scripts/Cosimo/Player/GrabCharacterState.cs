@@ -4,6 +4,8 @@ using UnityEngine.Tilemaps;
 
 internal class GrabCharacterState : IStateCollision2D
 {
+    //TODO: When player finds something with Dust component , i enter this state automatically. Probably i'll use OnTriggerEnter2D to enter this state.
+    //TODO: Next step is to make the player play grab animation if on the UI is selected Magic torch and retrieves the torch from any position that torch is beign placed.
     private Player _owner;
     private PlayerController _ownerController;
     private GameObject _torch;
