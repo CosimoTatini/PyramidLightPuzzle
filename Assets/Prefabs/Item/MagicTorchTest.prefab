@@ -15,7 +15,8 @@ GameObject:
   - component: {fileID: 8530101943984888043}
   - component: {fileID: 813339124281654548}
   - component: {fileID: 3366265585978532938}
-  m_Layer: 0
+  - component: {fileID: 5424006790107384785}
+  m_Layer: 6
   m_Name: MagicTorchTest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +88,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.036264896, g: 0, b: 1, a: 1}
+  m_Color: {r: 0.6132076, g: 0, b: 0.40134203, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -245,3 +246,16 @@ MonoBehaviour:
   Prefab: {fileID: 5815135948996897342}
   Quantity: 1
   Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+--- !u!114 &5424006790107384785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5815135948996897342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c0aff8186b067d40a635926f38b7e28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: LightSystem::MagicalTorch
+  _light: {fileID: 5384488082815668281}

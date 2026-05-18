@@ -9,7 +9,7 @@ public class PlaceCharacterState : IStateCollision2D
     private Player _owner;
     private PlayerController _ownerController;
     private Tilemap _tilemap;
-    private GameObject _torch;
+    private GameObject _torchPrefab;
     private Animator _animator;
     private float _timer;
     private float _torchDuration = 30f;
@@ -18,7 +18,7 @@ public class PlaceCharacterState : IStateCollision2D
         _owner = player;
         _ownerController = controller;
         _tilemap = tilemap;
-        _torch = torch;
+        _torchPrefab = torch;
         _animator = animator;
 
     }
@@ -52,82 +52,65 @@ public class PlaceCharacterState : IStateCollision2D
         _owner.Animator.SetFloat("MoveX", look.x);
         _owner.Animator.SetFloat("MoveY", look.y);
 
-        if(!InventoryManager.Instance.CanPlace())
+        if (!InventoryManager.Instance.CanPlace())
         {
+            Debug.LogWarning("[PlaceState] Torce esaurite nel manager!");
             _owner.SetState(ECharacterStates.Idle);
             return;
-          
         }
-        PlaceTorchAttempt();
-    
-    }
-    private void PlaceTorchAttempt()
-    {
-        GameObject torchPrefab = _owner.TorchPrefab;
-        if (_torch == null || _tilemap == null) return;
-        Vector3 targetWorldPos = _owner.transform.position + (Vector3)_ownerController.LastLookDirection;
-        Vector3Int cellPos = _tilemap.WorldToCell(targetWorldPos);
-        cellPos.z = 0; 
-        
-        if (!_tilemap.HasTile(cellPos))
+
+        Tilemap groundTilemap = _owner.PlaceableTilemap;
+
+        if (groundTilemap == null)
         {
-            CancelPlacement("Nessun terreno valido qui.");
+            Debug.LogError("[PlaceState] La PlaceableTilemap sul Player non è assegnata nell'Inspector!");
+            _owner.SetState(ECharacterStates.Idle);
             return;
         }
 
-      
-        if (PlacementManager.Instance.IsCellAvailable(_tilemap,cellPos))
+        Vector3 interactionPos = _owner.transform.position + (Vector3)look * 0.8f;
+        Vector3Int cellPos = groundTilemap.WorldToCell(interactionPos);
+
+        if (!groundTilemap.HasTile(cellPos))
         {
-            ExecutePlacement(cellPos,torchPrefab);
-        }
-        else
-        {
-            Debug.Log($"[Placement] Cella {cellPos} già occupata.");
+            Debug.LogWarning($"[PlaceState] Impossibile piazzare: Non c'è terreno nella cella {cellPos} della Tilemap Ground!");
             _owner.SetState(ECharacterStates.Idle);
+            return;
         }
-    }
+        Vector3 spawnWorldPos = groundTilemap.GetCellCenterWorld(cellPos);
 
-    private void ExecutePlacement(Vector3Int cellPos,GameObject prefab)
-    {
-       Vector3 spawnPos = _tilemap.GetCellCenterWorld(cellPos);
-        spawnPos.z = 0;
+        TorchType type = InventoryManager.Instance.SelectedType;
+        GameObject prefabToSpawn = (type == TorchType.Normal)
+            ? InventoryManager.Instance.TorchPrefab
+            : InventoryManager.Instance.MagicalTorchPrefab;
+        GameObject torchInstance = GameObject.Instantiate(prefabToSpawn, spawnWorldPos, Quaternion.identity);
 
-       GameObject torchInstance= GameObject.Instantiate(prefab,spawnPos,Quaternion.identity);
-       
-
-        if (PlacementManager.Instance.IsPossibleToRegisterItem(_tilemap,cellPos, prefab))
+        if (PlacementManager.Instance.IsPossibleToRegisterItem(groundTilemap, cellPos, torchInstance))
         {
             _owner.Animator.Play(_owner.PlaceSettings.clipName);
-            TorchType type = InventoryManager.Instance.SelectedType;
             InventoryManager.Instance.UseTorch();
-            _owner.StartCoroutine(TorchLifetimeCoroutine(prefab,type));
-          
-            Debug.Log("Torcia piazzata correttamente.");
+
+            _owner.StartCoroutine(TorchLifetimeCoroutine(torchInstance, type, cellPos));
+            Debug.Log($"[Place] Torcia di tipo {type} piazzata correttamente sulla Tilemap Ground nella cella: {cellPos}");
         }
         else
         {
-            GameObject.Destroy(prefab);
+            GameObject.Destroy(torchInstance);
             _owner.SetState(ECharacterStates.Idle);
         }
     }
-
-    private IEnumerator TorchLifetimeCoroutine(GameObject torchPrefab,TorchType type)
+    private IEnumerator TorchLifetimeCoroutine(GameObject torchInstance, TorchType type, Vector3Int cellPos)
     {
         yield return new WaitForSeconds(_torchDuration);
 
-        if(torchPrefab!=null)
+        if (torchInstance != null)
         {
-            GameObject.Destroy(torchPrefab);
+            PlacementManager.Instance.UnregisterItem(cellPos);
+            GameObject.Destroy(torchInstance);
             InventoryManager.Instance.ReturnTorch(type);
-            Debug.Log("Torcia tornata");
+            Debug.Log($"[Lifetime] Torcia scaduta e rimossa dalla cella {cellPos}.");
         }
     }
-
-    private void CancelPlacement(string v)
-    {
-       _owner.SetState(ECharacterStates.Idle);
-    }
-
     public void OnTriggerEnter2D(Collider2D collider)
     {
        

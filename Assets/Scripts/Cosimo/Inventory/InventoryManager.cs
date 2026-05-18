@@ -22,6 +22,7 @@ public class InventoryManager : MonoBehaviour
     public TorchType SelectedType {  get; private set; }= TorchType.Normal;
 
     public event Action<GameObject> OnSelectionChange;
+    public event Action OnTorchChanged;//tengo conto dei consumi e dei ritorni delle torce con un evento
 
     private Dictionary<PowderColor, int> _powders= new Dictionary<PowderColor, int>()
     {
@@ -56,6 +57,7 @@ public class InventoryManager : MonoBehaviour
         {
             _currentMagicalTorchQuantity--;
         }
+        OnTorchChanged?.Invoke();
     }
     public void ReturnTorch(TorchType type)
     {
@@ -67,6 +69,7 @@ public class InventoryManager : MonoBehaviour
         {
             _currentMagicalTorchQuantity = Mathf.Min(_currentMagicalTorchQuantity + 1, MagicalTorchQuantity);
         }
+        OnTorchChanged?.Invoke();
     }
 
     public bool CanPlace()
@@ -87,6 +90,7 @@ public class InventoryManager : MonoBehaviour
 
         GameObject prefabToEquip = (SelectedType == TorchType.Normal) ? TorchPrefab : MagicalTorchPrefab;
         OnSelectionChange?.Invoke(prefabToEquip);
+        OnTorchChanged?.Invoke();
     }
     #endregion
 

@@ -46,21 +46,29 @@ internal class GrabCharacterState : IStateCollision2D
     public void OnStart()
     {
         _timer = 0;
-        _ownerController.Rb.linearVelocity= Vector2.zero;
-        Vector3 interactionPos = _owner.transform.position + (Vector3)_ownerController.LastLookDirection * _owner.CellOffset;
-        Vector3Int cellPos= _owner.PlaceableTilemap.WorldToCell(interactionPos);
+        _ownerController.Rb.linearVelocity = Vector2.zero;
 
-        Vector3 cellCenter= _owner.PlaceableTilemap.GetCellCenterWorld(cellPos);
-        _owner.transform.position= new Vector3(cellCenter.x,cellCenter.y, _owner.transform.position.z);
+        Vector3 interactionPos = _owner.transform.position + (Vector3)_ownerController.LastLookDirection * 0.2f;
+        Vector3Int cellPos = _owner.PlaceableTilemap.WorldToCell(interactionPos);
+
+        Vector3 cellCenter = _owner.PlaceableTilemap.GetCellCenterWorld(cellPos);
+        _owner.transform.position = new Vector3(cellCenter.x, cellCenter.y, _owner.transform.position.z);
 
         _owner.Animator.Play(_owner.GrabSettings.clipName);
 
-        GameObject itemToPick= PlacementManager.Instance.GetItemAt(cellPos);
+        GameObject itemToPick = PlacementManager.Instance.GetItemAt(cellPos);
 
-        if(itemToPick != null)
+        if (itemToPick != null)
         {
+         
+            bool isMagical = itemToPick.GetComponentInChildren<MagicalTorch>() != null;
+            TorchType torchType = isMagical ? TorchType.Magical : TorchType.Normal;
+            InventoryManager.Instance.ReturnTorch(torchType);
+
             PlacementManager.Instance.UnregisterItem(cellPos);
             GameObject.Destroy(itemToPick);
+
+            Debug.Log($"[Grab] Raccolta torcia identificata come: {torchType}. Contatore HUD aggiornato!");
         }
     }
 

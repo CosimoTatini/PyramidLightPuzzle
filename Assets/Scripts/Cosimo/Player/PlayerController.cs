@@ -43,6 +43,9 @@ public class PlayerController : MonoBehaviour
         _inputActions.Player.SetRed.performed += _ => InventoryManager.Instance.SelectPowder(PowderColor.Red);
         _inputActions.Player.SetGreen.performed += _ => InventoryManager.Instance.SelectPowder(PowderColor.Green);
         _inputActions.Player.SetBlue.performed += _ => InventoryManager.Instance.SelectPowder(PowderColor.Blue);
+        _inputActions.Player.NextColor.performed += _ => InventoryManager.Instance.CyclePowder(1);
+        _inputActions.Player.PreviousColor.performed += _ => InventoryManager.Instance.CyclePowder(-1);
+        _inputActions.Player.Throw.performed += _=>GetComponent<Player>().SetState(ECharacterStates.Throw);
 
     }
 
