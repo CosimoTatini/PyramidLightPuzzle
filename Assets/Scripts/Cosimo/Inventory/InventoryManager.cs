@@ -65,9 +65,10 @@ public class InventoryManager : MonoBehaviour
         {
             _currentTorchQuantity= Mathf.Min(_currentTorchQuantity+1, TorchMaxQuanitity);
         }
-        else
+
+        if(type==TorchType.Magical)
         {
-            _currentMagicalTorchQuantity = Mathf.Min(_currentMagicalTorchQuantity + 1, MagicalTorchQuantity);
+            _currentMagicalTorchQuantity=Mathf.Min(_currentMagicalTorchQuantity+1, MagicalTorchQuantity);
         }
         OnTorchChanged?.Invoke();
     }
@@ -92,6 +93,8 @@ public class InventoryManager : MonoBehaviour
         OnSelectionChange?.Invoke(prefabToEquip);
         OnTorchChanged?.Invoke();
     }
+
+  
     #endregion
 
     #region POWDER_METHODS

@@ -8,7 +8,9 @@ public class PlacementManager : MonoBehaviour
    public static PlacementManager Instance;
    private Dictionary<Vector3Int,GameObject> _placedItems= new Dictionary<Vector3Int,GameObject>();
    private Dictionary<Tilemap,HashSet<Vector3Int>> _restrictedCells= new Dictionary<Tilemap, HashSet<Vector3Int>>();
+   private Dictionary<Vector3Int, TorchType> _torchTypes = new Dictionary<Vector3Int, TorchType>();
 
+    #region SINGLETON_INSTANCE
     private void Awake()
     {
         if(Instance != null && Instance !=this)
@@ -18,6 +20,8 @@ public class PlacementManager : MonoBehaviour
         }
         Instance = this;
     }
+    #endregion
+
 
     public void SetCellRestriction(Tilemap tilemap,Vector3Int cellPos,bool isRestricted)
     {
@@ -55,7 +59,8 @@ public class PlacementManager : MonoBehaviour
         return true;
     }
 
-    public bool IsPossibleToRegisterItem(Tilemap tilemap,Vector3Int cellpos,GameObject item)
+    #region DICTIONARY_METHODS
+    public bool IsPossibleToRegisterItem(Tilemap tilemap,Vector3Int cellpos,GameObject item,TorchType type)
     {
         if(!IsCellAvailable(tilemap,cellpos))
         {
@@ -63,6 +68,7 @@ public class PlacementManager : MonoBehaviour
         }
 
         _placedItems.Add(cellpos, item);
+        _torchTypes.Add(cellpos, type);
         return true;
     }
 
@@ -71,6 +77,10 @@ public class PlacementManager : MonoBehaviour
         if(_placedItems.ContainsKey(cellpos))
         {
             _placedItems.Remove(cellpos);
+        }
+        if(_torchTypes.ContainsKey(cellpos))
+        {
+            _torchTypes.Remove(cellpos);
         }
     }
 
@@ -82,6 +92,27 @@ public class PlacementManager : MonoBehaviour
         }
         return null;
     }
+    #endregion
+
+    public KeyValuePair<Vector3Int, GameObject>? FindMagicalTorch()
+    {
+        foreach (var pair in _torchTypes)
+        {
+           if(pair.Value==TorchType.Magical)
+           {
+             Vector3Int cellPos= pair.Key;
+
+                if(_placedItems.TryGetValue(cellPos,out GameObject torch))
+                {
+                    return new KeyValuePair<Vector3Int, GameObject>(cellPos, torch);
+                }
+           }
+        }
+        return null;
+    }
+
+
+
 
 
 }

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 public class Player : MonoBehaviour, ISubject
@@ -42,7 +42,7 @@ public class Player : MonoBehaviour, ISubject
     {
         if (!_observers.Contains(observer))
         {
-            Debug.Log($"[Subject] {observer} si � registrato correttamente!");
+            Debug.Log($"[Subject] {observer} si è registrato correttamente!");
             _observers.Add(observer);
         }
     }
@@ -175,13 +175,30 @@ public class Player : MonoBehaviour, ISubject
     {
         if (StateMachine.CurrentState is DeathCharacterState || _isRespawning) return;
 
+     
+        if (InventoryManager.Instance.SelectedType == TorchType.Magical)
+        {
+           
+            bool isTorchPlacedInWorld = PlacementManager.Instance.FindMagicalTorch().HasValue;
+
+            if (isTorchPlacedInWorld)
+            {
+               
+                SetState(ECharacterStates.Grab);
+                return;
+            }
+
+       
+        }
+
+       
         Vector3 targetWorldPos = transform.position + (Vector3)_playerController.LastLookDirection * _cellOffset;
         Vector3Int cellPos = _placeableTilemap.WorldToCell(targetWorldPos);
 
-        if (!PlacementManager.Instance.IsCellAvailable(_placeableTilemap,cellPos))
+        if (!PlacementManager.Instance.IsCellAvailable(_placeableTilemap, cellPos))
         {
-
             Vector3 cellCenter = _placeableTilemap.GetCellCenterWorld(cellPos);
+
             if (Vector2.Distance(transform.position, cellCenter) <= 0.6f)
             {
                 SetState(ECharacterStates.Grab);

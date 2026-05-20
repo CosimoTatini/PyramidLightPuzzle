@@ -85,7 +85,7 @@ public class PlaceCharacterState : IStateCollision2D
             : InventoryManager.Instance.MagicalTorchPrefab;
         GameObject torchInstance = GameObject.Instantiate(prefabToSpawn, spawnWorldPos, Quaternion.identity);
 
-        if (PlacementManager.Instance.IsPossibleToRegisterItem(groundTilemap, cellPos, torchInstance))
+        if (PlacementManager.Instance.IsPossibleToRegisterItem(groundTilemap, cellPos, torchInstance,type))
         {
             _owner.Animator.Play(_owner.PlaceSettings.clipName);
             InventoryManager.Instance.UseTorch();
@@ -100,12 +100,11 @@ public class PlaceCharacterState : IStateCollision2D
         }
     }
 
-    //TODO: This coroutine probably will be only applied in the case of a normal torch, the magical one need to be retrieved manually
     private IEnumerator TorchLifetimeCoroutine(GameObject torchInstance, TorchType type, Vector3Int cellPos)
     {
         yield return new WaitForSeconds(_torchDuration);
 
-        if (torchInstance != null)
+        if (torchInstance != null && type is TorchType.Normal)
         {
             PlacementManager.Instance.UnregisterItem(cellPos);
             GameObject.Destroy(torchInstance);
