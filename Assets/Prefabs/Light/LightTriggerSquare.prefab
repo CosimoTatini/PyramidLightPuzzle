@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5489570845656465640}
   - component: {fileID: 9048359978767591564}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SquareOuter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7374793435215190529}
   - component: {fileID: 1891069120326305484}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SquareInner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -194,9 +194,8 @@ GameObject:
   - component: {fileID: 330688461968704820}
   - component: {fileID: 8997465163971717088}
   - component: {fileID: 6044861247704778922}
-  - component: {fileID: 1038646184000562809}
   - component: {fileID: 4813238847390952785}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LightTriggerSquare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -257,37 +256,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b480047c1bcb4234a814e99b628e3828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: LightSystem::LightTrigger
-  _activationRadius: 5
-  _detectionTrigger: {fileID: 0}
   _receivers:
   - _gameObject: {fileID: 0}
---- !u!50 &1038646184000562809
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8795131270855765680}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!61 &4813238847390952785
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -318,7 +288,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
