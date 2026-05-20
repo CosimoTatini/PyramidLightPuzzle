@@ -10,29 +10,29 @@ using UnityEngine.Events;
 [DefaultExecutionOrder(-10)]
 public class LightTrigger : MonoBehaviour
 {
-    [Header("Radius")]
-    [Tooltip("The radius in which the light trigger can communicate with subscribers")]
-    [Min(0.01f)]
-    [SerializeField] private float _activationRadius = 10f;
-    [SerializeField] private CircleCollider2D _detectionTrigger;
+    // [Header("Radius")]
+    // [Tooltip("The radius in which the light trigger can communicate with subscribers")]
+    // [Min(0.01f)]
+    // [SerializeField] private float _activationRadius = 10f;
+    // [SerializeField] private CircleCollider2D _signalRadiusTrigger;
 
-    public float ActivationRadius
-    {
-        get
-        {
-            return _activationRadius;
-        }
-        set
-        {
+    // public float ActivationRadius
+    // {
+    //     get
+    //     {
+    //         return _activationRadius;
+    //     }
+    //     set
+    //     {
 
-            if (value >= 0.01f)
-                _activationRadius = value;
-            if (_detectionTrigger)
-            {
-                _detectionTrigger.radius = _activationRadius;
-            }
-        }
-    }
+    //         if (value >= 0.01f)
+    //             _activationRadius = value;
+    //         if (_signalRadiusTrigger)
+    //         {
+    //             _signalRadiusTrigger.radius = _activationRadius;
+    //         }
+    //     }
+    // }
 
     [Header("Subscribers")]
     [SerializeField] private List<IR_ILightTriggerReceiver> _receivers;
@@ -57,10 +57,11 @@ public class LightTrigger : MonoBehaviour
                 lightTriggerReceiver.SetLightTrigger(this);
             }
         }
-#if UNITY_EDITOR
-        _previousActivationRadius = _activationRadius;
-#endif
-        _detectionTrigger.radius = _activationRadius;
+// #if UNITY_EDITOR
+//         _previousActivationRadius = _activationRadius;
+// #endif
+//         if (_signalRadiusTrigger)
+//             _signalRadiusTrigger.radius = _activationRadius;
     }
 
     private void OnEnable()
@@ -77,17 +78,17 @@ public class LightTrigger : MonoBehaviour
         _lightSensor.OnLightDeactivated.RemoveListener(InvokeOnLightDeactivated);
     }
 
-#if UNITY_EDITOR
-    private float _previousActivationRadius;
-    private void OnValidate()
-    {
-        if (_previousActivationRadius != _activationRadius)
-        {
-            ActivationRadius = _activationRadius;
-            _previousActivationRadius = _activationRadius;
-        }
-    }
-#endif
+// #if UNITY_EDITOR
+//     private float _previousActivationRadius;
+//     private void OnValidate()
+//     {
+//         if (_previousActivationRadius != _activationRadius)
+//         {
+//             ActivationRadius = _activationRadius;
+//             _previousActivationRadius = _activationRadius;
+//         }
+//     }
+// #endif
 
     private void InvokeOnLightActivated()
     {

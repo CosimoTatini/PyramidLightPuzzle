@@ -16,6 +16,7 @@ public class ProximityTooltip : MonoBehaviour
         {
             _detectedTooltips.Add(tooltip);
         }
+        
     }
 
     private void OnTriggerStay2D(Collider2D collision)
