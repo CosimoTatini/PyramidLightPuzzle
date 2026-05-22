@@ -1,11 +1,13 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ThreeWayRGBSplit : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] private float _rotationSpeed = 5f;
+    [SerializeField] private float _rotationTime = 2f;
+    [SerializeField] private AnimationCurve _rotationCurve = AnimationCurve.Linear(0, 0, 1, 1);
     [SerializeField] private LayerMask _hitMask;
 
     [Header("Light References")]
@@ -23,13 +25,23 @@ public class ThreeWayRGBSplit : MonoBehaviour
     // saves the indexes we need to modify for the freeform light to be the same length of the raycast hit
     private Dictionary<LightEmitter, Vector2Int> _emittersFreeFormLengthIndexes = new();
 
+    private bool _isRotating = false;
+    private float _rotationAngle = 90f;
+
     private void Awake()
     {
-        SetToZero();
-        _emittersFreeFormLengthIndexes.Add(_redEmitter, new(_redEmitter.Light.shapePath.Length - 1, _redEmitter.Light.shapePath.Length - 2));
-        _emittersFreeFormLengthIndexes.Add(_greenEmitter, new(_greenEmitter.Light.shapePath.Length - 1, _greenEmitter.Light.shapePath.Length - 2));
-        _emittersFreeFormLengthIndexes.Add(_blueEmitter, new(_blueEmitter.Light.shapePath.Length - 1, _blueEmitter.Light.shapePath.Length - 2));
+        SetEmittersToZero();
+        ToggleColliders(false);
+        InitializeEmittersFreeFormLengthIndexes();
     }
+
+    private void ToggleColliders(bool toggle)
+    {
+        _redEmitterCollider.enabled = toggle;
+        _greenEmitterCollider.enabled = toggle;
+        _blueEmitterCollider.enabled = toggle;
+    }
+
 
     private void OnEnable()
     {
@@ -40,16 +52,66 @@ public class ThreeWayRGBSplit : MonoBehaviour
     {
         _lightSensor.OnLightChanged.RemoveListener(LightChanged);
     }
+    private void InitializeEmittersFreeFormLengthIndexes()
+    {
+        _emittersFreeFormLengthIndexes.Add(_redEmitter, new(_redEmitter.Light.shapePath.Length - 1, _redEmitter.Light.shapePath.Length - 2));
+        _emittersFreeFormLengthIndexes.Add(_greenEmitter, new(_greenEmitter.Light.shapePath.Length - 1, _greenEmitter.Light.shapePath.Length - 2));
+        _emittersFreeFormLengthIndexes.Add(_blueEmitter, new(_blueEmitter.Light.shapePath.Length - 1, _blueEmitter.Light.shapePath.Length - 2));
+    }
 
+    [ContextMenu("Rotate")]
     public void Rotate()
     {
+        if (_isRotating) return;
+        _isRotating = true;
+        SetEmittersToZero();
+        ToggleColliders(false);
+        StartCoroutine(RotationCoroutine());
+    }
 
+    private IEnumerator RotationCoroutine()
+    {
+        Quaternion startRotation = transform.rotation;
+        Quaternion targetRotation = startRotation * Quaternion.Euler(0, 0, -_rotationAngle);
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < _rotationTime)
+        {
+            elapsedTime += Time.deltaTime;
+            float percentage = Mathf.Clamp01(elapsedTime / _rotationTime);
+
+            float curvePercentage = _rotationCurve.Evaluate(percentage);
+
+            transform.rotation = Quaternion.Slerp(startRotation, targetRotation, curvePercentage);
+            yield return null;
+        }
+        transform.rotation = targetRotation;
+
+        // update the light after rotating in case something changed
+        //if (_didLightChangeWhileRotating)
+        //{ 
+        //    _didLightChangeWhileRotating = false;
+        //    LightChanged();
+        //}
+        // allow for a new rotation
+        ToggleColliders(true);
+        _isRotating = false;
+        LightChanged();
     }
 
     private void LightChanged()
     {
+        if (_isRotating)
+        {
+            return;
+        }
         SetDusts();
+        RaycastAndLightExpansion();
+    }
 
+    private void RaycastAndLightExpansion()
+    {
         // raycast from the emitters up direction if the emitters have at least 1 dust
 
         if (_redEmitter.RedAmount > 0)
@@ -116,34 +178,33 @@ public class ThreeWayRGBSplit : MonoBehaviour
             if (_blueEmitterCollider.enabled == true) _blueEmitterCollider.enabled = false;
 
         }
-
-
-
-
-
-        // boxcast in the forward direction of the emitters
-        // if it hits something in the layer, then we have our distance
-        // we can use the distance to set both the trigger for the light emitter and the freeform light
-        // maybe multiple raycasts would be better in case we want the light not to stop for just a part of the light being blocked, this would still be a problem
-        // since then what do we do, reduce the size of the light? that would mean having 2 emitters or more depending on the number of blocking objects
-        // so one or more emitters that stop when hit, then 
     }
 
     private void SetDusts()
     {
+        // avoid updating the light twice for each emitter
+        _redEmitter.CanUpdateLight = false;
+        _greenEmitter.CanUpdateLight = false;
+        _blueEmitter.CanUpdateLight = false;
+
         _redEmitter.MaxAmount = _lightSensor.MaxAmount;
         _greenEmitter.MaxAmount = _lightSensor.MaxAmount;
         _blueEmitter.MaxAmount = _lightSensor.MaxAmount;
+
+        _redEmitter.CanUpdateLight = true;
+        _greenEmitter.CanUpdateLight = true;
+        _blueEmitter.CanUpdateLight = true;
 
         _redEmitter.RedAmount = _lightSensor.CurrentRedAmount;
         _greenEmitter.GreenAmount = _lightSensor.CurrentGreenAmount;
         _blueEmitter.BlueAmount = _lightSensor.CurrentBlueAmount;
     }
 
-    private void SetToZero()
+    private void SetEmittersToZero()
     {
         _redEmitter.SetToZero();
         _greenEmitter.SetToZero();
         _blueEmitter.SetToZero();
     }
+
 }

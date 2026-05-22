@@ -19,6 +19,8 @@ public class LightEmitter : MonoBehaviour
 
     public event Action<LightEmitter> OnLightChanged;
 
+    public bool CanUpdateLight;
+
     public int RedAmount
     {
         get { return _redAmount; }
@@ -139,7 +141,7 @@ public class LightEmitter : MonoBehaviour
 
     private void UpdateLight()
     {
-        if (!_light) return;
+        if (!_light && !CanUpdateLight) return;
 
         if (_redAmount == 0 && _greenAmount == 0 && _blueAmount == 0)
         {
