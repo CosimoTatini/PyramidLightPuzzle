@@ -1,3 +1,4 @@
+using Assets.Scripts.Cosimo.Inventory;
 using System;
 using UnityEditorInternal;
 using UnityEngine;
@@ -24,6 +25,8 @@ public class PlayerController : MonoBehaviour
 
     public Vector2 LastLookDirection => _lastLookDirection;
 
+    private PowderColor _powder;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -37,6 +40,13 @@ public class PlayerController : MonoBehaviour
         _inputActions.Player.Move.canceled += ctx => _moveDirection = Vector2.zero;
         _inputActions.Player.Interact.performed += OnInteract;
         _inputActions.Player.Switch.performed += OnSwitchItem;
+        _inputActions.Player.SetRed.performed += _ => InventoryManager.Instance.SelectPowder(PowderColor.Red);
+        _inputActions.Player.SetGreen.performed += _ => InventoryManager.Instance.SelectPowder(PowderColor.Green);
+        _inputActions.Player.SetBlue.performed += _ => InventoryManager.Instance.SelectPowder(PowderColor.Blue);
+        _inputActions.Player.NextColor.performed += _ => InventoryManager.Instance.CyclePowder(1);
+        _inputActions.Player.PreviousColor.performed += _ => InventoryManager.Instance.CyclePowder(-1);
+        _inputActions.Player.Throw.performed += _=>GetComponent<Player>().SetState(ECharacterStates.Throw);
+
     }
 
     private void OnSwitchItem(InputAction.CallbackContext context)

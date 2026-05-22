@@ -1,38 +1,131 @@
+using Assets.Scripts.Cosimo.Inventory;
+using Codice.Client.Common.GameUI;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-[Serializable]
-
 public class InventoryManager : MonoBehaviour
 {
-    public List<Item> Items= new List<Item>();
-    private int _selectedIndex = 0;
+    public static InventoryManager Instance;
+    [Header("Prefabs")]
+    public GameObject TorchPrefab;
+    public GameObject MagicalTorchPrefab;
+    
+    [Header("Settings")]
+    public readonly int TorchMaxQuanitity = 4;
+    public readonly int MagicalTorchQuantity = 1;
+    private int _currentTorchQuantity;
+    private int _currentMagicalTorchQuantity;
+    public int CurrentTorchQuantity => _currentTorchQuantity;
+    public int CurrentMagicTorchQuantity => _currentMagicalTorchQuantity;
+    public TorchType SelectedType {  get; private set; }= TorchType.Normal;
 
-    public Item GetSelectedItem()=> Items[_selectedIndex];
+    public event Action<GameObject> OnSelectionChange;
+    public event Action OnTorchChanged;//tengo conto dei consumi e dei ritorni delle torce con un evento
 
-    public void ChangeSelection()
+    private Dictionary<PowderColor, int> _powders= new Dictionary<PowderColor, int>()
     {
-        _selectedIndex= (_selectedIndex+1) % Items.Count;
+        {PowderColor.Red,5 },
+        {PowderColor.Green,5},
+        {PowderColor.Blue,5},
+    };
+    public PowderColor SelectedPowder {  get; private set; } = PowderColor.Red;
+    public event Action OnPowderChanged;
+    
+    private void Awake()
+    {
+        if(Instance != null && Instance!=this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance=this;
+        _currentTorchQuantity = TorchMaxQuanitity;
+        _currentMagicalTorchQuantity= MagicalTorchQuantity;
+
     }
 
-    public void AddItem(string name,int amount)
+    #region TORCH_METHODS
+    public void UseTorch()
     {
-        var item = Items.Find(i => i.name == name);
-        if(item!=null)
+        if(SelectedType== TorchType.Normal)
         {
-            item.Quantity += amount;
+            _currentTorchQuantity--;
+        }
+        else
+        {
+            _currentMagicalTorchQuantity--;
+        }
+        OnTorchChanged?.Invoke();
+    }
+    public void ReturnTorch(TorchType type)
+    {
+        if(type==TorchType.Normal)
+        {
+            _currentTorchQuantity= Mathf.Min(_currentTorchQuantity+1, TorchMaxQuanitity);
+        }
+
+        if(type==TorchType.Magical)
+        {
+            _currentMagicalTorchQuantity=Mathf.Min(_currentMagicalTorchQuantity+1, MagicalTorchQuantity);
+        }
+        OnTorchChanged?.Invoke();
+    }
+
+    public bool CanPlace()
+    {
+        if(SelectedType==TorchType.Normal)
+        {
+            return _currentTorchQuantity > 0;
+        }
+
+        else
+        {
+          return _currentMagicalTorchQuantity > 0;
         }
     }
-    public void RemoveItem(string name, int amount)
+    public void SwitchSelection()
     {
-        var item= Items.Find(i => i.name == name);
-        if(item!=null)
+        SelectedType= (SelectedType==TorchType.Normal) ? TorchType.Magical:TorchType.Normal;
+
+        GameObject prefabToEquip = (SelectedType == TorchType.Normal) ? TorchPrefab : MagicalTorchPrefab;
+        OnSelectionChange?.Invoke(prefabToEquip);
+        OnTorchChanged?.Invoke();
+    }
+
+  
+    #endregion
+
+    #region POWDER_METHODS
+    public int GetPowderCount(PowderColor color) => _powders[color];
+    
+    public void SelectPowder(PowderColor color)
+    {
+        SelectedPowder = color;
+        OnPowderChanged?.Invoke();
+    }
+
+
+    public void CyclePowder(int direction)
+    {
+        int totalColors= Enum.GetValues(typeof(PowderColor)).Length;
+        int nextIndex = ((int) SelectedPowder+direction+totalColors) % totalColors;
+        SelectPowder((PowderColor)nextIndex);
+    }
+
+    public bool CanThrowPowder() => _powders[SelectedPowder] > 0;
+
+
+    public void UsePowder()
+    {
+        if(CanThrowPowder())
         {
-            item.Quantity= Mathf.Max(0, item.Quantity -amount);
+            _powders[SelectedPowder]--;
+            OnPowderChanged?.Invoke();
         }
     }
+
+    #endregion
 
 }

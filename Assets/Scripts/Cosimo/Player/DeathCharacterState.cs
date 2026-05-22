@@ -7,20 +7,18 @@ public class DeathCharacterState : IStateCollision2D
 
     private Player _owner;
     private PlayerController _ownerController;
-    private bool _resetToFirst;
     private float _deathDuration = 1.5f;
     private float _timer;
+    private Animator _animator;
 
-    public DeathCharacterState(Player player,PlayerController controller)
+    public DeathCharacterState(Player player,PlayerController controller,Animator animator)
     {
         _owner = player;
         _ownerController = controller;
+        _animator = animator;
     }
 
-    public void SetUpDeath(bool resetToFirst)
-    {
-        _resetToFirst = resetToFirst;
-    }
+  
 
 
     public void OnEnd()
@@ -39,8 +37,8 @@ public class DeathCharacterState : IStateCollision2D
 
         _ownerController.InputActions.Player.Disable();
 
-        _owner.Animator.SetBool("IsAlive",false);
-
+        _owner.Animator.SetBool("IsAlive", false);
+        _owner.Animator.Play(_owner.DeathSettings.clipName);
         _timer = 0;
 
         Debug.Log("Animazione di morte playata");
@@ -52,18 +50,10 @@ public class DeathCharacterState : IStateCollision2D
 
         if(_timer>=_deathDuration)
         {
-            if(_resetToFirst)
-            {
-                _owner.RespawnToFirst();
-            }
-
-            else
-            {
-                _owner.Respawn();
-            }
-
+            _owner.Respawn();
             _owner.SetState(ECharacterStates.Idle);
         }
+        
     }
 
     public void OnCollisionEnter2D(Collision2D collision)

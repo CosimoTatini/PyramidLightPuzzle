@@ -1,13 +1,15 @@
-
-using NUnit.Framework;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 public class Player : MonoBehaviour, ISubject
 {
+    [Header("Animation Settings")]
+    public AnimSettings IdleSettings;
+    public AnimSettings WalkSettings;
+    public AnimSettings PlaceSettings;
+    public AnimSettings GrabSettings;
+    public AnimSettings DeathSettings;
+    public AnimSettings ThrowSettings;
 
 
     [Header("CheckpointSystem")]
@@ -29,12 +31,18 @@ public class Player : MonoBehaviour, ISubject
 
     [SerializeField] private Tilemap _placeableTilemap;
     [SerializeField] private GameObject _torchPrefab;
+    private float _cellOffset = 0.2f;
+
+    public Tilemap PlaceableTilemap => _placeableTilemap;
+    public float CellOffset => _cellOffset;
+
+    public GameObject TorchPrefab => _torchPrefab;
 
     public void Attach(IObserver observer)
     {
         if (!_observers.Contains(observer))
         {
-            Debug.Log($"[Subject] {observer} si � registrato correttamente!");
+            Debug.Log($"[Subject] {observer} si è registrato correttamente!");
             _observers.Add(observer);
         }
     }
@@ -61,15 +69,12 @@ public class Player : MonoBehaviour, ISubject
 
 
         StateMachine = new GenericStateMachine<ECharacterStates>();
-        _deathState = new DeathCharacterState(this, _playerController);
-
-        StateMachine.RegisterState(ECharacterStates.Idle, new IdleCharacterState(this, _playerController));
-        StateMachine.RegisterState(ECharacterStates.Walk, new WalkCharacterState(this, _playerController));
-        StateMachine.RegisterState(ECharacterStates.Place, new PlaceCharacterState(this, _playerController, _placeableTilemap, _torchPrefab));
-        StateMachine.RegisterState(ECharacterStates.Grab, new GrabCharacterState(this, _playerController, _torchPrefab, _placeableTilemap));
-        StateMachine.RegisterState(ECharacterStates.Death, new DeathCharacterState(this, _playerController));
-        //StateMachine.RegisterState(ECharacterStates.Throw, new ThrowCharacterState(this, _playerController));
-
+        StateMachine.RegisterState(ECharacterStates.Idle, new IdleCharacterState(this, _playerController, Animator));
+        StateMachine.RegisterState(ECharacterStates.Walk, new WalkCharacterState(this, _playerController, Animator));
+        StateMachine.RegisterState(ECharacterStates.Place, new PlaceCharacterState(this, _playerController, _placeableTilemap, _torchPrefab, Animator));
+        StateMachine.RegisterState(ECharacterStates.Grab, new GrabCharacterState(this, _playerController, _torchPrefab, _placeableTilemap, Animator));
+        StateMachine.RegisterState(ECharacterStates.Death, new DeathCharacterState(this, _playerController, Animator));
+        StateMachine.RegisterState(ECharacterStates.Throw, new ThrowCharacterState(this,_playerController,Animator));
         StateMachine.SetState(ECharacterStates.Idle);
         _currentState = StateMachine.CurrentState;
     }
@@ -100,6 +105,19 @@ public class Player : MonoBehaviour, ISubject
         _currentState?.OnFixedUpdate();
     }
 
+    private void OnEnable()
+
+    {
+        if(InventoryManager.Instance != null) 
+        InventoryManager.Instance.OnSelectionChange += EquipEmitter;
+    }
+
+    private void OnDisable()
+    {
+        if(InventoryManager.Instance!= null)
+        InventoryManager.Instance.OnSelectionChange -= EquipEmitter;
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -119,62 +137,15 @@ public class Player : MonoBehaviour, ISubject
         {
             collisionState.OnTriggerEnter2D(collision);
         }
-
-        // TODO: Remove
-        //if (!_isRespawning)
-        //{
-        //    if (collision.TryGetComponent<MummyObstacle>(out var mummy))
-        //    {
-        //        _deathState.SetUpDeath(true);
-        //        SetState(ECharacterStates.Death);
-        //    }
-
-        //    else if (collision.TryGetComponent<Obstacle>(out var obstacle))
-        //    {
-        //        _deathState.SetUpDeath(false);
-        //        SetState(ECharacterStates.Death);
-        //    }
-        //}
-
     }
 
-    // TODO: Remove
-    private IEnumerator FallAndRespawnCoroutine()
-    {
-        _isRespawning = true;
-
-        float timer = 0f;
-        Vector3 startScale = transform.localScale;
-        while (timer < _fallDuration)
-        {
-            timer += Time.deltaTime;
-            float t = timer / _fallDuration;
-
-            float scale = Mathf.Lerp(0.5f, 1f, _fallCurve.Evaluate(t));
-
-            transform.localScale = new Vector3(scale, scale, scale);
-            yield return null;
-
-        }
-        Respawn();
-        transform.localScale = startScale;
-        _isRespawning = false;
-    }
-
-    // TODO: create private and public getter for DeathType var
-    public void SetDeath(DeathType type)
+    public void SetDeath()
     {
         if (!_isRespawning)
         {
             _isRespawning = true;
             SetState(ECharacterStates.Death);
         }
-    }
-    // TODO: move to single script
-    public enum DeathType
-    {
-        Normal,
-        RespawnToFirst,
     }
 
     public void Respawn()
@@ -193,13 +164,7 @@ public class Player : MonoBehaviour, ISubject
         }
     }
 
-    public void RespawnToFirst()
-    {
-        if (CheckPoints.Count > 0 && !_isRespawning)
-        {
-            _currentCheckpoint = CheckPoints[0];
-        }
-    }
+
 
     public void EquipEmitter(GameObject newTorch)
     {
@@ -210,9 +175,36 @@ public class Player : MonoBehaviour, ISubject
     {
         if (StateMachine.CurrentState is DeathCharacterState || _isRespawning) return;
 
-        Vector3 targetWorldPos = transform.position + (Vector3)_playerController.LastLookDirection * 0.8f;
+     
+        if (InventoryManager.Instance.SelectedType == TorchType.Magical)
+        {
+           
+            bool isTorchPlacedInWorld = PlacementManager.Instance.FindMagicalTorch().HasValue;
 
-        Debug.Log("Premuto E");
+            if (isTorchPlacedInWorld)
+            {
+               
+                SetState(ECharacterStates.Grab);
+                return;
+            }
+
+       
+        }
+
+       
+        Vector3 targetWorldPos = transform.position + (Vector3)_playerController.LastLookDirection * _cellOffset;
+        Vector3Int cellPos = _placeableTilemap.WorldToCell(targetWorldPos);
+
+        if (!PlacementManager.Instance.IsCellAvailable(_placeableTilemap, cellPos))
+        {
+            Vector3 cellCenter = _placeableTilemap.GetCellCenterWorld(cellPos);
+
+            if (Vector2.Distance(transform.position, cellCenter) <= 0.6f)
+            {
+                SetState(ECharacterStates.Grab);
+                return;
+            }
+        }
         SetState(ECharacterStates.Place);
     }
 
@@ -223,7 +215,6 @@ public class Player : MonoBehaviour, ISubject
 
     public void HandleSwitch()
     {
-        //_inventoryManager.ChangeSelection();
-        //EquipEmitter(_inventoryManager.GetSelectedItem().Prefab);
+        InventoryManager.Instance.SwitchSelection();
     }
 }

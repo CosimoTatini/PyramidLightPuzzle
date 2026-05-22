@@ -7,8 +7,8 @@ public class Obstacle : MonoBehaviour
     {
         if(collision.gameObject.TryGetComponent( out Player player ))
         {
-            player.SetDeath(Player.DeathType.Normal);
-           Debug.Log(collision.gameObject.name);
+         player.SetDeath();
+         Debug.Log(collision.gameObject.name);
         }
 
     }
