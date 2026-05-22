@@ -113,7 +113,7 @@ MonoBehaviour:
   m_LightType: 3
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_Intensity: 0.5
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
@@ -163,9 +163,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: LightSystem::LightEmitter
   _light: {fileID: 5384488082815668281}
   _baseColor: {r: 0.1, g: 0.1, b: 0.1, a: 1}
-  _redAmount: 0
-  _greenAmount: 0
-  _blueAmount: 0
+  _redAmount: 2
+  _greenAmount: 2
+  _blueAmount: 2
   _maxAmount: 4
   CanUpdateLight: 0
 --- !u!58 &8530101943984888043

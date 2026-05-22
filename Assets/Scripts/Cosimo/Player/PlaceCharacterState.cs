@@ -45,6 +45,7 @@ public class PlaceCharacterState : IStateCollision2D
         
     }
 
+    //TODO: after torch place and grab, player stops moving, make it so after animation is done player keeps moving if input is still on
     public void OnStart()
     {
         _ownerController.Rb.linearVelocity = Vector2.zero;
