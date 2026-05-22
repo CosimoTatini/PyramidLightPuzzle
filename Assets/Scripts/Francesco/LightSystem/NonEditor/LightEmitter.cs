@@ -85,6 +85,13 @@ public class LightEmitter : MonoBehaviour
         }
     }
 
+    public void SetToZero()
+    {
+        RedAmount = 0;
+        GreenAmount = 0;
+        BlueAmount = 0;
+    }
+
 
 #if UNITY_EDITOR
     private int _previousRedAmount;
@@ -125,6 +132,10 @@ public class LightEmitter : MonoBehaviour
                 Debug.LogError($"LightEmitter on {gameObject.name} requires a Light2D component.");
             }
         }
+        else
+        {
+            UpdateLight();
+        }
     }
 
     private void UpdateLight()
@@ -133,10 +144,12 @@ public class LightEmitter : MonoBehaviour
 
         if (_redAmount == 0 && _greenAmount == 0 && _blueAmount == 0)
         {
-            _light.color = _baseColor;
+            _light.enabled = false;
             OnLightChanged?.Invoke(this);
             return;
         }
+
+        if (!_light.enabled) _light.enabled = true;
 
         float r = Mathf.Clamp01((float)_redAmount / _maxAmount);
         float g = Mathf.Clamp01((float)_greenAmount / _maxAmount);
