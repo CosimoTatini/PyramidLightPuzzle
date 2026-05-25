@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 
 internal class GrabCharacterState : IStateCollision2D
 {
-   //TODO: when i collect the torch, i can collect it even if the player is a few outside the cell, i can retrieve it if the whole player is fully in the cell
+   //TODO: i have selected Magic Torch in Ui and i am over a normal torch don't play grab animation
     private Player _owner;
     private PlayerController _ownerController;
     private GameObject _torch;
@@ -37,6 +37,7 @@ internal class GrabCharacterState : IStateCollision2D
 
     public void OnEnd()
     {
+        _timer = 0;
     }
 
     public void OnFixedUpdate()
@@ -46,20 +47,15 @@ internal class GrabCharacterState : IStateCollision2D
 
     public void OnStart()
     {
-        _timer = 0;
-        _ownerController.Rb.linearVelocity = Vector2.zero; 
-
-       
-        _owner.Animator.Play(_owner.GrabSettings.clipName);
+        _ownerController.Rb.linearVelocity = Vector2.zero;
 
         GameObject itemToPick = null;
         Vector3Int targetCellPos = Vector3Int.zero;
         bool isMagicalRecall = (InventoryManager.Instance.SelectedType == TorchType.Magical);
 
-    
+       
         if (isMagicalRecall)
         {
-          
             var magicalTorchData = PlacementManager.Instance.FindMagicalTorch();
             if (magicalTorchData.HasValue)
             {
@@ -67,40 +63,29 @@ internal class GrabCharacterState : IStateCollision2D
                 targetCellPos = magicalTorchData.Value.Key;
             }
         }
-        
         else
         {
-           
-            Vector3 interactionPos = _owner.transform.position + (Vector3)_ownerController.LastLookDirection * 0.2f;
+            Vector3 interactionPos = _owner.transform.position;
             targetCellPos = _owner.PlaceableTilemap.WorldToCell(interactionPos);
-
-           
-            Vector3 cellCenter = _owner.PlaceableTilemap.GetCellCenterWorld(targetCellPos);
-            _owner.transform.position = new Vector3(cellCenter.x, cellCenter.y, _owner.transform.position.z);
-
-            
             itemToPick = PlacementManager.Instance.GetItemAt(targetCellPos);
         }
 
         if (itemToPick != null)
         {
-           
+            _owner.Animator.Play(_owner.GrabSettings.clipName);
+
             TorchType typeToReturn = isMagicalRecall ? TorchType.Magical : TorchType.Normal;
 
-            
             InventoryManager.Instance.ReturnTorch(typeToReturn);
-
-            
             PlacementManager.Instance.UnregisterItem(targetCellPos);
-
-           
             GameObject.Destroy(itemToPick);
 
             Debug.Log($"[Grab] Raccolta torcia {typeToReturn} dalla cella {targetCellPos}. Contatore aggiornato!");
         }
         else
         {
-            Debug.LogWarning($"[Grab] Nessuna torcia trovata per il tipo selezionato: {InventoryManager.Instance.SelectedType}");
+            Debug.LogWarning($"[Grab] Nessuna torcia valida trovata per il tipo selezionato: {InventoryManager.Instance.SelectedType}");
+            _owner.SetState(ECharacterStates.Idle);
         }
     }
 

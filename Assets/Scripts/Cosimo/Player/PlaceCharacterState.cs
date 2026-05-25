@@ -6,6 +6,7 @@ using UnityEngine.Tilemaps;
 
 public class PlaceCharacterState : IStateCollision2D
 {
+    //TODO: if player is over a torch but he has a free tile in looking direction, i can place torches.
     private Player _owner;
     private PlayerController _ownerController;
     private Tilemap _tilemap;
@@ -131,10 +132,19 @@ public class PlaceCharacterState : IStateCollision2D
     public void OnUpdate()
     {
         _timer += Time.deltaTime;
-        
-        if(_timer >= _owner.PlaceSettings.clip.length)
+
+      
+        if (_timer >= _owner.PlaceSettings.clip.length)
         {
-            _owner.SetState(ECharacterStates.Idle);
+            
+            if (_ownerController.MoveDirection.sqrMagnitude > 0.01f)
+            {
+                _owner.SetState(ECharacterStates.Walk);
+            }
+            else
+            {
+                _owner.SetState(ECharacterStates.Idle);
+            }
         }
     }
 
