@@ -3,8 +3,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[CreateAssetMenu(menuName = "ScriptableObjects/"+ nameof(InputAssetSO))]
-public class InputAssetSO : ScriptableObject
+[CreateAssetMenu(menuName = "ScriptableObjects/"+ nameof(InputConfigSO))]
+public class InputConfigSO : ScriptableObject
 {
     [SerializeField] private List<InputMapStruct> _inputMapStructs = new();
 

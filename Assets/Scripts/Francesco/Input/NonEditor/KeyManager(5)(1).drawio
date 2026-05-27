@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net">
   <diagram name="Page-1" id="y1Hnv7AtZWwK2BomEpqB">
-    <mxGraphModel dx="1230" dy="725" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1717" dy="1067" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -298,32 +298,23 @@
         <mxCell id="ebYp-QvZIiAiaYMBvIA2-154" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=light-dark(#0050EF,#43BA43);strokeColor=#001DBC;fontColor=#ffffff;" value="Variables" vertex="1">
           <mxGeometry height="40" width="120" x="920" y="880" as="geometry" />
         </mxCell>
-        <mxCell id="ebYp-QvZIiAiaYMBvIA2-155" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;" value="_inputActions PlayerInput" vertex="1">
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-155" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;" value="_inputActionCollections List&amp;lt;IInputActionCollection2&amp;gt;" vertex="1">
           <mxGeometry height="40" width="360" x="960" y="920" as="geometry" />
         </mxCell>
-        <mxCell id="ebYp-QvZIiAiaYMBvIA2-156" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=light-dark(#FFFFFF,#333333);" value="_otherActions OtherInput" vertex="1">
-          <mxGeometry height="40" width="360" x="960" y="960" as="geometry" />
-        </mxCell>
         <mxCell id="ebYp-QvZIiAiaYMBvIA2-157" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=light-dark(#008A00,#9999FF);fontColor=#ffffff;strokeColor=#005700;" value="Properties" vertex="1">
-          <mxGeometry height="40" width="120" x="920" y="1000" as="geometry" />
-        </mxCell>
-        <mxCell id="ebYp-QvZIiAiaYMBvIA2-158" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;" value="PlayerInput InputActions =&amp;gt; {get&amp;nbsp; _inputActions}{private set}" vertex="1">
-          <mxGeometry height="40" width="360" x="960" y="1040" as="geometry" />
-        </mxCell>
-        <mxCell id="ebYp-QvZIiAiaYMBvIA2-159" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=light-dark(#FFFFFF,#333333);" value="OtherInput OtherActions =&amp;gt; {get _otherActions}{private set}" vertex="1">
-          <mxGeometry height="40" width="360" x="960" y="1080" as="geometry" />
+          <mxGeometry height="40" width="120" x="920" y="960" as="geometry" />
         </mxCell>
         <mxCell id="ebYp-QvZIiAiaYMBvIA2-160" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=light-dark(#E51400,#CCCC00);fontColor=#ffffff;strokeColor=#B20000;" value="Methods" vertex="1">
-          <mxGeometry height="40" width="120" x="920" y="1120" as="geometry" />
+          <mxGeometry height="40" width="120" x="920" y="1000" as="geometry" />
         </mxCell>
         <mxCell id="ebYp-QvZIiAiaYMBvIA2-163" edge="1" parent="1" source="ebYp-QvZIiAiaYMBvIA2-161" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="ebYp-QvZIiAiaYMBvIA2-162">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="ebYp-QvZIiAiaYMBvIA2-161" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;" value="public InputAction FindAction(actionGUID)" vertex="1">
-          <mxGeometry height="40" width="360" x="960" y="1160" as="geometry" />
+          <mxGeometry height="40" width="360" x="960" y="1040" as="geometry" />
         </mxCell>
         <mxCell id="ebYp-QvZIiAiaYMBvIA2-162" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" value="Search in each InputActions to find the InputAction, if none return null" vertex="1">
-          <mxGeometry height="40" width="400" x="1360" y="1160" as="geometry" />
+          <mxGeometry height="40" width="400" x="1360" y="1040" as="geometry" />
         </mxCell>
         <mxCell id="ebYp-QvZIiAiaYMBvIA2-168" edge="1" parent="1" source="ebYp-QvZIiAiaYMBvIA2-165" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="ebYp-QvZIiAiaYMBvIA2-166">
           <mxGeometry relative="1" as="geometry" />
@@ -342,6 +333,15 @@
         </mxCell>
         <mxCell id="ebYp-QvZIiAiaYMBvIA2-172" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" value="when the 0 index of the a List inside of the stack changes, we check whether it&#39;s enabled status is the same as the previous (if any), if not we need to call .Enable or .Disable on the cached InputAction and add it to Enable/Disabled&amp;nbsp; List (also remove the old one)" vertex="1">
           <mxGeometry height="40" width="750" x="1680" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="zMHSUBaBS-TD4UpG8p1g-3" edge="1" parent="1" source="zMHSUBaBS-TD4UpG8p1g-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="zMHSUBaBS-TD4UpG8p1g-2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zMHSUBaBS-TD4UpG8p1g-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;" value="public T GetInputSystemInstance&amp;lt;T&amp;gt; where T : class, IInpuActionCollection2, new()" vertex="1">
+          <mxGeometry height="40" width="360" x="960" y="1080" as="geometry" />
+        </mxCell>
+        <mxCell id="zMHSUBaBS-TD4UpG8p1g-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" value="Returns the InputSystemInstance of type T, if it doesn&#39;t exist it creates it and adds it to the list" vertex="1">
+          <mxGeometry height="40" width="400" x="1360" y="1080" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

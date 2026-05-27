@@ -25,3 +25,13 @@ MonoBehaviour:
     InputActionStructs: []
   - Guid: 0
     InputActionStructs: []
+  - Guid: df70fa95-8a34-4494-b137-73ab6b9c7d37
+    InputActionStructs:
+    - Priority: 0
+      Guid: 351f2ccd-1f9f-44bf-9bec-d62ac5c5f408
+      Enabled: 0
+    - Priority: 0
+      Guid: 27c5f898-bc57-4ee1-8800-db469aca5fe3
+      Enabled: 1
+  - Guid: 272f6d14-89ba-496f-b7ff-215263d3219f
+    InputActionStructs: []
