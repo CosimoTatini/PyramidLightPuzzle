@@ -19,14 +19,14 @@ public class InputThing : MonoBehaviour
 
     public void Ac()
     {
-        InputSystem_Actions inputSystem_Actions = new InputSystem_Actions();
-        actionAsset = inputSystem_Actions.asset;
-        actionAsset.actionMaps[0].Enable();
-        inputSystem_Actions.Disable();
-        inputSystem_Actions.FindAction().enabled;
-        actionAsset.find
-        actionMap.id;
-        action.id;
+        // InputSystem_Actions inputSystem_Actions = new InputSystem_Actions();
+        // actionAsset = inputSystem_Actions.asset;
+        // actionAsset.actionMaps[0].Enable();
+        // inputSystem_Actions.Disable();
+        // inputSystem_Actions.FindAction().enabled;
+        // actionAsset.find
+        // actionMap.id;
+        // action.id;
     }
 
     /*
