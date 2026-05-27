@@ -28,7 +28,7 @@ public class Player : MonoBehaviour, ISubject
     private IState _currentState;
     [SerializeField] private ECharacterStates _currentStateEnum;
     private DeathCharacterState _deathState;
-
+    public GameObject DetectedObject { get; set; }
     [SerializeField] private Tilemap _placeableTilemap;
     [SerializeField] private GameObject _torchPrefab;
     private float _cellOffset = 0.2f;

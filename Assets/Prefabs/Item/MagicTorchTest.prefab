@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 813339124281654548}
   - component: {fileID: 3366265585978532938}
   - component: {fileID: 5424006790107384785}
+  - component: {fileID: 4302490538080836231}
   m_Layer: 6
   m_Name: MagicTorchTest
   m_TagString: Untagged
@@ -260,3 +261,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: LightSystem::MagicalTorch
   _light: {fileID: 5384488082815668281}
+--- !u!114 &4302490538080836231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5815135948996897342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 401b926eb64d5a14392e15199f2065a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: inventory::TypeChooser
+  _type: 1

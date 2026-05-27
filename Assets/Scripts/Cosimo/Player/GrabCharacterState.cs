@@ -1,10 +1,11 @@
-﻿using Codice.Client.Common.GameUI;
+﻿using Assets.Scripts.Cosimo.Inventory;
+using Codice.Client.Common.GameUI;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 internal class GrabCharacterState : IStateCollision2D
-{
-   //TODO: i have selected Magic Torch in Ui and i am over a normal torch don't play grab animation
+{ 
+    // TODO: Need to be more precise. 
     private Player _owner;
     private PlayerController _ownerController;
     private GameObject _torch;
@@ -79,14 +80,28 @@ internal class GrabCharacterState : IStateCollision2D
             InventoryManager.Instance.ReturnTorch(typeToReturn);
             PlacementManager.Instance.UnregisterItem(targetCellPos);
             GameObject.Destroy(itemToPick);
-
             Debug.Log($"[Grab] Raccolta torcia {typeToReturn} dalla cella {targetCellPos}. Contatore aggiornato!");
+            return;
         }
-        else
+       
+
+        
+
+        if(_owner.DetectedObject!=null && _owner.DetectedObject.TryGetComponent<PowderColorChooser>(out var powderData))
         {
-            Debug.LogWarning($"[Grab] Nessuna torcia valida trovata per il tipo selezionato: {InventoryManager.Instance.SelectedType}");
-            _owner.SetState(ECharacterStates.Idle);
+            _owner.Animator.Play(_owner.GrabSettings.clipName);
+
+            PowderColor color = powderData.Color;
+
+            InventoryManager.Instance.AddPowder(color, 1);
+
+            GameObject.Destroy(_owner.DetectedObject);
+            _owner.DetectedObject=null;
+            return;
         }
+
+        _owner.SetState(ECharacterStates.Idle);
+
     }
 
     public void OnTriggerEnter2D(Collider2D collider)

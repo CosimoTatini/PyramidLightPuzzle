@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
@@ -6,6 +7,7 @@ using UnityEngine.Tilemaps;
 public class PlacementManager : MonoBehaviour
 {
    public static PlacementManager Instance;
+    [SerializeField] private Tilemap _targetTilemap;
    private Dictionary<Vector3Int,GameObject> _placedItems= new Dictionary<Vector3Int,GameObject>();
    private Dictionary<Tilemap,HashSet<Vector3Int>> _restrictedCells= new Dictionary<Tilemap, HashSet<Vector3Int>>();
    private Dictionary<Vector3Int, TorchType> _torchTypes = new Dictionary<Vector3Int, TorchType>();
@@ -22,6 +24,29 @@ public class PlacementManager : MonoBehaviour
     }
     #endregion
 
+    private void Start()
+    {
+        RegisterPreExistentTorches();
+    }
+
+    private void RegisterPreExistentTorches()
+    {
+        TypeChooser[] torchesType = FindObjectsByType<TypeChooser>(FindObjectsSortMode.None);
+
+        foreach (var torch in torchesType)
+        {
+            Vector3Int cellPos= _targetTilemap.WorldToCell(torch.transform.position);
+
+            if(!_placedItems.ContainsKey(cellPos))
+            {
+                _placedItems.Add(cellPos,torch.gameObject);
+            }
+            else
+            {
+                Debug.Log("Pippo");
+            }
+        }
+    }
 
     public void SetCellRestriction(Tilemap tilemap,Vector3Int cellPos,bool isRestricted)
     {
@@ -96,23 +121,27 @@ public class PlacementManager : MonoBehaviour
 
     public KeyValuePair<Vector3Int, GameObject>? FindMagicalTorch()
     {
-        foreach (var pair in _torchTypes)
+        foreach (var pair in _placedItems)
         {
-           if(pair.Value==TorchType.Magical)
-           {
-             Vector3Int cellPos= pair.Key;
-
-                if(_placedItems.TryGetValue(cellPos,out GameObject torch))
+            
+            if (pair.Value != null && pair.Value.TryGetComponent<TypeChooser>(out var torch))
+            {
+                
+                if (torch.Type== TorchType.Magical)
                 {
-                    return new KeyValuePair<Vector3Int, GameObject>(cellPos, torch);
+                    return pair; 
                 }
-           }
+            }
         }
+
+       
         return null;
     }
-
-
-
-
-
 }
+
+
+
+
+
+
+

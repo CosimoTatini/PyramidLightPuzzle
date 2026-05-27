@@ -13,7 +13,7 @@ public class InventoryManager : MonoBehaviour
     public GameObject MagicalTorchPrefab;
     
     [Header("Settings")]
-    public readonly int TorchMaxQuanitity = 4;
+    public int TorchMaxQuanitity = 4;
     public readonly int MagicalTorchQuantity = 1;
     private int _currentTorchQuantity;
     private int _currentMagicalTorchQuantity;
@@ -26,13 +26,14 @@ public class InventoryManager : MonoBehaviour
 
     private Dictionary<PowderColor, int> _powders= new Dictionary<PowderColor, int>()
     {
-        {PowderColor.Red,5 },
-        {PowderColor.Green,5},
-        {PowderColor.Blue,5},
+        {PowderColor.Red,0 },
+        {PowderColor.Green,0},
+        {PowderColor.Blue,0},
     };
     public PowderColor SelectedPowder {  get; private set; } = PowderColor.Red;
     public event Action OnPowderChanged;
-    
+
+    #region SINGLETON_INSTANCE
     private void Awake()
     {
         if(Instance != null && Instance!=this)
@@ -41,10 +42,11 @@ public class InventoryManager : MonoBehaviour
             return;
         }
         Instance=this;
-        _currentTorchQuantity = TorchMaxQuanitity;
-        _currentMagicalTorchQuantity= MagicalTorchQuantity;
+        _currentTorchQuantity = 0;
+        _currentMagicalTorchQuantity= 0;
 
     }
+    #endregion
 
     #region TORCH_METHODS
     public void UseTorch()
@@ -98,6 +100,15 @@ public class InventoryManager : MonoBehaviour
     #endregion
 
     #region POWDER_METHODS
+
+    public void AddPowder(PowderColor color,int amount)
+    {
+        if(_powders.ContainsKey(color))
+        {
+            _powders[color] += amount;
+            OnPowderChanged?.Invoke();
+        }
+    }
     public int GetPowderCount(PowderColor color) => _powders[color];
     
     public void SelectPowder(PowderColor color)
