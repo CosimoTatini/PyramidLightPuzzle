@@ -3,6 +3,7 @@
   <Project Path="Assembly-CSharp-Editor.csproj" />
   <Project Path="DesignPatterns.csproj" />
   <Project Path="InventorySystem.csproj" />
+  <Project Path="InputTry.csproj" />
   <Project Path="Obstacles.csproj" />
   <Project Path="inventory.csproj" />
   <Project Path="Enemy.csproj" />

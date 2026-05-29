@@ -1,0 +1,349 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="y1Hnv7AtZWwK2BomEpqB">
+    <mxGraphModel dx="1717" dy="1067" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-63" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=7;fillColor=light-dark(#FFFFFF,transparent);labelPosition=center;verticalLabelPosition=top;align=center;verticalAlign=bottom;" value="&lt;font style=&quot;font-size: 24px;&quot;&gt;Input Config SO Editor&lt;/font&gt;" vertex="1">
+          <mxGeometry height="600" width="640" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-61" edge="1" parent="1" source="ebYp-QvZIiAiaYMBvIA2-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="ebYp-QvZIiAiaYMBvIA2-29">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;" value="PopUp Maps" vertex="1">
+          <mxGeometry height="40" width="200" x="40" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#76608a;fontColor=#ffffff;strokeColor=#432D57;" value="MapGUID" vertex="1">
+          <mxGeometry height="40" width="80" x="360" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" value="ActionGUID" vertex="1">
+          <mxGeometry height="40" width="80" x="400" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" value="ActionGUID" vertex="1">
+          <mxGeometry height="40" width="80" x="400" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-13" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" value="ActionGUID" vertex="1">
+          <mxGeometry height="40" width="80" x="400" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-15" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#cce5ff;strokeColor=#36393d;" value="InputAsset" vertex="1">
+          <mxGeometry height="40" width="80" x="320" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-16" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#76608a;fontColor=#ffffff;strokeColor=#432D57;" value="MapGUID" vertex="1">
+          <mxGeometry height="40" width="80" x="360" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-17" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" value="ActionGUID" vertex="1">
+          <mxGeometry height="40" width="80" x="400" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-18" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" value="ActionGUID" vertex="1">
+          <mxGeometry height="40" width="80" x="400" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-21" edge="1" parent="1" source="ebYp-QvZIiAiaYMBvIA2-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="ebYp-QvZIiAiaYMBvIA2-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-20" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;" value="Object Field InputAsset" vertex="1">
+          <mxGeometry height="40" width="200" x="40" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-22" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;fillColor=light-dark(#FFFFFF,#00994D);" value="Add Button" vertex="1">
+          <mxGeometry height="40" width="80" x="240" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-23" edge="1" parent="1" source="ebYp-QvZIiAiaYMBvIA2-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="ebYp-QvZIiAiaYMBvIA2-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-29" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;fillColor=light-dark(#FFFFFF,#67AB9F);" value="Map Name" vertex="1">
+          <mxGeometry height="40" width="200" x="40" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-31" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;fillColor=light-dark(#FFFFFF,#4D4D4D);" value="Action Name" vertex="1">
+          <mxGeometry height="40" width="160" x="120" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-32" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;fillColor=light-dark(#FFFFFF,#004C99);" value="bool Enabled Status" vertex="1">
+          <mxGeometry height="40" width="160" x="280" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-33" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;fillColor=light-dark(#FFFFFF,#FF9933);" value="int Priority" vertex="1">
+          <mxGeometry height="40" width="160" x="440" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-38" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;fillColor=light-dark(#FFFFFF,#67AB9F);" value="Map Name" vertex="1">
+          <mxGeometry height="40" width="200" x="40" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-39" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;fillColor=light-dark(#FFFFFF,#4D4D4D);" value="Action Name" vertex="1">
+          <mxGeometry height="40" width="160" x="120" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-40" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;fillColor=light-dark(#FFFFFF,#004C99);" value="bool Enabled Status" vertex="1">
+          <mxGeometry height="40" width="160" x="280" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-41" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;fillColor=light-dark(#FFFFFF,#FF9933);" value="int Priority" vertex="1">
+          <mxGeometry height="40" width="160" x="440" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-42" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;fillColor=light-dark(#FFFFFF,#67AB9F);" value="Map Name" vertex="1">
+          <mxGeometry height="40" width="200" x="40" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-43" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;fillColor=light-dark(#FFFFFF,#4D4D4D);" value="Action Name" vertex="1">
+          <mxGeometry height="40" width="160" x="120" y="880" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-44" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;fillColor=light-dark(#FFFFFF,#004C99);" value="bool Enabled Status" vertex="1">
+          <mxGeometry height="40" width="160" x="280" y="880" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-45" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;fillColor=light-dark(#FFFFFF,#FF9933);" value="int Priority" vertex="1">
+          <mxGeometry height="40" width="160" x="440" y="880" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-46" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;fillColor=light-dark(#FFFFFF,#4D4D4D);" value="Action Name" vertex="1">
+          <mxGeometry height="40" width="160" x="120" y="920" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-47" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;fillColor=light-dark(#FFFFFF,#004C99);" value="bool Enabled Status" vertex="1">
+          <mxGeometry height="40" width="160" x="280" y="920" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-48" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;fillColor=light-dark(#FFFFFF,#FF9933);" value="int Priority" vertex="1">
+          <mxGeometry height="40" width="160" x="440" y="920" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-49" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;fillColor=light-dark(#FFFFFF,#4D4D4D);" value="Action Name" vertex="1">
+          <mxGeometry height="40" width="160" x="120" y="960" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-50" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;fillColor=light-dark(#FFFFFF,#004C99);" value="bool Enabled Status" vertex="1">
+          <mxGeometry height="40" width="160" x="280" y="960" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-51" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;fillColor=light-dark(#FFFFFF,#FF9933);" value="int Priority" vertex="1">
+          <mxGeometry height="40" width="160" x="440" y="960" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-55" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;fillColor=light-dark(#FFFFFF,#4D4D4D);" value="Action Name" vertex="1">
+          <mxGeometry height="40" width="160" x="120" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-56" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;fillColor=light-dark(#FFFFFF,#004C99);" value="bool Enabled Status" vertex="1">
+          <mxGeometry height="40" width="160" x="280" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-57" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;fillColor=light-dark(#FFFFFF,#FF9933);" value="int Priority" vertex="1">
+          <mxGeometry height="40" width="160" x="440" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-58" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;fillColor=light-dark(#FFFFFF,#FF3333);" value="Remove Button" vertex="1">
+          <mxGeometry height="40" width="80" x="240" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-59" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;fillColor=light-dark(#FFFFFF,#FF3333);" value="Remove Button" vertex="1">
+          <mxGeometry height="40" width="80" x="240" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-60" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;fillColor=light-dark(#FFFFFF,#FF3333);" value="Remove Button" vertex="1">
+          <mxGeometry height="40" width="80" x="240" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-76" connectable="0" parent="1" style="group" value=" " vertex="1">
+          <mxGeometry height="280" width="240" x="880" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-74" parent="ebYp-QvZIiAiaYMBvIA2-76" style="rounded=1;whiteSpace=wrap;html=1;labelPosition=center;verticalLabelPosition=top;align=center;verticalAlign=bottom;" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;List&amp;lt;Struct MapSO&amp;gt;&lt;/font&gt;" vertex="1">
+          <mxGeometry height="280" width="240" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-66" parent="ebYp-QvZIiAiaYMBvIA2-76" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#76608a;fontColor=#ffffff;strokeColor=#432D57;" value="MapGUID" vertex="1">
+          <mxGeometry height="40" width="83.47826086956522" x="31.304347826086957" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-73" connectable="0" parent="ebYp-QvZIiAiaYMBvIA2-76" style="group" value="" vertex="1">
+          <mxGeometry height="160" width="166.95652173913044" x="31.304347826086957" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-69" parent="ebYp-QvZIiAiaYMBvIA2-73" style="rounded=1;whiteSpace=wrap;html=1;labelPosition=center;verticalLabelPosition=top;align=center;verticalAlign=bottom;fillColor=light-dark(#FFFFFF,#4D4D4D);" value="List&amp;lt;Struct ActionSO&amp;gt;" vertex="1">
+          <mxGeometry height="160" width="166.95652173913044" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-70" parent="ebYp-QvZIiAiaYMBvIA2-73" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" value="ActionGUID" vertex="1">
+          <mxGeometry height="40" width="83.47826086956522" x="20.869565217391305" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-71" parent="ebYp-QvZIiAiaYMBvIA2-73" style="rounded=1;whiteSpace=wrap;html=1;fillColor=light-dark(#B0E3E6,#0066CC);strokeColor=#0e8088;" value="Status" vertex="1">
+          <mxGeometry height="40" width="83.47826086956522" x="20.869565217391305" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-72" parent="ebYp-QvZIiAiaYMBvIA2-73" style="rounded=1;whiteSpace=wrap;html=1;fillColor=light-dark(#B0E3E6,#FF9933);strokeColor=#0e8088;" value="Priority" vertex="1">
+          <mxGeometry height="40" width="83.47826086956522" x="20.869565217391305" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-79" edge="1" parent="1" source="ebYp-QvZIiAiaYMBvIA2-77" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="ebYp-QvZIiAiaYMBvIA2-78">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-77" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Object Asks to put config" vertex="1">
+          <mxGeometry height="40" width="120" x="2000" y="960" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-81" edge="1" parent="1" source="ebYp-QvZIiAiaYMBvIA2-78" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="ebYp-QvZIiAiaYMBvIA2-80">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-78" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="InputManager registers the actions in the stack (cache them if not already)" vertex="1">
+          <mxGeometry height="40" width="240" x="1940" y="1040" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-80" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="InputManager checks if the position where an action is placed == 0, if so we need to update the corresponding InputAction status if != than current (enable or disable it)" vertex="1">
+          <mxGeometry height="110" width="240" x="1940" y="1110" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-82" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0050ef;strokeColor=#001DBC;fontColor=#ffffff;" value="InputManager" vertex="1">
+          <mxGeometry height="40" width="120" x="1200" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-83" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" value="Variables" vertex="1">
+          <mxGeometry height="40" width="120" x="1240" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-103" edge="1" parent="1" source="ebYp-QvZIiAiaYMBvIA2-84" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="ebYp-QvZIiAiaYMBvIA2-101">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-84" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;" value="_actionsStacks Dictionary&amp;lt;int, Dictionary&amp;lt;actionGUID, OrderedDescList&amp;lt;actionSO&amp;gt;&amp;gt;&amp;gt;" vertex="1">
+          <mxGeometry height="40" width="480" x="1280" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-107" edge="1" parent="1" source="ebYp-QvZIiAiaYMBvIA2-85" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="ebYp-QvZIiAiaYMBvIA2-106">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-85" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=light-dark(#FFFFFF,#333333);" value="_actionsCache Dictionary&amp;lt;int, Dictionary&amp;lt;actionGUID, InputAction&amp;gt;&amp;gt;" vertex="1">
+          <mxGeometry height="40" width="480" x="1280" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-87" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=light-dark(#E51400,#CCCC00);fontColor=#ffffff;strokeColor=#B20000;" value="Methods" vertex="1">
+          <mxGeometry height="40" width="120" x="1240" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-115" edge="1" parent="1" source="ebYp-QvZIiAiaYMBvIA2-90" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="ebYp-QvZIiAiaYMBvIA2-113">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-90" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;" value="public void RegisterAction(int id, ActionSO actionData)" vertex="1">
+          <mxGeometry height="40" width="360" x="1280" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-112" edge="1" parent="1" source="ebYp-QvZIiAiaYMBvIA2-91" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="ebYp-QvZIiAiaYMBvIA2-109">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-91" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;" value="_actionsEnabled Dictionary&amp;lt;int, List&amp;lt;InputAction&amp;gt;&amp;gt;" vertex="1">
+          <mxGeometry height="40" width="480" x="1280" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-117" edge="1" parent="1" source="ebYp-QvZIiAiaYMBvIA2-92" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="ebYp-QvZIiAiaYMBvIA2-110">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-92" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=light-dark(#FFFFFF,#333333);" value="_actionsDisabled Dictionary&amp;lt;int, List&amp;lt;InputAction&amp;gt;&amp;gt;" vertex="1">
+          <mxGeometry height="40" width="480" x="1280" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-116" edge="1" parent="1" source="ebYp-QvZIiAiaYMBvIA2-93" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="ebYp-QvZIiAiaYMBvIA2-114">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-93" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=light-dark(#FFFFFF,#333333);" value="public void UnregisterAction(int id, ActionSO actionData)" vertex="1">
+          <mxGeometry height="40" width="360" x="1280" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-100" edge="1" parent="1" source="ebYp-QvZIiAiaYMBvIA2-94" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="ebYp-QvZIiAiaYMBvIA2-99">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-94" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;" value="private InputAction GetAction(actionGUID)" vertex="1">
+          <mxGeometry height="40" width="360" x="1280" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-99" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" value="given a GUID returns the relative InputAction, first checks the cache, if not found it loads it from the InputActionAsset" vertex="1">
+          <mxGeometry height="40" width="360" x="1680" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-101" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" value="for each id (input receivers), save for each single action the list of actionSO that modify that action&#39;s status, ordered desc on priority, this makes it faster to access the actionSO in charge (index 0)" vertex="1">
+          <mxGeometry height="40" width="600" x="1800" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-106" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" value="a simple cache for InputActions, so we don&#39;t need to do FindAction everytime" vertex="1">
+          <mxGeometry height="40" width="360" x="1800" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-109" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" value="keeps track of the enabled actions, so _actionStacks 0s indexes with enabled = true&amp;nbsp;" vertex="1">
+          <mxGeometry height="40" width="360" x="1800" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-110" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" value="keeps track of the disabled actions, so _actionStacks 0s indexes with enabled = false" vertex="1">
+          <mxGeometry height="40" width="360" x="1800" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-113" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" value="registers an action to _actionStacks, if id doesn&#39;t exist creates it, if dictionary doesn&#39;t exist creates it, if List doesn&#39;t exist creates it, if the actionGuid doesn&#39;t exist in the cache, cache the InputAction" vertex="1">
+          <mxGeometry height="40" width="560" x="1680" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-114" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" value="unregisters an action from _actionStacks, if player doesn&#39;t exist return, if dictionary doesn&#39;t exist return" vertex="1">
+          <mxGeometry height="40" width="360" x="1680" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-118" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Use binary search for the ordered list, both when reading and writing" vertex="1">
+          <mxGeometry height="30" width="230" x="1540" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-119" edge="1" parent="1" source="ebYp-QvZIiAiaYMBvIA2-118" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.78;entryY=0.016;entryDx=0;entryDy=0;entryPerimeter=0;" target="ebYp-QvZIiAiaYMBvIA2-84">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-120" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=light-dark(#008A00,#9999FF);fontColor=#ffffff;strokeColor=#005700;" value="Properties" vertex="1">
+          <mxGeometry height="40" width="120" x="1240" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-124" edge="1" parent="1" source="ebYp-QvZIiAiaYMBvIA2-122" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="ebYp-QvZIiAiaYMBvIA2-123">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-122" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=light-dark(#FFFFFF,#333333);" value="public IReadOnlyList&amp;lt;InputAction&amp;gt; GetEnabledActions(int id)" vertex="1">
+          <mxGeometry height="40" width="360" x="1280" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-123" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" value="given an id returns a read only list of the enabled InputActions" vertex="1">
+          <mxGeometry height="40" width="360" x="1680" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-130" edge="1" parent="1" source="ebYp-QvZIiAiaYMBvIA2-125" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="ebYp-QvZIiAiaYMBvIA2-126">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-125" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=#FFFFFF;" value="public IReadOnlyList&amp;lt;InputAction&amp;gt; GetDisabledActions(int id)" vertex="1">
+          <mxGeometry height="40" width="360" x="1280" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-126" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" value="given an id returns a read only list of the disabled InputActions" vertex="1">
+          <mxGeometry height="40" width="360" x="1680" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-128" edge="1" parent="1" source="ebYp-QvZIiAiaYMBvIA2-127" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="ebYp-QvZIiAiaYMBvIA2-82">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-127" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Singleton" vertex="1">
+          <mxGeometry height="30" width="60" x="1230" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-169" edge="1" parent="1" source="ebYp-QvZIiAiaYMBvIA2-131" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="ebYp-QvZIiAiaYMBvIA2-136">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-131" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=light-dark(#4D4D4D,#333333);" value="public void RegistrActionMap(int id, MapSO mapData)" vertex="1">
+          <mxGeometry height="40" width="360" x="1280" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-135" edge="1" parent="1" source="ebYp-QvZIiAiaYMBvIA2-133" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="ebYp-QvZIiAiaYMBvIA2-72">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-133" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="It&#39;s unique for each action" vertex="1">
+          <mxGeometry height="40" width="80" x="750" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-136" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" value="registers all of the actions inside a MapSO for the given id, simply calls in a loop RegisterAction for all of the ActionSO inside the MapSO&amp;nbsp;" vertex="1">
+          <mxGeometry height="40" width="400" x="1680" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-139" edge="1" parent="1" source="ebYp-QvZIiAiaYMBvIA2-137" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="ebYp-QvZIiAiaYMBvIA2-138">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-137" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=#FFFFFF;" value="private void UnregisterActionMap(int id, MapSO mapData)" vertex="1">
+          <mxGeometry height="40" width="360" x="1280" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-138" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" value="unregisters all of the actions inside a MapSO for the given id, simply calls in a loop UnregisterAction for all of the ActionSO inside the MapSO&amp;nbsp;" vertex="1">
+          <mxGeometry height="40" width="400" x="1680" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-142" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;" value="_inputBundles Dictionary&amp;lt;int, InputBundle&amp;gt;" vertex="1">
+          <mxGeometry height="40" width="480" x="1280" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-152" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=light-dark(#0050EF,#66B2FF);strokeColor=#001DBC;fontColor=#ffffff;" value="PlayerBundle" vertex="1">
+          <mxGeometry height="40" width="120" x="880" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-154" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=light-dark(#0050EF,#43BA43);strokeColor=#001DBC;fontColor=#ffffff;" value="Variables" vertex="1">
+          <mxGeometry height="40" width="120" x="920" y="880" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-155" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;" value="_inputActionCollections List&amp;lt;IInputActionCollection2&amp;gt;" vertex="1">
+          <mxGeometry height="40" width="360" x="960" y="920" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-157" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=light-dark(#008A00,#9999FF);fontColor=#ffffff;strokeColor=#005700;" value="Properties" vertex="1">
+          <mxGeometry height="40" width="120" x="920" y="960" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-160" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=light-dark(#E51400,#CCCC00);fontColor=#ffffff;strokeColor=#B20000;" value="Methods" vertex="1">
+          <mxGeometry height="40" width="120" x="920" y="1000" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-163" edge="1" parent="1" source="ebYp-QvZIiAiaYMBvIA2-161" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="ebYp-QvZIiAiaYMBvIA2-162">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-161" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;" value="public InputAction FindAction(actionGUID)" vertex="1">
+          <mxGeometry height="40" width="360" x="960" y="1040" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-162" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" value="Search in each InputActions to find the InputAction, if none return null" vertex="1">
+          <mxGeometry height="40" width="400" x="1360" y="1040" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-168" edge="1" parent="1" source="ebYp-QvZIiAiaYMBvIA2-165" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="ebYp-QvZIiAiaYMBvIA2-166">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-165" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=light-dark(#4D4D4D,#333333);" value="private bool CacheAction(int id, actionGUID)" vertex="1">
+          <mxGeometry height="40" width="360" x="1280" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-166" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" value="caches the action if not already, searches inside the player bundle by using the findAction method, if none found return false" vertex="1">
+          <mxGeometry height="40" width="400" x="1680" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-173" edge="1" parent="1" source="ebYp-QvZIiAiaYMBvIA2-171" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="ebYp-QvZIiAiaYMBvIA2-172">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-171" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=#FFFFFF;" value="private void SetActionActive(actionGUID)" vertex="1">
+          <mxGeometry height="40" width="360" x="1280" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="ebYp-QvZIiAiaYMBvIA2-172" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" value="when the 0 index of the a List inside of the stack changes, we check whether it&#39;s enabled status is the same as the previous (if any), if not we need to call .Enable or .Disable on the cached InputAction and add it to Enable/Disabled&amp;nbsp; List (also remove the old one)" vertex="1">
+          <mxGeometry height="40" width="750" x="1680" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="zMHSUBaBS-TD4UpG8p1g-3" edge="1" parent="1" source="zMHSUBaBS-TD4UpG8p1g-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="zMHSUBaBS-TD4UpG8p1g-2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zMHSUBaBS-TD4UpG8p1g-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;" value="public T GetInputSystemInstance&amp;lt;T&amp;gt; where T : class, IInpuActionCollection2, new()" vertex="1">
+          <mxGeometry height="40" width="360" x="960" y="1080" as="geometry" />
+        </mxCell>
+        <mxCell id="zMHSUBaBS-TD4UpG8p1g-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" value="Returns the InputSystemInstance of type T, if it doesn&#39;t exist it creates it and adds it to the list" vertex="1">
+          <mxGeometry height="40" width="400" x="1360" y="1080" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
