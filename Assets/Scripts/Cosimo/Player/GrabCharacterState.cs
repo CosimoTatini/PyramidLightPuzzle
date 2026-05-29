@@ -83,9 +83,9 @@ internal class GrabCharacterState : IStateCollision2D
 
             InventoryManager.Instance.ReturnTorch(typeToReturn);
             PlacementManager.Instance.UnregisterItem(targetCellPos);
-            GameObject.Destroy(itemToPick); //
+            GameObject.Destroy(itemToPick); 
             Debug.Log($"[Grab] Raccolta torcia {typeToReturn} dalla cella {targetCellPos}. Contatore aggiornato!"); 
-            return; //
+            return; 
         }
 
 
