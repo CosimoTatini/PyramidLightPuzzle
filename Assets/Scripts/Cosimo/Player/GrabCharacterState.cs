@@ -47,46 +47,49 @@ internal class GrabCharacterState : IStateCollision2D
 
     public void OnStart()
     {
-        _ownerController.Rb.linearVelocity = Vector2.zero;
+        _ownerController.Rb.linearVelocity = Vector2.zero; 
 
-        GameObject itemToPick = null;
-        Vector3Int targetCellPos = Vector3Int.zero;
-        bool isMagicalRecall = (InventoryManager.Instance.SelectedType == TorchType.Magical);
+        GameObject itemToPick = null; 
+        Vector3Int targetCellPos = Vector3Int.zero; 
+        bool isMagicalRecall = (InventoryManager.Instance.SelectedType == TorchType.Magical); 
 
-       
-        if (isMagicalRecall)
+        if (isMagicalRecall) 
         {
-            var magicalTorchData = PlacementManager.Instance.FindMagicalTorch();
-            if (magicalTorchData.HasValue)
+            var magicalTorchData = PlacementManager.Instance.FindMagicalTorch(); 
+            if (magicalTorchData.HasValue) 
             {
-                itemToPick = magicalTorchData.Value.Value;
-                targetCellPos = magicalTorchData.Value.Key;
+                itemToPick = magicalTorchData.Value.Value; 
+                targetCellPos = magicalTorchData.Value.Key; 
             }
         }
-        else
+
+      
+        if (itemToPick == null)
         {
-            Vector3 interactionPos = _owner.transform.position;
-            targetCellPos = _owner.PlaceableTilemap.WorldToCell(interactionPos);
-            itemToPick = PlacementManager.Instance.GetItemAt(targetCellPos);
+            Vector3 interactionPos = _owner.transform.position; 
+            targetCellPos = _owner.PlaceableTilemap.WorldToCell(interactionPos); 
+            itemToPick = PlacementManager.Instance.GetItemAt(targetCellPos); 
         }
 
-        if (itemToPick != null)
+       
+        if (itemToPick != null) 
         {
-            _owner.Animator.Play(_owner.GrabSettings.clipName);
-
-            TorchType typeToReturn = isMagicalRecall ? TorchType.Magical : TorchType.Normal;
+            _owner.Animator.Play(_owner.GrabSettings.clipName); 
+            TorchType typeToReturn = TorchType.Normal;
+            if (itemToPick.TryGetComponent<TypeChooser>(out var torchComponent))
+            {
+                typeToReturn = torchComponent.Type;
+            }
 
             InventoryManager.Instance.ReturnTorch(typeToReturn);
             PlacementManager.Instance.UnregisterItem(targetCellPos);
-            GameObject.Destroy(itemToPick);
-            Debug.Log($"[Grab] Raccolta torcia {typeToReturn} dalla cella {targetCellPos}. Contatore aggiornato!");
-            return;
+            GameObject.Destroy(itemToPick); //
+            Debug.Log($"[Grab] Raccolta torcia {typeToReturn} dalla cella {targetCellPos}. Contatore aggiornato!"); 
+            return; //
         }
-       
 
-        
 
-        if(_owner.DetectedObject!=null && _owner.DetectedObject.TryGetComponent<PowderColorChooser>(out var powderData))
+        if (_owner.DetectedObject!=null && _owner.DetectedObject.TryGetComponent<PowderColorChooser>(out var powderData))
         {
             _owner.Animator.Play(_owner.GrabSettings.clipName);
 

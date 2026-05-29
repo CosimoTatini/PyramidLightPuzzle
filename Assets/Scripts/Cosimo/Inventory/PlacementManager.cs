@@ -39,6 +39,7 @@ public class PlacementManager : MonoBehaviour
 
             if(!_placedItems.ContainsKey(cellPos))
             {
+                torch.IsPrexistent = true;
                 _placedItems.Add(cellPos,torch.gameObject);
             }
             else
@@ -127,7 +128,7 @@ public class PlacementManager : MonoBehaviour
             if (pair.Value != null && pair.Value.TryGetComponent<TypeChooser>(out var torch))
             {
                 
-                if (torch.Type== TorchType.Magical)
+                if (torch.Type== TorchType.Magical && !torch.IsPrexistent)
                 {
                     return pair; 
                 }
