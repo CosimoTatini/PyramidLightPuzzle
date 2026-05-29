@@ -6,7 +6,6 @@ using UnityEngine.Tilemaps;
 
 public class PlaceCharacterState : IStateCollision2D
 {
-    //TODO: if player is over a torch but he has a free tile in looking direction, i can place torches.
     private Player _owner;
     private PlayerController _ownerController;
     private Tilemap _tilemap;
@@ -46,59 +45,72 @@ public class PlaceCharacterState : IStateCollision2D
         
     }
 
-    //TODO: after torch place and grab, player stops moving, make it so after animation is done player keeps moving if input is still on
+  
     public void OnStart()
     {
-        _ownerController.Rb.linearVelocity = Vector2.zero;
-        Vector2 look = _ownerController.LastLookDirection;
-        _owner.Animator.SetFloat("MoveX", look.x);
-        _owner.Animator.SetFloat("MoveY", look.y);
+        _ownerController.Rb.linearVelocity = Vector2.zero; 
+        Vector2 look = _ownerController.LastLookDirection; 
+        _owner.Animator.SetFloat("MoveX", look.x); 
+        _owner.Animator.SetFloat("MoveY", look.y); 
 
-        if (!InventoryManager.Instance.CanPlace())
+        if (!InventoryManager.Instance.CanPlace()) 
         {
-            Debug.LogWarning("[PlaceState] Torce esaurite nel manager!");
-            _owner.SetState(ECharacterStates.Idle);
-            return;
+            Debug.LogWarning("[PlaceState] Torce esaurite nel manager!"); 
+            _owner.SetState(ECharacterStates.Idle); 
+            return; 
         }
 
-        Tilemap groundTilemap = _owner.PlaceableTilemap;
+        Tilemap groundTilemap = _owner.PlaceableTilemap; 
 
-        if (groundTilemap == null)
+        if (groundTilemap == null) 
         {
-            Debug.LogError("[PlaceState] La PlaceableTilemap sul Player non è assegnata nell'Inspector!");
-            _owner.SetState(ECharacterStates.Idle);
-            return;
+            Debug.LogError("[PlaceState] La PlaceableTilemap sul Player non è assegnata nell'Inspector!"); 
+            _owner.SetState(ECharacterStates.Idle); 
+            return; 
         }
 
-        Vector3 interactionPos = _owner.transform.position + (Vector3)look * 0.8f;
-        Vector3Int cellPos = groundTilemap.WorldToCell(interactionPos);
+        Vector3 interactionPos = _owner.transform.position + (Vector3)look * 0.8f; 
+        Vector3Int cellPos = groundTilemap.WorldToCell(interactionPos); 
 
-        if (!groundTilemap.HasTile(cellPos))
+        if (!groundTilemap.HasTile(cellPos)) 
         {
-            Debug.LogWarning($"[PlaceState] Impossibile piazzare: Non c'è terreno nella cella {cellPos} della Tilemap Ground!");
-            _owner.SetState(ECharacterStates.Idle);
-            return;
+            Debug.LogWarning($"[PlaceState] Impossibile piazzare: Non c'è terreno nella cella {cellPos} della Tilemap Ground!"); 
+            _owner.SetState(ECharacterStates.Idle); 
+            return; 
         }
-        Vector3 spawnWorldPos = groundTilemap.GetCellCenterWorld(cellPos);
 
-        TorchType type = InventoryManager.Instance.SelectedType;
-        GameObject prefabToSpawn = (type == TorchType.Normal)
-            ? InventoryManager.Instance.TorchPrefab
-            : InventoryManager.Instance.MagicalTorchPrefab;
-        GameObject torchInstance = GameObject.Instantiate(prefabToSpawn, spawnWorldPos, Quaternion.identity);
-
-        if (PlacementManager.Instance.IsPossibleToRegisterItem(groundTilemap, cellPos, torchInstance,type))
+    
+        if (!PlacementManager.Instance.IsCellAvailable(groundTilemap, cellPos)) 
         {
-            _owner.Animator.Play(_owner.PlaceSettings.clipName);
+            Debug.LogWarning($"[PlaceState] Piazzamento impedito: la cella {cellPos} è ristretta o già occupata!");
+            _owner.SetState(ECharacterStates.Idle);
+            return; 
+        }
+
+      
+        Vector3 spawnWorldPos = groundTilemap.GetCellCenterWorld(cellPos); 
+
+        TorchType type = InventoryManager.Instance.SelectedType; 
+        GameObject prefabToSpawn = (type == TorchType.Normal) 
+            ? InventoryManager.Instance.TorchPrefab 
+            : InventoryManager.Instance.MagicalTorchPrefab; 
+
+        GameObject torchInstance = GameObject.Instantiate(prefabToSpawn, spawnWorldPos, Quaternion.identity); 
+
+        
+        if (PlacementManager.Instance.IsPossibleToRegisterItem(groundTilemap, cellPos, torchInstance, type)) 
+        {
+            _owner.Animator.Play(_owner.PlaceSettings.clipName); 
             InventoryManager.Instance.UseTorch();
 
-            _owner.StartCoroutine(TorchLifetimeCoroutine(torchInstance, type, cellPos));
-            Debug.Log($"[Place] Torcia di tipo {type} piazzata correttamente sulla Tilemap Ground nella cella: {cellPos}");
+            _owner.StartCoroutine(TorchLifetimeCoroutine(torchInstance, type, cellPos)); 
+            Debug.Log($"[Place] Torcia di tipo {type} piazzata correttamente sulla Tilemap Ground nella cella: {cellPos}"); 
         }
         else
         {
-            GameObject.Destroy(torchInstance);
-            _owner.SetState(ECharacterStates.Idle);
+          
+            GameObject.Destroy(torchInstance); 
+            _owner.SetState(ECharacterStates.Idle); 
         }
     }
 

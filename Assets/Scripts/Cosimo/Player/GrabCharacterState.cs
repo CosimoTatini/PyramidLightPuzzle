@@ -5,7 +5,6 @@ using UnityEngine.Tilemaps;
 
 internal class GrabCharacterState : IStateCollision2D
 { 
-    // TODO: Need to be more precise. 
     private Player _owner;
     private PlayerController _ownerController;
     private GameObject _torch;

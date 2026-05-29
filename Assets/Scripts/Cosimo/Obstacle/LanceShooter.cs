@@ -86,5 +86,5 @@ public class LanceShooter : MonoBehaviour, IObserver
         }
     }
 
-    //TODO : se il player è respawnato riattivo il collider
+   
 }
