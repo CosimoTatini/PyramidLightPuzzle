@@ -35,7 +35,8 @@ public class DeathCharacterState : IStateCollision2D
     {
         _ownerController.Rb.linearVelocity = Vector2.zero;
 
-        _ownerController.InputActions.Player.Disable();
+        // _ownerController.InputActions.Player.Disable();
+        InputConfigManager.Instance.UnregisterConfig( _ownerController.PlayerConfig);
 
         _owner.Animator.SetBool("IsAlive", false);
         _owner.Animator.Play(_owner.DeathSettings.clipName);

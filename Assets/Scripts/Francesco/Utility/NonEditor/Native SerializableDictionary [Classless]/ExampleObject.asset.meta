@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 79fb63d655d56c6fead453f757c6e1f6
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 226789
+  packageName: 'Native SerializableDictionary [Classless]'
+  packageVersion: 2.0
+  assetPath: Assets/Native SerializableDictionary [Classless]/ExampleObject.asset
+  uploadId: 773149

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d07c5608f28df624c859a5ddf1a88bdd, type: 3}
   m_Name: New Type Var 1
   m_EditorClassIdentifier: Utility.ScriptableObjects::TypeVar
-  _typeName: ColoredDustEditorWindow, Assembly-CSharp-Editor, Version=0.0.0.0, Culture=neutral,
+  _typeName: InputSystem_Actions, InputSystem, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null
-  _filter: ColoredDustEditorWindow
+  _filter: InputSystem_Actions
   _includeUnityAssemblies: 0
-  _assemblyPath: Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+  _assemblyPath: Library/ScriptAssemblies/InputSystem.dll

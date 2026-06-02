@@ -4,62 +4,45 @@ using UnityEngine;
 namespace DesignPatterns.Generics
 {
     public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+{
+    private static T _instance;
+    private static bool _quitting = false;
+
+    public static T Instance
     {
-        private static T _instance;
-        private static readonly object _lock = new object();
-        public static T Instance
+        get
         {
-            get
+            if (_quitting) return null; // Prevents "Ghost" singletons during shutdown
+
+            if (_instance == null)
             {
-                lock (_lock) // lucchetto per assicurarci che ci sia un solo thread o coroutine che prova a chiamare questo Get
+                _instance = FindFirstObjectByType<T>();
+                if (_instance == null)
                 {
-                    if (_instance == null) // in questo caso è la prima volta che viene chiamato il get di Instance
-                    {
-                        _instance = FindFirstObjectByType<T>();
-
-                        if (_instance == null)
-                        {
-                            try
-                            {
-                                var loadedObject = Resources.Load<GameObject>(typeof(T).Name); // il nome del GameObject prefab deve essere lo stesso del Tipo passato,
-                                                                                               // ad esempio se voglio istanziare un LevelManager il prefab si chiamerà LevelManager.prefab
-
-                                if (loadedObject != null) 
-                                    Instantiate(loadedObject, Vector3.zero, Quaternion.identity);
-                                else
-                                {
-                                    GameObject singletonObject = new GameObject(typeof(T).Name);
-                                    _instance = singletonObject.AddComponent<T>();
-                                    //DontDestroyOnLoad(singletonObject);
-                                }
-                            }
-                            catch (Exception e)
-                            {
-                                Debug.LogException(e);
-                            }
-                        }
-
-                    }
-
-                    return _instance;
+                    GameObject go = new GameObject(typeof(T).Name);
+                    _instance = go.AddComponent<T>();
                 }
             }
-        }
-
-        public virtual void Awake()
-        {
-            lock (_lock)
-            {
-                //if (_instance != null && _instance != this)
-                //{
-                //    Destroy(gameObject);
-                //    return;
-                //}
-                _instance = this as T;
-                //DontDestroyOnLoad(gameObject);
-            }
+            return _instance;
         }
     }
+
+    protected virtual void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this as T;
+            // DontDestroyOnLoad(gameObject); // Optional: depends on your persistence needs
+        }
+        else if (_instance != this)
+        {
+            Debug.LogWarning($"Duplicate Singleton {typeof(T).Name} found! Destroying {name}.");
+            Destroy(gameObject);
+        }
+    }
+
+    protected virtual void OnApplicationQuit() => _quitting = true;
+}
 }
 
 

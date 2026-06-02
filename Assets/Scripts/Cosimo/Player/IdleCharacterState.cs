@@ -9,7 +9,7 @@ public class IdleCharacterState : IStateCollision2D
     private PlayerController _ownerController;
     private Animator _animator;
 
-    public IdleCharacterState(Player player, PlayerController controller,Animator animator)
+    public IdleCharacterState(Player player, PlayerController controller, Animator animator)
     {
         _owner = player;
         _ownerController = controller;
@@ -17,13 +17,13 @@ public class IdleCharacterState : IStateCollision2D
     }
     public void OnEnd()
     {
-       
+
     }
 
     public void OnFixedUpdate()
     {
         _ownerController.Rb.linearVelocity = Vector2.zero + _ownerController.PlatformHandler.Velocity;
-        if (_ownerController.MoveDirection.sqrMagnitude >0.01f)
+        if (_ownerController.MoveDirection.sqrMagnitude > 0.01f)
         {
             _owner.SetState(ECharacterStates.Walk);
         }
@@ -36,48 +36,49 @@ public class IdleCharacterState : IStateCollision2D
         //_owner.Animator.SetBool("IsAlive", true);
         //_owner.Animator.SetBool("IsPlacing", false);
         _owner.Animator.Play(_owner.IdleSettings.clipName);
-        _ownerController.InputActions.Player.Enable();
+        // _ownerController.InputActions.Player.Enable();
+        InputConfigManager.Instance.RegisterConfig(_ownerController.PlayerConfig);
         _ownerController.ResetMoveDirection();
 
         Vector2 look = _ownerController.LastLookDirection;
-        _owner.Animator.SetFloat("MoveX",look.x);
-        _owner.Animator.SetFloat("MoveY",look.y);        
+        _owner.Animator.SetFloat("MoveX", look.x);
+        _owner.Animator.SetFloat("MoveY", look.y);
     }
 
-    
+
 
     public void OnUpdate()
     {
-       
+
     }
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-      
+
     }
 
     public void OnCollisionExit2D(Collision2D collision)
     {
-        
+
     }
 
     public void OnCollisionStay2D(Collision2D collision)
     {
-       
+
     }
 
     public void OnTriggerEnter2D(Collider2D collider)
     {
-       
+
     }
 
     public void OnTriggerStay2D(Collider2D collider)
     {
-        
+
     }
 
     public void OnTriggerExit2D(Collider2D collider)
     {
-        
+
     }
 }

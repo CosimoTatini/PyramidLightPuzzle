@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: a224a70d2dfd7877bb459df1a688dd87
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 226789
+  packageName: 'Native SerializableDictionary [Classless]'
+  packageVersion: 2.0
+  assetPath: Assets/Native SerializableDictionary [Classless]/Scripts/Examples/Behaviours/ExampleMonoBehaviour.cs
+  uploadId: 773149

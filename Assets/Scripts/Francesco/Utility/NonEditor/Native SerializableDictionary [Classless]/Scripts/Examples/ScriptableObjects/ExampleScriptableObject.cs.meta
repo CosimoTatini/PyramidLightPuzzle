@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 4d6c01e1f2b327ba88d35271db922cd7
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 226789
+  packageName: 'Native SerializableDictionary [Classless]'
+  packageVersion: 2.0
+  assetPath: Assets/Native SerializableDictionary [Classless]/Scripts/Examples/ScriptableObjects/ExampleScriptableObject.cs
+  uploadId: 773149
