@@ -1,6 +1,9 @@
 
 using UnityEngine;
 
+/// <summary>
+/// Axe Obstacle behaviour.
+/// </summary>
 public class Axe : MonoBehaviour
 {
     [SerializeField] private float _angle = 60f;

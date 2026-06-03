@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+
+/// <summary>
+/// Player behaviour : animations, checkpoint reference , obstacle interactions, state machine inatialization.
+/// </summary>
 public class Player : MonoBehaviour, ISubject
 {
     [Header("Animation Settings")]

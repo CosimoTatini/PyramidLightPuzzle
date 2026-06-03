@@ -3,6 +3,9 @@ using System;
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// If the player fully enter here, he dies.
+/// </summary>
 public class Pit : MonoBehaviour
 {
     [SerializeField] private LayerMask _groundLayer;

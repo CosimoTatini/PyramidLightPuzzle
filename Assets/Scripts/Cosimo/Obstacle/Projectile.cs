@@ -2,6 +2,9 @@
 using System.Threading;
 using UnityEngine;
 
+/// <summary>
+/// Basic projectile. Using object pooler pattern.
+/// </summary>
 public class Projectile : MonoBehaviour
 {
     [SerializeField] private float _speed;

@@ -3,6 +3,9 @@ using Codice.Client.Common.GameUI;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+/// <summary>
+/// State to handle the grab interactions
+/// </summary>
 internal class GrabCharacterState : IStateCollision2D
 { 
     private Player _owner;
@@ -11,7 +14,7 @@ internal class GrabCharacterState : IStateCollision2D
     private Tilemap _tilemap;
     private Animator _animator;
     private float _timer;
-
+    //TODO: Ctor needs to be modified
     public GrabCharacterState(Player player, PlayerController controller, GameObject torch, Tilemap tilemap,Animator animator)
     {
         _owner= player;
@@ -44,6 +47,7 @@ internal class GrabCharacterState : IStateCollision2D
     {
     
     }
+
 
     public void OnStart()
     {

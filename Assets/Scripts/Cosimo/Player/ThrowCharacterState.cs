@@ -4,7 +4,9 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
 using static UnityEditor.Experimental.GraphView.GraphView;
-
+/// <summary>
+/// Handles the Throw State. Now this state is doing nothing . 
+/// </summary>
 internal class ThrowCharacterState : IStateCollision2D
 {
     private Player _owner;

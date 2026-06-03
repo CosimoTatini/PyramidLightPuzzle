@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using static Codice.Client.Commands.WkTree.WorkspaceTreeNode;
 
+/// <summary>
+/// Handles the Walk State.
+/// </summary>
 public class WalkCharacterState : IStateCollision2D
 {
     private Player _owner { get; }

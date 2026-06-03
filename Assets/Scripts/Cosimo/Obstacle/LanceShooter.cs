@@ -2,6 +2,9 @@ using System;
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// Oneshot lance shooter
+/// </summary>
 public class LanceShooter : MonoBehaviour, IObserver
 {
     [SerializeField] private ObjectPooler<Projectile> _pool;

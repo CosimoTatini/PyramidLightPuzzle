@@ -4,6 +4,9 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
+/// <summary>
+/// Turret behaviour. Used Object Pooler pattern.
+/// </summary>
 public class Turret : MonoBehaviour
 {
     [Header("Detection")]

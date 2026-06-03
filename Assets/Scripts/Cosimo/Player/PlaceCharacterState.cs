@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+/// <summary>
+/// Handles the Place State.
+/// </summary>
 public class PlaceCharacterState : IStateCollision2D
 {
     private Player _owner;
