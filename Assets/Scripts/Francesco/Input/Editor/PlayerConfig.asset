@@ -65,8 +65,3 @@ MonoBehaviour:
       - Priority: 0
         Guid: fc5aee51-93f4-42b8-b8f5-56703389d4ca
         Enabled: 1
-    - Guid: 272f6d14-89ba-496f-b7ff-215263d3219f
-      InputActionStructs:
-      - Priority: 0
-        Guid: 44b200b1-1557-4083-816c-b22cbdf77ddf
-        Enabled: 1

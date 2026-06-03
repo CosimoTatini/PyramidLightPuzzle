@@ -24,7 +24,23 @@ namespace NativeSerializableDictionary
         {
             get
             {
-                return _keys.First(kvp => EqualityComparer<K>.Default.Equals(kvp.Key, Key)).Value;
+                // 1. Try to get it from the fast base dictionary first
+                if (base.ContainsKey(Key))
+                {
+                    return base[Key];
+                }
+
+                // 2. Fallback: Check the serialized list if Unity hasn't run deserialization yet
+                var kvp = _keys.FirstOrDefault(kvp => EqualityComparer<K>.Default.Equals(kvp.Key, Key));
+                if (kvp != null)
+                {
+                    // Sync it back to the base dictionary for next time
+                    base[Key] = kvp.Value;
+                    return kvp.Value;
+                }
+
+                // 3. If it truly doesn't exist, throw the standard dictionary exception
+                throw new KeyNotFoundException($"The given key '{Key}' was not present in the serializable dictionary.");
             }
             set
             {

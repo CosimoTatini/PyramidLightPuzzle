@@ -31,6 +31,6 @@ MonoBehaviour:
         Enabled: 0
     - Guid: 272f6d14-89ba-496f-b7ff-215263d3219f
       InputActionStructs:
-      - Priority: 1
+      - Priority: 2
         Guid: 44b200b1-1557-4083-816c-b22cbdf77ddf
         Enabled: 0

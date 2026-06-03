@@ -9,13 +9,13 @@ using UnityEngine.InputSystem.Users;
 
 public class InputConfigManager : Singleton<InputConfigManager>
 {
-    private  SerializableDictionary<int, SerializableDictionary<string, List<InputActionStruct>>> _actionsStacks = new();
-    private SerializableDictionary<int, SerializableDictionary<string, InputAction>> _actionsCaches = new();
-    private SerializableDictionary<int, List<InputAction>> _actionsEnabled = new();
-    private SerializableDictionary<int, List<InputAction>> _actionsDisabled = new();
-    private SerializableDictionary<int, InputBundle> _inputBundles = new();
+    private Dictionary<int, Dictionary<string, List<InputActionStruct>>> _actionsStacks = new();
+    private Dictionary<int, Dictionary<string, InputAction>> _actionsCaches = new();
+    private Dictionary<int, List<InputAction>> _actionsEnabled = new();
+    private Dictionary<int, List<InputAction>> _actionsDisabled = new();
+    private Dictionary<int, InputBundle> _inputBundles = new();
 
-    private SerializableDictionary<int, EnabledDisabledAction> _enabledDisabledActionsEvents = new();
+    private Dictionary<int, EnabledDisabledAction> _enabledDisabledActionsEvents = new();
     public struct EnabledDisabledAction
     {
         public Action OnEnabledActionsChanged;
@@ -29,7 +29,7 @@ public class InputConfigManager : Singleton<InputConfigManager>
             return;
         }
 
-        if (!_actionsStacks.ContainsKey(id)) _actionsStacks = new();
+        if (!_actionsStacks.ContainsKey(id)) _actionsStacks[id] = new();
         var actionStackDict = _actionsStacks[id];
 
         if (!actionStackDict.ContainsKey(actionData.Guid)) actionStackDict[actionData.Guid] = new();
@@ -42,14 +42,34 @@ public class InputConfigManager : Singleton<InputConfigManager>
 
         actionStack.Add(actionData);
 
+
         // we added the only item
         if (actionStack.Count == 1)
         {
+            Debug.Log(actionStack.Count);
             InputAction inputAction = GetAction(id, actionStack[0].Guid);
+            if (inputAction == null) return;
 
-            inputAction.Enable();
-            RemoveDisabledAction(id, inputAction);
-            AddEnabledAction(id, inputAction);
+            if (actionData.Enabled == inputAction.enabled)
+            {
+                return;
+            }
+            else
+            {
+                if (inputAction.enabled)
+                {
+                    inputAction.Disable();
+                    RemoveEnabledAction(id, inputAction);
+                    AddDisabledAction(id, inputAction);
+                }
+                else
+                {
+                    inputAction.Enable();
+                    RemoveDisabledAction(id, inputAction);
+                    AddEnabledAction(id, inputAction);
+                }
+            }
+
             return;
         }
 
@@ -59,7 +79,7 @@ public class InputConfigManager : Singleton<InputConfigManager>
         InputActionStruct firstElement = actionStack[0];
 
         // SORT
-        actionStack = actionStack.OrderByDescending(action => action.Priority).ToList();
+        actionStack.Sort((a, b) => b.Priority.CompareTo(a.Priority));
 
         // check if first element changed
         if (!actionStack[0].Equals(firstElement))
@@ -112,11 +132,15 @@ public class InputConfigManager : Singleton<InputConfigManager>
                 RemoveEnabledAction(id, inputAction);
                 AddDisabledAction(id, inputAction);
             }
-            return;
+            else
+            { 
+                
+            }
+                return;
         }
 
         // we removed first element, we need to process the new first element if there's one
-        if (!firstElement.Equals(actionData))
+        if (!firstElement.Equals(actionStack[0]))
         {
             if (inputAction == null) return;
 
@@ -138,7 +162,7 @@ public class InputConfigManager : Singleton<InputConfigManager>
         }
         else
         {
-            
+
         }
     }
 
