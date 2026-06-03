@@ -6,6 +6,7 @@ using System.Linq;
 using System;
 using System.Reflection;
 using Object = UnityEngine.Object;
+using Mono.Cecil;
 
 /// <summary>
 /// Custom Inspector for <see cref="InputConfigSO"/>.
@@ -126,8 +127,8 @@ public class InputConfigSOEditor : Editor
 
         // at this point we have the mapListAsset instance
         // we make 
-        TypeVar previousTypeVar = (TypeVar)_assetMapListProp.GetArrayElementAtIndex(assetMapListIndex).FindPropertyRelative("AssetType").objectReferenceValue;
         _assetMapListProp.GetArrayElementAtIndex(assetMapListIndex).FindPropertyRelative("AssetType").objectReferenceValue = (TypeVar)EditorGUILayout.ObjectField("TypeVar input c# script", _assetMapListProp.GetArrayElementAtIndex(assetMapListIndex).FindPropertyRelative("AssetType").objectReferenceValue, typeof(TypeVar), false);
+        _loaderAssetInstanceType = (TypeVar)_assetMapListProp.GetArrayElementAtIndex(assetMapListIndex).FindPropertyRelative("AssetType").objectReferenceValue;
 
         // AssetType changed, we need to update 
         // if (previousTypeVar != _assetMapListProp.GetArrayElementAtIndex(assetMapListIndex).FindPropertyRelative("AssetType").objectReferenceValue)
@@ -429,6 +430,51 @@ public class InputConfigSOEditor : Editor
         EditorGUILayout.PropertyField(actionProp.FindPropertyRelative("Enabled"), GUIContent.none, GUILayout.Width(40));
         EditorGUILayout.PropertyField(actionProp.FindPropertyRelative("Priority"), GUIContent.none, GUILayout.Width(60));
 
+        var allConfigs = AssetDatabaseUtils.GetAssetsByType<InputConfigSO>()
+            .Where(config => config.GetInputAssetMaps(_loaderAssetInstanceType.Type).Count > 0).ToList();
+
+        HashSet<int> unavailablePriorities = new();
+        // find all configs where action is found
+        for (int i = allConfigs.Count - 1; i >= 0; i--)
+        {
+            bool foundAction = false;
+            InputConfigSO config = allConfigs.ElementAt(i);
+            var mapLists = config.GetInputAssetMaps(_loaderAssetInstanceType.Type);
+            foreach (var mapList in mapLists)
+            {
+                foreach (var mapStruct in mapList.InputMapStructs)
+                {
+                    var actionStruct = mapStruct.GetInputActionStruct(actionGUID);
+                    if (actionStruct.HasValue)
+                    {
+                        unavailablePriorities.Add(actionStruct.Value.Priority);
+                        foundAction = true;
+                        break;
+                    }
+                }
+                if (foundAction) break;
+            }
+            // if action wasn't found in this config we remove it
+            if (!foundAction)
+            {
+                allConfigs.RemoveAt(i);
+            }
+        }
+
+        if (unavailablePriorities.Contains(actionProp.FindPropertyRelative("Priority").intValue))
+        {
+            int priorityValue = 0;
+
+            while (unavailablePriorities.Contains(priorityValue))
+            {
+                priorityValue++;
+            }
+
+            actionProp.FindPropertyRelative("Priority").intValue = priorityValue;
+
+            int actionPriority = actionProp.FindPropertyRelative("Priority").intValue;
+        }
+
         // remove button
         if (GUILayout.Button("X", GUILayout.Width(25)))
         {
@@ -509,7 +555,45 @@ public class InputConfigSOEditor : Editor
                     var newAction = actionsList.GetArrayElementAtIndex(index);
                     newAction.FindPropertyRelative("Guid").stringValue = actionGuid;
                     newAction.FindPropertyRelative("Enabled").boolValue = true;
-                    newAction.FindPropertyRelative("Priority").intValue = 0;
+                    var allConfigs = AssetDatabaseUtils.GetAssetsByType<InputConfigSO>()
+                        .Where(config => config.GetInputAssetMaps(_loaderAssetInstanceType.Type).Count > 0).ToList();
+
+                    HashSet<int> unavailablePriorities = new();
+                    // find all configs where action is found
+                    for (int i = allConfigs.Count - 1; i >= 0; i--)
+                    {
+                        bool foundAction = false;
+                        InputConfigSO config = allConfigs.ElementAt(i);
+                        var mapLists = config.GetInputAssetMaps(_loaderAssetInstanceType.Type);
+                        foreach (var mapList in mapLists)
+                        {
+                            foreach (var mapStruct in mapList.InputMapStructs)
+                            {
+                                var actionStruct = mapStruct.GetInputActionStruct(actionGuid);
+                                if (actionStruct.HasValue)
+                                {
+                                    unavailablePriorities.Add(actionStruct.Value.Priority);
+                                    foundAction = true;
+                                    break;
+                                }
+                            }
+                            if (foundAction) break;
+                        }
+                        // if action wasn't found in this config we remove it
+                        if (!foundAction)
+                        {
+                            allConfigs.RemoveAt(i);
+                        }
+                    }
+
+                    int priorityValue = 0;
+
+                    while (unavailablePriorities.Contains(priorityValue))
+                    {
+                        priorityValue++;
+                    }
+
+                    newAction.FindPropertyRelative("Priority").intValue = priorityValue;
                     serializedObject.ApplyModifiedProperties();
                 });
             }

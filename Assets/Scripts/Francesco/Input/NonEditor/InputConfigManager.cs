@@ -5,6 +5,7 @@ using DesignPatterns.Generics;
 using UnityEngine;
 using NativeSerializableDictionary;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
 
 public class InputConfigManager : Singleton<InputConfigManager>
 {
@@ -28,7 +29,7 @@ public class InputConfigManager : Singleton<InputConfigManager>
             return;
         }
 
-        if (!_actionsStacks.ContainsKey(id)) _actionsStacks.Add(id, new());
+        if (!_actionsStacks.ContainsKey(id)) _actionsStacks = new();
         var actionStackDict = _actionsStacks[id];
 
         if (!actionStackDict.ContainsKey(actionData.Guid)) actionStackDict[actionData.Guid] = new();
@@ -211,6 +212,13 @@ public class InputConfigManager : Singleton<InputConfigManager>
             // find inputActionInstance
             IInputActionCollection2 inputActions = inputBundle.GetInputSystemInstance(inputAssetCsharp);
             InputAction inputAction = inputActions.FindAction(actionGuid);
+            // InputUser.onChange +=  ;
+            // InputUser se;
+            // InputUser s = InputUser.CreateUserWithoutPairedDevices();
+            // s (inputActions);
+            // InputDevice g;
+            // inputActions.devices;
+            // InputUser.PerformPairingWithDevice()
             actionCache[actionGuid] = inputAction ?? null;
         }
     }
