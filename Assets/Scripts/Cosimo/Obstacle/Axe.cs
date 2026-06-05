@@ -17,7 +17,6 @@ public class Axe : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //transform.Rotate(0, 0, _speed * Time.deltaTime);
         _rb.angularVelocity = _speed;
     }
 

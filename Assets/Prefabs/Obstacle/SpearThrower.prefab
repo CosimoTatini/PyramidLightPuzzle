@@ -179,7 +179,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3079676138809006555}
   - component: {fileID: 2692610695236498010}
-  - component: {fileID: 300074012747102502}
+  - component: {fileID: 2773341612320004900}
   m_Layer: 0
   m_Name: TriggerPoint
   m_TagString: Untagged
@@ -248,7 +248,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 3.6651287, y: 2.0305176}
   m_EdgeRadius: 0
---- !u!114 &300074012747102502
+--- !u!114 &2773341612320004900
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -259,12 +259,13 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7c99c47040b2bb8498868d55b00c47fd, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: '::'
+  m_EditorClassIdentifier: Obstacles::LanceShooter
   _firePoint: {fileID: 8265020493916864322}
   _fireRate: 1
   _direction: {x: -1, y: 0}
   _coll: {fileID: 2692610695236498010}
   gameObjectToDestroy: {fileID: 7065150389768950956}
+  _targetTilemap: {fileID: 0}
   _prefabProjectile: {fileID: 6318192165801416670, guid: 621783640b8b3a8499ead9f6112f0b36, type: 3}
 --- !u!1 &9012033267333870235
 GameObject:

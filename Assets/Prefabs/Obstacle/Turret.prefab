@@ -308,9 +308,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2279245350936566438}
-  - component: {fileID: 940897820098971512}
   - component: {fileID: 238402593839075008}
   - component: {fileID: 1485337672873315706}
+  - component: {fileID: -4519203008802949481}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Untagged
@@ -335,32 +335,6 @@ Transform:
   - {fileID: 7668046907217798648}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &940897820098971512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9078497735054833748}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87f3670d348d1324397533495631c5d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Turret
-  _detectionRadius: 8
-  _viewAngle: 45
-  _detectionAngle: 45
-  _angleOffset: 0
-  _playerMask:
-    serializedVersion: 2
-    m_Bits: 8
-  _speedRotation: 20
-  _detectionPolygon: {fileID: 3434515801992253183}
-  _fireRate: 3
-  _fireTimer: 0
-  _firePoint: {fileID: 6039081158563944051}
-  _barrelPivot: {fileID: 4718008972758864776}
-  _projectilePrefab: {fileID: 4215434958625694346, guid: 97541e699f19b484c8eee005426fc035, type: 3}
 --- !u!58 &238402593839075008
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -424,3 +398,30 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-4519203008802949481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9078497735054833748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87f3670d348d1324397533495631c5d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Turret
+  _detectionRadius: 8
+  _viewAngle: 45
+  _detectionAngle: 45
+  _angleOffset: 0
+  _playerMask:
+    serializedVersion: 2
+    m_Bits: 8
+  _speedRotation: 20
+  _detectionPolygon: {fileID: 3434515801992253183}
+  _fireRate: 3
+  _fireTimer: 0
+  _firePoint: {fileID: 6039081158563944051}
+  _barrelPivot: {fileID: 4718008972758864776}
+  _projectilePrefab: {fileID: 4215434958625694346, guid: 97541e699f19b484c8eee005426fc035, type: 3}
+  _tilemap: {fileID: 0}
