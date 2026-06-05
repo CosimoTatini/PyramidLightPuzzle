@@ -6,13 +6,19 @@ using UnityEngine;
 /// </summary>
 public class Axe : MonoBehaviour
 {
-    [SerializeField] private float _angle = 60f;
-    [SerializeField] private float _speed = 2f;
+    
+    [SerializeField] private float _speed = 90f;
+    private Rigidbody2D _rb;
 
-    private void Update()
+    private void Awake()
     {
-        float z = Mathf.Sin(_speed * Time.time) * _angle;
-        transform.rotation= Quaternion.Euler(0,0,z);
+        _rb = GetComponent<Rigidbody2D>();
+    }
+
+    private void FixedUpdate()
+    {
+        //transform.Rotate(0, 0, _speed * Time.deltaTime);
+        _rb.angularVelocity = _speed;
     }
 
 
