@@ -48,42 +48,112 @@ internal class ThrowCharacterState : IStateCollision2D
 
     public void OnStart()
     {
-        _ownerController.Rb.linearVelocity = Vector2.zero;
-        _timer = 0f;
-        if(InventoryManager.Instance.CanThrowPowder() && IsNearMagicTorch())
-        {
-            _animator.Play(_owner.ThrowSettings.clipName);
-            InventoryManager.Instance.UsePowder();
-            Debug.Log($"Polvere lanciata di colore:{InventoryManager.Instance.SelectedPowder}");
+        _ownerController.Rb.linearVelocity = Vector2.zero; 
+        _timer = 0f; 
 
+        
+        if (!InventoryManager.Instance.CanThrowPowder()) 
+        {
+            Debug.LogWarning("[Throw] Impossibile lanciare: polvere esaurita nell'inventario.");
+            _owner.SetState(ECharacterStates.Idle); 
+            return; 
         }
 
+       
+        if (!IsNearMagicTorch(out LightEmitter targetEmitter))
+        {
+            Debug.LogWarning("[Throw] Impossibile lanciare: nessuna torcia magica rilevata davanti al giocatore.");
+            _owner.SetState(ECharacterStates.Idle); 
+            return;
+        }
+
+       
+        PowderColor selectedColor = InventoryManager.Instance.SelectedPowder; 
+
+        
+        if (HasRoomForPowder(targetEmitter, selectedColor))
+        {
+            
+            _animator.Play(_owner.ThrowSettings.clipName);
+            InventoryManager.Instance.UsePowder(); 
+            ApplyPowderToEmitter(targetEmitter, selectedColor);
+
+            Debug.Log($"[Throw] Lancio completato con successo per il colore: {selectedColor}");
+        }
         else
         {
-            Debug.Log($"Polvere esaurita del colore:{InventoryManager.Instance.SelectedPowder}");
+            Debug.LogWarning($"[Throw] Il canale {selectedColor} della torcia è già pieno. Lancio annullato.");
+            _owner.SetState(ECharacterStates.Idle); 
         }
-       
+
     }
 
-    private bool IsNearMagicTorch()
+    private void ApplyPowderToEmitter(LightEmitter emitter, PowderColor selectedColor)
     {
-        Vector3 interactionPos = _owner.transform.position + (Vector3)_ownerController.LastLookDirection * 0.8f;
-
-        Vector3Int cellPos = _owner.PlaceableTilemap.WorldToCell(interactionPos);
-        GameObject itemOnTile = PlacementManager.Instance.GetItemAt(cellPos);
-
-        if (itemOnTile != null)
+        switch(selectedColor)
         {
-            bool hasMagicalTorch = itemOnTile.GetComponentInChildren<MagicalTorch>() != null;
+            case PowderColor.Red:
+                emitter.RedAmount++;
+                Debug.Log("[Throw]:Aumentato di 1 il valore di rosso");
+                break;
+                case PowderColor.Green:
+                emitter.GreenAmount++;
+                Debug.Log("[Throw]:Aumentato di 1 il valore di verde");
+                break;
+                case PowderColor.Blue:
+                Debug.Log("[Throw]:Aumentato di 1 il valore di blue");
+                emitter.BlueAmount++; break;
+        }
+    }
 
-            if (hasMagicalTorch)
+    private bool HasRoomForPowder(LightEmitter emitter, PowderColor selectedColor)
+    {
+        // Verifichiamo immediatamente se l'oggetto è nullo prima di accedere alle sue proprietà
+        if (emitter == null)
+        {
+            Debug.LogError("[Throw - CRITICAL] L'emitter passato a HasRoomForPowder è NULL! Il controllo di vicinanza ha fallito l'assegnazione.");
+            return false;
+        }
+
+        return selectedColor switch
+        {
+            PowderColor.Red => emitter.RedAmount < emitter.MaxAmount,
+            PowderColor.Green => emitter.GreenAmount < emitter.MaxAmount,
+            PowderColor.Blue => emitter.BlueAmount < emitter.MaxAmount,
+            _ => false
+        };
+    }
+
+    private bool IsNearMagicTorch(out LightEmitter lightEmitter)
+    {
+        lightEmitter = null; // Inizializzazione di sicurezza
+        Vector3 interactionPos = _owner.transform.position + (Vector3)_ownerController.LastLookDirection * 0.8f; //
+        Vector3Int cellPos = _owner.PlaceableTilemap.WorldToCell(interactionPos); //
+        GameObject itemOnTile = PlacementManager.Instance.GetItemAt(cellPos); //
+
+        if (itemOnTile != null) //
+        {
+            // 1. Cerchiamo prima il componente MagicalTorch che sappiamo essere presente
+            var torch = itemOnTile.GetComponentInChildren<MagicalTorch>();
+
+            if (torch != null)
             {
-                Debug.Log($"[Throw] Rilevata una Torcia Magica sulla Tilemap nella cella {cellPos}. Lancio polvere consentito!");
-                return true;
+                // 2. Cerchiamo il LightEmitter sullo stesso oggetto, includendo anche quelli disattivati
+                lightEmitter = torch.GetComponent<LightEmitter>();
+
+                if (lightEmitter == null)
+                {
+                    lightEmitter = torch.GetComponentInChildren<LightEmitter>(true);
+                }
+
+                // Se lo abbiamo trovato, il controllo è superato con successo!
+                if (lightEmitter != null)
+                {
+                    return true;
+                }
             }
         }
 
-        Debug.LogWarning($"[Throw] Nessuna torcia magica trovata sulla Tilemap nella cella {cellPos}. Lancio annullato.");
         return false;
     }
 

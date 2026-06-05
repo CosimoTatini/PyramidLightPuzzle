@@ -49,7 +49,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.05
+  m_Intensity: 0.1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
   m_ApplyToSortingLayers: 000000001d27dff40d6edae2fd3f91b7499d50f56794303939aec074
@@ -100,7 +100,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6207272743036305454
 Transform:
   m_ObjectHideFlags: 0
@@ -178,6 +178,9 @@ GameObject:
   - component: {fileID: 7820436226555652844}
   - component: {fileID: 7088737849697540504}
   - component: {fileID: 8064106555073959028}
+  - component: {fileID: 7816278858457184693}
+  - component: {fileID: 4104771934323670994}
+  - component: {fileID: 2379659705170758560}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -333,7 +336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Input::PlayerController
   _moveSpeed: 70
-  _platformHandler: {fileID: 7820436226555652844}
+  _platformHandler: {fileID: 7816278858457184693}
 --- !u!114 &7820436226555652844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,6 +363,77 @@ MonoBehaviour:
   m_EditorClassIdentifier: NewAssembly::ProximityTooltip
   _checkTransform: {fileID: 0}
 --- !u!61 &8064106555073959028
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4155689210647087670}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: -0.25}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.35, y: 0.2}
+  m_EdgeRadius: 0
+--- !u!114 &7816278858457184693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4155689210647087670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85988bb2d665e804287eba316471d9b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Utility::PlatformHandler
+--- !u!114 &4104771934323670994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4155689210647087670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a66a2045e00cfa340a6a017cb74d6ff9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::ProximityTooltip
+  _checkTransform: {fileID: 0}
+--- !u!61 &2379659705170758560
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
