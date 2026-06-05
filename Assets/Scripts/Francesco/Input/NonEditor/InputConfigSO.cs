@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 public class InputConfigSO : ScriptableObject
 {
     [SerializeField] private List<InputAssetMapList> _inputAssetMaps = new();
+    [SerializeField] private InputActionAsset _lastUsedInputAsset;
 
     public IReadOnlyList<InputAssetMapList> GetInputAssetMaps()
     {
