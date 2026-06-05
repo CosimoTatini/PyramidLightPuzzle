@@ -7,6 +7,10 @@ using System;
 using System.Reflection;
 using Object = UnityEngine.Object;
 using Mono.Cecil;
+using NUnit.Framework;
+using Unity.EditorCoroutines.Editor;
+using System.Collections;
+using System.Security.Principal;
 
 /// <summary>
 /// Custom Inspector for <see cref="InputConfigSO"/>.
@@ -24,11 +28,34 @@ public class InputConfigSOEditor : Editor
 
     //TODO: make SO database for priorities, so we can assign a unique priority value to each action inside of a config
 
+    private EditorCoroutine DuplicatePriorityResearch;
+    private bool _duplicatePrioritySearchActive;
+
     private void OnEnable()
     {
         // Access the private [SerializeField] list from the target ScriptableObject
         _assetMapListProp = serializedObject.FindProperty("_inputAssetMaps");
         _alreadyCreatedArrayElementForAssetMapList = false;
+        DuplicatePriorityResearch = EditorCoroutineUtility.StartCoroutine(DuplicatePrioritySearchCoroutine(), this);
+
+        InputActionAsset[] inputActionAssets = AssetDatabaseUtils.GetAssetsByType<InputActionAsset>();
+
+        _mapsWithoutGUID = new();
+
+        LoopThroughMaps((guid, inputAssetMapList, inputAssetMapListIndex, mapIndex) =>
+        {
+            bool found = false;
+            foreach (var item in inputActionAssets)
+            {
+                if (item.FindActionMap(nameOrId: guid) != null)
+                {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) _mapsWithoutGUID.Add(guid);
+        });
+
     }
 
     void OnDisable()
@@ -46,7 +73,13 @@ public class InputConfigSOEditor : Editor
             }
         }
 
+        if (DuplicatePriorityResearch != null)
+        {
+            EditorCoroutineUtility.StopCoroutine(DuplicatePriorityResearch);
+        }
+
     }
+
 
     /// <summary>
     /// Updates the serialized object and draws the custom inspector elements, 
@@ -55,6 +88,8 @@ public class InputConfigSOEditor : Editor
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
+
+        GUI.enabled = !_duplicatePrioritySearchActive;
 
         // 1. Loader Field - Used as a temporary lens to resolve GUIDs to Names
         EditorGUILayout.LabelField("Editor Workspace", EditorStyles.boldLabel);
@@ -160,6 +195,12 @@ public class InputConfigSOEditor : Editor
 
         EditorGUILayout.Space();
 
+        if (GUILayout.Button("Update Priority Dictionary"))
+        {
+            if(DuplicatePriorityResearch != null) EditorCoroutineUtility.StopCoroutine(DuplicatePriorityResearch);
+            DuplicatePriorityResearch = EditorCoroutineUtility.StartCoroutine(DuplicatePrioritySearchCoroutine(), this);
+        }
+
         // 3. Draw Filtered Maps
         // Only render maps that exist in this InputConfigSO and that are present in the assigned loader asset
         // this is the filter step for ensuring we can only add/show maps that are present in this loader asset
@@ -192,6 +233,121 @@ public class InputConfigSOEditor : Editor
         serializedObject.ApplyModifiedProperties();
     }
 
+    private Dictionary<string, Dictionary<SerializedProperty, InputConfigSO>> _actionsPriorities = new();
+
+    private IEnumerator DuplicatePrioritySearchCoroutine()
+    {
+        _duplicatePrioritySearchActive = true;
+        _actionsPriorities.Clear();
+
+        var allConfigs = AssetDatabaseUtils.GetAssetsByType<InputConfigSO>();
+        //    .Where(config => config.GetInputAssetMaps(_loaderAssetInstanceType.Type).Count > 0).ToList();
+        // allConfigs.Remove((InputConfigSO)target);
+
+        HashSet<int> unavailablePriorities = new();
+        // find all configs where action is found
+        for (int i = allConfigs.Length - 1; i >= 0; i--)
+        {
+            // bool foundAction = false;
+            InputConfigSO config = allConfigs.ElementAt(i);
+            SerializedObject serializedConfig = new(config);
+
+            var inputAssetMaps = serializedConfig.FindProperty("_inputAssetMaps");
+
+            for (int j = 0; j < inputAssetMaps.arraySize; j++)
+            {
+                TypeVar typeVar = inputAssetMaps.GetArrayElementAtIndex(j).FindPropertyRelative("AssetType").objectReferenceValue as TypeVar;
+                if (typeVar.Type == null) continue;
+
+                SerializedProperty inputMapStructs = inputAssetMaps.GetArrayElementAtIndex(j).FindPropertyRelative("InputMapStructs");
+                for (int k = 0; k < inputMapStructs.arraySize; k++)
+                {
+                    SerializedProperty inputActionStructs = inputMapStructs.GetArrayElementAtIndex(k).FindPropertyRelative("InputActionStructs");
+                    for (int l = 0; l < inputActionStructs.arraySize; l++)
+                    {
+                        string guid = inputActionStructs.GetArrayElementAtIndex(l).FindPropertyRelative("Guid").stringValue;
+                        if (!_actionsPriorities.ContainsKey(guid)) _actionsPriorities[guid] = new();
+                        var serializedActions = _actionsPriorities[guid];
+                        serializedActions[inputActionStructs.GetArrayElementAtIndex(l)] = config;
+                    }
+                }
+            }
+
+            // var mapLists = config.GetInputAssetMaps(_loaderAssetInstanceType.Type);
+            // foreach (var mapList in mapLists)
+            // {
+            //     foreach (var mapStruct in mapList.InputMapStructs)
+            //     {
+            //         var actionStruct = mapStruct.GetInputActionStruct(actionGUID);
+            //         if (actionStruct.HasValue)
+            //         {
+            //             unavailablePriorities.Add(actionStruct.Value.Priority);
+            //             foundAction = true;
+            //             break;
+            //         }
+            //     }
+            //     if (foundAction) break;
+            // }
+            // // if action wasn't found in this config we remove it
+            // if (!foundAction)
+            // {
+            //     allConfigs.RemoveAt(i);
+            // }
+        }
+
+        // if (unavailablePriorities.Contains(actionProp.FindPropertyRelative("Priority").intValue))
+        // {
+        //     int priorityValue = 0;
+
+        //     while (unavailablePriorities.Contains(priorityValue))
+        //     {
+        //         priorityValue++;
+        //     }
+
+        //     actionProp.FindPropertyRelative("Priority").intValue = priorityValue;
+
+        //     int actionPriority = actionProp.FindPropertyRelative("Priority").intValue;
+        // }
+
+        _duplicatePrioritySearchActive = false;
+        yield break;
+    }
+
+    //TODO: could switch to just saving for each action the configSO and the propertyPath as a string, then get back the property from that
+    // by getting the serializedOBject from the SO and then using the path to get the fresh SerializedProp
+    private bool IsPriorityAvailable(SerializedProperty actionProperty, string guid, int requestedPriority)
+    {
+        // can
+        if (_actionsPriorities.Count == 0)
+        {
+            Debug.LogWarning("Priority Dictionary is empty");
+            return false;
+        }
+        if (!_actionsPriorities.ContainsKey(guid))
+        {
+            Debug.LogWarning("No such actionGUID inside Priority Dictionary");
+            return false;
+        }
+
+        bool priorityConflict = false;
+        foreach (var actionProp in _actionsPriorities[guid].Keys)
+        {
+            if (ReferenceEquals(
+        actionProp.serializedObject.targetObject,
+        actionProperty.serializedObject.targetObject)
+    && actionProp.propertyPath == actionProperty.propertyPath)
+                continue;
+            int priority = actionProp.FindPropertyRelative("Priority").intValue;
+            if (requestedPriority == priority)
+            {
+                priorityConflict = true;
+                break;
+            }
+        }
+
+        return !priorityConflict;
+    }
+
     public object GetTargetObjectOfProperty(SerializedProperty prop)
     {
         if (prop == null) return null;
@@ -217,25 +373,9 @@ public class InputConfigSOEditor : Editor
         return totalMaps;
     }
 
+    private HashSet<string> _mapsWithoutGUID = new();
     private void DrawWarningForMapsWithoutAnAsset()
     {
-        InputActionAsset[] inputActionAssets = AssetDatabaseUtils.GetAssetsByType<InputActionAsset>();
-
-        HashSet<string> mapsWithoutGUID = new();
-
-        LoopThroughMaps((guid, inputAssetMapList, inputAssetMapListIndex, mapIndex) =>
-        {
-            bool found = false;
-            foreach (var item in inputActionAssets)
-            {
-                if (item.FindActionMap(nameOrId: guid) != null)
-                {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) mapsWithoutGUID.Add(guid);
-        });
 
         // for (int i = 0; i < _assetMapListProp.arraySize; i++)
         // {
@@ -260,20 +400,20 @@ public class InputConfigSOEditor : Editor
         //     }
         // }
 
-        if (mapsWithoutGUID.Count == 0) return;
+        if (_mapsWithoutGUID.Count == 0) return;
 
         using (new EditorGUILayout.HorizontalScope())
         {
-            EditorGUILayout.HelpBox($"There are {mapsWithoutGUID.Count} maps with missing InputActionAsset", MessageType.Warning);
+            EditorGUILayout.HelpBox($"There are {_mapsWithoutGUID.Count} maps with missing InputActionAsset", MessageType.Warning);
             if (GUILayout.Button("Remove", GUILayout.Width(60)))
             {
                 LoopThroughMapsReverse((guid, inputAssetMapList, inputAssetMapListIndex, mapIndex) =>
                 {
                     SerializedProperty mapStructList = inputAssetMapList.FindPropertyRelative("InputMapStructs");
-                    if (mapsWithoutGUID.Contains(guid))
+                    if (_mapsWithoutGUID.Contains(guid))
                     {
                         mapStructList.DeleteArrayElementAtIndex(mapIndex);
-                        mapsWithoutGUID.Remove(guid);
+                        _mapsWithoutGUID.Remove(guid);
                     }
                 });
                 // for (int i = _assetMapListProp.arraySize - 1; i >= 0; i--)
@@ -374,6 +514,11 @@ public class InputConfigSOEditor : Editor
                     newAction.FindPropertyRelative("Priority").intValue = 0;
                     serializedObject.ApplyModifiedProperties();
                 }
+                if (DuplicatePriorityResearch != null)
+                {
+                    EditorCoroutineUtility.StopCoroutine(DuplicatePriorityResearch);
+                }
+                DuplicatePriorityResearch = EditorCoroutineUtility.StartCoroutine(DuplicatePrioritySearchCoroutine(), this);
             }
         }
 
@@ -416,6 +561,14 @@ public class InputConfigSOEditor : Editor
         EditorGUILayout.EndVertical();
     }
 
+    private void InnerWindow(int id)
+    {
+        GUILayout.Label("POllo");
+    }
+
+    Rect rect = new(200f, 200f, 200f, 200f);
+
+
     /// <summary>
     /// Renders a horizontal row for an individual action override.
     /// </summary>
@@ -426,9 +579,61 @@ public class InputConfigSOEditor : Editor
 
         // draw the action name instead of the guid, then the enabled toggle and the priority field
         EditorGUILayout.BeginHorizontal();
+        bool isActionInPriorityDictionary = _actionsPriorities.ContainsKey(actionGUID);
+        string viewAllButtonText = "View All";
+        bool priorityAvailable = IsPriorityAvailable(actionProp, actionGUID, actionProp.FindPropertyRelative("Priority").intValue);
+        if (isActionInPriorityDictionary)
+        {
+            if (!priorityAvailable)
+            {
+                viewAllButtonText = "Fix Priority";
+            }
+            else if (_actionsPriorities[actionGUID].ContainsKey(actionProp))
+            {
+
+            }
+        }
+        else
+        {
+            viewAllButtonText = "Key not found";
+        }
+
+        Color guiColor = GUI.color;
+
+        if (!priorityAvailable || !isActionInPriorityDictionary)
+        {
+            GUI.color = Color.yellowNice;
+        }
+
+        if (GUILayout.Button(viewAllButtonText, GUILayout.Width(100)))
+        {
+            if (!_actionsPriorities.ContainsKey(actionGUID))
+            {
+                Debug.LogWarning("ActionGUID isn't inside the Priority Dictionary, click the button to update it");
+            }
+            else
+            {
+                Rect buttonRect = GUILayoutUtility.GetLastRect();
+                // buttonRect = GUIUtility.GUIToScreenRect(buttonRect);
+                PopupWindow.Show(buttonRect, new PopupPriorityHelper(_actionsPriorities[actionGUID], action?.name ?? "Unknown"));
+            }
+        }
+
+        GUI.color = guiColor;
+        // if (!IsPriorityAvailable(actionProp, actionGUID, actionProp.FindPropertyRelative("Priority").intValue))
+        // {
+        //     EditorGUILayout.BeginVertical(GUILayout.Height(EditorGUIUtility.singleLineHeight));
+        //     EditorGUILayout.HelpBox("", MessageType.Warning);
+        //     EditorGUILayout.EndVertical();
+        // }
         EditorGUILayout.LabelField(action?.name ?? "Unknown", GUILayout.MinWidth(100));
         EditorGUILayout.PropertyField(actionProp.FindPropertyRelative("Enabled"), GUIContent.none, GUILayout.Width(40));
-        EditorGUILayout.PropertyField(actionProp.FindPropertyRelative("Priority"), GUIContent.none, GUILayout.Width(60));
+
+        using (new EditorGUILayout.HorizontalScope())
+        {
+
+            EditorGUILayout.PropertyField(actionProp.FindPropertyRelative("Priority"), GUIContent.none, GUILayout.Width(60));
+        }
 
         //var allConfigs = AssetDatabaseUtils.GetAssetsByType<InputConfigSO>()
         //    .Where(config => config.GetInputAssetMaps(_loaderAssetInstanceType.Type).Count > 0).ToList();
@@ -596,6 +801,11 @@ public class InputConfigSOEditor : Editor
 
                     newAction.FindPropertyRelative("Priority").intValue = priorityValue;
                     serializedObject.ApplyModifiedProperties();
+                    if (DuplicatePriorityResearch != null)
+                    {
+                        EditorCoroutineUtility.StopCoroutine(DuplicatePriorityResearch);
+                    }
+                    DuplicatePriorityResearch = EditorCoroutineUtility.StartCoroutine(DuplicatePrioritySearchCoroutine(), this);
                 });
             }
 
