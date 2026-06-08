@@ -19,8 +19,6 @@ public class Player : MonoBehaviour, ISubject
     [Header("CheckpointSystem")]
     public List<Transform> CheckPoints = new List<Transform>();
     private Transform _currentCheckpoint;
-    [SerializeField] private float _fallDuration = 0.5f;
-    [SerializeField] private AnimationCurve _fallCurve;
     private bool _isRespawning;
     private List<IObserver> _observers = new List<IObserver>();
     public GenericStateMachine<ECharacterStates> StateMachine;

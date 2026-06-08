@@ -15,7 +15,6 @@ internal class GrabCharacterState : IStateCollision2D
     private Tilemap _tilemap;
     private Animator _animator;
     private float _timer;
-    //TODO: Ctor needs to be modified
     public GrabCharacterState(Player player, PlayerController controller, GameObject torch, Tilemap tilemap,Animator animator)
     {
         _owner= player;
