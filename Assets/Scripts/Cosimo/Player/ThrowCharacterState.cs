@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem.XR;
 using static UnityEditor.Experimental.GraphView.GraphView;
 /// <summary>
-/// Handles the Throw State. Now this state is doing nothing . 
+/// Handles the Throw State. When you throw, based on the color does +1 on the R,G,B value
 /// </summary>
 internal class ThrowCharacterState : IStateCollision2D
 {
@@ -60,7 +60,7 @@ internal class ThrowCharacterState : IStateCollision2D
         }
 
        
-        if (!IsNearMagicTorch(out LightEmitter targetEmitter))
+        if (!IsOverTorch(out LightEmitter targetEmitter))
         {
             Debug.LogWarning("[Throw] Impossibile lanciare: nessuna torcia magica rilevata davanti al giocatore.");
             _owner.SetState(ECharacterStates.Idle); 
@@ -124,29 +124,25 @@ internal class ThrowCharacterState : IStateCollision2D
         };
     }
 
-    private bool IsNearMagicTorch(out LightEmitter lightEmitter)
+    private bool IsOverTorch(out LightEmitter lightEmitter)
     {
-        lightEmitter = null; // Inizializzazione di sicurezza
-        Vector3 interactionPos = _owner.transform.position + (Vector3)_ownerController.LastLookDirection * 0.8f; //
-        Vector3Int cellPos = _owner.PlaceableTilemap.WorldToCell(interactionPos); //
-        GameObject itemOnTile = PlacementManager.Instance.GetItemAt(cellPos); //
+        lightEmitter = null;
+        Vector3 interactionPos = _owner.transform.position;
+        Vector3Int cellPos = _owner.PlaceableTilemap.WorldToCell(interactionPos);
+        GameObject itemOnTile = PlacementManager.Instance.GetItemAt(cellPos);
 
-        if (itemOnTile != null) //
+        if (itemOnTile != null)
         {
-            // 1. Cerchiamo prima il componente MagicalTorch che sappiamo essere presente
             var torch = itemOnTile.GetComponentInChildren<MagicalTorch>();
 
             if (torch != null)
             {
-                // 2. Cerchiamo il LightEmitter sullo stesso oggetto, includendo anche quelli disattivati
                 lightEmitter = torch.GetComponent<LightEmitter>();
 
                 if (lightEmitter == null)
                 {
                     lightEmitter = torch.GetComponentInChildren<LightEmitter>(true);
                 }
-
-                // Se lo abbiamo trovato, il controllo è superato con successo!
                 if (lightEmitter != null)
                 {
                     return true;
