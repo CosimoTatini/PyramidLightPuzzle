@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Cosimo.Inventory;
 using Codice.Client.Common.GameUI;
+using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -83,6 +84,14 @@ internal class GrabCharacterState : IStateCollision2D
             if (itemToPick.TryGetComponent<TypeChooser>(out var torchComponent))
             {
                 typeToReturn = torchComponent.Type;
+
+                if(typeToReturn == TorchType.Magical)
+                {
+                    if(itemToPick.TryGetComponent<LightEmitter>(out var lightEmitter))
+                    {
+                        RecoverPowder(lightEmitter);
+                    }
+                }
             }
 
             InventoryManager.Instance.ReturnTorch(typeToReturn);
@@ -108,6 +117,24 @@ internal class GrabCharacterState : IStateCollision2D
 
         _owner.SetState(ECharacterStates.Idle);
 
+    }
+
+    private void RecoverPowder(LightEmitter lightEmitter)
+    {
+        if(lightEmitter.RedAmount>0)
+        {
+            InventoryManager.Instance.AddPowder(PowderColor.Red,lightEmitter.RedAmount);
+        }
+
+        if(lightEmitter.GreenAmount>0)
+        {
+            InventoryManager.Instance.AddPowder(PowderColor.Green,lightEmitter.GreenAmount);
+        }
+
+        if(lightEmitter.BlueAmount>0)
+        {
+            InventoryManager.Instance.AddPowder(PowderColor.Blue,lightEmitter.BlueAmount);
+        }
     }
 
     public void OnTriggerEnter2D(Collider2D collider)
