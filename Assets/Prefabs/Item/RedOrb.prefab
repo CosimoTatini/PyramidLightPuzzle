@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 339065007641595609}
   - component: {fileID: 6417194757862919148}
   m_Layer: 0
-  m_Name: ColoredOrb
+  m_Name: RedOrb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82,7 +82,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 29927798510220546, guid: 2ecfead30cbb35aa08c06a59846f1142, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.43131813, b: 0.41037738, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
