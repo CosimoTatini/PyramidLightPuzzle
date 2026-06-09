@@ -55,7 +55,7 @@ public static class AssetDatabaseUtils
     {
         string[] GUIDs = GetGUIDs(query);
 
-        if (GUIDs == null) return null;
+        if (GUIDs == null) return Array.Empty<Object>();
 
         Object[] assets = new Object[GUIDs.Length];
 
