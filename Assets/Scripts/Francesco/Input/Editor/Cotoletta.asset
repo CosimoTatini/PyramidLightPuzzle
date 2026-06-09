@@ -80,9 +80,6 @@ MonoBehaviour:
         Guid: b7230bb6-fc9b-4f52-8b25-f5e19cb2c2ba
         Enabled: 1
       - Priority: 0
-        Guid: 641cd816-40e6-41b4-8c3d-04687c349290
-        Enabled: 1
-      - Priority: 0
         Guid: 8111a4e7-2ecc-44e0-be3e-8845bf8cb323
         Enabled: 1
       - Priority: 0
@@ -102,5 +99,8 @@ MonoBehaviour:
         Enabled: 1
       - Priority: 0
         Guid: fc5aee51-93f4-42b8-b8f5-56703389d4ca
+        Enabled: 1
+      - Priority: 3
+        Guid: 641cd816-40e6-41b4-8c3d-04687c349290
         Enabled: 1
   _lastUsedInputAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

@@ -20,7 +20,7 @@ MonoBehaviour:
       - Priority: 0
         Guid: 351f2ccd-1f9f-44bf-9bec-d62ac5c5f408
         Enabled: 1
-      - Priority: 1
+      - Priority: 4
         Guid: 6b444451-8a00-4d00-a97e-f47457f736a8
         Enabled: 1
       - Priority: 0
@@ -41,7 +41,7 @@ MonoBehaviour:
       - Priority: 0
         Guid: b7230bb6-fc9b-4f52-8b25-f5e19cb2c2ba
         Enabled: 1
-      - Priority: 0
+      - Priority: 10
         Guid: 641cd816-40e6-41b4-8c3d-04687c349290
         Enabled: 1
       - Priority: 0

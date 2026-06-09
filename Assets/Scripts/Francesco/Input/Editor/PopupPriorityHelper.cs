@@ -32,10 +32,13 @@ public class PopupPriorityHelper : PopupWindowContent
         public string PropertyPath;
     }
 
+    private string _searchQuery;
+
     public override void OnGUI(Rect rect)
     {
         EditorGUILayout.LabelField(_actionName, GUILayout.MinWidth(100));
-        using (var scope = new GUILayout.ScrollViewScope(_scrollPos, false, false, GUILayout.ExpandHeight(true), GUILayout.Height(GetWindowSize().y - EditorGUIUtility.singleLineHeight - 10)))
+        _searchQuery = EditorGUILayout.TextField("Config Name:", _searchQuery);
+        using (var scope = new GUILayout.ScrollViewScope(_scrollPos, false, false, GUILayout.ExpandHeight(true), GUILayout.Height(GetWindowSize().y - EditorGUIUtility.singleLineHeight * 3)))
         {
             _scrollPos = scope.scrollPosition;
 
@@ -46,6 +49,11 @@ public class PopupPriorityHelper : PopupWindowContent
             foreach (var item in _actionPrioritiesPaths)
             {
                 if (item.Key == null) continue;
+                if (!string.IsNullOrEmpty(_searchQuery))
+                {
+                    if (item.Key.name.IndexOf(_searchQuery, System.StringComparison.OrdinalIgnoreCase) < 0) continue;
+                }
+
                 SerializedObject inputConfigObject = new(item.Key);
                 inputConfigObject.Update();
 
@@ -76,11 +84,11 @@ public class PopupPriorityHelper : PopupWindowContent
 
                     int oldPriority = row.PriorityProperty.intValue;
 
-                    Color guiColor = GUI.backgroundColor;
+                    Color guiColor = GUI.color;
 
                     if (_prioritiesCount[oldPriority] > 1)
                     {
-                        GUI.backgroundColor = Color.yellowNice;
+                        GUI.color = Color.Lerp(guiColor, Color.yellow, 0.4f);
                     }
 
                     EditorGUILayout.BeginHorizontal();
@@ -101,13 +109,13 @@ public class PopupPriorityHelper : PopupWindowContent
 
                         int newPriority = row.PriorityProperty.intValue;
                         if (oldPriority != newPriority)
-                            InputConfigSOEditor.UpdatePriority(row.Guid, oldPriority, newPriority, row.PropertyPath, row.ConfigSO);
+                            InputConfigPriorityCache.RebuildPriorityDictionary();
                     }
 
                     EditorGUILayout.EndHorizontal();
                     EditorGUILayout.Space(3);
 
-                    GUI.backgroundColor = guiColor;
+                    GUI.color = guiColor;
                 }
             }
         }

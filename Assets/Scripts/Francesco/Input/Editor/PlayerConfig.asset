@@ -20,7 +20,7 @@ MonoBehaviour:
       - Priority: 2
         Guid: 351f2ccd-1f9f-44bf-9bec-d62ac5c5f408
         Enabled: 1
-      - Priority: 0
+      - Priority: 5
         Guid: 6b444451-8a00-4d00-a97e-f47457f736a8
         Enabled: 1
       - Priority: 0
@@ -47,10 +47,10 @@ MonoBehaviour:
       - Priority: 0
         Guid: 641cd816-40e6-41b4-8c3d-04687c349290
         Enabled: 1
-      - Priority: 0
+      - Priority: 22
         Guid: 8111a4e7-2ecc-44e0-be3e-8845bf8cb323
         Enabled: 1
-      - Priority: 0
+      - Priority: 464
         Guid: caf14774-abd8-4d43-9996-dc353909bc3f
         Enabled: 1
       - Priority: 0
@@ -62,21 +62,21 @@ MonoBehaviour:
       - Priority: 0
         Guid: f14be638-ae99-4ea6-bb63-6b910da41c5b
         Enabled: 1
+      - Priority: 0
+        Guid: b7230bb6-fc9b-4f52-8b25-f5e19cb2c2ba
+        Enabled: 1
     - Guid: 272f6d14-89ba-496f-b7ff-215263d3219f
       InputActionStructs:
       - Priority: 0
         Guid: c95b2375-e6d9-4b88-9c4c-c5e76515df4b
         Enabled: 1
-      - Priority: 0
+      - Priority: 4
         Guid: 7607c7b6-cd76-4816-beef-bd0341cfe950
         Enabled: 1
       - Priority: 0
         Guid: 15cef263-9014-4fd5-94d9-4e4a6234a6ef
         Enabled: 1
-      - Priority: 0
-        Guid: 3c7022bf-7922-4f7c-a998-c437916075ad
-        Enabled: 1
-      - Priority: 3
+      - Priority: 44
         Guid: 44b200b1-1557-4083-816c-b22cbdf77ddf
         Enabled: 1
       - Priority: 0
@@ -85,7 +85,7 @@ MonoBehaviour:
       - Priority: 0
         Guid: 0489e84a-4833-4c40-bfae-cea84b696689
         Enabled: 1
-      - Priority: 0
+      - Priority: 2
         Guid: 24908448-c609-4bc3-a128-ea258674378a
         Enabled: 1
       - Priority: 0

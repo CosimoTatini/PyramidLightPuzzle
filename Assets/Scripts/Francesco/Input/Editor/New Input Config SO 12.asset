@@ -41,7 +41,7 @@ MonoBehaviour:
       - Priority: 3
         Guid: b7230bb6-fc9b-4f52-8b25-f5e19cb2c2ba
         Enabled: 1
-      - Priority: 0
+      - Priority: 234
         Guid: 641cd816-40e6-41b4-8c3d-04687c349290
         Enabled: 1
       - Priority: 0
