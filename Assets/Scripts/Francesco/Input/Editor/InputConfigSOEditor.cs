@@ -25,7 +25,6 @@ public class InputConfigSOEditor : Editor
 
     private bool _alreadyCreatedArrayElementForAssetMapList;
 
-    //TODO: make SO database for priorities, so we can assign a unique priority value to each action inside of a config
     private HashSet<string> _mapsWithoutAsset = new();
     private readonly double _rebuildDelay = 0.5f;
     private double _rebuildDeadline = -1f;
@@ -63,8 +62,6 @@ public class InputConfigSOEditor : Editor
             if (!found) _mapsWithoutAsset.Add(guid);
         });
     }
-
-
 
     void OnDisable()
     {
@@ -207,9 +204,23 @@ public class InputConfigSOEditor : Editor
         _loaderAssetInstanceType = (TypeVar)_assetMapListProp.GetArrayElementAtIndex(assetMapListIndex).FindPropertyRelative("AssetType").objectReferenceValue;
 
         // if TypeVar is null we can't proceed
-        if (_assetMapListProp.GetArrayElementAtIndex(assetMapListIndex).FindPropertyRelative("AssetType").objectReferenceValue == null)
+        if (_loaderAssetInstanceType == null)
         {
             EditorGUILayout.HelpBox("Assign a TypeVar to associate to the Reference Asset to edit overrides.", MessageType.Info);
+            serializedObject.ApplyModifiedProperties();
+            return;
+        }
+        else if (_loaderAssetInstanceType.Type == null)
+        {
+            Debug.LogWarning("Assign a TypeVar with a Type to associate to the Reference Asset to edit overrides.");
+            _assetMapListProp.GetArrayElementAtIndex(assetMapListIndex).FindPropertyRelative("AssetType").objectReferenceValue = null;
+            serializedObject.ApplyModifiedProperties();
+            return;
+        }
+        else if (!typeof(IInputActionCollection2).IsAssignableFrom(_loaderAssetInstanceType.Type))
+        {
+            Debug.LogWarning("Assign a TypeVar with Type being the C# generated script of an InputActionAsset to associate to the Reference Asset to edit overrides.");
+            _assetMapListProp.GetArrayElementAtIndex(assetMapListIndex).FindPropertyRelative("AssetType").objectReferenceValue = null;
             serializedObject.ApplyModifiedProperties();
             return;
         }

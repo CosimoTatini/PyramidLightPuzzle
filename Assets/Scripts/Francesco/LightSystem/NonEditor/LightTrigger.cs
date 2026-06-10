@@ -34,9 +34,10 @@ public class LightTrigger : MonoBehaviour
     //     }
     // }
 
-    [Header("Subscribers")]
+    //[SerializeField] private ELightType _lightType;
     [SerializeField] private List<IR_ILightTriggerReceiver> _receivers;
 
+    //public ELightType LightType => _lightType;
     public bool IsActive => _lightSensor.IsActive;
 
     // these 3 events are private to avoid unintentional subscriptions, you can add listeners using public methods, also we don't need to pass LightSensor, we can just Get it with a public => LightSensor

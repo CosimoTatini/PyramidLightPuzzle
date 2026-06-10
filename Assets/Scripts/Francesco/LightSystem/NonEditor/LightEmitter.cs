@@ -7,8 +7,9 @@ using System;
 public class LightEmitter : MonoBehaviour
 {
     [SerializeField] private Light2D _light;
-    [SerializeField] private Color _baseColor = Color.gray1;
+    [SerializeField] private ELightType _lightType;
     public Light2D Light => _light;
+    public ELightType LightType => _lightType;
 
     [Header("Dusts quantities")]
     [SerializeField, Min(0)] private int _redAmount = 0;
