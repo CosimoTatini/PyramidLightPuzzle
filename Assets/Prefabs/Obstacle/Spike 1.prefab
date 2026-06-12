@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 228477893790432275}
   - component: {fileID: 1620233194054688198}
   - component: {fileID: 1424427101442279917}
+  - component: {fileID: 2056515310066080817}
   m_Layer: 0
   m_Name: Spike 1
   m_TagString: Untagged
@@ -223,8 +224,8 @@ MonoBehaviour:
   m_ShadowMesh:
     m_Mesh: {fileID: 0}
     m_LocalBounds:
-      m_Center: {x: 0, y: 0, z: 0}
-      m_Extent: {x: 0, y: 0, z: 0}
+      m_Center: {x: 0, y: 0.43733978, z: 0}
+      m_Extent: {x: 0.5, y: 0.4330063, z: 0}
     m_EdgeProcessing: 1
     m_TrimEdge: 0
     m_FlipX: 0
@@ -232,12 +233,28 @@ MonoBehaviour:
     m_InitialTrim: 0
   m_CastingOption: 1
   m_PreviousTrimEdge: 0
-  m_PreviousEdgeProcessing: -1
-  m_PreviousShadowCastingSource: -1
-  m_PreviousShadowShape2DSource: {fileID: 0}
+  m_PreviousEdgeProcessing: 1
+  m_PreviousShadowCastingSource: 2
+  m_PreviousShadowShape2DSource: {fileID: 228477893790432275}
   references:
     version: 2
     RefIds:
     - rid: 7123474592342212684
       type: {class: ShadowShape2DProvider_Collider2D, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
       data: 
+--- !u!114 &2056515310066080817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7518949681294907776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e263fe59348c03d4896a0875a08dfd62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  _timeBeetweenSpikes: 1
+  _activeDuration: 2
+  _inactiveDuration: 2
+  _delay: 1
