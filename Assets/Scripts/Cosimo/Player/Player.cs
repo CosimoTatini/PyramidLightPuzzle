@@ -75,7 +75,7 @@ public class Player : MonoBehaviour, ISubject
         StateMachine.RegisterState(ECharacterStates.Grab, new GrabCharacterState(this, _playerController, _torchPrefab, _placeableTilemap, Animator));
         StateMachine.RegisterState(ECharacterStates.Death, new DeathCharacterState(this, _playerController, Animator));
         StateMachine.RegisterState(ECharacterStates.Throw, new ThrowCharacterState(this,_playerController,Animator));
-        StateMachine.SetState(ECharacterStates.Idle);
+        SetState(ECharacterStates.Idle);
         _currentState = StateMachine.CurrentState;
     }
 

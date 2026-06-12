@@ -7,6 +7,7 @@ using UnityEngine.Events;
 public class LightSensor : MonoBehaviour, ILightReceiver
 {
     [SerializeField] private bool _isActive = false;
+    [SerializeField] private ELightType _acceptedLightType;
     [SerializeField] private List<LightEmitter> _excludedEmitters = new();
     public bool IsActive
     {
@@ -27,6 +28,8 @@ public class LightSensor : MonoBehaviour, ILightReceiver
             }
         }
     }
+
+    public ELightType AcceptedLightType => _acceptedLightType;
 
     /// <summary>
     /// keeps track of currently in range emitters and their contribute to the amounts, also useful when an emitter changes so we know what its contribute was
@@ -132,6 +135,7 @@ public class LightSensor : MonoBehaviour, ILightReceiver
 
     public void AddLight(LightEmitter emitter)
     {
+        if (emitter.LightType != _acceptedLightType) return;
         if (_emittersInRangeAndValues.ContainsKey(emitter) || _excludedEmitters.Contains(emitter)) return;
         if (_emittersInRangeAndValues.ContainsKey(emitter)) return;
 

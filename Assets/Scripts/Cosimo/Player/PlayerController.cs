@@ -1,5 +1,6 @@
 using Assets.Scripts.Cosimo.Inventory;
 using System;
+using System.Collections.Generic;
 using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,6 +10,8 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private InputConfigSO _playerConfig;
+    public InputConfigSO PlayerConfig => _playerConfig;
     private InputSystem_Actions _inputActions;
     [SerializeField] float _moveSpeed;
     private Rigidbody2D _rb;
@@ -30,7 +33,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _inputActions = new InputSystem_Actions();
+       _inputActions = InputConfigManager.Instance.GetInputSytemInstanceGeneric<InputSystem_Actions>(0);
 
         _inputActions.Player.Move.performed += ctx => {
             _moveDirection = ctx.ReadValue<Vector2>();
@@ -63,7 +66,7 @@ public class PlayerController : MonoBehaviour
     {
         _moveDirection = Vector2.zero;
     }
-    private void OnEnable() => _inputActions.Enable();
-    private void OnDisable() => _inputActions.Disable();
+    // private void OnEnable() => _inputActions.Enable();
+    // private void OnDisable() => _inputActions.Disable();
 
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Codice.CM.Common.Merge;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -10,6 +11,7 @@ public class MovingPlatform : MonoBehaviour, ILightTriggerReceiver, IVelocityPro
 
     [SerializeField] private bool _reverseBehaviour = false;
 
+    private float _timeElapsed;
     private int _currentWaypoint = 0;
     private int NextWayPoint
     {
@@ -56,6 +58,7 @@ public class MovingPlatform : MonoBehaviour, ILightTriggerReceiver, IVelocityPro
     {
         _rb = GetComponent<Rigidbody2D>();
         _currentWaypoint = 0;
+        _timeElapsed = 0;
         transform.position = _wayPoints[_currentWaypoint].position;
 #if UNITY_EDITOR
         _previousUseRadius = _useRadius;
@@ -64,24 +67,40 @@ public class MovingPlatform : MonoBehaviour, ILightTriggerReceiver, IVelocityPro
 
     private void FixedUpdate()
     {
-        if (!_isMoving)
+        // avoid useless calculations, also protects from DIV by 0 error when calculating duration
+        if (!_isMoving || _moveSpeed <= 0f)
         {
             Velocity = Vector2.zero;
             return;
         }
 
         Vector2 targetPos = _wayPoints[NextWayPoint].position;
-        Vector2 reachPos = Vector2.MoveTowards(_rb.position, targetPos, _moveSpeed * Time.fixedDeltaTime);
+        Vector2 startPos = _wayPoints[_currentWaypoint].position;
+        
+        float totalDistance = Vector2.Distance(startPos, targetPos);
+        float duration = totalDistance/_moveSpeed;
+
+        _timeElapsed += Time.fixedDeltaTime;
+
+        // if duration is exactly 0 (meaning totalDistance is 0) we directly set t to 1, so we go to next waypoint
+        float t = duration > 0 ? _timeElapsed/duration : 1f;
+
+        Vector2 nextPos = Vector2.Lerp(startPos, targetPos, Mathf.Clamp01(t));
+
         // NOTE: this calculates the current velocity, even if as this line of code the velocity isn't changed yet, this makes
         // the passengers have the correct velocity, otherwise we would get an outdated one which leads to incorrect movement.
         // This also requires the platform to be ran before the passengers in the execution order, otherwise we would get the velocity of the previous frame which leads to a stuttering movement.
-        Velocity = (reachPos - _rb.position) / Time.fixedDeltaTime;
+        Velocity = (nextPos - _rb.position) / Time.fixedDeltaTime;
 
-        _rb.MovePosition(reachPos);
-
-        if (Vector2.Distance(targetPos, _rb.position) <= 0.1f)
+        _rb.MovePosition(nextPos);
+        //TODO: in case of a big stutter, we could've covered more than one waypoint, and we should account for that so doesn't matter how much time
+        // passed, the platform is where it should, tho the current solution is very reasonable
+        // we've reached the nextWayPoint
+        if(t >= 1f)
         {
             _currentWaypoint = NextWayPoint;
+            // subtract the duration, if this trip took extra time this will the balance next one (it will have slightly less time to reach the next waypoint), this removes tiny desyncs that can happen over time
+            _timeElapsed -= duration;
         }
     }
 

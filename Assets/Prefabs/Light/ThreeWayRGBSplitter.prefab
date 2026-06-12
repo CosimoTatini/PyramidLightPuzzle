@@ -452,11 +452,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: LightSystem::LightEmitter
   _light: {fileID: 1512034502539648759}
-  _baseColor: {r: 0, g: 0.41960788, b: 1, a: 1}
+  _lightType: 1
   _redAmount: 0
   _greenAmount: 0
   _blueAmount: 0
   _maxAmount: 4
+  CanUpdateLight: 0
 --- !u!61 &7322196431488312531
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -671,6 +672,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: LightSystem::LightSensor
   _isActive: 0
+  _acceptedLightType: 0
   _excludedEmitters:
   - {fileID: 8003663945459955382}
   - {fileID: 4923195493374478903}
@@ -699,7 +701,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48733f26ec84efa4bbeee14617932ea1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: LightSystem::ThreeWayRGBSplit
-  _rotationSpeed: 5
+  _rotationTime: 1.5
+  _rotationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _hitMask:
     serializedVersion: 2
     m_Bits: 256
@@ -895,11 +921,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: LightSystem::LightEmitter
   _light: {fileID: 6690573874034102615}
-  _baseColor: {r: 0.33333334, g: 1, b: 0.07450981, a: 1}
+  _lightType: 1
   _redAmount: 0
   _greenAmount: 0
   _blueAmount: 0
   _maxAmount: 4
+  CanUpdateLight: 0
 --- !u!61 &1183685789279800212
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1197,11 +1224,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: LightSystem::LightEmitter
   _light: {fileID: 6375314845984544480}
-  _baseColor: {r: 1, g: 0, b: 0, a: 1}
+  _lightType: 1
   _redAmount: 0
   _greenAmount: 0
   _blueAmount: 0
   _maxAmount: 4
+  CanUpdateLight: 0
 --- !u!61 &6457169806546036795
 BoxCollider2D:
   m_ObjectHideFlags: 0

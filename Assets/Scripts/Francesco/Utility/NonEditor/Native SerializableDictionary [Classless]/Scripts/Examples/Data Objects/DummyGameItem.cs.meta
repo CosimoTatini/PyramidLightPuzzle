@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 9d58b944e8ff1089eb7269cfa171e9aa
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 226789
+  packageName: 'Native SerializableDictionary [Classless]'
+  packageVersion: 2.0
+  assetPath: Assets/Native SerializableDictionary [Classless]/Scripts/Examples/Data
+    Objects/DummyGameItem.cs
+  uploadId: 773149
