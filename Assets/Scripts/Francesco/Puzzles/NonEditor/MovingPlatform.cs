@@ -101,6 +101,7 @@ public class MovingPlatform : MonoBehaviour, ILightTriggerReceiver, IVelocityPro
             _currentWaypoint = NextWayPoint;
             // subtract the duration, if this trip took extra time this will the balance next one (it will have slightly less time to reach the next waypoint), this removes tiny desyncs that can happen over time
             _timeElapsed -= duration;
+            Debug.Log($"{duration} {_timeElapsed}");
         }
     }
 
