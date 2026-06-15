@@ -1,67 +1,114 @@
-using System;
+﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ActiveDeactiveObstacle : MonoBehaviour
 {
-    [Header("Timing Settings")]
-    [SerializeField] private float _timeBetweenActivation = 1.0f;
+    [Header("Global Timing Settings")]
     [SerializeField] private float _delayBeforeDeactivation = 2.0f;
-    [SerializeField] private float _timeBetweenDeactivation = 1.0f;
-    [SerializeField] private float _delayBeforeLoopRestart = 3.0f; // Il tempo X di attesa prima di ripartire
+    [SerializeField] private float _delayBeforeLoopRestart = 3.0f;
 
-    // Cache per ottimizzare le prestazioni ed evitare il GetChild nel ciclo
-    private Transform[] _childObstacles;
+    private List<SpikeHandler> _spikeObstacles = new List<SpikeHandler>();
+    private WaitForSeconds _waitBeforeDeactivate;
+    private WaitForSeconds _waitRestart;
 
     private void Start()
     {
         InitializeCache();
 
-        if (_childObstacles.Length > 0)
+        if (_spikeObstacles.Count > 0)
         {
+            // Forza lo spegnimento iniziale di tutte le trappole prima di avviare il ciclo
+            foreach (var spike in _spikeObstacles)
+            {
+                if (spike != null) spike.DeactivateTrap();
+            }
+
             StartCoroutine(ActivationDeactivationCoroutine());
+        }
+        else
+        {
+            Debug.LogError($"[SpikeManager] ERRORE: Nessuno SpikeHandler trovato sotto {gameObject.name}.", this);
         }
     }
 
     private void InitializeCache()
     {
-        int childCount = transform.childCount;
-        _childObstacles = new Transform[childCount];
+        _spikeObstacles.Clear();
 
-        for (int i = 0; i < childCount; i++)
+        // Trova tutti i componenti SpikeHandler nei figli, inclusi quelli disattivati (true)
+        SpikeHandler[] handlers = GetComponentsInChildren<SpikeHandler>(true);
+
+        if (handlers != null && handlers.Length > 0)
         {
-            _childObstacles[i] = transform.GetChild(i);
+            _spikeObstacles.AddRange(handlers);
+
+            // Ordina la lista in base al Delay impostato dalla tua finestra Editor 🛠️
+            _spikeObstacles.Sort((x, y) => x.Delay.CompareTo(y.Delay));
+            Debug.Log($"[SpikeManager] Cache configurata con successo. {_spikeObstacles.Count} spine pronte.", this);
         }
+
+        _waitBeforeDeactivate = new WaitForSeconds(_delayBeforeDeactivation);
+        _waitRestart = new WaitForSeconds(_delayBeforeLoopRestart);
     }
 
     private IEnumerator ActivationDeactivationCoroutine()
     {
-        
+        // Aspetta che Unity completi l'inizializzazione del frame iniziale
+        yield return new WaitForEndOfFrame();
+
         while (true)
         {
-            
-            for (int i = 0; i < _childObstacles.Length; i++)
+            Debug.Log("[SpikeManager] --- Inizio Fase Attivazione ---");
+
+            // FASE 1: ATTIVAZIONE IN SEQUENZA
+            for (int i = 0; i < _spikeObstacles.Count; i++)
             {
-                _childObstacles[i].gameObject.SetActive(true);
+                if (_spikeObstacles[i] == null) continue;
 
-                // Nota: Quando inserirai l'Animator, potrai fare qualcosa del genere:
-                // if (_childObstacles[i].TryGetComponent(out Animator anim)) anim.Play("YourClipName");
+                float waitTime = _spikeObstacles[i].Delay;
+                if (i > 0)
+                {
+                    waitTime = _spikeObstacles[i].Delay - _spikeObstacles[i - 1].Delay;
+                }
 
-                yield return new WaitForSeconds(_timeBetweenActivation);
+                if (waitTime > 0f)
+                {
+                    yield return new WaitForSeconds(waitTime);
+                }
+
+                _spikeObstacles[i].ActivateTrap();
+                Debug.Log($"[SpikeManager] Spina {i} ACCESA a schermo (Delay: {_spikeObstacles[i].Delay}s)");
             }
 
-           
-            yield return new WaitForSeconds(_delayBeforeDeactivation);
+            Debug.Log("[SpikeManager] Tutte le spine fuori. Aspetto la disattivazione...");
+            yield return _waitBeforeDeactivate;
 
-           
-            for (int i = _childObstacles.Length - 1; i >= 0; i--)
+            Debug.Log("[SpikeManager] --- Inizio Fase Disattivazione (Dalla prima) ---");
+
+            // FASE 2: DISATTIVAZIONE IN SEQUENZA
+            for (int i = 0; i < _spikeObstacles.Count; i++)
             {
-                _childObstacles[i].gameObject.SetActive(false);
-                yield return new WaitForSeconds(_timeBetweenDeactivation);
+                if (_spikeObstacles[i] == null) continue;
+
+                float waitTime = _spikeObstacles[i].Delay;
+                if (i > 0)
+                {
+                    waitTime = _spikeObstacles[i].Delay - _spikeObstacles[i - 1].Delay;
+                }
+
+                if (waitTime > 0f)
+                {
+                    yield return new WaitForSeconds(waitTime);
+                }
+
+                _spikeObstacles[i].DeactivateTrap();
+                Debug.Log($"[SpikeManager] Spina {i} SPENTA a schermo (Delay: {_spikeObstacles[i].Delay}s)");
             }
 
-           
-            yield return new WaitForSeconds(_delayBeforeLoopRestart);
+            Debug.Log("[SpikeManager] Ciclo terminato. Aspetto il riavvio...");
+            yield return _waitRestart;
         }
     }
 }

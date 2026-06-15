@@ -1,50 +1,42 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Data.SqlTypes;
 using UnityEngine;
 
 public class SpikeHandler : MonoBehaviour
 {
-    [SerializeField] private float _timeBeetweenSpikes = 1.0f;
-    [SerializeField] private float _activeDuration = 2.0f;
-    [SerializeField] private float _inactiveDuration = 2.0f;
+    [Header("Spike Settings")]
     [SerializeField] private float _delay;
+
     public float Delay
     {
         get => _delay;
         set => _delay = value;
     }
-    private void Start()
+
+    private Renderer _renderer;
+    private Collider2D _collider;
+
+    private void Awake()
     {
-        int index = transform.GetSiblingIndex();
-        _delay = index * _timeBeetweenSpikes;
-        StartCoroutine(SpikeLifecyleCoroutine());
+        _renderer = GetComponentInChildren<Renderer>(true);
+        _collider = GetComponent<Collider2D>();
+
+        if (_renderer == null) Debug.LogError($"[SpikeHandler] Manca il Renderer su {gameObject.name} o nei figli!", this);
+        if (_collider == null) Debug.LogError($"[SpikeHandler] Manca il Collider2D su {gameObject.name}!", this);
     }
 
-    private IEnumerator SpikeLifecyleCoroutine()
+    public void ActivateTrap()
     {
-       yield return new WaitForSeconds(_delay);
-
-        while(true)
-        {
-            ToggleSpikeVisual(true);
-            yield return new WaitForSeconds(_activeDuration);
-
-            ToggleSpikeVisual(false);
-            yield return new WaitForSeconds(_inactiveDuration);
-        }
+        gameObject.SetActive(true);
+        if (_renderer != null) _renderer.enabled = true;
+        if (_collider != null) _collider.enabled = true;
     }
 
-    private void ToggleSpikeVisual(bool isActive)
+    public void DeactivateTrap()
     {
-        if(TryGetComponent(out Renderer renderer))
-        {
-            renderer.enabled = isActive;
-        }
-
-        if(TryGetComponent(out Collider2D collider))
-        {
-            collider.enabled = isActive;
-        }
+        // Spegniamo l'intero GameObject. Il Manager sarà comunque in grado 
+        // di riattivarlo perché la Coroutine gira sul Manager (Parent), che resta acceso.
+        gameObject.SetActive(false);
     }
 }

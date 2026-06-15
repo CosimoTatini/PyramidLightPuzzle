@@ -60,23 +60,23 @@ public class SpikeHandlerWindow : EditorWindow
             return;
         }
 
-        // Algoritmo lineare: imposta il delay progressivo (+1 rispetto al precedente)
+        
         for (int i = 0; i < _spikes.Count; i++)
         {
             if (_spikes[i] != null)
             {
-                // Registra l'operazione per consentire l'Undo (Ctrl+Z) in Unity, un tocco da Senior!
+                
                 Undo.RecordObject(_spikes[i], "Auto Assign Spike Delay");
 
-                // Assegna il valore matematico (0, 1, 2, 3...)
+               
                 _spikes[i].Delay = i;
 
-                // Forza Unity a salvare la modifica sull'oggetto in scena o nel prefab
+                
                 EditorUtility.SetDirty(_spikes[i]);
             }
         }
 
-        // Blocca il bottone fino alla riapertura della finestra
+  
         _hasAppliedSequence = true;
         Debug.Log("I delay delle spine sono stati aggiornati con successo!");
     }
