@@ -60,7 +60,7 @@
         "*.asset": "yaml",
         "*.meta": "yaml",
         "*.prefab": "yaml",
-        "*.unity": "yaml",
+        "*.unity": "yaml"
     },
     "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.patterns": {
@@ -75,5 +75,6 @@
     "dotnet.inlayHints.enableInlayHintsForLiteralParameters": true,
     "dotnet.inlayHints.enableInlayHintsForObjectCreationParameters": true,
     "dotnet.inlayHints.enableInlayHintsForOtherParameters": true,
-    "dotnet.inlayHints.enableInlayHintsForParameters": true
+    "dotnet.inlayHints.enableInlayHintsForParameters": true,
+    "dotnet.defaultSolution": "PyramidLightPuzzle.slnx"
 }
