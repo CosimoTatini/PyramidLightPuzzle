@@ -227,7 +227,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e263fe59348c03d4896a0875a08dfd62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _delay: 0
+  _animSettings:
+    clipName: RiseSpike
+    clip: {fileID: 0}
+  _delay: 31
 --- !u!61 &7634288977547004962
 BoxCollider2D:
   m_ObjectHideFlags: 0

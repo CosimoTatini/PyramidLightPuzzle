@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -35,7 +34,7 @@ public class ActiveDeactiveObstacle : MonoBehaviour
         if (handlers != null && handlers.Length > 0)
         {
             _spikeObstacles.AddRange(handlers);
-            // Ordina la lista in base ai dati della finestra Editor Custom
+            // Ordina la lista in base ai delay calcolati dalla finestra Editor Custom
             _spikeObstacles.Sort((x, y) => x.Delay.CompareTo(y.Delay));
         }
 
@@ -45,11 +44,12 @@ public class ActiveDeactiveObstacle : MonoBehaviour
 
     private IEnumerator ActivationDeactivationCoroutine()
     {
+        // Attesa di sicurezza iniziale
         yield return new WaitForEndOfFrame();
 
         while (true)
         {
-            // 1. FASE DI ATTIVAZIONE SEQUENZIALE
+            // FASE 1: ATTIVAZIONE IN ONDA (In Avanti)
             for (int i = 0; i < _spikeObstacles.Count; i++)
             {
                 if (_spikeObstacles[i] == null) continue;
@@ -60,10 +60,10 @@ public class ActiveDeactiveObstacle : MonoBehaviour
                 _spikeObstacles[i].ActivateTrap();
             }
 
-            // Attesa con tutte le spine fuori e attive
+            // Aspetta il tempo in cui le spine rimangono totalmente estratte
             yield return _waitBeforeDeactivate;
 
-            // 2. FASE DI DISATTIVAZIONE SEQUENZIALE (Rewind + Spegnimento)
+            // FASE 2: DISATTIVAZIONE IN ONDA (Sempre dalla prima, con Rewind)
             for (int i = 0; i < _spikeObstacles.Count; i++)
             {
                 if (_spikeObstacles[i] == null) continue;
@@ -71,12 +71,11 @@ public class ActiveDeactiveObstacle : MonoBehaviour
                 float waitTime = i > 0 ? _spikeObstacles[i].Delay - _spikeObstacles[i - 1].Delay : _spikeObstacles[i].Delay;
                 if (waitTime > 0f) yield return new WaitForSeconds(waitTime);
 
-                // Lanciamo la coroutine di disattivazione sulla singola spina così il rewind 
-                // avviene in secondo piano senza bloccare il ciclo sequenziale del Manager! 🚀
+                // Eseguiamo il rewind in secondo piano per ogni spina
                 StartCoroutine(_spikeObstacles[i].DeactivateTrapCoroutine());
             }
 
-            // Attesa prima di ricominciare il ciclo dell'ostacolo
+            // Aspetta il delay di fine ciclo prima di far ripartire l'intera sequenza
             yield return _waitRestart;
         }
     }

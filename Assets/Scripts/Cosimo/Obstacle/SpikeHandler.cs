@@ -23,7 +23,6 @@ public class SpikeHandler : MonoBehaviour
 
     private void Awake()
     {
-        // Cerca i componenti nei figli o sul parent in modo sicuro
         _renderer = GetComponentInChildren<Renderer>(true);
         _collider = GetComponent<Collider2D>();
         _animator = GetComponentInChildren<Animator>(true);
@@ -42,7 +41,10 @@ public class SpikeHandler : MonoBehaviour
 
         if (_animator != null && _animSettings != null)
         {
-            _animator.speed = 1f; // Riproduzione normale
+            gameObject.SetActive(true);
+            _animator.speed = 1f; // Velocità normale avanti
+
+            // Forza la clip a ripartire esattamente dal frame 0 (normalizedTime = 0f)
             _animator.Play(_animSettings.clipName, 0, 0f);
         }
     }
@@ -51,10 +53,13 @@ public class SpikeHandler : MonoBehaviour
     {
         if (_animator != null && _animSettings != null)
         {
-            _animator.speed = -1f; 
-            _animator.Play(_animSettings.clipName, 0, 1f); 
+            _animator.speed = -1f; // Imposta la velocità in negativo per il Rewind ⏪
 
-            
+            // Forza l'animazione a posizionarsi all'ultimo frame (normalizedTime = 1f)
+            // prima di iniziare a riprodurre all'indietro!
+            _animator.Play(_animSettings.clipName, 0, 1f);
+
+            // Aspetta la durata della clip prima di spegnere i componenti hardware
             float clipLength = _animSettings.clip != null ? _animSettings.clip.length : 1f;
             yield return new WaitForSeconds(clipLength);
         }
