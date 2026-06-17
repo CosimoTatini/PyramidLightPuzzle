@@ -46,7 +46,6 @@ public class InputConfigManager : Singleton<InputConfigManager>
         // we added the only item
         if (actionStack.Count == 1)
         {
-            Debug.Log(actionStack.Count);
             InputAction inputAction = GetAction(id, actionStack[0].Guid);
             if (inputAction == null) return;
 
@@ -337,7 +336,6 @@ public class InputConfigManager : Singleton<InputConfigManager>
                 CacheActionIfNotAlready(id, inputAction.id.ToString(), inputSystem);
                 AddDisabledAction(id, inputAction);
             }
-            Debug.Log("Total InputActions: " + inputSystem.Count());
         }
 
         return inputSystem;

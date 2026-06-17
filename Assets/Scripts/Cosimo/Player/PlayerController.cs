@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
        _inputActions = InputConfigManager.Instance.GetInputSytemInstanceGeneric<InputSystem_Actions>(0);
+    //    _inputActions.Enable();
 
         _inputActions.Player.Move.performed += ctx => {
             _moveDirection = ctx.ReadValue<Vector2>();

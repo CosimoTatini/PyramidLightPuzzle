@@ -41,7 +41,6 @@ public class InputBundle
         }
 
         T newInstance = new T();
-        Debug.Log(newInstance);
         _inputActionCollections.Add(newInstance);
         createdInstance = true;
         return newInstance;

@@ -39,7 +39,7 @@ public static class InputConfigPriorityCache
     {
         // _activeInstances.RemoveWhere(instance => instance == null);
 
-        Debug.Log("Rebuilding");
+        // Debug.Log("Rebuilding");
         // if (_activeInstances.Count == 0) return;
         if (DuplicatePriorityResearch != null)
         {
