@@ -89,7 +89,7 @@ MonoBehaviour:
     m_Unicode: 65534
     m_GlyphIndex: 1
     m_Scale: 1
-    m_Name: KeyboardWhite_1
+    m_Name: key_5
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 2
@@ -134,7 +134,7 @@ MonoBehaviour:
     m_Unicode: 65534
     m_GlyphIndex: 10
     m_Scale: 1
-    m_Name: KeyboardWhite_10
+    m_Name: key_right
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 11

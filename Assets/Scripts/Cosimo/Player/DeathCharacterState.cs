@@ -11,24 +11,24 @@ public class DeathCharacterState : IStateCollision2D
     private float _timer;
     private Animator _animator;
 
-    public DeathCharacterState(Player player,PlayerController controller,Animator animator)
+    public DeathCharacterState(Player player, PlayerController controller, Animator animator)
     {
         _owner = player;
         _ownerController = controller;
         _animator = animator;
     }
 
-  
+
 
 
     public void OnEnd()
     {
-       
+
     }
 
     public void OnFixedUpdate()
     {
-        
+
     }
 
     public void OnStart()
@@ -36,8 +36,7 @@ public class DeathCharacterState : IStateCollision2D
         _ownerController.Rb.linearVelocity = Vector2.zero;
 
         // _ownerController.InputActions.Player.Disable();
-        InputConfigManager.Instance.UnregisterConfig( _ownerController.PlayerConfig);
-        Debug.Log("IDLE PLAYER CONFIG: " + InputConfigManager.Instance.GetEnabledActions(0).Count);
+        InputConfigManager.Instance.UnregisterConfig(_ownerController.PlayerConfig);
 
         _owner.Animator.SetBool("IsAlive", false);
         _owner.Animator.Play(_owner.DeathSettings.clipName);
@@ -50,17 +49,17 @@ public class DeathCharacterState : IStateCollision2D
     {
         _timer += Time.deltaTime;
 
-        if(_timer>=_deathDuration)
+        if (_timer >= _deathDuration)
         {
             _owner.Respawn();
             _owner.SetState(ECharacterStates.Idle);
         }
-        
+
     }
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        
+
     }
 
     public void OnCollisionExit2D(Collision2D collision)
@@ -70,21 +69,21 @@ public class DeathCharacterState : IStateCollision2D
 
     public void OnCollisionStay2D(Collision2D collision)
     {
-        
+
     }
 
     public void OnTriggerEnter2D(Collider2D collider)
     {
-       
+
     }
 
     public void OnTriggerStay2D(Collider2D collider)
     {
-       
+
     }
 
     public void OnTriggerExit2D(Collider2D collider)
     {
-       
+
     }
 }

@@ -60,7 +60,7 @@ public class Player : MonoBehaviour, ISubject
             item.ObserverUpdate(this);
         }
     }
-    private void Awake()
+    private void Start()
     {
 
         Animator = GetComponentInChildren<Animator>();
@@ -77,6 +77,12 @@ public class Player : MonoBehaviour, ISubject
         StateMachine.RegisterState(ECharacterStates.Throw, new ThrowCharacterState(this,_playerController,Animator));
         SetState(ECharacterStates.Idle);
         _currentState = StateMachine.CurrentState;
+
+        if (CheckPoints.Count > 0)
+        {
+            _currentCheckpoint = CheckPoints[0];
+        }
+        transform.position = CheckPoints[0].position;
     }
 
     public void SetState(ECharacterStates state)
@@ -84,15 +90,6 @@ public class Player : MonoBehaviour, ISubject
         StateMachine.SetState(state);
         _currentState = StateMachine.CurrentState;
         _currentStateEnum = state;
-    }
-
-    private void Start()
-    {
-        if (CheckPoints.Count > 0)
-        {
-            _currentCheckpoint = CheckPoints[0];
-        }
-        transform.position = CheckPoints[0].position;
     }
 
     private void Update()

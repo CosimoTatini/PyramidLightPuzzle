@@ -1,13 +1,46 @@
+using DesignPatterns.Generics;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.InputSystem.Users;
 
-public class PlayerInputManager : MonoBehaviour
+public class PlayerInputManager : Singleton<PlayerInputManager>
 {
     [SerializeField] private List<InputUser> _activeInputUsers = new();
+
+    private Dictionary<InputDevice, InputUser> _devicesUsers = new();
+
+    public InputUser? Player1
+    {
+        get
+        {
+            if (InputUser.all.Count > 0)
+                return InputUser.all[0];
+            else
+                return null;
+        }
+    }
+
+    private void Start()
+    {
+        while (InputUser.all.Count > 0)
+        {
+            InputUser user = InputUser.all[0];
+            user.UnpairDevicesAndRemoveUser();
+        }
+        // pair player 1 to keyboard
+        InputUser player1 = InputUser.CreateUserWithoutPairedDevices();
+        InputDevice keyboard = Keyboard.current;
+        InputUser.PerformPairingWithDevice(keyboard, player1);
+        var inputActions = InputConfigManager.Instance.GetInputSytemInstanceGeneric<InputSystem_Actions>(player1);
+        player1.AssociateActionsWithUser(inputActions);
+        player1.ActivateControlScheme("Keyboard&Mouse");
+
+        _devicesUsers[keyboard] = player1;
+    }
 
     void OnEnable()
     {
@@ -18,35 +51,52 @@ public class PlayerInputManager : MonoBehaviour
 
     private void OnInputChange(InputUser user, InputUserChange change, InputDevice device)
     {
-        switch(change)
+        switch (change)
         {
             case InputUserChange.Added:
-            break;
+                break;
             case InputUserChange.Removed:
-            break;
+
+                List<InputDevice> devicesToRemove = new();
+                // clean up devices from dictionary
+                foreach (var item in _devicesUsers)
+                {
+                    if (item.Value == user)
+                    {
+                        devicesToRemove.Add(item.Key);
+                    }
+                }
+
+                for (int i = 0; i < devicesToRemove.Count; i++)
+                {
+                    _devicesUsers.Remove(devicesToRemove[i]);
+                }
+
+                break;
             case InputUserChange.DevicePaired:
-            break;
+                break;
             case InputUserChange.DeviceUnpaired:
-            break;
+                break;
             case InputUserChange.DeviceLost:
-            break;
+                break;
             case InputUserChange.DeviceRegained:
-            break;
+                break;
             case InputUserChange.AccountChanged:
-            break;
+                break;
             case InputUserChange.AccountNameChanged:
-            break;
+                break;
             case InputUserChange.AccountSelectionInProgress:
-            break;
+                break;
             case InputUserChange.AccountSelectionCanceled:
-            break;
+                break;
             case InputUserChange.AccountSelectionComplete:
-            break;
+                break;
             case InputUserChange.ControlSchemeChanged:
-            Debug.Log("Control scheme changed " + user.id + " " + device?.name);
-            break;
+                
+                Debug.Log("Control scheme changed " + user.id + " " + device?.name);
+                break;
             case InputUserChange.ControlsChanged:
-            break;
+                break;
         }
     }
 
@@ -67,16 +117,38 @@ public class PlayerInputManager : MonoBehaviour
                 break;
             case Keyboard:
                 break;
+            case Mouse:
+                return;
             default:
                 Debug.LogWarning(inputDevice.name + " is not a valid device");
                 return;
         }
 
-        InputUser inputUser = (_activeInputUsers.Count == 0) ? InputUser.CreateUserWithoutPairedDevices() : _activeInputUsers[0];
-        inputUser = InputUser.PerformPairingWithDevice(inputDevice);
-        InputSystem_Actions inputActions = InputConfigManager.Instance.GetInputSytemInstanceGeneric<InputSystem_Actions>(0);
+        InputUser inputUser;
+
+        // device has been used before by an user
+        if (_devicesUsers.ContainsKey(inputDevice))
+        {
+            inputUser = _devicesUsers[inputDevice];
+            inputUser.UnpairDevices();
+            Debug.Log($"Paired device {inputDevice.name} back to user:{inputUser}");
+        }
+        else
+        // device is new, assign it to the new user
+        {
+            //inputUser = InputUser.CreateUserWithoutPairedDevices();
+            inputUser = Player1.Value;
+            inputUser.UnpairDevices();
+
+            _devicesUsers[inputDevice] = inputUser;
+            Debug.Log($"Paired new device {inputDevice.name} to new user:{inputUser}");
+        }
+
+        inputUser = InputUser.PerformPairingWithDevice(inputDevice, inputUser);
+
+        InputSystem_Actions inputActions = InputConfigManager.Instance.GetInputSytemInstanceGeneric<InputSystem_Actions>(inputUser);
+        if(inputUser.actions != inputActions)
         inputUser.AssociateActionsWithUser(inputActions);
-        Debug.Log($"Paired new device {inputDevice.name}");
         switch (inputDevice)
         {
             case Gamepad:
@@ -84,9 +156,8 @@ public class PlayerInputManager : MonoBehaviour
                 break;
             case Keyboard:
                 inputUser.ActivateControlScheme("Keyboard&Mouse");
+                
                 break;
         }
-
-        _activeInputUsers.Add(inputUser);
     }
 }
