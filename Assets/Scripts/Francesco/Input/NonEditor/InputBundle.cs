@@ -8,6 +8,7 @@ public class InputBundle
 {
     private List<IInputActionCollection2> _inputActionCollections = new();
 
+    public List<IInputActionCollection2> InputActionCollections => _inputActionCollections;
     public InputAction FindAction(Guid guid)
     {
         foreach (var inputCollection in _inputActionCollections)

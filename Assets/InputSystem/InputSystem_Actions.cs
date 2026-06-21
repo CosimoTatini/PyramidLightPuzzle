@@ -114,7 +114,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""name"": ""Attack"",
                     ""type"": ""Button"",
                     ""id"": ""6c2ab1b8-8984-453a-af3d-a3c78ae1679a"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -593,7 +593,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""b3f66d0b-7751-423f-908b-a11c5bd95930"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -629,7 +629,18 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/tab"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Switch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c9264b5c-3172-4e52-993a-6e57be73f344"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""Switch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -640,7 +651,18 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/r"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""SetRed"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8e99d160-5b6b-4a7b-89a8-c0d15aca6d54"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""SetRed"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -651,7 +673,18 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/b"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""SetBlue"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1d7fd3b7-93d7-48aa-b1e1-3eccc8979fdb"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""SetBlue"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -662,7 +695,18 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/g"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""SetGreen"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0b6955fa-5047-48d6-9f7b-75b1e3dddbf6"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""SetGreen"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -673,7 +717,18 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/o"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""NextColor"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""59fad096-18d0-48a4-9410-15386eee6c4c"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""NextColor"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -684,18 +739,40 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/k"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""PreviousColor"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""ad4eea47-d7e8-4997-8d5b-6616ffa97f31"",
-                    ""path"": ""<Keyboard>/q"",
+                    ""id"": ""1dabd63d-83ff-408d-a15c-c47c04845c07"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""PreviousColor"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f82262f4-7706-48b6-92c4-a1d801f1f906"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Throw"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ad4eea47-d7e8-4997-8d5b-6616ffa97f31"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""Throw"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1271,7 +1348,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""devicePath"": ""<Mouse>"",
-                    ""isOptional"": false,
+                    ""isOptional"": true,
                     ""isOR"": false
                 }
             ]

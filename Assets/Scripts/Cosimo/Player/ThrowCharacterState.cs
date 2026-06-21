@@ -52,13 +52,13 @@ internal class ThrowCharacterState : IStateCollision2D
         {
             _animator.Play(_owner.ThrowSettings.clipName);
             InventoryManager.Instance.UsePowder();
-            Debug.Log($"Polvere lanciata di colore:{InventoryManager.Instance.SelectedPowder}");
+            // Debug.Log($"Polvere lanciata di colore:{InventoryManager.Instance.SelectedPowder}");
 
         }
 
         else
         {
-            Debug.Log($"Polvere esaurita del colore:{InventoryManager.Instance.SelectedPowder}");
+            // Debug.Log($"Polvere esaurita del colore:{InventoryManager.Instance.SelectedPowder}");
         }
        
     }
@@ -76,12 +76,12 @@ internal class ThrowCharacterState : IStateCollision2D
 
             if (hasMagicalTorch)
             {
-                Debug.Log($"[Throw] Rilevata una Torcia Magica sulla Tilemap nella cella {cellPos}. Lancio polvere consentito!");
+                // Debug.Log($"[Throw] Rilevata una Torcia Magica sulla Tilemap nella cella {cellPos}. Lancio polvere consentito!");
                 return true;
             }
         }
 
-        Debug.LogWarning($"[Throw] Nessuna torcia magica trovata sulla Tilemap nella cella {cellPos}. Lancio annullato.");
+        // Debug.LogWarning($"[Throw] Nessuna torcia magica trovata sulla Tilemap nella cella {cellPos}. Lancio annullato.");
         return false;
     }
 

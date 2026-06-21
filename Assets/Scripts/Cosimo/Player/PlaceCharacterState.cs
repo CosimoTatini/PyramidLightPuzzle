@@ -55,7 +55,7 @@ public class PlaceCharacterState : IStateCollision2D
 
         if (!InventoryManager.Instance.CanPlace())
         {
-            Debug.LogWarning("[PlaceState] Torce esaurite nel manager!");
+            // Debug.LogWarning("[PlaceState] Torce esaurite nel manager!");
             _owner.SetState(ECharacterStates.Idle);
             return;
         }
@@ -64,7 +64,7 @@ public class PlaceCharacterState : IStateCollision2D
 
         if (groundTilemap == null)
         {
-            Debug.LogError("[PlaceState] La PlaceableTilemap sul Player non è assegnata nell'Inspector!");
+            // Debug.LogError("[PlaceState] La PlaceableTilemap sul Player non è assegnata nell'Inspector!");
             _owner.SetState(ECharacterStates.Idle);
             return;
         }
@@ -74,7 +74,7 @@ public class PlaceCharacterState : IStateCollision2D
 
         if (!groundTilemap.HasTile(cellPos))
         {
-            Debug.LogWarning($"[PlaceState] Impossibile piazzare: Non c'è terreno nella cella {cellPos} della Tilemap Ground!");
+            // Debug.LogWarning($"[PlaceState] Impossibile piazzare: Non c'è terreno nella cella {cellPos} della Tilemap Ground!");
             _owner.SetState(ECharacterStates.Idle);
             return;
         }
@@ -92,7 +92,7 @@ public class PlaceCharacterState : IStateCollision2D
             InventoryManager.Instance.UseTorch();
 
             _owner.StartCoroutine(TorchLifetimeCoroutine(torchInstance, type, cellPos));
-            Debug.Log($"[Place] Torcia di tipo {type} piazzata correttamente sulla Tilemap Ground nella cella: {cellPos}");
+            // Debug.Log($"[Place] Torcia di tipo {type} piazzata correttamente sulla Tilemap Ground nella cella: {cellPos}");
         }
         else
         {
@@ -110,7 +110,7 @@ public class PlaceCharacterState : IStateCollision2D
             PlacementManager.Instance.UnregisterItem(cellPos);
             GameObject.Destroy(torchInstance);
             InventoryManager.Instance.ReturnTorch(type);
-            Debug.Log($"[Lifetime] Torcia scaduta e rimossa dalla cella {cellPos}.");
+            // Debug.Log($"[Lifetime] Torcia scaduta e rimossa dalla cella {cellPos}.");
         }
     }
     public void OnTriggerEnter2D(Collider2D collider)

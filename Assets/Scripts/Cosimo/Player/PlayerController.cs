@@ -33,12 +33,12 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
-        if (!PlayerInputManager.Instance.Player1.HasValue)
+        if (!InputEventsManager.Player1.HasValue)
         {
             Debug.LogWarning("Can't get InputActions, No players detected");
             return;
         }
-       _inputActions = InputConfigManager.Instance.GetInputSytemInstanceGeneric<InputSystem_Actions>(PlayerInputManager.Instance.Player1.Value);
+       _inputActions = InputConfigManager.GetInputSytemInstanceGeneric<InputSystem_Actions>(InputEventsManager.Player1.Value);
     //    _inputActions.Enable();
 
         _inputActions.Player.Move.performed += ctx => {

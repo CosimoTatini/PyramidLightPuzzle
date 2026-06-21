@@ -37,7 +37,7 @@ public class IdleCharacterState : IStateCollision2D
         //_owner.Animator.SetBool("IsPlacing", false);
         _owner.Animator.Play(_owner.IdleSettings.clipName);
         // _ownerController.InputActions.Player.Enable();
-        InputConfigManager.Instance.RegisterConfig(_ownerController.PlayerConfig);
+        InputConfigManager.RegisterConfig(_ownerController.PlayerConfig);
         _ownerController.ResetMoveDirection();
 
         Vector2 look = _ownerController.LastLookDirection;

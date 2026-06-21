@@ -96,11 +96,11 @@ internal class GrabCharacterState : IStateCollision2D
            
             GameObject.Destroy(itemToPick);
 
-            Debug.Log($"[Grab] Raccolta torcia {typeToReturn} dalla cella {targetCellPos}. Contatore aggiornato!");
+            // Debug.Log($"[Grab] Raccolta torcia {typeToReturn} dalla cella {targetCellPos}. Contatore aggiornato!");
         }
         else
         {
-            Debug.LogWarning($"[Grab] Nessuna torcia trovata per il tipo selezionato: {InventoryManager.Instance.SelectedType}");
+            // Debug.LogWarning($"[Grab] Nessuna torcia trovata per il tipo selezionato: {InventoryManager.Instance.SelectedType}");
         }
     }
 

@@ -54,7 +54,7 @@ public class Player : MonoBehaviour, ISubject
 
     public void Notify()
     {
-        Debug.Log($"[Subject] Notifica inviata a {_observers.Count} osservatori.");
+        // Debug.Log($"[Subject] Notifica inviata a {_observers.Count} osservatori.");
         foreach (var item in _observers)
         {
             item.ObserverUpdate(this);
@@ -150,7 +150,7 @@ public class Player : MonoBehaviour, ISubject
         if (_currentCheckpoint != null)
         {
             transform.position = _currentCheckpoint.transform.position;
-            Debug.Log("Respawn done");
+            // Debug.Log("Respawn done");
             Notify();
             _isRespawning = false;
         }

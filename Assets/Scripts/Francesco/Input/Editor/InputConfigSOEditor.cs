@@ -6,8 +6,6 @@ using System.Linq;
 using System;
 using System.Reflection;
 using Object = UnityEngine.Object;
-using Unity.EditorCoroutines.Editor;
-using System.Collections;
 
 using PriorityAvailabilityEnum = InputConfigPriorityCache.PriorityAvailabilityEnum;
 
@@ -19,6 +17,8 @@ using PriorityAvailabilityEnum = InputConfigPriorityCache.PriorityAvailabilityEn
 [CustomEditor(typeof(InputConfigSO))]
 public class InputConfigSOEditor : Editor
 {
+    //TODO: maybe add a string displayName to actionInputStruct, which is an override of the name, so for instance E would normally be Interact, but maybe we want something more specific like look, open
+    // this would become a tabbed window, one for priority, so just like it is now, one for overriding the names, also the "Press @BUTTON to interact"
     private InputActionAsset _loaderAsset;
     private TypeVar _loaderAssetInstanceType;
     private SerializedProperty _assetMapListProp;

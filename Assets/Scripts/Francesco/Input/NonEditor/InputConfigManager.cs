@@ -3,26 +3,53 @@ using System.Collections.Generic;
 using System.Linq;
 using DesignPatterns.Generics;
 using UnityEngine;
-using NativeSerializableDictionary;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
 
-public class InputConfigManager : Singleton<InputConfigManager>
+public static class InputConfigManager//Singleton<InputConfigManager>
 {
-    private Dictionary<InputUser, Dictionary<string, List<InputActionStruct>>> _actionsStacks = new();
-    private Dictionary<InputUser, Dictionary<string, InputAction>> _actionsCaches = new();
-    private Dictionary<InputUser, List<InputAction>> _actionsEnabled = new();
-    private Dictionary<InputUser, List<InputAction>> _actionsDisabled = new();
-    private Dictionary<InputUser, InputBundle> _inputBundles = new();
+    private static Dictionary<InputUser, Dictionary<string, List<InputActionStruct>>> _actionsStacks = new();
+    private static Dictionary<InputUser, Dictionary<string, InputAction>> _actionsCaches = new();
+    private static Dictionary<InputUser, List<InputAction>> _actionsEnabled = new();
+    private static Dictionary<InputUser, List<InputAction>> _actionsDisabled = new();
+    private static Dictionary<InputUser, InputBundle> _inputBundles = new();
 
-    private Dictionary<InputUser, EnabledDisabledAction> _enabledDisabledActionsEvents = new();
-    public struct EnabledDisabledAction
+    private static Dictionary<InputUser, EnabledDisabledAction> _enabledDisabledActionsEvents = new();
+
+    public static Dictionary<InputUser, EnabledDisabledAction> EnabledDisabledActionEvents => _enabledDisabledActionsEvents;
+
+    public class EnabledDisabledAction
     {
         public Action OnEnabledActionsChanged;
         public Action OnDisabledActionsChanged;
     }
 
-    private void RegisterAction(InputUser id, InputActionStruct actionData/*, Type inputAssetCsharp*/)
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    private static void Initialize()
+    {
+        _actionsStacks.Clear();
+        _actionsCaches.Clear();
+        _actionsEnabled.Clear();
+        _actionsDisabled.Clear();
+        _inputBundles.Clear();
+        _enabledDisabledActionsEvents.Clear();
+
+        Application.quitting -= Cleanup;
+        Application.quitting += Cleanup;
+    }
+    private static void Cleanup()
+    {
+        _actionsStacks.Clear();
+        _actionsCaches.Clear();
+        _actionsEnabled.Clear();
+        _actionsDisabled.Clear();
+        _inputBundles.Clear();
+        _enabledDisabledActionsEvents.Clear();
+
+        Application.quitting -= Cleanup;
+    }
+
+    private static void RegisterAction(InputUser id, InputActionStruct actionData/*, Type inputAssetCsharp*/)
     {
         if (string.IsNullOrEmpty(actionData.Guid))
         {
@@ -106,7 +133,7 @@ public class InputConfigManager : Singleton<InputConfigManager>
         }
     }
 
-    private void UnregisterAction(InputUser id, InputActionStruct actionData)
+    private static void UnregisterAction(InputUser id, InputActionStruct actionData)
     {
         if (!_actionsStacks.ContainsKey(id)) return;
         var actionStackDict = _actionsStacks[id];
@@ -165,7 +192,7 @@ public class InputConfigManager : Singleton<InputConfigManager>
         }
     }
 
-    private void RegisterActionMap(InputUser id, InputMapStruct mapData)
+    private static void RegisterActionMap(InputUser id, InputMapStruct mapData)
     {
         if (mapData.InputActionStructs.Count == 0) return;
         foreach (var actionData in mapData.InputActionStructs)
@@ -174,7 +201,7 @@ public class InputConfigManager : Singleton<InputConfigManager>
         }
     }
 
-    private void UnregisterActionMap(InputUser id, InputMapStruct mapData)
+    private static void UnregisterActionMap(InputUser id, InputMapStruct mapData)
     {
         if (mapData.InputActionStructs.Count == 0) return;
         foreach (var actionData in mapData.InputActionStructs)
@@ -183,13 +210,25 @@ public class InputConfigManager : Singleton<InputConfigManager>
         }
     }
 
-    public void RegisterConfig(InputConfigSO configSO, InputUser id)
+    public static void RegisterConfig(InputConfigSO configSO, InputUser id)
     {
+        // if user is null or there isn't a bundle associated, quit 
+        if (id == null || !_inputBundles.ContainsKey(id)) return;
+
         var inputAssetMapLists = configSO.GetInputAssetMaps();
         foreach (var inputAssetMapList in inputAssetMapLists)
         {
             // skip invalid lists
+
+            // if no type or if type isn't valid, continue
             if (inputAssetMapList.AssetType == null || !typeof(IInputActionCollection2).IsAssignableFrom(inputAssetMapList.AssetType.Type)) continue;
+
+            // if inputBundle doesn't contain a IInputActionCollection2 of type AssetType.Type, then we skip, it means the user didn't need the type yet
+            InputBundle inputBundle = _inputBundles[id];
+            if (!inputBundle.InputActionCollections.Any(c => c.GetType() == inputAssetMapList.AssetType.Type))
+            {
+                continue;
+            }
 
             foreach (var inputMapStruct in inputAssetMapList.InputMapStructs)
             {
@@ -202,21 +241,31 @@ public class InputConfigManager : Singleton<InputConfigManager>
     /// Registers the passed config to Player1
     /// </summary>
     /// <param name="configSO"></param>
-    public void RegisterConfig(InputConfigSO configSO)
+    public static void RegisterConfig(InputConfigSO configSO)
     {
-        if (PlayerInputManager.Instance.Player1.HasValue)
-            RegisterConfig(configSO, PlayerInputManager.Instance.Player1.Value);
+        if (InputEventsManager.Player1.HasValue)
+            RegisterConfig(configSO, InputEventsManager.Player1.Value);
         else
             Debug.LogWarning("Can't register config, No Players Detected");
     }
 
-    public void UnregisterConfig(InputConfigSO configSO, InputUser id)
+    public static void UnregisterConfig(InputConfigSO configSO, InputUser id)
     {
+        // if user is null or there isn't a bundle associated, quit 
+        if (id == null || !_inputBundles.ContainsKey(id)) return;
+
         var inputAssetMapLists = configSO.GetInputAssetMaps();
         foreach (var inputAssetMapList in inputAssetMapLists)
         {
             // skip invalid lists
             if (inputAssetMapList.AssetType == null || !typeof(IInputActionCollection2).IsAssignableFrom(inputAssetMapList.AssetType.Type)) continue;
+
+            // if inputBundle doesn't contain a IInputActionCollection2 of type AssetType.Type, then we skip, it means the user didn't need the type yet
+            InputBundle inputBundle = _inputBundles[id];
+            if (!inputBundle.InputActionCollections.Any(c => c.GetType() == inputAssetMapList.AssetType.Type))
+            {
+                continue;
+            }
 
             foreach (var inputMapStruct in inputAssetMapList.InputMapStructs)
             {
@@ -225,15 +274,15 @@ public class InputConfigManager : Singleton<InputConfigManager>
         }
     }
 
-    public void UnregisterConfig(InputConfigSO configSO)
+    public static void UnregisterConfig(InputConfigSO configSO)
     {
-        if (PlayerInputManager.Instance.Player1.HasValue)
-            UnregisterConfig(configSO, PlayerInputManager.Instance.Player1.Value);
+        if (InputEventsManager.Player1.HasValue)
+            UnregisterConfig(configSO, InputEventsManager.Player1.Value);
         else
             Debug.LogWarning("Can't unregister config, No Players Detected");
     }
 
-    private void CacheActionIfNotAlready(InputUser id, string actionGuid, Type inputAssetCsharp)
+    private static void CacheActionIfNotAlready(InputUser id, string actionGuid, Type inputAssetCsharp)
     {
         if (!_actionsCaches.ContainsKey(id)) _actionsCaches[id] = new();
         var actionCache = _actionsCaches[id];
@@ -256,7 +305,7 @@ public class InputConfigManager : Singleton<InputConfigManager>
         }
     }
 
-    private void CacheActionIfNotAlready(InputUser id, string actionGuid, IInputActionCollection2 inputActions)
+    private static void CacheActionIfNotAlready(InputUser id, string actionGuid, IInputActionCollection2 inputActions)
     {
         if (!_actionsCaches.ContainsKey(id)) _actionsCaches[id] = new();
         var actionCache = _actionsCaches[id];
@@ -271,7 +320,7 @@ public class InputConfigManager : Singleton<InputConfigManager>
         }
     }
 
-    private InputAction GetAction(InputUser id, string actionGuid)
+    private static InputAction GetAction(InputUser id, string actionGuid)
     {
         if (_actionsCaches.ContainsKey(id))
         {
@@ -280,7 +329,7 @@ public class InputConfigManager : Singleton<InputConfigManager>
         return null;
     }
 
-    private void AddEnabledAction(InputUser id, InputAction inputAction)
+    private static void AddEnabledAction(InputUser id, InputAction inputAction)
     {
         if (!_actionsEnabled.ContainsKey(id)) _actionsEnabled[id] = new();
         if (_actionsEnabled[id].Contains(inputAction)) return;
@@ -290,7 +339,7 @@ public class InputConfigManager : Singleton<InputConfigManager>
         _enabledDisabledActionsEvents[id].OnEnabledActionsChanged?.Invoke();
     }
 
-    private void AddDisabledAction(InputUser id, InputAction inputAction)
+    private static void AddDisabledAction(InputUser id, InputAction inputAction)
     {
         if (!_actionsDisabled.ContainsKey(id)) _actionsDisabled[id] = new();
         if (_actionsDisabled[id].Contains(inputAction)) return;
@@ -300,7 +349,7 @@ public class InputConfigManager : Singleton<InputConfigManager>
         _enabledDisabledActionsEvents[id].OnDisabledActionsChanged?.Invoke();
     }
 
-    private void RemoveEnabledAction(InputUser id, InputAction inputAction)
+    private static void RemoveEnabledAction(InputUser id, InputAction inputAction)
     {
         if (!_actionsEnabled.ContainsKey(id)) return;
         if (!_actionsEnabled[id].Contains(inputAction)) return;
@@ -310,7 +359,7 @@ public class InputConfigManager : Singleton<InputConfigManager>
         _enabledDisabledActionsEvents[id].OnEnabledActionsChanged?.Invoke();
     }
 
-    private void RemoveDisabledAction(InputUser id, InputAction inputAction)
+    private static void RemoveDisabledAction(InputUser id, InputAction inputAction)
     {
         if (!_actionsDisabled.ContainsKey(id)) return;
         if (!_actionsDisabled[id].Contains(inputAction)) return;
@@ -320,17 +369,17 @@ public class InputConfigManager : Singleton<InputConfigManager>
         _enabledDisabledActionsEvents[id].OnDisabledActionsChanged?.Invoke();
     }
 
-    public IReadOnlyList<InputAction> GetEnabledActions(InputUser id)
+    public static IReadOnlyList<InputAction> GetEnabledActions(InputUser id)
     {
         return _actionsEnabled[id].AsReadOnly();
     }
 
-    public IReadOnlyList<InputAction> GetDisabledActions(InputUser id)
+    public static IReadOnlyList<InputAction> GetDisabledActions(InputUser id)
     {
         return _actionsDisabled[id].AsReadOnly();
     }
 
-    public T GetInputSytemInstanceGeneric<T>(InputUser id) where T : class, IInputActionCollection2, new()
+    public static T GetInputSytemInstanceGeneric<T>(InputUser id) where T : class, IInputActionCollection2, new()
     {
         if (!_inputBundles.ContainsKey(id)) _inputBundles[id] = new();
         var inputBundle = _inputBundles[id];
@@ -351,7 +400,7 @@ public class InputConfigManager : Singleton<InputConfigManager>
         return inputSystem;
     }
 
-    public IInputActionCollection2 GetInputSystemInstance(InputUser id, Type type)
+    public static IInputActionCollection2 GetInputSystemInstance(InputUser id, Type type)
     {
         if (!_inputBundles.ContainsKey(id)) _inputBundles[id] = new();
         var inputBundle = _inputBundles[id];
@@ -367,7 +416,7 @@ public class InputConfigManager : Singleton<InputConfigManager>
                 CacheActionIfNotAlready(id, inputAction.id.ToString(), inputSystem);
                 AddDisabledAction(id, inputAction);
             }
-            Debug.Log("Total InputActions: " + inputSystem.Count());
+            // Debug.Log("Total InputActions: " + inputSystem.Count());
         }
 
         return inputSystem;

@@ -119,7 +119,7 @@ public class LightSensor : MonoBehaviour, ILightReceiver
     {
         if (collision.TryGetComponent(out LightEmitter emitter))
         {
-            Debug.Log("Emitter entered: " + collision.name);
+            // Debug.Log("Emitter entered: " + collision.name);
             AddLight(emitter);
         }
     }
@@ -128,7 +128,7 @@ public class LightSensor : MonoBehaviour, ILightReceiver
     {
         if (collision.TryGetComponent(out LightEmitter emitter))
         {
-            Debug.Log("Emitter exited: " + collision.name);
+            // Debug.Log("Emitter exited: " + collision.name);
             RemoveLight(emitter);
         }
     }

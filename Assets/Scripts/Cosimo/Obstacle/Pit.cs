@@ -24,7 +24,7 @@ public class Pit : MonoBehaviour
 
         _playerCollider = collision.GetComponent<Collider2D>();
 
-        Debug.Log("contained:" + IsFullyContained(_pitCollider, collision) + " is touching ground:" + collision.IsTouchingLayers(_groundLayer));
+        // Debug.Log("contained:" + IsFullyContained(_pitCollider, collision) + " is touching ground:" + collision.IsTouchingLayers(_groundLayer));
         if (IsFullyContained(_pitCollider, collision))
         {
             
