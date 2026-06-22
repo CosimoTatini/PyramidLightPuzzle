@@ -54,7 +54,7 @@ internal class ThrowCharacterState : IStateCollision2D
         
         if (!InventoryManager.Instance.CanThrowPowder()) 
         {
-            Debug.LogWarning("[Throw] Impossibile lanciare: polvere esaurita nell'inventario.");
+            //Debug.LogWarning("[Throw] Impossibile lanciare: polvere esaurita nell'inventario.");
             _owner.SetState(ECharacterStates.Idle); 
             return; 
         }
@@ -62,7 +62,7 @@ internal class ThrowCharacterState : IStateCollision2D
        
         if (!IsOverTorch(out LightEmitter targetEmitter))
         {
-            Debug.LogWarning("[Throw] Impossibile lanciare: nessuna torcia magica rilevata davanti al giocatore.");
+            //Debug.LogWarning("[Throw] Impossibile lanciare: nessuna torcia magica rilevata davanti al giocatore.");
             _owner.SetState(ECharacterStates.Idle); 
             return;
         }
@@ -78,11 +78,11 @@ internal class ThrowCharacterState : IStateCollision2D
             InventoryManager.Instance.UsePowder(); 
             ApplyPowderToEmitter(targetEmitter, selectedColor);
 
-            Debug.Log($"[Throw] Lancio completato con successo per il colore: {selectedColor}");
+            //Debug.Log($"[Throw] Lancio completato con successo per il colore: {selectedColor}");
         }
         else
         {
-            Debug.LogWarning($"[Throw] Il canale {selectedColor} della torcia è già pieno. Lancio annullato.");
+            //Debug.LogWarning($"[Throw] Il canale {selectedColor} della torcia è già pieno. Lancio annullato.");
             _owner.SetState(ECharacterStates.Idle); 
         }
 
@@ -94,14 +94,14 @@ internal class ThrowCharacterState : IStateCollision2D
         {
             case PowderColor.Red:
                 emitter.RedAmount++;
-                Debug.Log("[Throw]:Aumentato di 1 il valore di rosso");
+                //Debug.Log("[Throw]:Aumentato di 1 il valore di rosso");
                 break;
                 case PowderColor.Green:
                 emitter.GreenAmount++;
-                Debug.Log("[Throw]:Aumentato di 1 il valore di verde");
+                //Debug.Log("[Throw]:Aumentato di 1 il valore di verde");
                 break;
                 case PowderColor.Blue:
-                Debug.Log("[Throw]:Aumentato di 1 il valore di blue");
+                //Debug.Log("[Throw]:Aumentato di 1 il valore di blue");
                 emitter.BlueAmount++; break;
         }
     }
@@ -111,7 +111,7 @@ internal class ThrowCharacterState : IStateCollision2D
         // Verifichiamo immediatamente se l'oggetto è nullo prima di accedere alle sue proprietà
         if (emitter == null)
         {
-            Debug.LogError("[Throw - CRITICAL] L'emitter passato a HasRoomForPowder è NULL! Il controllo di vicinanza ha fallito l'assegnazione.");
+            //Debug.LogError("[Throw - CRITICAL] L'emitter passato a HasRoomForPowder è NULL! Il controllo di vicinanza ha fallito l'assegnazione.");
             return false;
         }
 
