@@ -3,6 +3,9 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// Handles the Idle State.
+/// </summary>
 public class IdleCharacterState : IStateCollision2D
 {
     private Player _owner { get; }

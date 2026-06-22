@@ -2,6 +2,9 @@
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// Handles the Death State.
+/// </summary>
 public class DeathCharacterState : IStateCollision2D
 {
 

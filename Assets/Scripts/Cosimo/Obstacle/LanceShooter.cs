@@ -1,7 +1,11 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
+/// <summary>
+/// Oneshot lance shooter
+/// </summary>
 public class LanceShooter : MonoBehaviour, IObserver
 {
     [SerializeField] private ObjectPooler<Projectile> _pool;
@@ -11,6 +15,7 @@ public class LanceShooter : MonoBehaviour, IObserver
     [SerializeField] private BoxCollider2D _coll;
     [SerializeField] private GameObject gameObjectToDestroy;
     private Coroutine _disableCoroutine;
+    [field:SerializeField] private Tilemap _targetTilemap;
 
     public Projectile _prefabProjectile;
     private bool _isShooting;
@@ -41,7 +46,7 @@ public class LanceShooter : MonoBehaviour, IObserver
         proj.transform.position = _firePoint.position;
         proj.gameObject.SetActive(true);
 
-        proj.Initialize(_direction, _pool);
+        proj.Initialize(_direction, _pool,_targetTilemap);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -86,5 +91,5 @@ public class LanceShooter : MonoBehaviour, IObserver
         }
     }
 
-    //TODO : se il player è respawnato riattivo il collider
+   
 }

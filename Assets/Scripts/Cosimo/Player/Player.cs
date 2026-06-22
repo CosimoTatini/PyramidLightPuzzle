@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+
+/// <summary>
+/// Player behaviour : animations, checkpoint reference , obstacle interactions, state machine inatialization.
+/// </summary>
 public class Player : MonoBehaviour, ISubject
 {
     [Header("Animation Settings")]
@@ -15,8 +19,6 @@ public class Player : MonoBehaviour, ISubject
     [Header("CheckpointSystem")]
     public List<Transform> CheckPoints = new List<Transform>();
     private Transform _currentCheckpoint;
-    [SerializeField] private float _fallDuration = 0.5f;
-    [SerializeField] private AnimationCurve _fallCurve;
     private bool _isRespawning;
     private List<IObserver> _observers = new List<IObserver>();
     public GenericStateMachine<ECharacterStates> StateMachine;
@@ -28,7 +30,7 @@ public class Player : MonoBehaviour, ISubject
     private IState _currentState;
     [SerializeField] private ECharacterStates _currentStateEnum;
     private DeathCharacterState _deathState;
-
+    public GameObject DetectedObject { get; set; }
     [SerializeField] private Tilemap _placeableTilemap;
     [SerializeField] private GameObject _torchPrefab;
     private float _cellOffset = 0.2f;
@@ -172,29 +174,32 @@ public class Player : MonoBehaviour, ISubject
     {
         if (StateMachine.CurrentState is DeathCharacterState || _isRespawning) return;
 
-     
+       
         if (InventoryManager.Instance.SelectedType == TorchType.Magical)
         {
-           
-            bool isTorchPlacedInWorld = PlacementManager.Instance.FindMagicalTorch().HasValue;
-
-            if (isTorchPlacedInWorld)
+            if (PlacementManager.Instance.FindMagicalTorch().HasValue)
             {
-               
                 SetState(ECharacterStates.Grab);
                 return;
             }
-
-       
         }
+        Vector3Int currentCellPos = _placeableTilemap.WorldToCell(transform.position);
 
-       
-        Vector3 targetWorldPos = transform.position + (Vector3)_playerController.LastLookDirection * _cellOffset;
-        Vector3Int cellPos = _placeableTilemap.WorldToCell(targetWorldPos);
-
-        if (!PlacementManager.Instance.IsCellAvailable(_placeableTilemap, cellPos))
+        if (!PlacementManager.Instance.IsCellAvailable(_placeableTilemap, currentCellPos))
         {
-            Vector3 cellCenter = _placeableTilemap.GetCellCenterWorld(cellPos);
+           
+            if (InventoryManager.Instance.SelectedType == TorchType.Normal)
+            {
+                SetState(ECharacterStates.Grab);
+                return;
+            }
+        }
+        Vector3 targetWorldPos = transform.position + (Vector3)_playerController.LastLookDirection * _cellOffset;
+        Vector3Int forwardCellPos = _placeableTilemap.WorldToCell(targetWorldPos);
+
+        if (!PlacementManager.Instance.IsCellAvailable(_placeableTilemap, forwardCellPos))
+        {
+            Vector3 cellCenter = _placeableTilemap.GetCellCenterWorld(forwardCellPos);
 
             if (Vector2.Distance(transform.position, cellCenter) <= 0.6f)
             {
@@ -202,6 +207,7 @@ public class Player : MonoBehaviour, ISubject
                 return;
             }
         }
+
         SetState(ECharacterStates.Place);
     }
 

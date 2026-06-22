@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using static Codice.Client.Commands.WkTree.WorkspaceTreeNode;
 
+/// <summary>
+/// Handles the Walk State.
+/// </summary>
 public class WalkCharacterState : IStateCollision2D
 {
     private Player _owner { get; }
@@ -60,7 +63,11 @@ public class WalkCharacterState : IStateCollision2D
 
     public void OnTriggerEnter2D(Collider2D collider)
     {
-
+        if(collider.TryGetComponent<PowderColorChooser>(out var powder))
+        {
+            _owner.DetectedObject=collider.gameObject;
+            _owner.SetState(ECharacterStates.Grab);
+        }
     }
 
     public void OnTriggerExit2D(Collider2D collider)
