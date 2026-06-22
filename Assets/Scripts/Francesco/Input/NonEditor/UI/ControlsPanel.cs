@@ -81,7 +81,7 @@ public class ControlsPanel : MonoBehaviour
             }
 
             // I can get the name override and the "Press @BUTTON to interact" from inputActionStruct, i just need to grab the first one in _actionsStacks
-            controlRow.SetUp();
+            //controlRow.SetUp();
         }
 
         for (int i = rows.Length - 1; i >= enabledInputActions.Count; i--)

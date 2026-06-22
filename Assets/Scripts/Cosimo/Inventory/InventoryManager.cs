@@ -18,8 +18,8 @@ public class InventoryManager : MonoBehaviour
     [Header("Settings")]
     public int TorchMaxQuanitity = 4;
     public readonly int MagicalTorchQuantity = 1;
-    private int _currentTorchQuantity;
-    private int _currentMagicalTorchQuantity;
+    private int _currentTorchQuantity = 4;
+    private int _currentMagicalTorchQuantity = 1;
     public int CurrentTorchQuantity => _currentTorchQuantity;
     public int CurrentMagicTorchQuantity => _currentMagicalTorchQuantity;
     public TorchType SelectedType {  get; private set; }= TorchType.Normal;
@@ -45,8 +45,8 @@ public class InventoryManager : MonoBehaviour
             return;
         }
         Instance=this;
-        _currentTorchQuantity = 0;
-        _currentMagicalTorchQuantity= 0;
+        _currentTorchQuantity = 4;
+        _currentMagicalTorchQuantity= 1;
 
     }
     #endregion
