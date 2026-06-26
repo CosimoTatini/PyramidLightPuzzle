@@ -7,7 +7,7 @@ public class ObjectPooler<T> where T : Component // Changed to Component so we c
 {
     private T monoBehaviourPrefab;
     private Queue<T> objectPool;
-    private Transform poolRoot; // 📁 A hidden container to store inactive objects
+    private Transform poolRoot; // A hidden container to store inactive objects
 
     public ObjectPooler(T prefab, string poolName = "ObjectPool")
     {
@@ -18,7 +18,7 @@ public class ObjectPooler<T> where T : Component // Changed to Component so we c
         GameObject rootGo = new GameObject($"[Pool] {poolName}");
         // Object.DontDestroyOnLoad(rootGo);
         poolRoot = rootGo.transform;
-        rootGo.SetActive(false); // 💡 Turning off the root automatically turns off all its children!
+        rootGo.SetActive(false); // Turning off the root automatically turns off all its children!
     }
 
     public T Get(Transform newParent = null)

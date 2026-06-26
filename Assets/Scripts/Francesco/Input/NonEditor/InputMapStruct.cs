@@ -6,12 +6,12 @@ using System.Linq;
 public struct InputMapStruct
 {
     public string Guid;
-    public List<InputActionStruct> InputActionStructs;
+    public List<InputActionEntry> InputActionEntries;
 
-    public InputActionStruct? GetInputActionStruct(string guid)
+    public InputActionEntry GetInputActionStruct(string guid)
     {
-        if (InputActionStructs == null || InputActionStructs.Count == 0) return null;
-        var result = InputActionStructs.Where(action => action.Guid == guid);
+        if (InputActionEntries == null || InputActionEntries.Count == 0) return null;
+        var result = InputActionEntries.Where(action => action.Guid == guid);
         if(result.Count() == 0) return null;
         return result.ElementAt(0);
     }

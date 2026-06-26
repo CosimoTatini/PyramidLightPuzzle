@@ -73,12 +73,12 @@ public static class InputConfigPriorityCache
                 var inputMapStructs = inputAssetMapLists[j].InputMapStructs;
                 for (int k = 0; k < inputMapStructs.Count; k++)
                 {
-                    var inputActionStructs = inputMapStructs[k].InputActionStructs;
-                    for (int l = 0; l < inputActionStructs.Count; l++)
+                    var inputActionEntries = inputMapStructs[k].InputActionEntries;
+                    for (int l = 0; l < inputActionEntries.Count; l++)
                     {
-                        InputActionStruct inputActionStruct = inputActionStructs[l];
-                        string guid = inputActionStruct.Guid;
-                        int priority = inputActionStruct.Priority;
+                        InputActionEntry inputActionEntry = inputActionEntries[l];
+                        string guid = inputActionEntry.Guid;
+                        int priority = inputActionEntry.Priority;
 
                         // build priority dictionary
                         if (!actionPrioritiesCountTemp.ContainsKey(guid)) actionPrioritiesCountTemp[guid] = new();

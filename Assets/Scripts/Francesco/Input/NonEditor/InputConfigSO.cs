@@ -9,6 +9,7 @@ public class InputConfigSO : ScriptableObject
 {
     [SerializeField] private List<InputAssetMapList> _inputAssetMaps = new();
     [SerializeField] private InputActionAsset _lastUsedInputAsset;
+    public InputActionAsset LastUsedInputAsset => _lastUsedInputAsset;
 
     public IReadOnlyList<InputAssetMapList> GetInputAssetMaps()
     {

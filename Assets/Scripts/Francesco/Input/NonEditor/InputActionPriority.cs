@@ -1,9 +1,9 @@
 using System;
 
 [Serializable]
-public struct InputActionStruct
+public struct InputActionPriority
 {
     public int Priority;
-    public string Guid;
+    // public string Guid;
     public bool Enabled;
 }

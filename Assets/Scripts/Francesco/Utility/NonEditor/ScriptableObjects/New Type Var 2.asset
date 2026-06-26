@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d07c5608f28df624c859a5ddf1a88bdd, type: 3}
   m_Name: New Type Var 2
   m_EditorClassIdentifier: Utility.ScriptableObjects::TypeVar
-  _typeName: InputSystem_Actions+IPlayerActions, Assembly-CSharp, Version=0.0.0.0,
-    Culture=neutral, PublicKeyToken=null
-  _filter: IPlayerActions
+  _typeName: InputConfigSOEditor, Assembly-CSharp-Editor, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null
+  _filter: InputConfigSOEditor
   _includeUnityAssemblies: 0
-  _assemblyPath: Library/ScriptAssemblies/Assembly-CSharp.dll
+  _assemblyPath: Library/ScriptAssemblies/Assembly-CSharp-Editor.dll

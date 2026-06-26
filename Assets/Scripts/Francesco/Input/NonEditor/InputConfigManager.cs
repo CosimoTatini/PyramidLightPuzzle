@@ -8,7 +8,7 @@ using UnityEngine.InputSystem.Users;
 
 public static class InputConfigManager//Singleton<InputConfigManager>
 {
-    private static Dictionary<InputUser, Dictionary<string, List<InputActionStruct>>> _actionsStacks = new();
+    private static Dictionary<InputUser, Dictionary<string, List<InputActionEntry>>> _actionsStacks = new();
     private static Dictionary<InputUser, Dictionary<string, InputAction>> _actionsCaches = new();
     private static Dictionary<InputUser, List<InputAction>> _actionsEnabled = new();
     private static Dictionary<InputUser, List<InputAction>> _actionsDisabled = new();
@@ -49,7 +49,7 @@ public static class InputConfigManager//Singleton<InputConfigManager>
         Application.quitting -= Cleanup;
     }
 
-    private static void RegisterAction(InputUser id, InputActionStruct actionData/*, Type inputAssetCsharp*/)
+    private static void RegisterAction(InputUser id, InputActionEntry actionData/*, Type inputAssetCsharp*/)
     {
         if (string.IsNullOrEmpty(actionData.Guid))
         {
@@ -67,8 +67,10 @@ public static class InputConfigManager//Singleton<InputConfigManager>
             return;
         }
 
-        actionStack.Add(actionData);
+        //TODO: might as well try to get the InputCction before adding to the stack, if it's null we know this actionData isn't valid
+        // since the inputAction would've been instantiated otherwise when First getting the InputActionAsset instace it belongs to
 
+        actionStack.Add(actionData);
 
         // we added the only item
         if (actionStack.Count == 1)
@@ -102,7 +104,7 @@ public static class InputConfigManager//Singleton<InputConfigManager>
         // CACHE
         // CacheActionIfNotAlready(id, actionData.Guid, inputAssetCsharp);
 
-        InputActionStruct firstElement = actionStack[0];
+        InputActionEntry firstElement = actionStack[0];
 
         // SORT
         actionStack.Sort((a, b) => b.Priority.CompareTo(a.Priority));
@@ -133,7 +135,7 @@ public static class InputConfigManager//Singleton<InputConfigManager>
         }
     }
 
-    private static void UnregisterAction(InputUser id, InputActionStruct actionData)
+    private static void UnregisterAction(InputUser id, InputActionEntry actionData)
     {
         if (!_actionsStacks.ContainsKey(id)) return;
         var actionStackDict = _actionsStacks[id];
@@ -143,7 +145,7 @@ public static class InputConfigManager//Singleton<InputConfigManager>
 
         if (actionStack.Count == 0 || !actionStack.Contains(actionData)) return;
 
-        InputActionStruct firstElement = actionStack[0];
+        InputActionEntry firstElement = actionStack[0];
 
         actionStack.Remove(actionData);
 
@@ -194,8 +196,8 @@ public static class InputConfigManager//Singleton<InputConfigManager>
 
     private static void RegisterActionMap(InputUser id, InputMapStruct mapData)
     {
-        if (mapData.InputActionStructs.Count == 0) return;
-        foreach (var actionData in mapData.InputActionStructs)
+        if (mapData.InputActionEntries.Count == 0) return;
+        foreach (var actionData in mapData.InputActionEntries)
         {
             RegisterAction(id, actionData);
         }
@@ -203,8 +205,8 @@ public static class InputConfigManager//Singleton<InputConfigManager>
 
     private static void UnregisterActionMap(InputUser id, InputMapStruct mapData)
     {
-        if (mapData.InputActionStructs.Count == 0) return;
-        foreach (var actionData in mapData.InputActionStructs)
+        if (mapData.InputActionEntries.Count == 0) return;
+        foreach (var actionData in mapData.InputActionEntries)
         {
             UnregisterAction(id, actionData);
         }

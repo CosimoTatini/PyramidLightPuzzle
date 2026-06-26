@@ -26,6 +26,9 @@ public class InputConfigSOEditor : Editor
     private bool _alreadyCreatedArrayElementForAssetMapList;
 
     private HashSet<string> _mapsWithoutAsset = new();
+    private HashSet<string> _actionsOrphan = new();
+    private HashSet<string> _bindingsOrphan = new();
+
     private readonly double _rebuildDelay = 0.5f;
     private double _rebuildDeadline = -1f;
 
@@ -47,17 +50,41 @@ public class InputConfigSOEditor : Editor
 
         _mapsWithoutAsset = new();
 
+        InputConfigSO inputConfigSO = target as InputConfigSO;
+
+        InputMapStruct[] maps = inputConfigSO.GetInputAssetMaps().SelectMany(c => c.InputMapStructs).ToArray();
+        InputActionEntry[] actions = maps.SelectMany(c => c.InputActionEntries).ToArray();
+        BindingPromptData[] bindings = actions.SelectMany(c => c.PromptSchemes).SelectMany(c => c.Prompts).ToArray();
+
+
+        //TODO: populate the hashsets so when drawing an a element we know if it's valid or orphane and in that case there should be some visual feedback
+        // like red or some, or for instance the button remove should be red or shi
+        // also a remove all orphanes button a the top could be a thing
+        foreach (var item in inputActionAssets)
+        {
+            foreach (var map in maps)
+            {
+                actions = map.InputActionEntries.Select(c => c.);
+            }
+            // if (item.FindActionMap(nameOrId: guid) != null)
+            // {
+            //     break;
+            // }
+        }
+
         // loop through each map and check if it belongs to any inputActionAsset, if not add it to maps without an asset
         LoopThroughMaps((guid, inputAssetMapList, inputAssetMapListIndex, mapIndex) =>
         {
             bool found = false;
             foreach (var item in inputActionAssets)
             {
+
                 if (item.FindActionMap(nameOrId: guid) != null)
                 {
                     found = true;
                     break;
                 }
+                item.FindAction
             }
             if (!found) _mapsWithoutAsset.Add(guid);
         });
@@ -366,10 +393,10 @@ public class InputConfigSOEditor : Editor
     //             var inputMapStructs = inputAssetMapLists[j].InputMapStructs;
     //             for (int k = 0; k < inputMapStructs.Count; k++)
     //             {
-    //                 var inputActionStructs = inputMapStructs[k].InputActionStructs;
-    //                 for (int l = 0; l < inputActionStructs.Count; l++)
+    //                 var InputActionEntries = inputMapStructs[k].InputActionEntries;
+    //                 for (int l = 0; l < InputActionEntries.Count; l++)
     //                 {
-    //                     InputActionStruct inputActionStruct = inputActionStructs[l];
+    //                     InputActionStruct inputActionStruct = InputActionEntries[l];
     //                     string guid = inputActionStruct.Guid;
     //                     int priority = inputActionStruct.Priority;
 
@@ -519,7 +546,7 @@ public class InputConfigSOEditor : Editor
         mapProp.isExpanded = EditorGUILayout.Foldout(mapProp.isExpanded, $"Map: {assetMap.name}", true);
 
         // Matches the field name in InputMapStruct
-        SerializedProperty actionsList = mapProp.FindPropertyRelative("InputActionStructs");
+        SerializedProperty actionsList = mapProp.FindPropertyRelative("InputActionEntries");
         InputConfigSO inputConfig = target as InputConfigSO;
         using (new EditorGUI.DisabledScope(actionsList.arraySize == assetMap.actions.Count))
         {
@@ -537,13 +564,10 @@ public class InputConfigSOEditor : Editor
                     int index = actionsList.arraySize;
                     actionsList.InsertArrayElementAtIndex(index);
                     var newAction = actionsList.GetArrayElementAtIndex(index);
-                    newAction.FindPropertyRelative("Guid").stringValue = actionGuid;
-                    newAction.FindPropertyRelative("Enabled").boolValue = true;
-                    newAction.FindPropertyRelative("Priority").intValue = 0;
+                    ResetInputEntry(newAction, action);
 
                     // and update priority dictionaries
                     // AddPriority(actionGuid, 0, newAction.propertyPath, inputConfig);
-
                 }
 
                 serializedObject.ApplyModifiedProperties();
@@ -554,11 +578,11 @@ public class InputConfigSOEditor : Editor
         // delete option before drawing the map to avoid crashing when we delete an element that is currently being drawn
         if (GUILayout.Button("Remove Map", GUILayout.Width(100)))
         {
-            SerializedProperty inputActionStructs = mapProp.FindPropertyRelative("InputActionStructs");
+            SerializedProperty InputActionEntries = mapProp.FindPropertyRelative("InputActionEntries");
 
-            // for (int i = 0; i < inputActionStructs.arraySize; i++)
+            // for (int i = 0; i < InputActionEntries.arraySize; i++)
             // {
-            //     SerializedProperty actionProp = inputActionStructs.GetArrayElementAtIndex(i);
+            //     SerializedProperty actionProp = InputActionEntries.GetArrayElementAtIndex(i);
             //     int priority = actionProp.FindPropertyRelative("Priority").intValue;
             //     RemovePriority(actionProp.FindPropertyRelative("Guid").stringValue, priority, inputConfig);
             // }
@@ -599,6 +623,144 @@ public class InputConfigSOEditor : Editor
         }
 
         EditorGUILayout.EndVertical();
+    }
+
+    private void ResetInputEntry(SerializedProperty actionProp, InputAction inputAction)
+    {
+        actionProp.FindPropertyRelative("Guid").stringValue = inputAction.id.ToString();
+        actionProp.FindPropertyRelative("Enabled").boolValue = true;
+        actionProp.FindPropertyRelative("Priority").intValue = 0;
+        actionProp.FindPropertyRelative("NameOverride").stringValue = string.Empty;
+
+        SerializedProperty promptSchemesProp = actionProp.FindPropertyRelative("PromptSchemes");
+        promptSchemesProp.ClearArray();
+
+        // CRITICAL FIX: Loop sequentially through ALL bindings to find composite headers.
+        // If you filter out groups early via LINQ, Unity strips out the `isComposite` rows!
+        var allBindings = inputAction.bindings;
+
+        // Track unique control schemes manually across sequential tracking
+        HashSet<string> processedSchemes = new HashSet<string>();
+
+        int schemeIndexCounter = 0;
+
+        for (int i = 0; i < allBindings.Count; i++)
+        {
+            var currentBinding = allBindings[i];
+
+            // We only care about bindings that have assigned groups
+            // If it's a composite header, it won't have a group, so we evaluate its child groups below
+            string schemeName = currentBinding.groups;
+
+            if (currentBinding.isComposite)
+            {
+                // Peek at the first child to inherit its control scheme group string
+                if (i + 1 < allBindings.Count && !string.IsNullOrEmpty(allBindings[i + 1].groups))
+                {
+                    schemeName = allBindings[i + 1].groups;
+                }
+            }
+
+            if (string.IsNullOrEmpty(schemeName)) continue;
+
+            // Ensure we initialize the Prompt Scheme Serialized Array for this group if it's the first time seeing it
+            if (!processedSchemes.Contains(schemeName))
+            {
+                processedSchemes.Add(schemeName);
+                promptSchemesProp.InsertArrayElementAtIndex(schemeIndexCounter);
+
+                var schemeProp = promptSchemesProp.GetArrayElementAtIndex(schemeIndexCounter);
+                schemeProp.FindPropertyRelative("Scheme").stringValue = schemeName;
+
+                // Clear the nested 'Prompts' array in case data was duplicated by Unity
+                var initialPromptsClear = schemeProp.FindPropertyRelative("Prompts");
+                if (initialPromptsClear != null) initialPromptsClear.arraySize = 0;
+
+                schemeIndexCounter++;
+            }
+
+            // Fetch the corresponding SerializedProperty for our current active scheme row
+            int targetSchemeIndex = GetSchemeIndex(promptSchemesProp, schemeName);
+            if (targetSchemeIndex == -1) continue;
+
+            var currentPromptSchemeProp = promptSchemesProp.GetArrayElementAtIndex(targetSchemeIndex);
+            var promptsProp = currentPromptSchemeProp.FindPropertyRelative("Prompts");
+
+            // --- CASE 1: Standalone Binding ---
+            if (!currentBinding.isComposite && !currentBinding.isPartOfComposite)
+            {
+                string promptText = $"Press {InputActionEntry.BUTTON_PLACEHOLDER} to {inputAction.name}";
+                AddPromptEntry(promptsProp, currentBinding.id.ToString(), promptText);
+                continue;
+            }
+
+            // --- CASE 2: Composite Header Found ---
+            if (currentBinding.isComposite)
+            {
+                string compositeTypePath = currentBinding.path;
+                string promptText = "Press ";
+
+                // Check if it's a modifier key profile (e.g. "ButtonWithOneModifier")
+                if (compositeTypePath.Contains("Modifier", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Gather modifiers sequentially
+                    List<string> compositeParts = new List<string>();
+                    int childIdx = i + 1;
+
+                    while (childIdx < allBindings.Count && allBindings[childIdx].isPartOfComposite)
+                    {
+                        // Filter matching group sub-elements
+                        if (allBindings[childIdx].groups == schemeName)
+                        {
+                            compositeParts.Add(InputActionEntry.BUTTON_PLACEHOLDER);
+                        }
+                        childIdx++;
+                    }
+
+                    promptText += string.Join(" + ", compositeParts) + $" to {inputAction.name}";
+                }
+                else
+                {
+                    // Layout composites like 2DVector (WASD) require single unified prompts 
+                    promptText += $"{InputActionEntry.BUTTON_PLACEHOLDER} to {inputAction.name}";
+                }
+
+                AddPromptEntry(promptsProp, currentBinding.id.ToString(), promptText);
+
+                // Skip loop processing past the composite items we just processed as a combined chunk
+                while (i + 1 < allBindings.Count && allBindings[i + 1].isPartOfComposite)
+                {
+                    i++;
+                }
+            }
+        }
+
+        // Commit structural changes to storage
+        actionProp.serializedObject.ApplyModifiedProperties();
+    }
+
+    private void AddPromptEntry(SerializedProperty promptsProp, string guid, string promptText)
+    {
+        if (promptsProp == null) return;
+
+        int newIndex = promptsProp.arraySize;
+        promptsProp.InsertArrayElementAtIndex(newIndex);
+
+        var element = promptsProp.GetArrayElementAtIndex(newIndex);
+        element.FindPropertyRelative("Guid").stringValue = guid;
+        element.FindPropertyRelative("Prompt").stringValue = promptText;
+    }
+
+    private int GetSchemeIndex(SerializedProperty promptSchemesProp, string schemeName)
+    {
+        for (int i = 0; i < promptSchemesProp.arraySize; i++)
+        {
+            if (promptSchemesProp.GetArrayElementAtIndex(i).FindPropertyRelative("Scheme").stringValue == schemeName)
+            {
+                return i;
+            }
+        }
+        return -1;
     }
 
     /// <summary>
@@ -684,7 +846,6 @@ public class InputConfigSOEditor : Editor
             if (oldPriority != newPriority)
             {
                 _rebuildDeadline = EditorApplication.timeSinceStartup + _rebuildDelay;
-                // InputConfigPriorityCache.RebuildPriorityDictionary();
             }
         }
 
@@ -723,7 +884,7 @@ public class InputConfigSOEditor : Editor
                     newMap.FindPropertyRelative("Guid").stringValue = mapGuid;
 
                     // reset the cloned action list to ensure a clean slate, otherwise it would try to copy the actions of the last element in the list
-                    var newActionsList = newMap.FindPropertyRelative("InputActionStructs");
+                    var newActionsList = newMap.FindPropertyRelative("InputActionEntries");
                     newActionsList.ClearArray();
 
                     // expand by default
@@ -763,12 +924,7 @@ public class InputConfigSOEditor : Editor
                     int index = actionsList.arraySize;
                     actionsList.InsertArrayElementAtIndex(index);
                     var newAction = actionsList.GetArrayElementAtIndex(index);
-                    newAction.FindPropertyRelative("Guid").stringValue = actionGuid;
-                    newAction.FindPropertyRelative("Enabled").boolValue = true;
-
-                    int priorityValue = 0;
-
-                    newAction.FindPropertyRelative("Priority").intValue = priorityValue;
+                    ResetInputEntry(newAction, action);
 
                     serializedObject.ApplyModifiedProperties();
                     InputConfigPriorityCache.RebuildPriorityDictionary();
@@ -817,13 +973,13 @@ public class InputConfigSOEditor : Editor
             SerializedProperty inputMapStructs = inputAssetMapList.FindPropertyRelative("InputMapStructs");
             for (int k = 0; k < inputMapStructs.arraySize; k++)
             {
-                SerializedProperty inputActionStructs = inputMapStructs.GetArrayElementAtIndex(k).FindPropertyRelative("InputActionStructs");
-                for (int l = 0; l < inputActionStructs.arraySize; l++)
+                SerializedProperty InputActionEntries = inputMapStructs.GetArrayElementAtIndex(k).FindPropertyRelative("InputActionEntries");
+                for (int l = 0; l < InputActionEntries.arraySize; l++)
                 {
-                    string guid = inputActionStructs.GetArrayElementAtIndex(l).FindPropertyRelative("Guid").stringValue;
+                    string guid = InputActionEntries.GetArrayElementAtIndex(l).FindPropertyRelative("Guid").stringValue;
                     if (guid == actionGuid)
                     {
-                        return inputActionStructs.GetArrayElementAtIndex(l).propertyPath;
+                        return InputActionEntries.GetArrayElementAtIndex(l).propertyPath;
                     }
                 }
             }
