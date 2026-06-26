@@ -10,6 +10,7 @@ using UnityEngine.Tilemaps;
 public class PlacementManager : MonoBehaviour
 {
    public static PlacementManager Instance;
+   public static event Action OnEternalTorchRemoved;
    [SerializeField] private Tilemap _targetTilemap;
    private Dictionary<Vector3Int,GameObject> _placedItems= new Dictionary<Vector3Int,GameObject>();
    private Dictionary<Tilemap,HashSet<Vector3Int>> _restrictedCells= new Dictionary<Tilemap, HashSet<Vector3Int>>();
@@ -136,14 +137,21 @@ public class PlacementManager : MonoBehaviour
     /// <param name="cellpos"></param>
     public void UnregisterItem(Vector3Int cellpos)
     {
-        if(_placedItems.ContainsKey(cellpos))
-        {
-            _placedItems.Remove(cellpos);
-        }
-        if(_torchTypes.ContainsKey(cellpos))
-        {
-            _torchTypes.Remove(cellpos);
-        }
+       if(_placedItems.TryGetValue(cellpos, out GameObject item))
+       {
+         if(item!=null)
+         {
+          if(item.TryGetComponent<TypeChooser>(out var torch))
+          {
+            if (torch.IsEternal)
+            {
+                        OnEternalTorchRemoved?.Invoke();
+            } 
+           
+          }
+         }
+         _placedItems.Remove(cellpos);
+       }
     }
 
     /// <summary>

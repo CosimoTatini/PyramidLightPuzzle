@@ -8,46 +8,33 @@ using UnityEngine.Tilemaps;
 /// State to handle the grab interactions
 /// </summary>
 internal class GrabCharacterState : IStateCollision2D
-{ 
+{
     private Player _owner;
     private PlayerController _ownerController;
     private GameObject _torch;
     private Tilemap _tilemap;
     private Animator _animator;
     private float _timer;
-    public GrabCharacterState(Player player, PlayerController controller, GameObject torch, Tilemap tilemap,Animator animator)
+
+    public GrabCharacterState(Player player, PlayerController controller, GameObject torch, Tilemap tilemap, Animator animator)
     {
-        _owner= player;
+        _owner = player;
         _ownerController = controller;
         _torch = torch;
         _tilemap = tilemap;
-        _animator=animator;
-    }
-    public void OnCollisionEnter2D(Collision2D collision)
-    {
-        
+        _animator = animator;
     }
 
-    public void OnCollisionExit2D(Collision2D collision)
-    {
-        
-    }
-
-    public void OnCollisionStay2D(Collision2D collision)
-    {
-
-    }
+    public void OnCollisionEnter2D(Collision2D collision) { }
+    public void OnCollisionExit2D(Collision2D collision) { }
+    public void OnCollisionStay2D(Collision2D collision) { }
 
     public void OnEnd()
     {
         _timer = 0;
     }
 
-    public void OnFixedUpdate()
-    {
-    
-    }
-
+    public void OnFixedUpdate() { }
 
     public void OnStart()
     {
@@ -57,7 +44,6 @@ internal class GrabCharacterState : IStateCollision2D
         Vector3Int targetCellPos = Vector3Int.zero;
         bool isMagicalRecall = (InventoryManager.Instance.SelectedType == TorchType.Magical);
 
-        
         if (isMagicalRecall)
         {
             var magicalTorchData = PlacementManager.Instance.FindMagicalTorch();
@@ -68,7 +54,6 @@ internal class GrabCharacterState : IStateCollision2D
             }
         }
 
-        
         if (itemToPick == null)
         {
             Vector3 interactionPos = _owner.transform.position;
@@ -76,7 +61,7 @@ internal class GrabCharacterState : IStateCollision2D
             itemToPick = PlacementManager.Instance.GetItemAt(targetCellPos);
         }
 
-            if (itemToPick != null)
+        if (itemToPick != null)
         {
             if (itemToPick.TryGetComponent<TypeChooser>(out var torchComponent))
             {
@@ -93,7 +78,18 @@ internal class GrabCharacterState : IStateCollision2D
                     }
 
                     InventoryManager.Instance.ReturnTorch(torchComponent.Type);
+
+                    // 🔔 1. Chiamiamo PRIMA il manager: leggerà la torcia come eterna e lancerà l'evento!
                     PlacementManager.Instance.UnregisterItem(targetCellPos);
+
+                    // 🌟 2. DOPO azzeriamo il flag IsEternal sul componente prima che venga distrutto
+                    if (torchComponent.IsEternal)
+                    {
+                        torchComponent.IsEternal = false;
+                        Debug.Log($"[Grab] Torcia eterna rilevata. Evento lanciato e flag resettato a false.");
+                    }
+
+                    // ❌ 3. Infine, eliminiamo l'oggetto dalla scena
                     GameObject.Destroy(itemToPick);
                     Debug.Log($"[Grab] Raccolta torcia {torchComponent.Type} dalla cella {targetCellPos}. Contatore aggiornato!");
                     return;
@@ -122,46 +118,35 @@ internal class GrabCharacterState : IStateCollision2D
         }
 
         _owner.SetState(ECharacterStates.Idle);
-
     }
 
     private void RecoverPowder(LightEmitter lightEmitter)
     {
-        if(lightEmitter.RedAmount>0)
+        if (lightEmitter.RedAmount > 0)
         {
-            InventoryManager.Instance.AddPowder(PowderColor.Red,lightEmitter.RedAmount);
+            InventoryManager.Instance.AddPowder(PowderColor.Red, lightEmitter.RedAmount);
         }
 
-        if(lightEmitter.GreenAmount>0)
+        if (lightEmitter.GreenAmount > 0)
         {
-            InventoryManager.Instance.AddPowder(PowderColor.Green,lightEmitter.GreenAmount);
+            InventoryManager.Instance.AddPowder(PowderColor.Green, lightEmitter.GreenAmount);
         }
 
-        if(lightEmitter.BlueAmount>0)
+        if (lightEmitter.BlueAmount > 0)
         {
-            InventoryManager.Instance.AddPowder(PowderColor.Blue,lightEmitter.BlueAmount);
+            InventoryManager.Instance.AddPowder(PowderColor.Blue, lightEmitter.BlueAmount);
         }
     }
 
-    public void OnTriggerEnter2D(Collider2D collider)
-    {
-        
-    }
-
-    public void OnTriggerExit2D(Collider2D collider)
-    {
-    }
-
-    public void OnTriggerStay2D(Collider2D collider)
-    {
-        
-    }
+    public void OnTriggerEnter2D(Collider2D collider) { }
+    public void OnTriggerExit2D(Collider2D collider) { }
+    public void OnTriggerStay2D(Collider2D collider) { }
 
     public void OnUpdate()
     {
         _timer += Time.deltaTime;
 
-        if(_timer >= _owner.GrabSettings.clip.length)
+        if (_timer >= _owner.GrabSettings.clip.length)
         {
             _owner.SetState(ECharacterStates.Idle);
         }

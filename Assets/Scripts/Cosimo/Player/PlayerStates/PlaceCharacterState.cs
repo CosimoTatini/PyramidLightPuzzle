@@ -119,6 +119,14 @@ public class PlaceCharacterState : IStateCollision2D
 
     private IEnumerator TorchLifetimeCoroutine(GameObject torchInstance, TorchType type, Vector3Int cellPos)
     {
+
+        if(torchInstance!=null && torchInstance.TryGetComponent<TypeChooser>(out var torch))
+        {
+            if(torch.IsEternal)
+            {
+                yield break;
+            }
+        }
         yield return new WaitForSeconds(_torchDuration);
 
         if (torchInstance != null && type is TorchType.Normal)

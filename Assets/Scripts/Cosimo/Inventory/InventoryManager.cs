@@ -45,8 +45,8 @@ public class InventoryManager : MonoBehaviour
             return;
         }
         Instance=this;
-        _currentTorchQuantity = 0;
-        _currentMagicalTorchQuantity= 0;
+        _currentTorchQuantity = 4;
+        _currentMagicalTorchQuantity= 1;
 
     }
     #endregion
