@@ -13,58 +13,382 @@ MonoBehaviour:
   m_Name: PlayerConfig
   m_EditorClassIdentifier: InputTry::InputConfigSO
   _inputAssetMaps:
-  - AssetType: {fileID: 0}
+  - AssetType: {fileID: 11400000, guid: e96d257d5ef5782029bb3f86587ef374, type: 2}
     InputMapStructs:
-    - Guid: 
-      InputActionEntries: []
-    - Guid: 
+    - Guid: df70fa95-8a34-4494-b137-73ab6b9c7d37
       InputActionEntries:
-      - Guid: 
-        Priority: 2412
-        Enabled: 1
-        NameOverride: 
-      - Guid: 
-        Priority: 2
-        Enabled: 1
-        NameOverride: 
-      - Guid: 
-        Priority: 3333
-        Enabled: 1
-        NameOverride: 
-    - Guid: 
-      InputActionEntries: []
-    - Guid: 
-      InputActionEntries: []
-    - Guid: 
-      InputActionEntries: []
-  - AssetType: {fileID: 0}
-    InputMapStructs:
-    - Guid: 
-      InputActionEntries:
-      - Guid: 
+      - Guid: 351f2ccd-1f9f-44bf-9bec-d62ac5c5f408
         Priority: 0
         Enabled: 1
         NameOverride: 
-      - Guid: 
-        Priority: 53
+        PromptSchemes:
+        - Scheme: ;Gamepad
+          Prompts:
+          - Guid: 978bfe49-cc26-4a3d-ab7b-7d7a29327403
+            Prompt: Press @BUTTON to Move
+        - Scheme: ;Keyboard&Mouse
+          Prompts:
+          - Guid: 00ca640b-d935-4593-8157-c05846ea39b3
+            Prompt: Press @BUTTON to Move
+          - Guid: 28cbf7fd-3426-4794-b65e-3f998d071fb9
+            Prompt: Press @BUTTON + @BUTTON + @BUTTON to Move
+        - Scheme: XR
+          Prompts:
+          - Guid: 1635d3fe-58b6-4ba9-a4e2-f4b964f6b5c8
+            Prompt: Press @BUTTON to Move
+        - Scheme: Joystick
+          Prompts:
+          - Guid: 3ea4d645-4504-4529-b061-ab81934c3752
+            Prompt: Press @BUTTON to Move
+      - Guid: 6b444451-8a00-4d00-a97e-f47457f736a8
+        Priority: 0
         Enabled: 1
         NameOverride: 
-      - Guid: 
-        Priority: 3
-        Enabled: 0
+        PromptSchemes:
+        - Scheme: ;Gamepad
+          Prompts:
+          - Guid: c1f7a91b-d0fd-4a62-997e-7fb9b69bf235
+            Prompt: Press @BUTTON to Look
+        - Scheme: ;Keyboard&Mouse;Touch
+          Prompts:
+          - Guid: 8c8e490b-c610-4785-884f-f04217b23ca4
+            Prompt: Press @BUTTON to Look
+        - Scheme: Joystick
+          Prompts:
+          - Guid: 3e5f5442-8668-4b27-a940-df99bad7e831
+            Prompt: Press @BUTTON to Look
+      - Guid: 6c2ab1b8-8984-453a-af3d-a3c78ae1679a
+        Priority: 0
+        Enabled: 1
         NameOverride: 
-    - Guid: 
-      InputActionEntries: []
-  - AssetType: {fileID: 0}
-    InputMapStructs:
-    - Guid: 
-      InputActionEntries: []
-  - AssetType: {fileID: 0}
-    InputMapStructs:
-    - Guid: 
-      InputActionEntries: []
-  - AssetType: {fileID: 0}
-    InputMapStructs:
-    - Guid: 
-      InputActionEntries: []
+        PromptSchemes:
+        - Scheme: ;Gamepad
+          Prompts:
+          - Guid: 143bb1cd-cc10-4eca-a2f0-a3664166fe91
+            Prompt: Press @BUTTON to Attack
+        - Scheme: ;Keyboard&Mouse
+          Prompts:
+          - Guid: 05f6913d-c316-48b2-a6bb-e225f14c7960
+            Prompt: Press @BUTTON to Attack
+        - Scheme: ;Touch
+          Prompts:
+          - Guid: 886e731e-7071-4ae4-95c0-e61739dad6fd
+            Prompt: Press @BUTTON to Attack
+        - Scheme: Joystick
+          Prompts:
+          - Guid: ee3d0cd2-254e-47a7-a8cb-bc94d9658c54
+            Prompt: Press @BUTTON to Attack
+        - Scheme: XR
+          Prompts:
+          - Guid: 8255d333-5683-4943-a58a-ccb207ff1dce
+            Prompt: Press @BUTTON to Attack
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: b3c1c7f0-bd20-4ee7-a0f1-899b24bca6d7
+            Prompt: Press @BUTTON to Attack
+      - Guid: 852140f2-7766-474d-8707-702459ba45f3
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: 1c04ea5f-b012-41d1-a6f7-02e963b52893
+            Prompt: Press @BUTTON to Interact
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: b3f66d0b-7751-423f-908b-a11c5bd95930
+            Prompt: Press @BUTTON to Interact
+      - Guid: 27c5f898-bc57-4ee1-8800-db469aca5fe3
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: 4f4649ac-64a8-4a73-af11-b3faef356a4d
+            Prompt: Press @BUTTON to Crouch
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: 36e52cba-0905-478e-a818-f4bfcb9f3b9a
+            Prompt: Press @BUTTON to Crouch
+      - Guid: f1ba0d36-48eb-4cd5-b651-1c94a6531f70
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: eb40bb66-4559-4dfa-9a2f-820438abb426
+            Prompt: Press @BUTTON to Jump
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: daba33a1-ad0c-4742-a909-43ad1cdfbeb6
+            Prompt: Press @BUTTON to Jump
+        - Scheme: XR
+          Prompts:
+          - Guid: 603f3daf-40bd-4854-8724-93e8017f59e3
+            Prompt: Press @BUTTON to Jump
+      - Guid: 2776c80d-3c14-4091-8c56-d04ced07a2b0
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: 1534dc16-a6aa-499d-9c3a-22b47347b52a
+            Prompt: Press @BUTTON to Previous
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: 25060bbd-a3a6-476e-8fba-45ae484aad05
+            Prompt: Press @BUTTON to Previous
+      - Guid: b7230bb6-fc9b-4f52-8b25-f5e19cb2c2ba
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: cbac6039-9c09-46a1-b5f2-4e5124ccb5ed
+            Prompt: Press @BUTTON to Next
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: e15ca19d-e649-4852-97d5-7fe8ccc44e94
+            Prompt: Press @BUTTON to Next
+      - Guid: 641cd816-40e6-41b4-8c3d-04687c349290
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: f2e9ba44-c423-42a7-ad56-f20975884794
+            Prompt: Press @BUTTON to Sprint
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: 8cbb2f4b-a784-49cc-8d5e-c010b8c7f4e6
+            Prompt: Press @BUTTON to Sprint
+        - Scheme: XR
+          Prompts:
+          - Guid: d8bf24bf-3f2f-4160-a97c-38ec1eb520ba
+            Prompt: Press @BUTTON to Sprint
+      - Guid: 8111a4e7-2ecc-44e0-be3e-8845bf8cb323
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: ;Keyboard&Mouse
+          Prompts:
+          - Guid: 73d83de3-4bc7-4844-887a-3eba48c68c1d
+            Prompt: Press @BUTTON to Switch
+        - Scheme: ;Gamepad
+          Prompts:
+          - Guid: c9264b5c-3172-4e52-993a-6e57be73f344
+            Prompt: Press @BUTTON to Switch
+      - Guid: caf14774-abd8-4d43-9996-dc353909bc3f
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: ;Keyboard&Mouse
+          Prompts:
+          - Guid: 104b7783-e416-4b48-a9dd-b67e08607e88
+            Prompt: Press @BUTTON to SetRed
+        - Scheme: ;Gamepad
+          Prompts:
+          - Guid: 8e99d160-5b6b-4a7b-89a8-c0d15aca6d54
+            Prompt: Press @BUTTON to SetRed
+      - Guid: 99a84728-3311-4211-a8a1-17a929539c1b
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: ;Keyboard&Mouse
+          Prompts:
+          - Guid: efc36d98-84cf-4674-88ed-bca0d0b89345
+            Prompt: Press @BUTTON to SetGreen
+        - Scheme: ;Gamepad
+          Prompts:
+          - Guid: 0b6955fa-5047-48d6-9f7b-75b1e3dddbf6
+            Prompt: Press @BUTTON to SetGreen
+      - Guid: 539c73e2-8745-4bcd-9f54-57bb70274ce9
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: ;Keyboard&Mouse
+          Prompts:
+          - Guid: 7c8698ab-f4c0-4d63-94a1-bc36a48d6f34
+            Prompt: Press @BUTTON to SetBlue
+        - Scheme: ;Gamepad
+          Prompts:
+          - Guid: 1d7fd3b7-93d7-48aa-b1e1-3eccc8979fdb
+            Prompt: Press @BUTTON to SetBlue
+      - Guid: f14be638-ae99-4ea6-bb63-6b910da41c5b
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: ;Keyboard&Mouse
+          Prompts:
+          - Guid: 079187ee-06db-4b59-bd1a-f600d54cbe31
+            Prompt: Press @BUTTON to NextColor
+        - Scheme: ;Gamepad
+          Prompts:
+          - Guid: 59fad096-18d0-48a4-9410-15386eee6c4c
+            Prompt: Press @BUTTON to NextColor
+      - Guid: a2946c86-b3cb-42ee-80c4-f94c88165a29
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: ;Keyboard&Mouse
+          Prompts:
+          - Guid: ee89a0d2-c6f3-4f48-8d06-8002870ecf72
+            Prompt: Press @BUTTON to PreviousColor
+        - Scheme: ;Gamepad
+          Prompts:
+          - Guid: 1dabd63d-83ff-408d-a15c-c47c04845c07
+            Prompt: Press @BUTTON to PreviousColor
+      - Guid: fc5aee51-93f4-42b8-b8f5-56703389d4ca
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: ;Keyboard&Mouse
+          Prompts:
+          - Guid: f82262f4-7706-48b6-92c4-a1d801f1f906
+            Prompt: Press @BUTTON to Throw
+        - Scheme: ;Gamepad
+          Prompts:
+          - Guid: ad4eea47-d7e8-4997-8d5b-6616ffa97f31
+            Prompt: Press @BUTTON to Throw
+    - Guid: 272f6d14-89ba-496f-b7ff-215263d3219f
+      InputActionEntries:
+      - Guid: c95b2375-e6d9-4b88-9c4c-c5e76515df4b
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: ;Gamepad
+          Prompts:
+          - Guid: 809f371f-c5e2-4e7a-83a1-d867598f40dd
+            Prompt: Press @BUTTON to Navigate
+          - Guid: fb8277d4-c5cd-4663-9dc7-ee3f0b506d90
+            Prompt: Press @BUTTON to Navigate
+        - Scheme: Joystick
+          Prompts:
+          - Guid: e25d9774-381c-4a61-b47c-7b6b299ad9f9
+            Prompt: Press @BUTTON to Navigate
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: ff527021-f211-4c02-933e-5976594c46ed
+            Prompt: Press @BUTTON to Navigate
+      - Guid: 7607c7b6-cd76-4816-beef-bd0341cfe950
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse;Gamepad;Touch;Joystick;XR
+          Prompts:
+          - Guid: 9e92bb26-7e3b-4ec4-b06b-3c8f8e498ddc
+            Prompt: Press @BUTTON to Submit
+      - Guid: 15cef263-9014-4fd5-94d9-4e4a6234a6ef
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse;Gamepad;Touch;Joystick;XR
+          Prompts:
+          - Guid: 82627dcc-3b13-4ba9-841d-e4b746d6553e
+            Prompt: Press @BUTTON to Cancel
+      - Guid: 32b35790-4ed0-4e9a-aa41-69ac6d629449
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: c52c8e0b-8179-41d3-b8a1-d149033bbe86
+            Prompt: Press @BUTTON to Point
+          - Guid: e1394cbc-336e-44ce-9ea8-6007ed6193f7
+            Prompt: Press @BUTTON to Point
+        - Scheme: Touch
+          Prompts:
+          - Guid: 5693e57a-238a-46ed-b5ae-e64e6e574302
+            Prompt: Press @BUTTON to Point
+      - Guid: 3c7022bf-7922-4f7c-a998-c437916075ad
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: ;Keyboard&Mouse
+          Prompts:
+          - Guid: 4faf7dc9-b979-4210-aa8c-e808e1ef89f5
+            Prompt: Press @BUTTON to Click
+          - Guid: 8d66d5ba-88d7-48e6-b1cd-198bbfef7ace
+            Prompt: Press @BUTTON to Click
+        - Scheme: Touch
+          Prompts:
+          - Guid: 47c2a644-3ebc-4dae-a106-589b7ca75b59
+            Prompt: Press @BUTTON to Click
+        - Scheme: XR
+          Prompts:
+          - Guid: bb9e6b34-44bf-4381-ac63-5aa15d19f677
+            Prompt: Press @BUTTON to Click
+      - Guid: 44b200b1-1557-4083-816c-b22cbdf77ddf
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: 4c191405-5738-4d4b-a523-c6a301dbf754
+            Prompt: Press @BUTTON to RightClick
+      - Guid: dad70c86-b58c-4b17-88ad-f5e53adf419e
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: 24066f69-da47-44f3-a07e-0015fb02eb2e
+            Prompt: Press @BUTTON to MiddleClick
+      - Guid: 0489e84a-4833-4c40-bfae-cea84b696689
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: ;Keyboard&Mouse
+          Prompts:
+          - Guid: 38c99815-14ea-4617-8627-164d27641299
+            Prompt: Press @BUTTON to ScrollWheel
+      - Guid: 24908448-c609-4bc3-a128-ea258674378a
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: XR
+          Prompts:
+          - Guid: 7236c0d9-6ca3-47cf-a6ee-a97f5b59ea77
+            Prompt: Press @BUTTON to TrackedDevicePosition
+      - Guid: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: XR
+          Prompts:
+          - Guid: 23e01e3a-f935-4948-8d8b-9bcac77714fb
+            Prompt: Press @BUTTON to TrackedDeviceOrientation
+      - Guid: f79a7023-2599-4197-8d5b-b94d5b88bedf
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes: []
+      - Guid: ecb63099-6af2-4724-afe8-9ea43db3a435
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes: []
   _lastUsedInputAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

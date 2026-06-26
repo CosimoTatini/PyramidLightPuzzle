@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 using System;
 using UnityEditor.UIElements;
 
-[CustomPropertyDrawer(typeof(InputActionEntry))]
+//[CustomPropertyDrawer(typeof(InputActionEntry))]
 public class InputActionEntryDrawer : PropertyDrawer
 {
     public override VisualElement CreatePropertyGUI(SerializedProperty property)

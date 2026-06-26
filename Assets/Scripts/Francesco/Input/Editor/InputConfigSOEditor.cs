@@ -52,42 +52,91 @@ public class InputConfigSOEditor : Editor
 
         InputConfigSO inputConfigSO = target as InputConfigSO;
 
-        InputMapStruct[] maps = inputConfigSO.GetInputAssetMaps().SelectMany(c => c.InputMapStructs).ToArray();
-        InputActionEntry[] actions = maps.SelectMany(c => c.InputActionEntries).ToArray();
-        BindingPromptData[] bindings = actions.SelectMany(c => c.PromptSchemes).SelectMany(c => c.Prompts).ToArray();
+        //TODO also implement this ondisable
+        bool arrayChanged = false;
 
+        for (int i = _assetMapListProp.arraySize - 1; i >= 0; i--)
+        {
+            SerializedProperty inputAssetMapList = _assetMapListProp.GetArrayElementAtIndex(i);
+            var assetType = inputAssetMapList.FindPropertyRelative("AssetType");
+            if (assetType == null)
+            {
+                _assetMapListProp.DeleteArrayElementAtIndex(i);
+                arrayChanged = true;
+                continue;
+            }
+            int mapsCount = inputAssetMapList.FindPropertyRelative("InputMapStructs").arraySize;
+            if (mapsCount == 0)
+            {
+                _assetMapListProp.DeleteArrayElementAtIndex(i);
+                arrayChanged = true;
+            }
+        }
+
+        if (arrayChanged)
+        {
+            serializedObject.ApplyModifiedProperties();
+            serializedObject.Update();
+        }
+
+        InputMapStruct[] maps = inputConfigSO.GetInputAssetMaps().SelectMany(c => c.InputMapStructs).ToArray();
+
+        _mapsWithoutAsset = new HashSet<string>(maps.Select(m => m.Guid));
+        _actionsOrphan = new HashSet<string>(maps.SelectMany(m => m.InputActionEntries).Select(a => a.Guid));
+        _bindingsOrphan = new HashSet<string>(maps.SelectMany(m => m.InputActionEntries).SelectMany(a => a.PromptSchemes).SelectMany(p => p.Prompts).Select(b => b.Guid));
 
         //TODO: populate the hashsets so when drawing an a element we know if it's valid or orphane and in that case there should be some visual feedback
         // like red or some, or for instance the button remove should be red or shi
         // also a remove all orphanes button a the top could be a thing
-        foreach (var item in inputActionAssets)
+        foreach (var inputAsset in inputActionAssets)
         {
             foreach (var map in maps)
             {
-                actions = map.InputActionEntries.Select(c => c.);
+                InputActionMap foundMap = inputAsset.FindActionMap(map.Guid);
+                if (foundMap != null)
+                {
+                    _mapsWithoutAsset.Remove(map.Guid);
+                }
+
+                var actions = map.InputActionEntries.ToArray();
+                foreach (var action in actions)
+                {
+                    InputAction foundAction;
+                    if (foundMap == null)
+                    {
+                        foundAction = null;
+                    }
+                    else
+                    {
+                        foundAction = inputAsset.FindAction(action.Guid);
+                    }
+
+                    if (foundAction != null)
+                    {
+                        _actionsOrphan.Remove(action.Guid);
+                    }
+
+                    var bindings = action.PromptSchemes.SelectMany(c => c.Prompts).ToArray();
+                    foreach (var binding in bindings)
+                    {
+                        if (foundAction == null)
+                        {
+                            continue;
+                        }
+
+                        if (foundAction.bindings.Any(b => b.id.ToString() == binding.Guid))
+                        {
+                            _bindingsOrphan.Remove(binding.Guid);
+                        }
+                    }
+                }
             }
-            // if (item.FindActionMap(nameOrId: guid) != null)
-            // {
-            //     break;
-            // }
         }
 
-        // loop through each map and check if it belongs to any inputActionAsset, if not add it to maps without an asset
-        LoopThroughMaps((guid, inputAssetMapList, inputAssetMapListIndex, mapIndex) =>
-        {
-            bool found = false;
-            foreach (var item in inputActionAssets)
-            {
+        //Debug.Log($"orphans {_mapsWithoutAsset.Count} {_actionsOrphan.Count} {_bindingsOrphan.Count}");
 
-                if (item.FindActionMap(nameOrId: guid) != null)
-                {
-                    found = true;
-                    break;
-                }
-                item.FindAction
-            }
-            if (!found) _mapsWithoutAsset.Add(guid);
-        });
+        // loop through each map and check if it belongs to any inputActionAsset, if not add it to maps without an asset
+
     }
 
     void OnDisable()
@@ -773,6 +822,7 @@ public class InputConfigSOEditor : Editor
 
         int oldPriority = actionProp.FindPropertyRelative("Priority").intValue;
 
+        Color guiColor = GUI.color;
         // draw the action name instead of the guid, then the enabled toggle, the priority field and a remove button
         EditorGUILayout.BeginHorizontal();
 
@@ -781,7 +831,6 @@ public class InputConfigSOEditor : Editor
         string viewAllButtonTooltip = string.Empty;
         PriorityAvailabilityEnum priorityAvailable = InputConfigPriorityCache.IsPriorityAvailable(actionGUID, oldPriority);
 
-        Color guiColor = GUI.color;
         switch (priorityAvailable)
         {
             case PriorityAvailabilityEnum.SELF_AVAILABLE:
@@ -821,8 +870,18 @@ public class InputConfigSOEditor : Editor
 
         GUI.color = guiColor;
 
+        bool isOrphan = false;
+        if (_actionsOrphan.Contains(actionGUID))
+        {
+            isOrphan = true;
+            GUI.color = Color.orange;
+        }
+
         // action name
-        EditorGUILayout.LabelField(action?.name ?? "Unknown", GUILayout.MinWidth(100), GUILayout.MaxWidth(300));
+
+        string actionName = (isOrphan) ? $"(Deleted) {action?.name ?? "Unknown"}" : action?.name ?? "Unknown";
+
+        EditorGUILayout.LabelField(actionName, GUILayout.MinWidth(100), GUILayout.MaxWidth(300));
         // enabled status
 
         // check if anything changes
@@ -850,6 +909,9 @@ public class InputConfigSOEditor : Editor
         }
 
         EditorGUILayout.EndHorizontal();
+
+        GUI.color = guiColor;
+
     }
 
     /// <summary>
