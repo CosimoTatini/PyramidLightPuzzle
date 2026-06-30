@@ -89,50 +89,13 @@ public partial class @NewActions: IInputActionCollection2, IDisposable
     ""name"": ""New Actions"",
     ""maps"": [
         {
-            ""name"": ""New action map"",
-            ""id"": ""68195024-3169-4ebb-b870-5b7a8457c850"",
-            ""actions"": [
-                {
-                    ""name"": ""New action"",
-                    ""type"": ""Button"",
-                    ""id"": ""479b7a11-b549-4faf-9d67-fd799864c993"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""0ebff1f5-8fdd-490d-8a78-7ebb388dd962"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""New action"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                }
-            ]
-        },
-        {
             ""name"": ""New action map1"",
-            ""id"": ""1c5f028b-b7b0-40b5-9f1a-5e03ed145885"",
+            ""id"": ""fbe2a252-c157-4e21-9fe4-e3f8ecb6b22d"",
             ""actions"": [
                 {
                     ""name"": ""New action"",
                     ""type"": ""Button"",
-                    ""id"": ""9669c6ee-b0e1-40ec-a674-a072ef4a4518"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""New action1"",
-                    ""type"": ""Button"",
-                    ""id"": ""67f8870a-a17a-4f68-ae4e-de358487b7f9"",
+                    ""id"": ""c89654f7-daa4-4f86-bf3d-0d03cc69f0e3"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -141,16 +104,7 @@ public partial class @NewActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""New action2"",
                     ""type"": ""Button"",
-                    ""id"": ""ee38e500-3283-4db6-92bb-91207818b761"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""New action3"",
-                    ""type"": ""Button"",
-                    ""id"": ""8a08fc5f-c818-48b4-b0c1-b656b8e20df1"",
+                    ""id"": ""71f09cd1-4b14-4b95-a434-de5bbbb6f4f2"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -160,67 +114,73 @@ public partial class @NewActions: IInputActionCollection2, IDisposable
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""678830b1-2ce1-4d8e-af0f-965ad3e9b4bc"",
-                    ""path"": """",
+                    ""id"": ""f32dbeaf-1927-4258-b74f-adad78a5730f"",
+                    ""path"": ""<Keyboard>/h"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""New action"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""ae597c84-9de0-44b0-9358-5e4ab4e71ae9"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""New action1"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""6b369388-8b83-443a-98c0-b54660bd1d6a"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""New action2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""a131a0c6-49b7-463c-ade3-6afe79cd888a"",
-                    ""path"": """",
+                    ""id"": ""686149e4-630f-4087-bb73-ad7d6a49e055"",
+                    ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""New action3"",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""New action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2cd1ab52-70b4-45c1-9d6f-ac6f8ea0ad58"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""New action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5020c836-81d2-4b1d-bb23-38b56a7c1747"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""New action"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
             ]
         }
     ],
-    ""controlSchemes"": []
+    ""controlSchemes"": [
+        {
+            ""name"": ""Keyboard&Mouse"",
+            ""bindingGroup"": ""Keyboard&Mouse"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        }
+    ]
 }");
-        // New action map
-        m_Newactionmap = asset.FindActionMap("New action map", throwIfNotFound: true);
-        m_Newactionmap_Newaction = m_Newactionmap.FindAction("New action", throwIfNotFound: true);
         // New action map1
         m_Newactionmap1 = asset.FindActionMap("New action map1", throwIfNotFound: true);
         m_Newactionmap1_Newaction = m_Newactionmap1.FindAction("New action", throwIfNotFound: true);
-        m_Newactionmap1_Newaction1 = m_Newactionmap1.FindAction("New action1", throwIfNotFound: true);
         m_Newactionmap1_Newaction2 = m_Newactionmap1.FindAction("New action2", throwIfNotFound: true);
-        m_Newactionmap1_Newaction3 = m_Newactionmap1.FindAction("New action3", throwIfNotFound: true);
     }
 
     ~@NewActions()
     {
-        UnityEngine.Debug.Assert(!m_Newactionmap.enabled, "This will cause a leak and performance issues, NewActions.Newactionmap.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Newactionmap1.enabled, "This will cause a leak and performance issues, NewActions.Newactionmap1.Disable() has not been called.");
     }
 
@@ -294,109 +254,11 @@ public partial class @NewActions: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // New action map
-    private readonly InputActionMap m_Newactionmap;
-    private List<INewactionmapActions> m_NewactionmapActionsCallbackInterfaces = new List<INewactionmapActions>();
-    private readonly InputAction m_Newactionmap_Newaction;
-    /// <summary>
-    /// Provides access to input actions defined in input action map "New action map".
-    /// </summary>
-    public struct NewactionmapActions
-    {
-        private @NewActions m_Wrapper;
-
-        /// <summary>
-        /// Construct a new instance of the input action map wrapper class.
-        /// </summary>
-        public NewactionmapActions(@NewActions wrapper) { m_Wrapper = wrapper; }
-        /// <summary>
-        /// Provides access to the underlying input action "Newactionmap/Newaction".
-        /// </summary>
-        public InputAction @Newaction => m_Wrapper.m_Newactionmap_Newaction;
-        /// <summary>
-        /// Provides access to the underlying input action map instance.
-        /// </summary>
-        public InputActionMap Get() { return m_Wrapper.m_Newactionmap; }
-        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
-        public void Enable() { Get().Enable(); }
-        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
-        public void Disable() { Get().Disable(); }
-        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
-        public bool enabled => Get().enabled;
-        /// <summary>
-        /// Implicitly converts an <see ref="NewactionmapActions" /> to an <see ref="InputActionMap" /> instance.
-        /// </summary>
-        public static implicit operator InputActionMap(NewactionmapActions set) { return set.Get(); }
-        /// <summary>
-        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
-        /// </summary>
-        /// <param name="instance">Callback instance.</param>
-        /// <remarks>
-        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
-        /// </remarks>
-        /// <seealso cref="NewactionmapActions" />
-        public void AddCallbacks(INewactionmapActions instance)
-        {
-            if (instance == null || m_Wrapper.m_NewactionmapActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_NewactionmapActionsCallbackInterfaces.Add(instance);
-            @Newaction.started += instance.OnNewaction;
-            @Newaction.performed += instance.OnNewaction;
-            @Newaction.canceled += instance.OnNewaction;
-        }
-
-        /// <summary>
-        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
-        /// </summary>
-        /// <remarks>
-        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
-        /// </remarks>
-        /// <seealso cref="NewactionmapActions" />
-        private void UnregisterCallbacks(INewactionmapActions instance)
-        {
-            @Newaction.started -= instance.OnNewaction;
-            @Newaction.performed -= instance.OnNewaction;
-            @Newaction.canceled -= instance.OnNewaction;
-        }
-
-        /// <summary>
-        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="NewactionmapActions.UnregisterCallbacks(INewactionmapActions)" />.
-        /// </summary>
-        /// <seealso cref="NewactionmapActions.UnregisterCallbacks(INewactionmapActions)" />
-        public void RemoveCallbacks(INewactionmapActions instance)
-        {
-            if (m_Wrapper.m_NewactionmapActionsCallbackInterfaces.Remove(instance))
-                UnregisterCallbacks(instance);
-        }
-
-        /// <summary>
-        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
-        /// </summary>
-        /// <remarks>
-        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
-        /// </remarks>
-        /// <seealso cref="NewactionmapActions.AddCallbacks(INewactionmapActions)" />
-        /// <seealso cref="NewactionmapActions.RemoveCallbacks(INewactionmapActions)" />
-        /// <seealso cref="NewactionmapActions.UnregisterCallbacks(INewactionmapActions)" />
-        public void SetCallbacks(INewactionmapActions instance)
-        {
-            foreach (var item in m_Wrapper.m_NewactionmapActionsCallbackInterfaces)
-                UnregisterCallbacks(item);
-            m_Wrapper.m_NewactionmapActionsCallbackInterfaces.Clear();
-            AddCallbacks(instance);
-        }
-    }
-    /// <summary>
-    /// Provides a new <see cref="NewactionmapActions" /> instance referencing this action map.
-    /// </summary>
-    public NewactionmapActions @Newactionmap => new NewactionmapActions(this);
-
     // New action map1
     private readonly InputActionMap m_Newactionmap1;
     private List<INewactionmap1Actions> m_Newactionmap1ActionsCallbackInterfaces = new List<INewactionmap1Actions>();
     private readonly InputAction m_Newactionmap1_Newaction;
-    private readonly InputAction m_Newactionmap1_Newaction1;
     private readonly InputAction m_Newactionmap1_Newaction2;
-    private readonly InputAction m_Newactionmap1_Newaction3;
     /// <summary>
     /// Provides access to input actions defined in input action map "New action map1".
     /// </summary>
@@ -413,17 +275,9 @@ public partial class @NewActions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Newaction => m_Wrapper.m_Newactionmap1_Newaction;
         /// <summary>
-        /// Provides access to the underlying input action "Newactionmap1/Newaction1".
-        /// </summary>
-        public InputAction @Newaction1 => m_Wrapper.m_Newactionmap1_Newaction1;
-        /// <summary>
         /// Provides access to the underlying input action "Newactionmap1/Newaction2".
         /// </summary>
         public InputAction @Newaction2 => m_Wrapper.m_Newactionmap1_Newaction2;
-        /// <summary>
-        /// Provides access to the underlying input action "Newactionmap1/Newaction3".
-        /// </summary>
-        public InputAction @Newaction3 => m_Wrapper.m_Newactionmap1_Newaction3;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -453,15 +307,9 @@ public partial class @NewActions: IInputActionCollection2, IDisposable
             @Newaction.started += instance.OnNewaction;
             @Newaction.performed += instance.OnNewaction;
             @Newaction.canceled += instance.OnNewaction;
-            @Newaction1.started += instance.OnNewaction1;
-            @Newaction1.performed += instance.OnNewaction1;
-            @Newaction1.canceled += instance.OnNewaction1;
             @Newaction2.started += instance.OnNewaction2;
             @Newaction2.performed += instance.OnNewaction2;
             @Newaction2.canceled += instance.OnNewaction2;
-            @Newaction3.started += instance.OnNewaction3;
-            @Newaction3.performed += instance.OnNewaction3;
-            @Newaction3.canceled += instance.OnNewaction3;
         }
 
         /// <summary>
@@ -476,15 +324,9 @@ public partial class @NewActions: IInputActionCollection2, IDisposable
             @Newaction.started -= instance.OnNewaction;
             @Newaction.performed -= instance.OnNewaction;
             @Newaction.canceled -= instance.OnNewaction;
-            @Newaction1.started -= instance.OnNewaction1;
-            @Newaction1.performed -= instance.OnNewaction1;
-            @Newaction1.canceled -= instance.OnNewaction1;
             @Newaction2.started -= instance.OnNewaction2;
             @Newaction2.performed -= instance.OnNewaction2;
             @Newaction2.canceled -= instance.OnNewaction2;
-            @Newaction3.started -= instance.OnNewaction3;
-            @Newaction3.performed -= instance.OnNewaction3;
-            @Newaction3.canceled -= instance.OnNewaction3;
         }
 
         /// <summary>
@@ -518,20 +360,18 @@ public partial class @NewActions: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="Newactionmap1Actions" /> instance referencing this action map.
     /// </summary>
     public Newactionmap1Actions @Newactionmap1 => new Newactionmap1Actions(this);
+    private int m_KeyboardMouseSchemeIndex = -1;
     /// <summary>
-    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "New action map" which allows adding and removing callbacks.
+    /// Provides access to the input control scheme.
     /// </summary>
-    /// <seealso cref="NewactionmapActions.AddCallbacks(INewactionmapActions)" />
-    /// <seealso cref="NewactionmapActions.RemoveCallbacks(INewactionmapActions)" />
-    public interface INewactionmapActions
+    /// <seealso cref="UnityEngine.InputSystem.InputControlScheme" />
+    public InputControlScheme KeyboardMouseScheme
     {
-        /// <summary>
-        /// Method invoked when associated input action "New action" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnNewaction(InputAction.CallbackContext context);
+        get
+        {
+            if (m_KeyboardMouseSchemeIndex == -1) m_KeyboardMouseSchemeIndex = asset.FindControlSchemeIndex("Keyboard&Mouse");
+            return asset.controlSchemes[m_KeyboardMouseSchemeIndex];
+        }
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "New action map1" which allows adding and removing callbacks.
@@ -548,25 +388,11 @@ public partial class @NewActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnNewaction(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "New action1" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnNewaction1(InputAction.CallbackContext context);
-        /// <summary>
         /// Method invoked when associated input action "New action2" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnNewaction2(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "New action3" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnNewaction3(InputAction.CallbackContext context);
     }
 }

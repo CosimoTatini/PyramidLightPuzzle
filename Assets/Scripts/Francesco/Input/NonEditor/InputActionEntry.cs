@@ -7,6 +7,7 @@ public class InputActionEntry
 {
     public static readonly string BUTTON_PLACEHOLDER = "@BUTTON";
     public string Guid;
+    public string Name;
     public int Priority;
     public bool Enabled;
     public string NameOverride;

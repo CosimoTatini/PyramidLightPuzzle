@@ -6,6 +6,7 @@ using System.Linq;
 public struct InputMapStruct
 {
     public string Guid;
+    public string Name;
     public List<InputActionEntry> InputActionEntries;
 
     public InputActionEntry GetInputActionStruct(string guid)

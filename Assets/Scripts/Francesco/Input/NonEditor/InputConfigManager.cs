@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Codice.CM.Common.Purge;
 using DesignPatterns.Generics;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -47,6 +48,29 @@ public static class InputConfigManager//Singleton<InputConfigManager>
         _enabledDisabledActionsEvents.Clear();
 
         Application.quitting -= Cleanup;
+    }
+
+    public static InputActionEntry GetInputActionEntry(InputUser id, string actionGuid)
+    {
+        if (id == null || !id.valid) return null;
+        if (string.IsNullOrEmpty(actionGuid)) return null;
+
+        if (_actionsStacks.TryGetValue(id, out var actionStackDict))
+        {
+            if (actionStackDict.TryGetValue(actionGuid, out var actionsStack))
+            {
+                if (actionsStack.Count > 0)
+                {
+                    return actionsStack[0];
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        return null;
     }
 
     private static void RegisterAction(InputUser id, InputActionEntry actionData/*, Type inputAssetCsharp*/)
@@ -373,11 +397,13 @@ public static class InputConfigManager//Singleton<InputConfigManager>
 
     public static IReadOnlyList<InputAction> GetEnabledActions(InputUser id)
     {
+        if (id == null || !_actionsEnabled.ContainsKey(id)) return new List<InputAction>();
         return _actionsEnabled[id].AsReadOnly();
     }
 
     public static IReadOnlyList<InputAction> GetDisabledActions(InputUser id)
     {
+        if (id == null || !_actionsEnabled.ContainsKey(id)) return new List<InputAction>();
         return _actionsDisabled[id].AsReadOnly();
     }
 

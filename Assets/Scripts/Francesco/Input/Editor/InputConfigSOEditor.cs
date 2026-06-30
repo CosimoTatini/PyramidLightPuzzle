@@ -8,6 +8,7 @@ using System.Reflection;
 using Object = UnityEngine.Object;
 
 using PriorityAvailabilityEnum = InputConfigPriorityCache.PriorityAvailabilityEnum;
+using UnityEditor.Rendering;
 
 /// <summary>
 /// Custom Inspector for <see cref="InputConfigSO"/>.
@@ -32,6 +33,9 @@ public class InputConfigSOEditor : Editor
     private readonly double _rebuildDelay = 0.5f;
     private double _rebuildDeadline = -1f;
 
+    private readonly string[] TOOLS_LIST = { "Priority", "Presentation" };
+    private int _currentToolIndex;
+
     private void OnEnable()
     {
         EditorApplication.update += PriorityChangeCheck;
@@ -41,7 +45,6 @@ public class InputConfigSOEditor : Editor
         _assetMapListProp = serializedObject.FindProperty("_inputAssetMaps");
 
         // try load the last used InputActionAsset
-        _loaderAsset = serializedObject.FindProperty("_lastUsedInputAsset").objectReferenceValue as InputActionAsset;
 
         _alreadyCreatedArrayElementForAssetMapList = false;
 
@@ -51,6 +54,7 @@ public class InputConfigSOEditor : Editor
         _mapsWithoutAsset = new();
 
         InputConfigSO inputConfigSO = target as InputConfigSO;
+        _loaderAsset = inputConfigSO.LastUsedInputAsset;
 
         //TODO also implement this ondisable
         bool arrayChanged = false;
@@ -59,7 +63,7 @@ public class InputConfigSOEditor : Editor
         {
             SerializedProperty inputAssetMapList = _assetMapListProp.GetArrayElementAtIndex(i);
             var assetType = inputAssetMapList.FindPropertyRelative("AssetType");
-            if (assetType == null)
+            if (assetType == null || assetType.objectReferenceValue == null)
             {
                 _assetMapListProp.DeleteArrayElementAtIndex(i);
                 arrayChanged = true;
@@ -144,16 +148,31 @@ public class InputConfigSOEditor : Editor
         EditorApplication.update -= PriorityChangeCheck;
         InputConfigPriorityCache.OnRebuildCompleted -= RefreshInspector;
 
-        // remove temporary and unused InputAssetMapList, this happens if user selects InputActionAsset and TypeVar but doesn't add maps
+        //TODO also implement this ondisable
+        bool arrayChanged = false;
+
         for (int i = _assetMapListProp.arraySize - 1; i >= 0; i--)
         {
             SerializedProperty inputAssetMapList = _assetMapListProp.GetArrayElementAtIndex(i);
+            var assetType = inputAssetMapList.FindPropertyRelative("AssetType");
+            if (assetType == null || assetType.objectReferenceValue == null)
+            {
+                _assetMapListProp.DeleteArrayElementAtIndex(i);
+                arrayChanged = true;
+                continue;
+            }
             int mapsCount = inputAssetMapList.FindPropertyRelative("InputMapStructs").arraySize;
             if (mapsCount == 0)
             {
                 _assetMapListProp.DeleteArrayElementAtIndex(i);
-                serializedObject.ApplyModifiedProperties();
+                arrayChanged = true;
             }
+        }
+
+        if (arrayChanged)
+        {
+            serializedObject.ApplyModifiedProperties();
+            serializedObject.Update();
         }
     }
 
@@ -247,10 +266,22 @@ public class InputConfigSOEditor : Editor
 
         LoopThroughMaps((guid, inputAssetMapList, inputAssetMapListIndex, mapIndex) =>
         {
-            if (assetMapGuids.Contains(guid))
+            // compares the 2 lists of actions, if they are the same it means they are poiting to the same InputActionAsset, meaning we've found the corresponding inputAssetMapList
+            TypeVar typeVar = inputAssetMapList.FindPropertyRelative("AssetType").objectReferenceValue as TypeVar;
+            if (typeVar != null)
             {
-                assetMapListIndex = inputAssetMapListIndex;
-                _alreadyCreatedArrayElementForAssetMapList = true;
+                var instance = (IInputActionCollection2)Activator.CreateInstance(typeVar.Type);
+
+                HashSet<Guid> instanceActionsGuids = instance.Select(action => action.id).ToHashSet();
+                HashSet<Guid> loaderAssetActionsGuids = _loaderAsset.Select(action => action.id).ToHashSet();
+
+                bool areEquals = instanceActionsGuids.SetEquals(loaderAssetActionsGuids);
+
+                if (areEquals)
+                {
+                    assetMapListIndex = inputAssetMapListIndex;
+                    _alreadyCreatedArrayElementForAssetMapList = true;
+                }
             }
         });
 
@@ -283,6 +314,7 @@ public class InputConfigSOEditor : Editor
         if (_loaderAssetInstanceType == null)
         {
             EditorGUILayout.HelpBox("Assign a TypeVar to associate to the Reference Asset to edit overrides.", MessageType.Info);
+            _assetMapListProp.GetArrayElementAtIndex(assetMapListIndex).FindPropertyRelative("AssetType").objectReferenceValue = null;
             serializedObject.ApplyModifiedProperties();
             return;
         }
@@ -293,15 +325,30 @@ public class InputConfigSOEditor : Editor
             serializedObject.ApplyModifiedProperties();
             return;
         }
-        else if (!typeof(IInputActionCollection2).IsAssignableFrom(_loaderAssetInstanceType.Type))
+        else
         {
-            Debug.LogWarning("Assign a TypeVar with Type being the C# generated script of an InputActionAsset to associate to the Reference Asset to edit overrides.");
-            _assetMapListProp.GetArrayElementAtIndex(assetMapListIndex).FindPropertyRelative("AssetType").objectReferenceValue = null;
-            serializedObject.ApplyModifiedProperties();
-            return;
-        }
+            if (!typeof(IInputActionCollection2).IsAssignableFrom(_loaderAssetInstanceType.Type))
+            {
+                Debug.LogWarning("Assigned TypeVar's Type doesn't belong to any C# files generated by an InputActionAsset");
+                _assetMapListProp.GetArrayElementAtIndex(assetMapListIndex).FindPropertyRelative("AssetType").objectReferenceValue = null;
+                serializedObject.ApplyModifiedProperties();
+                return;
+            }
+            var instance = (IInputActionCollection2)Activator.CreateInstance(_loaderAssetInstanceType.Type);
 
-        //TODO: might want to check TypeVar.Type since it should only be IInputActionCollection2
+            HashSet<Guid> instanceActionsGuids = instance.Select(action => action.id).ToHashSet();
+            HashSet<Guid> loaderAssetActionsGuids = _loaderAsset.Select(action => action.id).ToHashSet();
+
+            bool areEquals = instanceActionsGuids.SetEquals(loaderAssetActionsGuids);
+
+            if (!areEquals)
+            {
+                Debug.LogWarning("Assign a TypeVar with Type being the C# generated script of the selected InputActionAsset to associate to the Reference Asset to edit overrides.");
+                _assetMapListProp.GetArrayElementAtIndex(assetMapListIndex).FindPropertyRelative("AssetType").objectReferenceValue = null;
+                serializedObject.ApplyModifiedProperties();
+                return;
+            }
+        }
 
         EditorGUILayout.Space();
 
@@ -319,19 +366,27 @@ public class InputConfigSOEditor : Editor
             InputConfigPriorityCache.RebuildPriorityDictionary();
         }
 
+        _currentToolIndex = GUILayout.Toolbar(_currentToolIndex, TOOLS_LIST);
+
         // Draw Filtered Maps
         // Only render maps that exist in this InputConfigSO and that are present in the assigned loader asset
         // this is the filter step for ensuring we can only add/show maps that are present in this loader asset
 
-        LoopThroughMaps((guid, inputAssetMapList, inputAssetMapListIndex, mapIndex) =>
+        SerializedProperty inputMapStructs = _assetMapListProp.GetArrayElementAtIndex(assetMapListIndex).FindPropertyRelative("InputMapStructs");
+        for (int i = 0; i < inputMapStructs.arraySize; i++)
         {
-            SerializedProperty mapStructList = inputAssetMapList.FindPropertyRelative(relativePropertyPath: "InputMapStructs");
-            SerializedProperty mapElem = mapStructList.GetArrayElementAtIndex(mapIndex);
-            if (assetMapGuids.Contains(guid))
-            {
-                DrawMapFoldout(mapElem, inputAssetMapListIndex, mapIndex);
-            }
-        });
+            DrawMapFoldout(inputMapStructs.GetArrayElementAtIndex(i), assetMapListIndex, i);
+        }
+
+        // LoopThroughMaps((guid, inputAssetMapList, inputAssetMapListIndex, mapIndex) =>
+        // {
+        //     SerializedProperty mapStructList = inputAssetMapList.FindPropertyRelative(relativePropertyPath: "InputMapStructs");
+        //     SerializedProperty mapElem = mapStructList.GetArrayElementAtIndex(mapIndex);
+        //     if (assetMapGuids.Contains(guid))
+        //     {
+        //         DrawMapFoldout(mapElem, inputAssetMapListIndex, mapIndex);
+        //     }
+        // });
 
         serializedObject.ApplyModifiedProperties();
     }
@@ -345,160 +400,6 @@ public class InputConfigSOEditor : Editor
             // Debug.Log("Rebuild from debounce " + name);
         }
     }
-
-    // <guid,HashSet<InputConfigSO>>
-    // private static Dictionary<string, HashSet<InputConfigSO>> _actionsPriorities = new();
-    // // <guid,<priority, priorityCount>>
-    // private static Dictionary<string, Dictionary<int, int>> _actionsPrioritiesCount = new();
-
-    // public static Dictionary<string, HashSet<InputConfigSO>> ActionsPriorities => _actionsPriorities;
-    // public static Dictionary<string, Dictionary<int, int>> ActionsPrioritiesCount => _actionsPrioritiesCount;
-
-    // public static void RebuildPriorityDictionary()
-    // {
-    //     _activeInstances.RemoveWhere(instance => instance == null);
-
-    //     Debug.Log("Rebuilding " + _activeInstances.Count);
-    //     if (_activeInstances.Count == 0) return;
-    //     if (DuplicatePriorityResearch != null)
-    //     {
-    //         EditorCoroutineUtility.StopCoroutine(DuplicatePriorityResearch);
-    //         DuplicatePriorityResearch = null;
-    //     }
-    //     Debug.Log("Rebuilding " + _activeInstances.ElementAt(0).target.name);
-
-    //     _duplicatePrioritySearchActive = true;
-    //     DuplicatePriorityResearch = EditorCoroutineUtility.StartCoroutineOwnerless(DuplicatePrioritySearchCoroutine());
-    // }
-
-    // public static bool IsThereAnyPriorityConflict(string guid)
-    // {
-    //     if (!_actionsPrioritiesCount.ContainsKey(guid)) return false;
-
-    //     foreach (var priorityCounts in _actionsPrioritiesCount[guid])
-    //     {
-    //         if (priorityCounts.Value > 1)
-    //         {
-    //             return true;
-    //         }
-    //     }
-
-    //     return false;
-    // }
-
-    // public static int GetPriorityCountForAction(string guid, int priority)
-    // {
-    //     if (!_actionsPrioritiesCount.ContainsKey(guid)) return -1;
-    //     if (!_actionsPrioritiesCount[guid].ContainsKey(priority)) return -1;
-
-    //     return _actionsPrioritiesCount[guid][priority];
-    // }
-
-    // public static void AddPriority(string guid, int priority, string propertyPath, InputConfigSO inputConfig)
-    // {
-    //     if (!_actionsPriorities.ContainsKey(guid)) _actionsPriorities[guid] = new();
-    //     if (!_actionsPrioritiesCount.ContainsKey(guid)) _actionsPrioritiesCount[guid] = new();
-
-    //     if (!_actionsPriorities[guid].Contains(inputConfig)) _actionsPriorities[guid].Add(inputConfig);
-    //     if (!_actionsPrioritiesCount[guid].ContainsKey(priority)) _actionsPrioritiesCount[guid][priority] = 0;
-    //     _actionsPrioritiesCount[guid][priority]++;
-    // }
-
-    // public static void RemovePriority(string guid, int priority, InputConfigSO inputConfig)
-    // {
-    //     if (!_actionsPriorities.ContainsKey(guid)) return;
-    //     if (!_actionsPrioritiesCount.ContainsKey(guid)) return;
-    //     if (!_actionsPriorities[guid].Contains(inputConfig)) return;
-    //     _actionsPriorities[guid].Remove(inputConfig);
-    //     if (!_actionsPrioritiesCount[guid].ContainsKey(priority)) return;
-    //     _actionsPrioritiesCount[guid][priority]--;
-    // }
-
-    // public static void UpdatePriority(string guid, int oldPriority, int newPriority, string propertyPath, InputConfigSO inputConfig)
-    // {
-    //     if (oldPriority == newPriority) return;
-    //     RemovePriority(guid, oldPriority, inputConfig);
-    //     AddPriority(guid, newPriority, propertyPath, inputConfig);
-    // }
-
-    // private static IEnumerator DuplicatePrioritySearchCoroutine()
-    // {
-    //     // use temporary dictionaries so we don't leave a window where there is no data to read
-    //     Dictionary<string, HashSet<InputConfigSO>> actionPrioritiesTemp = new();
-    //     Dictionary<string, Dictionary<int, int>> actionPrioritiesCountTemp = new();
-
-    //     var allConfigs = AssetDatabaseUtils.GetAssetsByType<InputConfigSO>();
-
-    //     // find all configs where action is found
-    //     for (int i = allConfigs.Length - 1; i >= 0; i--)
-    //     {
-    //         // bool foundAction = false;
-    //         InputConfigSO config = allConfigs[i];
-
-    //         var inputAssetMapLists = config.GetInputAssetMaps();
-
-    //         for (int j = 0; j < inputAssetMapLists.Count; j++)
-    //         {
-    //             var inputMapStructs = inputAssetMapLists[j].InputMapStructs;
-    //             for (int k = 0; k < inputMapStructs.Count; k++)
-    //             {
-    //                 var InputActionEntries = inputMapStructs[k].InputActionEntries;
-    //                 for (int l = 0; l < InputActionEntries.Count; l++)
-    //                 {
-    //                     InputActionStruct inputActionStruct = InputActionEntries[l];
-    //                     string guid = inputActionStruct.Guid;
-    //                     int priority = inputActionStruct.Priority;
-
-    //                     // build priority dictionary
-    //                     if (!actionPrioritiesCountTemp.ContainsKey(guid)) actionPrioritiesCountTemp[guid] = new();
-    //                     var priorityCount = actionPrioritiesCountTemp[guid];
-    //                     if (!priorityCount.ContainsKey(priority)) priorityCount[priority] = 0;
-    //                     priorityCount[priority]++;
-
-    //                     if (!actionPrioritiesTemp.ContainsKey(guid)) actionPrioritiesTemp[guid] = new();
-    //                     var inputConfigs = actionPrioritiesTemp[guid];
-    //                     inputConfigs.Add(config);
-    //                 }
-    //             }
-    //         }
-    //     }
-
-    //     // when completed update the dictionaries with the fresh data
-    //     _actionsPriorities = actionPrioritiesTemp;
-    //     _actionsPrioritiesCount = actionPrioritiesCountTemp;
-
-    //     List<InputConfigSOEditor> inputConfigSOEditors = _activeInstances.ToList();
-    //     for (int i = inputConfigSOEditors.Count - 1; i >= 0; i--)
-    //     {
-    //         inputConfigSOEditors?[i].Repaint();
-    //     }
-    //     _duplicatePrioritySearchActive = false;
-    //     yield break;
-    // }
-
-    // private PriorityAvailabilityEnum IsPriorityAvailable(string guid, int requestedPriority)
-    // {
-    //     if (_actionsPrioritiesCount.Count == 0) return PriorityAvailabilityEnum.NO_CONFLICT;
-    //     if (!_actionsPrioritiesCount.ContainsKey(guid)) return PriorityAvailabilityEnum.NO_CONFLICT;
-
-    //     int priorityCount = GetPriorityCountForAction(guid, requestedPriority);
-    //     bool isThereAnyPriorityConflict = IsThereAnyPriorityConflict(guid);
-    //     if (priorityCount == -1 || priorityCount - 1 > 0)
-    //     {
-    //         return PriorityAvailabilityEnum.SELF_CONFLICT;
-    //     }
-    //     else
-    //     {
-    //         if (isThereAnyPriorityConflict)
-    //         {
-    //             return PriorityAvailabilityEnum.SELF_AVAILABLE;
-    //         }
-    //         else
-    //         {
-    //             return PriorityAvailabilityEnum.NO_CONFLICT;
-    //         }
-    //     }
-    // }
 
     public object GetTargetObjectOfProperty(SerializedProperty prop)
     {
@@ -586,48 +487,67 @@ public class InputConfigSOEditor : Editor
     private void DrawMapFoldout(SerializedProperty mapProp, int inputAssetMapListIndex, int mapIndex)
     {
         string guid = mapProp.FindPropertyRelative("Guid").stringValue;
-        var assetMap = _loaderAsset.actionMaps.First(m => m.id.ToString() == guid);
+        var assetMap = _loaderAsset.actionMaps.FirstOrDefault(m => m.id.ToString() == guid);
+        string mapName = mapProp.FindPropertyRelative("Name").stringValue;
+
+        bool isOrphan = _mapsWithoutAsset.Contains(guid);
+
+        GUI.enabled = assetMap != null;
 
         EditorGUILayout.BeginVertical("helpbox");
 
         // Header Row with Map Name and Remove Button
         EditorGUILayout.BeginHorizontal();
-        mapProp.isExpanded = EditorGUILayout.Foldout(mapProp.isExpanded, $"Map: {assetMap.name}", true);
+
+        Color guiColor = GUI.color;
+        if (isOrphan) GUI.color = Color.softYellow;
+
+        mapProp.isExpanded = EditorGUILayout.Foldout(mapProp.isExpanded, $"Map: {(isOrphan ? "(Deleted)" : "")}{mapName}", true);
 
         // Matches the field name in InputMapStruct
         SerializedProperty actionsList = mapProp.FindPropertyRelative("InputActionEntries");
         InputConfigSO inputConfig = target as InputConfigSO;
-        using (new EditorGUI.DisabledScope(actionsList.arraySize == assetMap.actions.Count))
+
+        if (assetMap != null)
         {
-            // adds all of the missing actions to the map
+            using (new EditorGUI.DisabledScope(actionsList.arraySize == assetMap.actions.Count))
+            {
+                // adds all of the missing actions to the map
+                if (GUILayout.Button(new GUIContent("Add all", "Adds all of the actions of the map"), GUILayout.Width(100)))
+                {
+                    // avoids adding to the menu the already added actions
+                    var existingGuids = GetExistingGuids(actionsList, "Guid");
+                    foreach (var action in assetMap.actions)
+                    {
+                        string actionGuid = action.id.ToString();
+                        if (existingGuids.Contains(actionGuid)) continue;
+
+                        // if action isn't present already add it
+                        int index = actionsList.arraySize;
+                        actionsList.InsertArrayElementAtIndex(index);
+                        var newAction = actionsList.GetArrayElementAtIndex(index);
+                        ResetInputEntry(newAction, action);
+
+                        // and update priority dictionaries
+                        // AddPriority(actionGuid, 0, newAction.propertyPath, inputConfig);
+                    }
+
+                    serializedObject.ApplyModifiedProperties();
+                    InputConfigPriorityCache.RebuildPriorityDictionary();
+                }
+            }
+        }
+        else
+        {
             if (GUILayout.Button(new GUIContent("Add all", "Adds all of the actions of the map"), GUILayout.Width(100)))
             {
-                // avoids adding to the menu the already added actions
-                var existingGuids = GetExistingGuids(actionsList, "Guid");
-                foreach (var action in assetMap.actions)
-                {
-                    string actionGuid = action.id.ToString();
-                    if (existingGuids.Contains(actionGuid)) continue;
-
-                    // if action isn't present already add it
-                    int index = actionsList.arraySize;
-                    actionsList.InsertArrayElementAtIndex(index);
-                    var newAction = actionsList.GetArrayElementAtIndex(index);
-                    ResetInputEntry(newAction, action);
-
-                    // and update priority dictionaries
-                    // AddPriority(actionGuid, 0, newAction.propertyPath, inputConfig);
-                }
-
-                serializedObject.ApplyModifiedProperties();
-                InputConfigPriorityCache.RebuildPriorityDictionary();
             }
         }
 
+        GUI.enabled = true;
         // delete option before drawing the map to avoid crashing when we delete an element that is currently being drawn
         if (GUILayout.Button("Remove Map", GUILayout.Width(100)))
         {
-            SerializedProperty InputActionEntries = mapProp.FindPropertyRelative("InputActionEntries");
 
             // for (int i = 0; i < InputActionEntries.arraySize; i++)
             // {
@@ -636,34 +556,59 @@ public class InputConfigSOEditor : Editor
             //     RemovePriority(actionProp.FindPropertyRelative("Guid").stringValue, priority, inputConfig);
             // }
 
+            mapProp.isExpanded = false;
             _assetMapListProp.GetArrayElementAtIndex(inputAssetMapListIndex).FindPropertyRelative("InputMapStructs").DeleteArrayElementAtIndex(mapIndex);
             serializedObject.ApplyModifiedProperties();
             InputConfigPriorityCache.RebuildPriorityDictionary();
-            EditorGUILayout.EndHorizontal();
-            EditorGUILayout.EndVertical();
+            GUIUtility.ExitGUI();
             return;
         }
         EditorGUILayout.EndHorizontal();
+
+        GUI.enabled = assetMap != null;
 
         // Actions Section
         if (mapProp.isExpanded)
         {
             EditorGUI.indentLevel++;
 
-            // Column Header Labels
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("View all", EditorStyles.miniBoldLabel, GUILayout.Width(100));
-            EditorGUILayout.LabelField("Action Name", EditorStyles.miniBoldLabel, GUILayout.MinWidth(100), GUILayout.MaxWidth(300));
-            EditorGUILayout.LabelField("On", EditorStyles.miniBoldLabel, GUILayout.Width(40));
-            EditorGUILayout.LabelField("Priority", EditorStyles.miniBoldLabel, GUILayout.MinWidth(60), GUILayout.MaxWidth(100));
-            GUILayout.Space(30);
-            EditorGUILayout.EndHorizontal();
-
-            // Draw each action row with its properties and a remove button
-            for (int j = 0; j < actionsList.arraySize; j++)
+            switch (_currentToolIndex)
             {
-                SerializedProperty actionElem = actionsList.GetArrayElementAtIndex(j);
-                DrawActionRow(actionElem, assetMap, actionsList, j);
+                // Priority
+                case 0:
+                    // Column Header Labels
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("View all", EditorStyles.miniBoldLabel, GUILayout.Width(100));
+                    EditorGUILayout.LabelField("Action Name", EditorStyles.miniBoldLabel, GUILayout.MinWidth(100), GUILayout.MaxWidth(300));
+                    EditorGUILayout.LabelField("On", EditorStyles.miniBoldLabel, GUILayout.Width(40));
+                    EditorGUILayout.LabelField("Priority", EditorStyles.miniBoldLabel, GUILayout.MinWidth(60), GUILayout.MaxWidth(100));
+                    GUILayout.Space(30);
+                    EditorGUILayout.EndHorizontal();
+
+                    // Draw each action row with its properties and a remove button
+                    for (int j = 0; j < actionsList.arraySize; j++)
+                    {
+                        SerializedProperty actionElem = actionsList.GetArrayElementAtIndex(j);
+                        DrawActionRowPriority(actionElem, assetMap, actionsList, j);
+                    }
+                    break;
+                // Presentation
+                case 1:
+                    // Column Header Labels
+                    EditorGUILayout.BeginHorizontal();
+                    // EditorGUILayout.LabelField("View all", EditorStyles.miniBoldLabel, GUILayout.Width(100));
+                    EditorGUILayout.LabelField("Action Name", EditorStyles.miniBoldLabel, GUILayout.Width(150));
+                    EditorGUILayout.LabelField("Name Override", EditorStyles.miniBoldLabel, GUILayout.MinWidth(100));
+                    // EditorGUILayout.LabelField("Priority", EditorStyles.miniBoldLabel, GUILayout.MinWidth(60), GUILayout.MaxWidth(100));
+                    GUILayout.Space(30);
+                    EditorGUILayout.EndHorizontal();
+
+                    for (int j = 0; j < actionsList.arraySize; j++)
+                    {
+                        SerializedProperty actionElem = actionsList.GetArrayElementAtIndex(j);
+                        DrawActionRowPresentation(actionElem, assetMap, actionsList, j);
+                    }
+                    break;
             }
 
             // Add Action Button at the end of the list
@@ -672,11 +617,15 @@ public class InputConfigSOEditor : Editor
         }
 
         EditorGUILayout.EndVertical();
+
+        GUI.color = guiColor;
+        GUI.enabled = true;
     }
 
     private void ResetInputEntry(SerializedProperty actionProp, InputAction inputAction)
     {
         actionProp.FindPropertyRelative("Guid").stringValue = inputAction.id.ToString();
+        actionProp.FindPropertyRelative("Name").stringValue = inputAction.name;
         actionProp.FindPropertyRelative("Enabled").boolValue = true;
         actionProp.FindPropertyRelative("Priority").intValue = 0;
         actionProp.FindPropertyRelative("NameOverride").stringValue = string.Empty;
@@ -719,7 +668,7 @@ public class InputConfigSOEditor : Editor
                 promptSchemesProp.InsertArrayElementAtIndex(schemeIndexCounter);
 
                 var schemeProp = promptSchemesProp.GetArrayElementAtIndex(schemeIndexCounter);
-                schemeProp.FindPropertyRelative("Scheme").stringValue = schemeName;
+                schemeProp.FindPropertyRelative("Scheme").stringValue = schemeName.Trim(';');
 
                 // Clear the nested 'Prompts' array in case data was duplicated by Unity
                 var initialPromptsClear = schemeProp.FindPropertyRelative("Prompts");
@@ -729,7 +678,7 @@ public class InputConfigSOEditor : Editor
             }
 
             // Fetch the corresponding SerializedProperty for our current active scheme row
-            int targetSchemeIndex = GetSchemeIndex(promptSchemesProp, schemeName);
+            int targetSchemeIndex = GetSchemeIndex(promptSchemesProp, schemeName.Trim(';'));
             if (targetSchemeIndex == -1) continue;
 
             var currentPromptSchemeProp = promptSchemesProp.GetArrayElementAtIndex(targetSchemeIndex);
@@ -739,7 +688,7 @@ public class InputConfigSOEditor : Editor
             if (!currentBinding.isComposite && !currentBinding.isPartOfComposite)
             {
                 string promptText = $"Press {InputActionEntry.BUTTON_PLACEHOLDER} to {inputAction.name}";
-                AddPromptEntry(promptsProp, currentBinding.id.ToString(), promptText);
+                AddPromptEntry(promptsProp, currentBinding.id.ToString(), currentBinding.ToDisplayString(), promptText);
                 continue;
             }
 
@@ -774,7 +723,7 @@ public class InputConfigSOEditor : Editor
                     promptText += $"{InputActionEntry.BUTTON_PLACEHOLDER} to {inputAction.name}";
                 }
 
-                AddPromptEntry(promptsProp, currentBinding.id.ToString(), promptText);
+                AddPromptEntry(promptsProp, currentBinding.id.ToString(), inputAction.GetBindingDisplayString(i), promptText);
 
                 // Skip loop processing past the composite items we just processed as a combined chunk
                 while (i + 1 < allBindings.Count && allBindings[i + 1].isPartOfComposite)
@@ -788,7 +737,7 @@ public class InputConfigSOEditor : Editor
         actionProp.serializedObject.ApplyModifiedProperties();
     }
 
-    private void AddPromptEntry(SerializedProperty promptsProp, string guid, string promptText)
+    private void AddPromptEntry(SerializedProperty promptsProp, string guid, string name, string promptText)
     {
         if (promptsProp == null) return;
 
@@ -797,6 +746,7 @@ public class InputConfigSOEditor : Editor
 
         var element = promptsProp.GetArrayElementAtIndex(newIndex);
         element.FindPropertyRelative("Guid").stringValue = guid;
+        element.FindPropertyRelative("Name").stringValue = name;
         element.FindPropertyRelative("Prompt").stringValue = promptText;
     }
 
@@ -815,14 +765,16 @@ public class InputConfigSOEditor : Editor
     /// <summary>
     /// Renders a horizontal row for an individual action override.
     /// </summary>
-    private void DrawActionRow(SerializedProperty actionProp, InputActionMap assetMap, SerializedProperty list, int index)
+    private void DrawActionRowPriority(SerializedProperty actionProp, InputActionMap assetMap, SerializedProperty list, int index)
     {
         string actionGUID = actionProp.FindPropertyRelative("Guid").stringValue;
-        var action = assetMap.actions.FirstOrDefault(a => a.id.ToString() == actionGUID);
+        var action = assetMap?.actions.FirstOrDefault(a => a.id.ToString() == actionGUID);
+        string actionName = actionProp.FindPropertyRelative("Name").stringValue;
 
         int oldPriority = actionProp.FindPropertyRelative("Priority").intValue;
 
         Color guiColor = GUI.color;
+        GUI.enabled = action != null;
         // draw the action name instead of the guid, then the enabled toggle, the priority field and a remove button
         EditorGUILayout.BeginHorizontal();
 
@@ -864,7 +816,7 @@ public class InputConfigSOEditor : Editor
                 {
                     actionPrioritiesPaths[item] = GetPriorityPropertyPath(actionGUID, item);
                 }
-                PopupWindow.Show(buttonRect, new PopupPriorityHelper(actionPrioritiesPaths, action?.name ?? "Unknown"));
+                PopupWindow.Show(buttonRect, new PopupPriorityHelper(actionPrioritiesPaths, actionName ?? "Unknown"));
             }
         }
 
@@ -879,7 +831,7 @@ public class InputConfigSOEditor : Editor
 
         // action name
 
-        string actionName = (isOrphan) ? $"(Deleted) {action?.name ?? "Unknown"}" : action?.name ?? "Unknown";
+        actionName = isOrphan ? $"(Deleted) {actionName}" : actionName ?? "Unknown";
 
         EditorGUILayout.LabelField(actionName, GUILayout.MinWidth(100), GUILayout.MaxWidth(300));
         // enabled status
@@ -888,9 +840,11 @@ public class InputConfigSOEditor : Editor
         EditorGUI.BeginChangeCheck();
         EditorGUILayout.PropertyField(actionProp.FindPropertyRelative("Enabled"), GUIContent.none, GUILayout.Width(40));
         // priority
-        EditorGUILayout.PropertyField(actionProp.FindPropertyRelative("Priority"), GUIContent.none, GUILayout.MinWidth(60), GUILayout.MaxWidth(100));
+        EditorGUILayout.PropertyField(actionProp.FindPropertyRelative("Priority"), GUIContent.none, GUILayout.MinWidth(60));
 
         int newPriority = actionProp.FindPropertyRelative("Priority").intValue;
+
+        GUI.enabled = true;
         // remove button
         if (GUILayout.Button("X", GUILayout.Width(25)))
         {
@@ -898,6 +852,7 @@ public class InputConfigSOEditor : Editor
             list.DeleteArrayElementAtIndex(index);
             serializedObject.ApplyModifiedProperties();
             InputConfigPriorityCache.RebuildPriorityDictionary();
+            GUIUtility.ExitGUI();
         }
         // if something changed check if priority did and in that case update
         else if (EditorGUI.EndChangeCheck())
@@ -907,11 +862,343 @@ public class InputConfigSOEditor : Editor
                 _rebuildDeadline = EditorApplication.timeSinceStartup + _rebuildDelay;
             }
         }
+        GUI.enabled = action != null;
 
         EditorGUILayout.EndHorizontal();
 
         GUI.color = guiColor;
+        GUI.enabled = true;
+    }
 
+    private void DrawActionRowPresentation(SerializedProperty actionProp, InputActionMap assetMap, SerializedProperty list, int index)
+    {
+        string actionGUID = actionProp.FindPropertyRelative("Guid").stringValue;
+        var action = assetMap?.actions.FirstOrDefault(a => a.id.ToString() == actionGUID);
+        var bindings = action?.bindings.Select(b => b.id.ToString()).ToHashSet();
+        string actionName = actionProp.FindPropertyRelative("Name").stringValue;
+
+        int oldPriority = actionProp.FindPropertyRelative("Priority").intValue;
+
+        Color guiColor = GUI.color;
+        GUI.enabled = action != null;
+        // draw the action name instead of the guid, then the enabled toggle, the priority field and a remove button
+
+        bool isOrphan = false;
+        if (_actionsOrphan.Contains(actionGUID))
+        {
+            isOrphan = true;
+            GUI.color = Color.orange;
+        }
+        
+        //TODO: update remove orphans, so it removes all, not just maps 
+        EditorGUILayout.BeginVertical("helpbox");
+        EditorGUILayout.BeginHorizontal();
+        Rect foldoutRect = EditorGUILayout.GetControlRect(false, EditorGUIUtility.singleLineHeight, GUILayout.Width(150));
+        Rect indentedFoldoutRect = EditorGUI.IndentedRect(foldoutRect);
+        string cleanLabel = $"{((action == null) ? "(Deleted)" : string.Empty)} {actionName}";
+
+        // 2. Use EditorGUI instead of EditorGUILayout to draw it exactly in that bounding box
+        actionProp.isExpanded = EditorGUI.Foldout(indentedFoldoutRect, actionProp.isExpanded, cleanLabel, true);
+        actionProp.FindPropertyRelative("NameOverride").stringValue = EditorGUILayout.TextField(actionProp.FindPropertyRelative("NameOverride").stringValue);
+        if (action != null && GUILayout.Button(new GUIContent("+", "Adds all bindings from the remaining"), GUILayout.Width(25)))
+        {
+            GenericMenu genericMenu = new();
+
+            SerializedProperty promptSchemesProp = actionProp.FindPropertyRelative("PromptSchemes");
+
+            promptSchemesProp.ClearArray();
+
+            // CRITICAL FIX: Loop sequentially through ALL bindings to find composite headers.
+            // If you filter out groups early via LINQ, Unity strips out the `isComposite` rows!
+            var allBindings = action.bindings;
+
+            HashSet<string> alreadyAddedBindings = new();
+            for (int i = 0; i < promptSchemesProp.arraySize; i++)
+            {
+                SerializedProperty bindingsPrompts = promptSchemesProp.GetArrayElementAtIndex(i).FindPropertyRelative("Prompts");
+                // string schemeName = promptSchemesProp.GetArrayElementAtIndex(i).FindPropertyRelative("Scheme").stringValue;
+
+                for (int j = 0; j < bindingsPrompts.arraySize; j++)
+                {
+                    SerializedProperty binding = bindingsPrompts.GetArrayElementAtIndex(j);
+                    string guid = binding.FindPropertyRelative("Guid").stringValue;
+                    alreadyAddedBindings.Add(guid);
+                }
+            }
+
+            int schemeIndexCounter = 0;
+
+            // Track unique control schemes manually across sequential tracking
+            HashSet<string> processedSchemes = new HashSet<string>();
+            for (int i = 0; i < allBindings.Count; i++)
+            {
+                var currentBinding = allBindings[i];
+
+                if (currentBinding.isPartOfComposite || alreadyAddedBindings.Contains(currentBinding.id.ToString()))
+                {
+                    continue;
+                }
+                // We only care about bindings that have assigned groups
+                // If it's a composite header, it won't have a group, so we evaluate its child groups below
+                string schemeName = currentBinding.groups;
+
+                if (currentBinding.isComposite)
+                {
+                    // Peek at the first child to inherit its control scheme group string
+                    if (i + 1 < allBindings.Count && !string.IsNullOrEmpty(allBindings[i + 1].groups))
+                    {
+                        schemeName = allBindings[i + 1].groups;
+                    }
+                }
+
+                if (string.IsNullOrEmpty(schemeName)) continue;
+
+                // Ensure we initialize the Prompt Scheme Serialized Array for this group if it's the first time seeing it
+                if (!processedSchemes.Contains(schemeName))
+                {
+                    processedSchemes.Add(schemeName);
+                    promptSchemesProp.InsertArrayElementAtIndex(schemeIndexCounter);
+
+                    var schemeProp = promptSchemesProp.GetArrayElementAtIndex(schemeIndexCounter);
+                    schemeProp.FindPropertyRelative("Scheme").stringValue = schemeName.Trim(';');
+
+                    // Clear the nested 'Prompts' array in case data was duplicated by Unity
+                    var initialPromptsClear = schemeProp.FindPropertyRelative("Prompts");
+                    if (initialPromptsClear != null) initialPromptsClear.arraySize = 0;
+
+                    schemeIndexCounter++;
+                }
+
+                // Fetch the corresponding SerializedProperty for our current active scheme row
+                int targetSchemeIndex = GetSchemeIndex(promptSchemesProp, schemeName.Trim(';'));
+                if (targetSchemeIndex == -1) continue;
+
+                var currentPromptSchemeProp = promptSchemesProp.GetArrayElementAtIndex(targetSchemeIndex);
+                var promptsProp = currentPromptSchemeProp.FindPropertyRelative("Prompts");
+
+                // --- CASE 1: Standalone Binding ---
+                if (!currentBinding.isComposite && !currentBinding.isPartOfComposite)
+                {
+                    string promptText = $"Press {InputActionEntry.BUTTON_PLACEHOLDER} to {actionName}";
+                    AddPromptEntry(promptsProp, currentBinding.id.ToString(), currentBinding.ToDisplayString(), promptText);
+                    continue;
+                }
+
+                // --- CASE 2: Composite Header Found ---
+                if (currentBinding.isComposite)
+                {
+                    string compositeTypePath = currentBinding.path;
+                    string promptText = "Press ";
+
+                    // Check if it's a modifier key profile (e.g. "ButtonWithOneModifier")
+                    if (compositeTypePath.Contains("Modifier", StringComparison.OrdinalIgnoreCase))
+                    {
+                        // Gather modifiers sequentially
+                        List<string> compositeParts = new List<string>();
+                        int childIdx = i + 1;
+
+                        while (childIdx < allBindings.Count && allBindings[childIdx].isPartOfComposite)
+                        {
+                            // Filter matching group sub-elements
+                            if (allBindings[childIdx].groups == schemeName)
+                            {
+                                compositeParts.Add(InputActionEntry.BUTTON_PLACEHOLDER);
+                            }
+                            childIdx++;
+                        }
+
+                        promptText += string.Join(" + ", compositeParts) + $" to {actionName}";
+                    }
+                    else
+                    {
+                        // Layout composites like 2DVector (WASD) require single unified prompts 
+                        promptText += $"{InputActionEntry.BUTTON_PLACEHOLDER} to {actionName}";
+                    }
+
+                    AddPromptEntry(promptsProp, currentBinding.id.ToString(), action.GetBindingDisplayString(i), promptText);
+
+                    // Skip loop processing past the composite items we just processed as a combined chunk
+
+                    while (i + 1 < allBindings.Count && allBindings[i + 1].isPartOfComposite)
+                    {
+                        i++;
+                    }
+                }
+            }
+
+        }
+
+        GUI.enabled = true;
+        // remove button
+        if (GUILayout.Button("X", GUILayout.Width(25)))
+        {
+            // RemovePriority(actionGUID, newPriority, (InputConfigSO)target);
+            actionProp.isExpanded = false;
+            list.DeleteArrayElementAtIndex(index);
+            serializedObject.ApplyModifiedProperties();
+            InputConfigPriorityCache.RebuildPriorityDictionary();
+
+            GUIUtility.ExitGUI();
+        }
+        GUI.enabled = action != null;
+        EditorGUILayout.EndHorizontal();
+
+
+        if (actionProp != null && actionProp.isExpanded)
+        {
+            EditorGUILayout.Space(3);
+            SerializedProperty promptSchemesProp = actionProp.FindPropertyRelative("PromptSchemes");
+
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                EditorGUI.indentLevel++;
+                // 2. Add manual horizontal spacing matching Unity's standard indent size (15 pixels per level)
+                GUILayout.Space(EditorGUI.indentLevel * 15f);
+
+                // 3. Put your VerticalScope inside it. The entire box will now shift right!
+                using (new EditorGUILayout.VerticalScope())
+                {
+                    EditorGUI.indentLevel--;
+                    using (new EditorGUILayout.HorizontalScope())
+                    {
+                        EditorGUILayout.LabelField("Binding", EditorStyles.boldLabel, GUILayout.Width(170));
+                        EditorGUILayout.LabelField("Prompt Override", EditorStyles.boldLabel);
+                    }
+
+                    for (int i = 0; i < promptSchemesProp.arraySize; i++)
+                    {
+                        SerializedProperty bindingsPrompts = promptSchemesProp.GetArrayElementAtIndex(i).FindPropertyRelative("Prompts");
+                        string schemeName = promptSchemesProp.GetArrayElementAtIndex(i).FindPropertyRelative("Scheme").stringValue;
+
+                        for (int j = 0; j < bindingsPrompts.arraySize; j++)
+                        {
+                            SerializedProperty binding = bindingsPrompts.GetArrayElementAtIndex(j);
+                            string bindingName = binding.FindPropertyRelative("Name").stringValue;
+                                string guid = binding.FindPropertyRelative("Guid").stringValue;
+
+                            // binding doesn't exist in the action, disable the UI
+                            if (action != null)
+                                GUI.enabled = bindings.Contains(guid);
+
+                            using (new EditorGUILayout.HorizontalScope())
+                            {
+                                if (_bindingsOrphan.Contains(guid))
+                                {
+                                    GUI.color = Color.orange;
+                                }
+
+                                EditorGUILayout.LabelField($"{(_bindingsOrphan.Contains(guid) ? "(Deleted) " : string.Empty)}" + bindingName + $" ({schemeName})", GUILayout.Width(170));
+                                binding.FindPropertyRelative("Prompt").stringValue = EditorGUILayout.TextField(binding.FindPropertyRelative("Prompt").stringValue);
+
+                                // if action exists but binding doesn't, provide a way to remove it
+                                if (action != null)
+                                {
+                                    // if (!bindings.Contains(guid))
+                                    {
+                                        GUI.enabled = true;
+                                        // remove button
+                                        if (GUILayout.Button("X", GUILayout.Width(25)))
+                                        {
+                                            // RemovePriority(actionGUID, newPriority, (InputConfigSO)target);
+                                            bindingsPrompts.DeleteArrayElementAtIndex(j);
+                                            serializedObject.ApplyModifiedProperties();
+                                            InputConfigPriorityCache.RebuildPriorityDictionary();
+                                            GUIUtility.ExitGUI();
+                                        }
+                                        GUI.enabled = bindings.Contains(guid);
+                                    }
+                                }
+                            }
+
+                            GUI.color = guiColor;
+                            GUI.enabled = true;
+                        }
+                    }
+                    EditorGUI.indentLevel++;
+                }
+                EditorGUI.indentLevel--;
+            }
+        }
+        EditorGUILayout.EndVertical();
+        // view all button
+        // string viewAllButtonText = string.Empty;
+        // string viewAllButtonTooltip = string.Empty;
+        // PriorityAvailabilityEnum priorityAvailable = InputConfigPriorityCache.IsPriorityAvailable(actionGUID, oldPriority);
+
+        // switch (priorityAvailable)
+        // {
+        //     case PriorityAvailabilityEnum.SELF_AVAILABLE:
+        //         viewAllButtonText = "View All";
+        //         viewAllButtonTooltip = "This priority doesn't conflict with other configs, but there are conflicts to resolve";
+        //         GUI.color = Color.Lerp(guiColor, Color.yellow, 0.4f);
+        //         break;
+        //     case PriorityAvailabilityEnum.SELF_CONFLICT:
+        //         viewAllButtonText = "Fix Priority";
+        //         viewAllButtonTooltip = "This action's priority conflicts with other configs";
+        //         GUI.color = Color.Lerp(Color.red, Color.yellow, 0.8f);
+        //         break;
+        //     case PriorityAvailabilityEnum.NO_CONFLICT:
+        //         viewAllButtonText = "View All";
+        //         viewAllButtonTooltip = "No conflicts for this action";
+        //         GUI.color = Color.paleGreen;
+        //         break;
+        // }
+
+        // if (GUILayout.Button(new GUIContent(viewAllButtonText, viewAllButtonTooltip), GUILayout.Width(100)))
+        // {
+        //     if (!InputConfigPriorityCache.ActionsPriorities.ContainsKey(actionGUID))
+        //     {
+        //         Debug.LogWarning("ActionGUID isn't inside the Priority Dictionary, click the button to update it");
+        //     }
+        //     else
+        //     {
+        //         Rect buttonRect = GUILayoutUtility.GetLastRect();
+        //         Dictionary<InputConfigSO, string> actionPrioritiesPaths = new();
+        //         foreach (var item in InputConfigPriorityCache.ActionsPriorities[actionGUID])
+        //         {
+        //             actionPrioritiesPaths[item] = GetPriorityPropertyPath(actionGUID, item);
+        //         }
+        //         PopupWindow.Show(buttonRect, new PopupPriorityHelper(actionPrioritiesPaths, actionName ?? "Unknown"));
+        //     }
+        // }
+
+        GUI.color = guiColor;
+
+
+        // // action name
+
+        // actionName = isOrphan ? $"(Deleted) {actionName}" : actionName ?? "Unknown";
+
+        // EditorGUILayout.LabelField(actionName, GUILayout.MinWidth(100), GUILayout.MaxWidth(300));
+        // // enabled status
+
+        // // check if anything changes
+        // EditorGUI.BeginChangeCheck();
+        // EditorGUILayout.PropertyField(actionProp.FindPropertyRelative("Enabled"), GUIContent.none, GUILayout.Width(40));
+        // // priority
+        // EditorGUILayout.PropertyField(actionProp.FindPropertyRelative("Priority"), GUIContent.none, GUILayout.MinWidth(60), GUILayout.MaxWidth(100));
+
+        // int newPriority = actionProp.FindPropertyRelative("Priority").intValue;
+        // // remove button
+        // if (GUILayout.Button("X", GUILayout.Width(25)))
+        // {
+        //     // RemovePriority(actionGUID, newPriority, (InputConfigSO)target);
+        //     list.DeleteArrayElementAtIndex(index);
+        //     serializedObject.ApplyModifiedProperties();
+        //     InputConfigPriorityCache.RebuildPriorityDictionary();
+        // }
+        // // if something changed check if priority did and in that case update
+        // else if (EditorGUI.EndChangeCheck())
+        // {
+        //     if (oldPriority != newPriority)
+        //     {
+        //         _rebuildDeadline = EditorApplication.timeSinceStartup + _rebuildDelay;
+        //     }
+        // }
+
+        GUI.color = guiColor;
+        GUI.enabled = true;
+        EditorGUILayout.Space(1);
     }
 
     /// <summary>
@@ -944,6 +1231,7 @@ public class InputConfigSOEditor : Editor
                     // set the guid of the new map element to the guid of the current map
                     var newMap = mapList.GetArrayElementAtIndex(index);
                     newMap.FindPropertyRelative("Guid").stringValue = mapGuid;
+                    newMap.FindPropertyRelative("Name").stringValue = map.name;
 
                     // reset the cloned action list to ensure a clean slate, otherwise it would try to copy the actions of the last element in the list
                     var newActionsList = newMap.FindPropertyRelative("InputActionEntries");
@@ -968,6 +1256,7 @@ public class InputConfigSOEditor : Editor
     /// </summary>
     private void DrawAddActionMenu(SerializedProperty actionsList, InputActionMap assetMap)
     {
+        GUI.enabled = assetMap != null;
         if (GUILayout.Button("Add Action Override...", GUILayout.Width(160)))
         {
             GenericMenu menu = new GenericMenu();
@@ -999,6 +1288,8 @@ public class InputConfigSOEditor : Editor
             }
             menu.ShowAsContext();
         }
+
+        GUI.enabled = true;
     }
 
     /// <summary>

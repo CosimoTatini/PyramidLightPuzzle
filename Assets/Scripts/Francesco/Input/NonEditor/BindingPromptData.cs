@@ -6,5 +6,6 @@ using UnityEngine;
 public struct BindingPromptData
 {
     public string Guid;
+    public string Name;
     public string Prompt;
 }
