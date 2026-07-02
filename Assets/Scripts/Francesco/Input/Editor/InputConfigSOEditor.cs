@@ -687,7 +687,7 @@ public class InputConfigSOEditor : Editor
             // --- CASE 1: Standalone Binding ---
             if (!currentBinding.isComposite && !currentBinding.isPartOfComposite)
             {
-                string promptText = $"Press {InputActionEntry.BUTTON_PLACEHOLDER} to {inputAction.name}";
+                string promptText = $"{InputActionEntry.BUTTON_PLACEHOLDER} {inputAction.name}";
                 AddPromptEntry(promptsProp, currentBinding.id.ToString(), currentBinding.ToDisplayString(), promptText);
                 continue;
             }
@@ -696,7 +696,7 @@ public class InputConfigSOEditor : Editor
             if (currentBinding.isComposite)
             {
                 string compositeTypePath = currentBinding.path;
-                string promptText = "Press ";
+                string promptText = string.Empty;
 
                 // Check if it's a modifier key profile (e.g. "ButtonWithOneModifier")
                 if (compositeTypePath.Contains("Modifier", StringComparison.OrdinalIgnoreCase))
@@ -715,12 +715,27 @@ public class InputConfigSOEditor : Editor
                         childIdx++;
                     }
 
-                    promptText += string.Join(" + ", compositeParts) + $" to {inputAction.name}";
+                    promptText += string.Join(" + ", compositeParts) + $" {inputAction.name}";
                 }
                 else
                 {
+                    // Gather modifiers sequentially
+                    List<string> compositeParts = new List<string>();
+                    int childIdx = i + 1;
+
+                    while (childIdx < allBindings.Count && allBindings[childIdx].isPartOfComposite)
+                    {
+                        // Filter matching group sub-elements
+                        if (allBindings[childIdx].groups == schemeName)
+                        {
+                            compositeParts.Add(InputActionEntry.BUTTON_PLACEHOLDER);
+                        }
+                        childIdx++;
+                    }
+
+                    promptText += string.Join("/", compositeParts) + $" {inputAction.name}";
                     // Layout composites like 2DVector (WASD) require single unified prompts 
-                    promptText += $"{InputActionEntry.BUTTON_PLACEHOLDER} to {inputAction.name}";
+                    // promptText += $"{InputActionEntry.BUTTON_PLACEHOLDER} {inputAction.name}";
                 }
 
                 AddPromptEntry(promptsProp, currentBinding.id.ToString(), inputAction.GetBindingDisplayString(i), promptText);
@@ -889,7 +904,7 @@ public class InputConfigSOEditor : Editor
             isOrphan = true;
             GUI.color = Color.orange;
         }
-        
+
         //TODO: update remove orphans, so it removes all, not just maps 
         EditorGUILayout.BeginVertical("helpbox");
         EditorGUILayout.BeginHorizontal();
@@ -979,7 +994,7 @@ public class InputConfigSOEditor : Editor
                 // --- CASE 1: Standalone Binding ---
                 if (!currentBinding.isComposite && !currentBinding.isPartOfComposite)
                 {
-                    string promptText = $"Press {InputActionEntry.BUTTON_PLACEHOLDER} to {actionName}";
+                    string promptText = $"{InputActionEntry.BUTTON_PLACEHOLDER} {actionName}";
                     AddPromptEntry(promptsProp, currentBinding.id.ToString(), currentBinding.ToDisplayString(), promptText);
                     continue;
                 }
@@ -988,7 +1003,7 @@ public class InputConfigSOEditor : Editor
                 if (currentBinding.isComposite)
                 {
                     string compositeTypePath = currentBinding.path;
-                    string promptText = "Press ";
+                    string promptText = string.Empty;
 
                     // Check if it's a modifier key profile (e.g. "ButtonWithOneModifier")
                     if (compositeTypePath.Contains("Modifier", StringComparison.OrdinalIgnoreCase))
@@ -1007,12 +1022,25 @@ public class InputConfigSOEditor : Editor
                             childIdx++;
                         }
 
-                        promptText += string.Join(" + ", compositeParts) + $" to {actionName}";
+                        promptText += string.Join(" + ", compositeParts) + $" {actionName}";
                     }
                     else
                     {
+                        List<string> compositeParts = new List<string>();
+                        int childIdx = i + 1;
+
+                        while (childIdx < allBindings.Count && allBindings[childIdx].isPartOfComposite)
+                        {
+                            // Filter matching group sub-elements
+                            if (allBindings[childIdx].groups == schemeName)
+                            {
+                                compositeParts.Add(InputActionEntry.BUTTON_PLACEHOLDER);
+                            }
+                            childIdx++;
+                        }
+
                         // Layout composites like 2DVector (WASD) require single unified prompts 
-                        promptText += $"{InputActionEntry.BUTTON_PLACEHOLDER} to {actionName}";
+                        promptText += string.Join("/", compositeParts) + $" {actionName}";
                     }
 
                     AddPromptEntry(promptsProp, currentBinding.id.ToString(), action.GetBindingDisplayString(i), promptText);
@@ -1074,7 +1102,7 @@ public class InputConfigSOEditor : Editor
                         {
                             SerializedProperty binding = bindingsPrompts.GetArrayElementAtIndex(j);
                             string bindingName = binding.FindPropertyRelative("Name").stringValue;
-                                string guid = binding.FindPropertyRelative("Guid").stringValue;
+                            string guid = binding.FindPropertyRelative("Guid").stringValue;
 
                             // binding doesn't exist in the action, disable the UI
                             if (action != null)

@@ -18,36 +18,6 @@ MonoBehaviour:
     - Guid: 272f6d14-89ba-496f-b7ff-215263d3219f
       Name: UI
       InputActionEntries:
-      - Guid: c95b2375-e6d9-4b88-9c4c-c5e76515df4b
-        Name: Navigate
-        Priority: -1
-        Enabled: 1
-        NameOverride: 
-        PromptSchemes:
-        - Scheme: Gamepad
-          Prompts:
-          - Guid: 809f371f-c5e2-4e7a-83a1-d867598f40dd
-            Name: LS/Up/LS/Left/LS/Down/LS/Right
-            Prompt: Press @BUTTON to Navigate
-          - Guid: fb8277d4-c5cd-4663-9dc7-ee3f0b506d90
-            Name: D-Pad
-            Prompt: Press @BUTTON to Navigate
-          - Guid: 5989a2fa-6b52-463b-9722-38ea51cc34d2
-            Name: RS/Up/RS/Left/RS/Down/RS/Right
-            Prompt: Press @BUTTON to Navigate
-          - Guid: 6e5365a4-ce83-47f7-8b31-a1f97239fb83
-            Name: LS
-            Prompt: Press @BUTTON to Navigate
-        - Scheme: Joystick
-          Prompts:
-          - Guid: e25d9774-381c-4a61-b47c-7b6b299ad9f9
-            Name: Stick/Up/Stick/Left/Stick/Down/Stick/Right
-            Prompt: Press @BUTTON to Navigate
-        - Scheme: Keyboard&Mouse
-          Prompts:
-          - Guid: ff527021-f211-4c02-933e-5976594c46ed
-            Name: W/A/S/D
-            Prompt: Press @BUTTON to Navigate
       - Guid: 7607c7b6-cd76-4816-beef-bd0341cfe950
         Name: Submit
         Priority: -1
@@ -180,6 +150,36 @@ MonoBehaviour:
         Enabled: 1
         NameOverride: 
         PromptSchemes: []
+      - Guid: c95b2375-e6d9-4b88-9c4c-c5e76515df4b
+        Name: Navigate
+        Priority: -1
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: 809f371f-c5e2-4e7a-83a1-d867598f40dd
+            Name: LS Up/LS Left/LS Down/LS Right
+            Prompt: '@BUTTON/@BUTTON/@BUTTON/@BUTTON Navigate'
+          - Guid: fb8277d4-c5cd-4663-9dc7-ee3f0b506d90
+            Name: D-Pad
+            Prompt: '@BUTTON Navigate'
+          - Guid: 5989a2fa-6b52-463b-9722-38ea51cc34d2
+            Name: RS Up/RS Left/RS Down/RS Right
+            Prompt: '@BUTTON/@BUTTON/@BUTTON/@BUTTON Navigate'
+          - Guid: 6e5365a4-ce83-47f7-8b31-a1f97239fb83
+            Name: LS
+            Prompt: '@BUTTON Navigate'
+        - Scheme: Joystick
+          Prompts:
+          - Guid: e25d9774-381c-4a61-b47c-7b6b299ad9f9
+            Name: Stick/Up/Stick/Left/Stick/Down/Stick/Right
+            Prompt: '@BUTTON/@BUTTON/@BUTTON/@BUTTON Navigate'
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: ff527021-f211-4c02-933e-5976594c46ed
+            Name: W/A/S/D
+            Prompt: '@BUTTON/@BUTTON/@BUTTON/@BUTTON Navigate'
     - Guid: df70fa95-8a34-4494-b137-73ab6b9c7d37
       Name: Player
       InputActionEntries:
@@ -338,4 +338,68 @@ MonoBehaviour:
           - Guid: 25060bbd-a3a6-476e-8fba-45ae484aad05
             Name: D-Pad/Left
             Prompt: Press @BUTTON to Previous
+      - Guid: caf14774-abd8-4d43-9996-dc353909bc3f
+        Name: SetRed
+        Priority: -1
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: 104b7783-e416-4b48-a9dd-b67e08607e88
+            Name: R
+            Prompt: '@BUTTON SetRed'
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: 8e99d160-5b6b-4a7b-89a8-c0d15aca6d54
+            Name: Y
+            Prompt: '@BUTTON SetRed'
+      - Guid: 99a84728-3311-4211-a8a1-17a929539c1b
+        Name: SetGreen
+        Priority: -1
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: efc36d98-84cf-4674-88ed-bca0d0b89345
+            Name: G
+            Prompt: '@BUTTON SetGreen'
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: 0b6955fa-5047-48d6-9f7b-75b1e3dddbf6
+            Name: B
+            Prompt: '@BUTTON SetGreen'
+      - Guid: 539c73e2-8745-4bcd-9f54-57bb70274ce9
+        Name: SetBlue
+        Priority: -1
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: 7c8698ab-f4c0-4d63-94a1-bc36a48d6f34
+            Name: B
+            Prompt: '@BUTTON SetBlue'
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: 1d7fd3b7-93d7-48aa-b1e1-3eccc8979fdb
+            Name: A
+            Prompt: '@BUTTON SetBlue'
+      - Guid: 8111a4e7-2ecc-44e0-be3e-8845bf8cb323
+        Name: Switch
+        Priority: -1
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: 73d83de3-4bc7-4844-887a-3eba48c68c1d
+            Name: Tab
+            Prompt: '@BUTTON Switch'
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: c9264b5c-3172-4e52-993a-6e57be73f344
+            Name: Left Stick Press
+            Prompt: '@BUTTON Switch'
   _lastUsedInputAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

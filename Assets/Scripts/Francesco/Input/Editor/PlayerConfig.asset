@@ -28,25 +28,25 @@ MonoBehaviour:
           Prompts:
           - Guid: 978bfe49-cc26-4a3d-ab7b-7d7a29327403
             Name: LS
-            Prompt: Press @BUTTON to Move
+            Prompt: '@BUTTON Move'
         - Scheme: Keyboard&Mouse
           Prompts:
           - Guid: 00ca640b-d935-4593-8157-c05846ea39b3
             Name: W/A/S/D
-            Prompt: Press @BUTTON to Move
+            Prompt: '@BUTTON/@BUTTON/@BUTTON/@BUTTON Move'
           - Guid: 28cbf7fd-3426-4794-b65e-3f998d071fb9
             Name: Control+Shift+T
-            Prompt: Press @BUTTON + @BUTTON + @BUTTON to Move
+            Prompt: '@BUTTON + @BUTTON + @BUTTON Move'
         - Scheme: XR
           Prompts:
           - Guid: 1635d3fe-58b6-4ba9-a4e2-f4b964f6b5c8
             Name: Primary2DAxis
-            Prompt: Press @BUTTON to Move
+            Prompt: '@BUTTON Move'
         - Scheme: Joystick
           Prompts:
           - Guid: 3ea4d645-4504-4529-b061-ab81934c3752
             Name: Stick
-            Prompt: Press @BUTTON to Move
+            Prompt: '@BUTTON Move'
       - Guid: 6b444451-8a00-4d00-a97e-f47457f736a8
         Name: Look
         Priority: 0
@@ -57,17 +57,22 @@ MonoBehaviour:
           Prompts:
           - Guid: c1f7a91b-d0fd-4a62-997e-7fb9b69bf235
             Name: RS
-            Prompt: Press @BUTTON to Look
-        - Scheme: Keyboard&Mouse;Touch
+            Prompt: '@BUTTON Look'
+        - Scheme: Keyboard&Mouse
           Prompts:
           - Guid: 8c8e490b-c610-4785-884f-f04217b23ca4
             Name: Delta
-            Prompt: Press @BUTTON to Look
+            Prompt: '@BUTTON Look'
+        - Scheme: Touch
+          Prompts:
+          - Guid: e7bef1bd-379f-49b5-997c-974fda1e1cdc
+            Name: Delta
+            Prompt: '@BUTTON Look'
         - Scheme: Joystick
           Prompts:
           - Guid: 3e5f5442-8668-4b27-a940-df99bad7e831
             Name: Hatswitch
-            Prompt: Press @BUTTON to Look
+            Prompt: '@BUTTON Look'
       - Guid: 6c2ab1b8-8984-453a-af3d-a3c78ae1679a
         Name: Attack
         Priority: 0
@@ -78,30 +83,30 @@ MonoBehaviour:
           Prompts:
           - Guid: 143bb1cd-cc10-4eca-a2f0-a3664166fe91
             Name: X
-            Prompt: Press @BUTTON to Attack
+            Prompt: '@BUTTON Attack'
         - Scheme: Keyboard&Mouse
           Prompts:
           - Guid: 05f6913d-c316-48b2-a6bb-e225f14c7960
-            Name: LMB
-            Prompt: Press @BUTTON to Attack
+            Name: Left System
+            Prompt: '@BUTTON Attack'
           - Guid: b3c1c7f0-bd20-4ee7-a0f1-899b24bca6d7
             Name: Enter
-            Prompt: Press @BUTTON to Attack
+            Prompt: '@BUTTON Attack'
         - Scheme: Touch
           Prompts:
           - Guid: 886e731e-7071-4ae4-95c0-e61739dad6fd
             Name: Primary Touch/Tap
-            Prompt: Press @BUTTON to Attack
+            Prompt: '@BUTTON Attack'
         - Scheme: Joystick
           Prompts:
           - Guid: ee3d0cd2-254e-47a7-a8cb-bc94d9658c54
             Name: Trigger
-            Prompt: Press @BUTTON to Attack
+            Prompt: '@BUTTON Attack'
         - Scheme: XR
           Prompts:
           - Guid: 8255d333-5683-4943-a58a-ccb207ff1dce
             Name: PrimaryAction
-            Prompt: Press @BUTTON to Attack
+            Prompt: '@BUTTON Attack'
         - Scheme: Keyboard&Mouse
           Prompts: []
       - Guid: 852140f2-7766-474d-8707-702459ba45f3
@@ -114,12 +119,12 @@ MonoBehaviour:
           Prompts:
           - Guid: 1c04ea5f-b012-41d1-a6f7-02e963b52893
             Name: E
-            Prompt: Press (Keyboard) @BUTTON to Interact
+            Prompt: '@BUTTON Interact'
         - Scheme: Gamepad
           Prompts:
           - Guid: b3f66d0b-7751-423f-908b-a11c5bd95930
             Name: X
-            Prompt: Press (Gamepad) @BUTTON to Interact
+            Prompt: '@BUTTON Interact'
       - Guid: 27c5f898-bc57-4ee1-8800-db469aca5fe3
         Name: Crouch
         Priority: 0
@@ -129,13 +134,13 @@ MonoBehaviour:
         - Scheme: Gamepad
           Prompts:
           - Guid: 4f4649ac-64a8-4a73-af11-b3faef356a4d
-            Name: B
-            Prompt: Press @BUTTON to Crouch
+            Name: Left Stick Press
+            Prompt: '@BUTTON Crouch'
         - Scheme: Keyboard&Mouse
           Prompts:
           - Guid: 36e52cba-0905-478e-a818-f4bfcb9f3b9a
             Name: C
-            Prompt: Press @BUTTON to Crouch
+            Prompt: '@BUTTON Crouch'
       - Guid: f1ba0d36-48eb-4cd5-b651-1c94a6531f70
         Name: Jump
         Priority: 0
@@ -146,17 +151,17 @@ MonoBehaviour:
           Prompts:
           - Guid: eb40bb66-4559-4dfa-9a2f-820438abb426
             Name: Space
-            Prompt: Press @BUTTON to Jump
+            Prompt: '@BUTTON Jump'
         - Scheme: Gamepad
           Prompts:
           - Guid: daba33a1-ad0c-4742-a909-43ad1cdfbeb6
             Name: A
-            Prompt: Press @BUTTON to Jump
+            Prompt: '@BUTTON Jump'
         - Scheme: XR
           Prompts:
           - Guid: 603f3daf-40bd-4854-8724-93e8017f59e3
             Name: secondaryButton
-            Prompt: Press @BUTTON to Jump
+            Prompt: '@BUTTON Jump'
       - Guid: 2776c80d-3c14-4091-8c56-d04ced07a2b0
         Name: Previous
         Priority: 0
@@ -167,12 +172,12 @@ MonoBehaviour:
           Prompts:
           - Guid: 1534dc16-a6aa-499d-9c3a-22b47347b52a
             Name: 1
-            Prompt: Press @BUTTON to Previous
+            Prompt: '@BUTTON Previous'
         - Scheme: Gamepad
           Prompts:
           - Guid: 25060bbd-a3a6-476e-8fba-45ae484aad05
             Name: D-Pad/Left
-            Prompt: Press @BUTTON to Previous
+            Prompt: '@BUTTON Previous'
       - Guid: b7230bb6-fc9b-4f52-8b25-f5e19cb2c2ba
         Name: Next
         Priority: 0
@@ -183,12 +188,12 @@ MonoBehaviour:
           Prompts:
           - Guid: cbac6039-9c09-46a1-b5f2-4e5124ccb5ed
             Name: 2
-            Prompt: Press @BUTTON to Next
+            Prompt: '@BUTTON Next'
         - Scheme: Gamepad
           Prompts:
           - Guid: e15ca19d-e649-4852-97d5-7fe8ccc44e94
             Name: D-Pad/Right
-            Prompt: Press @BUTTON to Next
+            Prompt: '@BUTTON Next'
       - Guid: 8111a4e7-2ecc-44e0-be3e-8845bf8cb323
         Name: Switch
         Priority: 0
@@ -199,12 +204,12 @@ MonoBehaviour:
           Prompts:
           - Guid: 73d83de3-4bc7-4844-887a-3eba48c68c1d
             Name: Tab
-            Prompt: Press @BUTTON to Switch
+            Prompt: '@BUTTON Switch'
         - Scheme: Gamepad
           Prompts:
           - Guid: c9264b5c-3172-4e52-993a-6e57be73f344
             Name: Left Stick Press
-            Prompt: Press @BUTTON to Switch
+            Prompt: '@BUTTON Switch'
       - Guid: caf14774-abd8-4d43-9996-dc353909bc3f
         Name: SetRed
         Priority: 0
@@ -215,12 +220,12 @@ MonoBehaviour:
           Prompts:
           - Guid: 104b7783-e416-4b48-a9dd-b67e08607e88
             Name: R
-            Prompt: Press @BUTTON to SetRed
+            Prompt: '@BUTTON SetRed'
         - Scheme: Gamepad
           Prompts:
           - Guid: 8e99d160-5b6b-4a7b-89a8-c0d15aca6d54
             Name: Y
-            Prompt: Press @BUTTON to SetRed
+            Prompt: '@BUTTON SetRed'
       - Guid: 99a84728-3311-4211-a8a1-17a929539c1b
         Name: SetGreen
         Priority: 0
@@ -231,12 +236,12 @@ MonoBehaviour:
           Prompts:
           - Guid: efc36d98-84cf-4674-88ed-bca0d0b89345
             Name: G
-            Prompt: Press @BUTTON to SetGreen
+            Prompt: '@BUTTON SetGreen'
         - Scheme: Gamepad
           Prompts:
           - Guid: 0b6955fa-5047-48d6-9f7b-75b1e3dddbf6
             Name: B
-            Prompt: Press @BUTTON to SetGreen
+            Prompt: '@BUTTON SetGreen'
       - Guid: 539c73e2-8745-4bcd-9f54-57bb70274ce9
         Name: SetBlue
         Priority: 0
@@ -247,12 +252,12 @@ MonoBehaviour:
           Prompts:
           - Guid: 7c8698ab-f4c0-4d63-94a1-bc36a48d6f34
             Name: B
-            Prompt: Press @BUTTON to SetBlue
+            Prompt: '@BUTTON SetBlue'
         - Scheme: Gamepad
           Prompts:
           - Guid: 1d7fd3b7-93d7-48aa-b1e1-3eccc8979fdb
             Name: A
-            Prompt: Press @BUTTON to SetBlue
+            Prompt: '@BUTTON SetBlue'
       - Guid: f14be638-ae99-4ea6-bb63-6b910da41c5b
         Name: NextColor
         Priority: 0
@@ -263,12 +268,12 @@ MonoBehaviour:
           Prompts:
           - Guid: 079187ee-06db-4b59-bd1a-f600d54cbe31
             Name: O
-            Prompt: Press @BUTTON to NextColor
+            Prompt: '@BUTTON NextColor'
         - Scheme: Gamepad
           Prompts:
           - Guid: 59fad096-18d0-48a4-9410-15386eee6c4c
             Name: RB
-            Prompt: Press @BUTTON to NextColor
+            Prompt: '@BUTTON NextColor'
       - Guid: a2946c86-b3cb-42ee-80c4-f94c88165a29
         Name: PreviousColor
         Priority: 0
@@ -279,12 +284,12 @@ MonoBehaviour:
           Prompts:
           - Guid: ee89a0d2-c6f3-4f48-8d06-8002870ecf72
             Name: K
-            Prompt: Press @BUTTON to PreviousColor
+            Prompt: '@BUTTON PreviousColor'
         - Scheme: Gamepad
           Prompts:
           - Guid: 1dabd63d-83ff-408d-a15c-c47c04845c07
             Name: LB
-            Prompt: Press @BUTTON to PreviousColor
+            Prompt: '@BUTTON PreviousColor'
       - Guid: fc5aee51-93f4-42b8-b8f5-56703389d4ca
         Name: Throw
         Priority: 0
@@ -295,12 +300,12 @@ MonoBehaviour:
           Prompts:
           - Guid: f82262f4-7706-48b6-92c4-a1d801f1f906
             Name: P
-            Prompt: Press @BUTTON to Throw
+            Prompt: '@BUTTON Throw'
         - Scheme: Gamepad
           Prompts:
           - Guid: ad4eea47-d7e8-4997-8d5b-6616ffa97f31
             Name: RT
-            Prompt: Press @BUTTON to Throw
+            Prompt: '@BUTTON Throw'
     - Guid: 272f6d14-89ba-496f-b7ff-215263d3219f
       Name: UI
       InputActionEntries:
@@ -314,26 +319,26 @@ MonoBehaviour:
           Prompts:
           - Guid: 809f371f-c5e2-4e7a-83a1-d867598f40dd
             Name: LS Up/LS Left/LS Down/LS Right
-            Prompt: Press @BUTTON to Navigate
+            Prompt: '@BUTTON/@BUTTON/@BUTTON/@BUTTON Navigate'
           - Guid: fb8277d4-c5cd-4663-9dc7-ee3f0b506d90
             Name: D-Pad
-            Prompt: Press @BUTTON to Navigate
+            Prompt: '@BUTTON Navigate'
           - Guid: 5989a2fa-6b52-463b-9722-38ea51cc34d2
             Name: RS Up/RS Left/RS Down/RS Right
-            Prompt: Press @BUTTON to Navigate
+            Prompt: '@BUTTON/@BUTTON/@BUTTON/@BUTTON Navigate'
           - Guid: 6e5365a4-ce83-47f7-8b31-a1f97239fb83
             Name: LS
-            Prompt: Press @BUTTON to Navigate
+            Prompt: '@BUTTON Navigate'
         - Scheme: Joystick
           Prompts:
           - Guid: e25d9774-381c-4a61-b47c-7b6b299ad9f9
             Name: Stick/Up/Stick/Left/Stick/Down/Stick/Right
-            Prompt: Press @BUTTON to Navigate
+            Prompt: '@BUTTON/@BUTTON/@BUTTON/@BUTTON Navigate'
         - Scheme: Keyboard&Mouse
           Prompts:
           - Guid: ff527021-f211-4c02-933e-5976594c46ed
             Name: W/A/S/D
-            Prompt: Press @BUTTON to Navigate
+            Prompt: '@BUTTON/@BUTTON/@BUTTON/@BUTTON Navigate'
       - Guid: 7607c7b6-cd76-4816-beef-bd0341cfe950
         Name: Submit
         Priority: 0
@@ -344,7 +349,7 @@ MonoBehaviour:
           Prompts:
           - Guid: 9e92bb26-7e3b-4ec4-b06b-3c8f8e498ddc
             Name: Submit
-            Prompt: Press @BUTTON to Submit
+            Prompt: '@BUTTON Submit'
       - Guid: 15cef263-9014-4fd5-94d9-4e4a6234a6ef
         Name: Cancel
         Priority: 0
@@ -355,7 +360,7 @@ MonoBehaviour:
           Prompts:
           - Guid: 82627dcc-3b13-4ba9-841d-e4b746d6553e
             Name: Cancel
-            Prompt: Press @BUTTON to Cancel
+            Prompt: '@BUTTON Cancel'
       - Guid: 32b35790-4ed0-4e9a-aa41-69ac6d629449
         Name: Point
         Priority: 0
@@ -366,15 +371,15 @@ MonoBehaviour:
           Prompts:
           - Guid: c52c8e0b-8179-41d3-b8a1-d149033bbe86
             Name: Position
-            Prompt: Press @BUTTON to Point
+            Prompt: '@BUTTON Point'
           - Guid: e1394cbc-336e-44ce-9ea8-6007ed6193f7
             Name: Position
-            Prompt: Press @BUTTON to Point
+            Prompt: '@BUTTON Point'
         - Scheme: Touch
           Prompts:
           - Guid: 5693e57a-238a-46ed-b5ae-e64e6e574302
             Name: touch*/position
-            Prompt: Press @BUTTON to Point
+            Prompt: '@BUTTON Point'
       - Guid: 3c7022bf-7922-4f7c-a998-c437916075ad
         Name: Click
         Priority: 0
@@ -385,20 +390,20 @@ MonoBehaviour:
           Prompts:
           - Guid: 4faf7dc9-b979-4210-aa8c-e808e1ef89f5
             Name: LMB
-            Prompt: Press @BUTTON to Click
+            Prompt: '@BUTTON Click'
           - Guid: 8d66d5ba-88d7-48e6-b1cd-198bbfef7ace
             Name: Tip
-            Prompt: Press @BUTTON to Click
+            Prompt: '@BUTTON Click'
         - Scheme: Touch
           Prompts:
           - Guid: 47c2a644-3ebc-4dae-a106-589b7ca75b59
             Name: touch*/press
-            Prompt: Press @BUTTON to Click
+            Prompt: '@BUTTON Click'
         - Scheme: XR
           Prompts:
           - Guid: bb9e6b34-44bf-4381-ac63-5aa15d19f677
             Name: trigger
-            Prompt: Press @BUTTON to Click
+            Prompt: '@BUTTON Click'
       - Guid: 44b200b1-1557-4083-816c-b22cbdf77ddf
         Name: RightClick
         Priority: 0
@@ -409,7 +414,7 @@ MonoBehaviour:
           Prompts:
           - Guid: 4c191405-5738-4d4b-a523-c6a301dbf754
             Name: RMB
-            Prompt: Press @BUTTON to RightClick
+            Prompt: '@BUTTON RightClick'
       - Guid: dad70c86-b58c-4b17-88ad-f5e53adf419e
         Name: MiddleClick
         Priority: 0
@@ -420,7 +425,7 @@ MonoBehaviour:
           Prompts:
           - Guid: 24066f69-da47-44f3-a07e-0015fb02eb2e
             Name: MMB
-            Prompt: Press @BUTTON to MiddleClick
+            Prompt: '@BUTTON MiddleClick'
       - Guid: 0489e84a-4833-4c40-bfae-cea84b696689
         Name: ScrollWheel
         Priority: 0
@@ -431,7 +436,7 @@ MonoBehaviour:
           Prompts:
           - Guid: 38c99815-14ea-4617-8627-164d27641299
             Name: Scroll
-            Prompt: Press @BUTTON to ScrollWheel
+            Prompt: '@BUTTON ScrollWheel'
       - Guid: 24908448-c609-4bc3-a128-ea258674378a
         Name: TrackedDevicePosition
         Priority: 0
@@ -442,7 +447,7 @@ MonoBehaviour:
           Prompts:
           - Guid: 7236c0d9-6ca3-47cf-a6ee-a97f5b59ea77
             Name: devicePosition
-            Prompt: Press @BUTTON to TrackedDevicePosition
+            Prompt: '@BUTTON TrackedDevicePosition'
       - Guid: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
         Name: TrackedDeviceOrientation
         Priority: 0
@@ -453,7 +458,7 @@ MonoBehaviour:
           Prompts:
           - Guid: 23e01e3a-f935-4948-8d8b-9bcac77714fb
             Name: deviceRotation
-            Prompt: Press @BUTTON to TrackedDeviceOrientation
+            Prompt: '@BUTTON TrackedDeviceOrientation'
       - Guid: f79a7023-2599-4197-8d5b-b94d5b88bedf
         Name: OpenMenu
         Priority: 0
@@ -464,7 +469,7 @@ MonoBehaviour:
           Prompts:
           - Guid: 4cde4066-c12a-4467-bb55-ccff98267c3e
             Name: M
-            Prompt: Press @BUTTON to OpenMenu
+            Prompt: '@BUTTON OpenMenu'
       - Guid: ecb63099-6af2-4724-afe8-9ea43db3a435
         Name: Switch
         Priority: 0
@@ -475,38 +480,5 @@ MonoBehaviour:
           Prompts:
           - Guid: 9ec7f3fb-e451-4979-89c5-5ad16c58d7c2
             Name: Tab
-            Prompt: Press @BUTTON to Switch
-  - AssetType: {fileID: 11400000, guid: cd9799b428c667d41b86c5c3fb332032, type: 2}
-    InputMapStructs:
-    - Guid: fbe2a252-c157-4e21-9fe4-e3f8ecb6b22d
-      Name: New action map1
-      InputActionEntries:
-      - Guid: c89654f7-daa4-4f86-bf3d-0d03cc69f0e3
-        Name: New action
-        Priority: 0
-        Enabled: 1
-        NameOverride: 
-        PromptSchemes:
-        - Scheme: Keyboard&Mouse
-          Prompts:
-          - Guid: 686149e4-630f-4087-bb73-ad7d6a49e055
-            Name: Q
-            Prompt: Press @BUTTON to New action
-          - Guid: 2cd1ab52-70b4-45c1-9d6f-ac6f8ea0ad58
-            Name: A
-            Prompt: Press @BUTTON to New action
-          - Guid: 5020c836-81d2-4b1d-bb23-38b56a7c1747
-            Name: R
-            Prompt: Press @BUTTON to New action
-      - Guid: 71f09cd1-4b14-4b95-a434-de5bbbb6f4f2
-        Name: New action2
-        Priority: 0
-        Enabled: 1
-        NameOverride: 
-        PromptSchemes:
-        - Scheme: Keyboard&Mouse
-          Prompts:
-          - Guid: f32dbeaf-1927-4258-b74f-adad78a5730f
-            Name: H
-            Prompt: Press @BUTTON to New action2
+            Prompt: '@BUTTON Switch'
   _lastUsedInputAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

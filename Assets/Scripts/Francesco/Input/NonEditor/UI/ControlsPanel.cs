@@ -10,9 +10,22 @@ public class ControlsPanel : MonoBehaviour
     [SerializeField] private ControlRow _rowPrefab;
     [SerializeField] private GameObject _parent;
     [Tooltip("Links this controls panel to a specific player number")]
-    [SerializeField] private int _playerNumber;
+    [SerializeField, Min(1)] private int _playerNumber;
     [SerializeField] private SpriteAssetsInputList _spriteAssetsInputList;
     [SerializeField] private InputConfigSO _excludedActions;
+
+    public int PlayerNumber
+    {
+        get
+        {
+            return _playerNumber;
+        }
+        set
+        {
+            if(value < 1) value = 1;
+            _playerNumber = value;
+        }
+    }
 
     private ObjectPooler<ControlRow> _rowsPooler;
     private InputUser _inputUser;
@@ -126,9 +139,6 @@ public class ControlsPanel : MonoBehaviour
             goto PoolUnusedRows;
         }
 
-        Debug.Log("UPDATE");
-
-
         for (int i = 0; i < enabledInputActions.Count; i++)
         {
             InputAction inputAction = enabledInputActions[i];
@@ -141,89 +151,7 @@ public class ControlsPanel : MonoBehaviour
             }
 
             ControlRow controlRow;
-            string rowText = string.Empty;
-
-            InputActionEntry inputActionEntry = InputConfigManager.GetInputActionEntry(_inputUser, inputAction.id.ToString());
-
-            string bindingPrompt = string.Empty;
-
-            if (inputActionEntry != null)
-            {
-                //TODO: a binding can have multiple schemes, need to count each scheme as a new entry in the list of promptschemes
-                // so each scheme is getting added to the list a bindingPromptData for the same binding
-                int inputPromptSchemeIndex = inputActionEntry.PromptSchemes.FindIndex(k => k.Scheme == _currentScheme.Value.name);
-                if (inputPromptSchemeIndex != -1)
-                {
-                    InputPromptScheme inputPromptScheme = inputActionEntry.PromptSchemes[inputPromptSchemeIndex];
-                    string bindingGuid = inputPromptScheme.Prompts.Select(k => k.Guid).FirstOrDefault();
-                    if (!string.IsNullOrEmpty(bindingGuid))
-                    {
-                        var binding = inputAction.bindings.FirstOrDefault(binding => binding.id.ToString() == bindingGuid);
-                        if (!binding.Equals(default))
-                        {
-                            string spriteName = binding.effectivePath;
-                            spriteName = spriteName.Replace("<", string.Empty);
-                            spriteName = spriteName.Replace(">", string.Empty);
-                            spriteName = spriteName.Replace("/", "_");
-                            spriteName = spriteName.ToLowerInvariant();
-
-                            SpriteAssetInputScheme spriteAssetInputScheme = _spriteAssetsInputList.SpriteAssetInputSchemes.FirstOrDefault(k => k.SchemeName == _currentScheme.Value.name);
-                            if (!spriteAssetInputScheme.Equals(default))
-                            {
-                                string spriteAssetName = spriteAssetInputScheme.SpriteAsset.name;
-
-                                var bindingPromptData = inputPromptScheme.Prompts.FirstOrDefault();
-                                if (!bindingPromptData.Equals(default))
-                                {
-                                    bindingPrompt = bindingPromptData.Prompt;
-                                    // standalone binding
-                                    if (!binding.isComposite && !binding.isPartOfComposite)
-                                    {
-                                        int spriteIndex = spriteAssetInputScheme.SpriteAsset.GetSpriteIndexFromName(spriteName);
-                                        bindingPrompt = bindingPrompt.Replace(InputActionEntry.BUTTON_PLACEHOLDER, $"<sprite=\"{spriteAssetName}\" index={spriteIndex}>");
-                                    }
-
-                                    //TODO: add support for composites
-                                    // while (bindingPrompt.IndexOf(InputActionEntry.BUTTON_PLACEHOLDER, StringComparison.Ordinal) > 0)
-                                    // {
-                                    //     bindingPrompt.Replace();
-                                    // }
-                                }
-                                else
-                                {
-                                    bindingPrompt = "Missing bindingPromptData";
-                                }
-                            }
-                            else
-                            {
-                                bindingPrompt = "Missing SpriteAssetInputScheme";
-                            }
-                        }
-                        else
-                        {
-                            bindingPrompt = "Missing InputBinding";
-                        }
-                    }
-                    else
-                    {
-                        bindingPrompt = "Missing bindingGuid";
-                    }
-                }
-                else
-                {
-                    bindingPrompt = "Missing PromptScheme";
-                }
-            }
-            else
-            {
-                bindingPrompt = "Missing InputActionEntry";
-                // Handle missing entry, give some UI feedback
-            }
-
-            if (bindingPrompt == string.Empty)
-            {
-                bindingPrompt = "Something Happened";
-            }
+            string bindingPrompt = InputActionEntry.GetActionTextWithSprites(inputAction, _inputUser, _currentScheme, _spriteAssetsInputList, out _);
 
             // we have already spawned rows, use them
             if (i < rows.Length)
@@ -254,5 +182,4 @@ public class ControlsPanel : MonoBehaviour
             _rowsPooler.Set(rows[i]);
         }
     }
-
 }
