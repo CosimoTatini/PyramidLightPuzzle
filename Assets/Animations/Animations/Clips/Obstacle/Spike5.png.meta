@@ -1,0 +1,689 @@
+fileFormatVersion: 2
+guid: 30ec7f7b9f76fad48bd5804d65c5c3ce
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2984662814596254650
+    second: Spike5_0
+  - first:
+      213: 6568904780123092542
+    second: Spike5_1
+  - first:
+      213: -500133442040602115
+    second: Spike5_2
+  - first:
+      213: -5042835076047525126
+    second: Spike5_3
+  - first:
+      213: 3226633062113239760
+    second: Spike5_4
+  - first:
+      213: 1389253064170084470
+    second: Spike5_5
+  - first:
+      213: 2514540448492466708
+    second: Spike5_6
+  - first:
+      213: -8969592349407231364
+    second: Spike5_7
+  - first:
+      213: -2694236195051007519
+    second: Spike5_8
+  - first:
+      213: -7070397462086602188
+    second: Spike5_9
+  - first:
+      213: 2905225603098163153
+    second: Spike5_10
+  - first:
+      213: -9009854145949849802
+    second: Spike5_11
+  - first:
+      213: 6644859360836207440
+    second: Spike5_12
+  - first:
+      213: 3610184506922801807
+    second: Spike5_13
+  - first:
+      213: 5840889798409439527
+    second: Spike5_14
+  - first:
+      213: -3361333019170697358
+    second: Spike5_15
+  - first:
+      213: 3405042112874594494
+    second: Spike5_16
+  - first:
+      213: 6570536060159788690
+    second: Spike5_17
+  - first:
+      213: -3220318853915718179
+    second: Spike5_18
+  - first:
+      213: -2830821931569056760
+    second: Spike5_19
+  - first:
+      213: 2540326667981057360
+    second: Spike5_20
+  - first:
+      213: 4566836343930223286
+    second: Spike5_21
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 256
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Spike5_0
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 168
+        width: 54
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6443ca9cbf85496d0800000000000000
+      internalID: -2984662814596254650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spike5_1
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 180
+        width: 22
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e363a9e0810792b50800000000000000
+      internalID: 6568904780123092542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spike5_2
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 175
+        width: 46
+        height: 59
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df160e6c84b2f09f0800000000000000
+      internalID: -500133442040602115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spike5_3
+      rect:
+        serializedVersion: 2
+        x: 202
+        y: 226
+        width: 16
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: afaae476730440ab0800000000000000
+      internalID: -5042835076047525126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spike5_4
+      rect:
+        serializedVersion: 2
+        x: 121
+        y: 157
+        width: 52
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d26acfacad47cc20800000000000000
+      internalID: 3226633062113239760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spike5_5
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 213
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6781bf02d4e974310800000000000000
+      internalID: 1389253064170084470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spike5_6
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 171
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 412bebd173175e220800000000000000
+      internalID: 2514540448492466708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spike5_7
+      rect:
+        serializedVersion: 2
+        x: 230
+        y: 173
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c724589f74b958380800000000000000
+      internalID: -8969592349407231364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spike5_8
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 80
+        width: 60
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e11cfc84762c9ad0800000000000000
+      internalID: -2694236195051007519
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spike5_9
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 80
+        width: 35
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 432318308f6e0ed90800000000000000
+      internalID: -7070397462086602188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spike5_10
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 87
+        width: 69
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d739012b4f615820800000000000000
+      internalID: 2905225603098163153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spike5_11
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 156
+        width: 26
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6372498f36196f280800000000000000
+      internalID: -9009854145949849802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spike5_12
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 18
+        width: 33
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0534219f168473c50800000000000000
+      internalID: 6644859360836207440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spike5_13
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 77
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f8a90c47ea3f91230800000000000000
+      internalID: 3610184506922801807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spike5_14
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 76
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 729c56643520f0150800000000000000
+      internalID: 5840889798409439527
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spike5_15
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 77
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27f0a8c9d652a51d0800000000000000
+      internalID: -3361333019170697358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spike5_16
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 78
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb0c22fc2c3214f20800000000000000
+      internalID: 3405042112874594494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spike5_17
+      rect:
+        serializedVersion: 2
+        x: 154
+        y: 13
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29608b90cbb3f2b50800000000000000
+      internalID: 6570536060159788690
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spike5_18
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 10
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ddd4cd870112f43d0800000000000000
+      internalID: -3220318853915718179
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spike5_19
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 15
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 804f07a9376e6b8d0800000000000000
+      internalID: -2830821931569056760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spike5_20
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 10
+        width: 24
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05d667235ad014320800000000000000
+      internalID: 2540326667981057360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spike5_21
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 5
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6bafd4b6579a06f30800000000000000
+      internalID: 4566836343930223286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Spike5_0: -2984662814596254650
+      Spike5_1: 6568904780123092542
+      Spike5_10: 2905225603098163153
+      Spike5_11: -9009854145949849802
+      Spike5_12: 6644859360836207440
+      Spike5_13: 3610184506922801807
+      Spike5_14: 5840889798409439527
+      Spike5_15: -3361333019170697358
+      Spike5_16: 3405042112874594494
+      Spike5_17: 6570536060159788690
+      Spike5_18: -3220318853915718179
+      Spike5_19: -2830821931569056760
+      Spike5_2: -500133442040602115
+      Spike5_20: 2540326667981057360
+      Spike5_21: 4566836343930223286
+      Spike5_3: -5042835076047525126
+      Spike5_4: 3226633062113239760
+      Spike5_5: 1389253064170084470
+      Spike5_6: 2514540448492466708
+      Spike5_7: -8969592349407231364
+      Spike5_8: -2694236195051007519
+      Spike5_9: -7070397462086602188
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class Mummy : MonoBehaviour
 {
-    //TODO: trasformerò l'Ia di questo nemico passando ai Behavior tree
     [Header("Patrol Settings")]
     public float MoveSpeed = 2f;
     public float LeftLimit = -5f;

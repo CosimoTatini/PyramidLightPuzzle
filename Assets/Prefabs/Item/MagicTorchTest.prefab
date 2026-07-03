@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 813339124281654548}
   - component: {fileID: 3366265585978532938}
   - component: {fileID: 5424006790107384785}
+  - component: {fileID: 4302490538080836231}
   m_Layer: 6
   m_Name: MagicTorchTest
   m_TagString: Untagged
@@ -104,7 +105,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5815135948996897342}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
   m_Name: 
@@ -113,7 +114,7 @@ MonoBehaviour:
   m_LightType: 3
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
-  m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  m_Color: {r: 0, g: 0, b: 0.5, a: 1}
   m_Intensity: 0.5
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
@@ -163,11 +164,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: LightSystem::LightEmitter
   _light: {fileID: 5384488082815668281}
   _baseColor: {r: 0.1, g: 0.1, b: 0.1, a: 1}
-  _redAmount: 2
-  _greenAmount: 2
-  _blueAmount: 2
+  _redAmount: 0
+  _greenAmount: 0
+  _blueAmount: 0
   _maxAmount: 4
-  CanUpdateLight: 0
+  CanUpdateLight: 1
 --- !u!58 &8530101943984888043
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -260,3 +261,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: LightSystem::MagicalTorch
   _light: {fileID: 5384488082815668281}
+--- !u!114 &4302490538080836231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5815135948996897342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 401b926eb64d5a14392e15199f2065a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: inventory::TypeChooser
+  _type: 1

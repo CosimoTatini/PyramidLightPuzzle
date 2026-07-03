@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// Class 
+/// Class that handles the player physics and the Inputsystem Actions.
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
@@ -28,7 +28,6 @@ public class PlayerController : MonoBehaviour
 
     public Vector2 LastLookDirection => _lastLookDirection;
 
-    private PowderColor _powder;
 
     private void Start()
     {

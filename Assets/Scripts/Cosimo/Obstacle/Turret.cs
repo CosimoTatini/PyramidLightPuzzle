@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
+/// <summary>
+/// Turret behaviour. Used Object Pooler pattern.
+/// </summary>
 public class Turret : MonoBehaviour
 {
     [Header("Detection")]
@@ -24,9 +28,11 @@ public class Turret : MonoBehaviour
     [SerializeField] private Transform _firePoint;
     [SerializeField] private Transform _barrelPivot;
     [SerializeField] private Projectile _projectilePrefab;
+    [SerializeField] private Tilemap _tilemap;
 
     private ObjectPooler<Projectile> _pool;
     private Transform _target;
+    
 
     private void Awake()
     {
@@ -130,7 +136,7 @@ public class Turret : MonoBehaviour
 
         Vector2 direction = (_target.position - _firePoint.position).normalized;
 
-        newProjectile.Initialize(direction, _pool);
+        newProjectile.Initialize(direction, _pool,_tilemap);
     }
 
     private void DetectPlayer()

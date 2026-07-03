@@ -2,6 +2,9 @@ using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
+/// <summary>
+/// Platform that disappears after a certain time.
+/// </summary>
 public class FragilePlatform : MonoBehaviour
 {
     [SerializeField] private float _maxTime = 2f;
