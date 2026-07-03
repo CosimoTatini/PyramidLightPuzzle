@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 593818772706854123}
   - component: {fileID: 2617244495727354791}
+  - component: {fileID: 7883306951525735406}
   m_Layer: 0
   m_Name: Graphics
   m_TagString: Untagged
@@ -91,6 +92,28 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!95 &7883306951525735406
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3324585043241346376}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c06667ef1cd13074d9c6845ce1539fff, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7518949681294907776
 GameObject:
   m_ObjectHideFlags: 0
@@ -103,6 +126,7 @@ GameObject:
   - component: {fileID: 228477893790432275}
   - component: {fileID: 1620233194054688198}
   - component: {fileID: 1424427101442279917}
+  - component: {fileID: 6518507881226230498}
   m_Layer: 0
   m_Name: Spike 1
   m_TagString: Untagged
@@ -241,3 +265,19 @@ MonoBehaviour:
     - rid: 7123474592342212684
       type: {class: ShadowShape2DProvider_Collider2D, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
       data: 
+--- !u!114 &6518507881226230498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7518949681294907776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e263fe59348c03d4896a0875a08dfd62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Obstacles::SpikeHandler
+  _animSettings:
+    clipName: RiseSpike
+    clip: {fileID: 7400000, guid: c4d36745b15fd48499dae0f9209768d3, type: 2}
+  _delay: 0.5

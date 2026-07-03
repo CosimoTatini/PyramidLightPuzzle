@@ -61,7 +61,7 @@ MonoBehaviour:
   m_NormalMapDistance: 3
   m_NormalMapQuality: 2
   m_UseNormalMap: 0
-  m_ShadowsEnabled: 1
+  m_ShadowsEnabled: 0
   m_ShadowIntensity: 0.75
   m_ShadowSoftness: 0.3
   m_ShadowSoftnessFalloffIntensity: 0.5
@@ -277,6 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8230a752acd80f4698c0abb20ba72c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Input::PlayerController
+  _playerConfig: {fileID: 11400000, guid: 68d1a31512003e85c9df27fa996419d3, type: 2}
   _moveSpeed: 100
   _platformHandler: {fileID: 7816278858457184693}
 --- !u!61 &8064106555073959028
