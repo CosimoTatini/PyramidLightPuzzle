@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1277d0686abe4fe53a16307751050170, type: 3}
+  m_Name: DisableTabAndColors
+  m_EditorClassIdentifier: InputTry::InputConfigSO
+  _inputAssetMaps:
+  - AssetType: {fileID: 11400000, guid: e96d257d5ef5782029bb3f86587ef374, type: 2}
+    InputMapStructs:
+    - Guid: df70fa95-8a34-4494-b137-73ab6b9c7d37
+      Name: Player
+      InputActionEntries:
+      - Guid: caf14774-abd8-4d43-9996-dc353909bc3f
+        Name: SetRed
+        Priority: 1
+        Enabled: 0
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: 104b7783-e416-4b48-a9dd-b67e08607e88
+            Name: R
+            Prompt: '@BUTTON SetRed'
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: 8e99d160-5b6b-4a7b-89a8-c0d15aca6d54
+            Name: Y
+            Prompt: '@BUTTON SetRed'
+      - Guid: 99a84728-3311-4211-a8a1-17a929539c1b
+        Name: SetGreen
+        Priority: 1
+        Enabled: 0
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: efc36d98-84cf-4674-88ed-bca0d0b89345
+            Name: G
+            Prompt: '@BUTTON SetGreen'
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: 0b6955fa-5047-48d6-9f7b-75b1e3dddbf6
+            Name: B
+            Prompt: '@BUTTON SetGreen'
+      - Guid: 539c73e2-8745-4bcd-9f54-57bb70274ce9
+        Name: SetBlue
+        Priority: 1
+        Enabled: 0
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: 7c8698ab-f4c0-4d63-94a1-bc36a48d6f34
+            Name: B
+            Prompt: '@BUTTON SetBlue'
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: 1d7fd3b7-93d7-48aa-b1e1-3eccc8979fdb
+            Name: A
+            Prompt: '@BUTTON SetBlue'
+      - Guid: 8111a4e7-2ecc-44e0-be3e-8845bf8cb323
+        Name: Switch
+        Priority: 1
+        Enabled: 0
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: 73d83de3-4bc7-4844-887a-3eba48c68c1d
+            Name: Tab
+            Prompt: '@BUTTON Switch'
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: c9264b5c-3172-4e52-993a-6e57be73f344
+            Name: Left Stick Press
+            Prompt: '@BUTTON Switch'
+  _lastUsedInputAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

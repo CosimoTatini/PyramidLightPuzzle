@@ -158,9 +158,9 @@ public class SingleControlDisplayer : MonoBehaviour
         }
 
         int indexInDisabledActions = Array.IndexOf(disabledInputActions.Select(a => a.id.ToString()).ToArray(), _firstActionEntry.Guid);
-        if (indexInEnabledActions != -1)
+        if (indexInDisabledActions != -1)
         {
-            string bindingPrompt = InputActionEntry.GetActionTextWithSprites(enabledInputActions[indexInEnabledActions], _inputUser, _currentScheme, _spriteAssetsInputList, out _, _firstActionEntry);
+            string bindingPrompt = InputActionEntry.GetActionTextWithSprites(disabledInputActions[indexInDisabledActions], _inputUser, _currentScheme, _spriteAssetsInputList, out _, _firstActionEntry);
             _textControl.text = bindingPrompt;
 
             textControlColor.a = _disabledOpacity;
