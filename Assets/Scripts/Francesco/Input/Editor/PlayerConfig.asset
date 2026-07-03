@@ -306,6 +306,28 @@ MonoBehaviour:
           - Guid: ad4eea47-d7e8-4997-8d5b-6616ffa97f31
             Name: RT
             Prompt: '@BUTTON Throw'
+      - Guid: 6ea8a0d4-8de3-45be-bb65-2b374d90d943
+        Name: ZoomIn
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: 3ea69765-4b84-4b68-9bc5-a5ce7127d6a5
+            Name: Z
+            Prompt: '@BUTTON ZoomIn'
+      - Guid: dcc6b12c-756e-45c4-92fe-26009f621a9c
+        Name: ZoomOut
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: 70a08eb5-1807-435b-bdda-bdbef5578718
+            Name: X
+            Prompt: '@BUTTON ZoomOut'
     - Guid: 272f6d14-89ba-496f-b7ff-215263d3219f
       Name: UI
       InputActionEntries:
