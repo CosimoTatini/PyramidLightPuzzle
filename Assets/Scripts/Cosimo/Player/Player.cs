@@ -176,7 +176,6 @@ public class Player : MonoBehaviour, ISubject
     public void HandleInteract()
     {
         if (StateMachine.CurrentState is DeathCharacterState || _isRespawning) return;
-
        
         if (InventoryManager.Instance.SelectedType == TorchType.Magical)
         {

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -9,17 +8,17 @@ using UnityEngine.Tilemaps;
 /// </summary>
 public class PlacementManager : MonoBehaviour
 {
-   public static PlacementManager Instance;
-   public static event Action OnEternalTorchRemoved;
-   [SerializeField] private Tilemap _targetTilemap;
-   private Dictionary<Vector3Int,GameObject> _placedItems= new Dictionary<Vector3Int,GameObject>();
-   private Dictionary<Tilemap,HashSet<Vector3Int>> _restrictedCells= new Dictionary<Tilemap, HashSet<Vector3Int>>();
-   private Dictionary<Vector3Int, TorchType> _torchTypes = new Dictionary<Vector3Int, TorchType>();
+    public static PlacementManager Instance;
+    public static event Action OnEternalTorchRemoved;
+    [SerializeField] private Tilemap _targetTilemap;
+    private Dictionary<Vector3Int, GameObject> _placedItems = new Dictionary<Vector3Int, GameObject>();
+    private Dictionary<Tilemap, HashSet<Vector3Int>> _restrictedCells = new Dictionary<Tilemap, HashSet<Vector3Int>>();
+    private Dictionary<Vector3Int, TorchType> _torchTypes = new Dictionary<Vector3Int, TorchType>();
 
     #region SINGLETON_INSTANCE
     private void Awake()
     {
-        if(Instance != null && Instance !=this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
@@ -43,12 +42,12 @@ public class PlacementManager : MonoBehaviour
 
         foreach (var torch in torchesType)
         {
-            Vector3Int cellPos= _targetTilemap.WorldToCell(torch.transform.position);
+            Vector3Int cellPos = _targetTilemap.WorldToCell(torch.transform.position);
 
-            if(!_placedItems.ContainsKey(cellPos))
+            if (!_placedItems.ContainsKey(cellPos))
             {
                 torch.IsPrexistent = true;
-                _placedItems.Add(cellPos,torch.gameObject);
+                _placedItems.Add(cellPos, torch.gameObject);
             }
             else
             {
@@ -63,13 +62,13 @@ public class PlacementManager : MonoBehaviour
     /// <param name="tilemap"></param>
     /// <param name="cellPos"></param>
     /// <param name="isRestricted"></param>
-    public void SetCellRestriction(Tilemap tilemap,Vector3Int cellPos,bool isRestricted)
+    public void SetCellRestriction(Tilemap tilemap, Vector3Int cellPos, bool isRestricted)
     {
-        if(!_restrictedCells.ContainsKey(tilemap))
+        if (!_restrictedCells.ContainsKey(tilemap))
         {
             _restrictedCells[tilemap] = new HashSet<Vector3Int>();
 
-            
+
         }
         if (isRestricted)
         {
@@ -88,9 +87,9 @@ public class PlacementManager : MonoBehaviour
     /// <param name="tilemap"></param>
     /// <param name="cellPos"></param>
     /// <returns></returns>
-    public bool IsCellRestricted(Tilemap tilemap,Vector3Int cellPos)
+    public bool IsCellRestricted(Tilemap tilemap, Vector3Int cellPos)
     {
-        if(tilemap == null || !_restrictedCells.ContainsKey(tilemap))
+        if (tilemap == null || !_restrictedCells.ContainsKey(tilemap))
         {
             return false;
         }
@@ -103,7 +102,7 @@ public class PlacementManager : MonoBehaviour
     /// <param name="tilemap"></param>
     /// <param name="cellPos"></param>
     /// <returns></returns>
-    public bool IsCellAvailable(Tilemap tilemap,Vector3Int cellPos)
+    public bool IsCellAvailable(Tilemap tilemap, Vector3Int cellPos)
     {
         if (_placedItems.ContainsKey(cellPos)) return false;
         if (IsCellRestricted(tilemap, cellPos)) return false;
@@ -119,14 +118,15 @@ public class PlacementManager : MonoBehaviour
     /// <param name="item"></param>
     /// <param name="type"></param>
     /// <returns></returns>
-    public bool IsPossibleToRegisterItem(Tilemap tilemap,Vector3Int cellpos,GameObject item,TorchType type)
+    public bool IsPossibleToRegisterItem(Tilemap tilemap, Vector3Int cellpos, GameObject item, TorchType type)
     {
-        if(!IsCellAvailable(tilemap,cellpos))
+        if (!IsCellAvailable(tilemap, cellpos))
         {
             return false;
         }
-
+        if(!_placedItems.ContainsKey(cellpos))
         _placedItems.Add(cellpos, item);
+        if(!_torchTypes.ContainsKey(cellpos))
         _torchTypes.Add(cellpos, type);
         return true;
     }
@@ -137,21 +137,21 @@ public class PlacementManager : MonoBehaviour
     /// <param name="cellpos"></param>
     public void UnregisterItem(Vector3Int cellpos)
     {
-       if(_placedItems.TryGetValue(cellpos, out GameObject item))
-       {
-         if(item!=null)
-         {
-          if(item.TryGetComponent<TypeChooser>(out var torch))
-          {
-            if (torch.IsEternal)
+        if (_placedItems.TryGetValue(cellpos, out GameObject item))
+        {
+            if (item != null)
             {
+                if (item.TryGetComponent<TypeChooser>(out var torch))
+                {
+                    if (torch.IsEternal)
+                    {
                         OnEternalTorchRemoved?.Invoke();
-            } 
-           
-          }
-         }
-         _placedItems.Remove(cellpos);
-       }
+                    }
+
+                }
+            }
+            _placedItems.Remove(cellpos);
+        }
     }
 
     /// <summary>

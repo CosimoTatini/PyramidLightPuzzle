@@ -145,6 +145,7 @@ internal class GrabCharacterState : IStateCollision2D
     public void OnUpdate()
     {
         _timer += Time.deltaTime;
+        float durationThreshold = _owner.GrabSettings.clip.length - 0.05f;
 
         if (_timer >= _owner.GrabSettings.clip.length)
         {
