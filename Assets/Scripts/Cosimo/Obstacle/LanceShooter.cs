@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -8,16 +7,17 @@ using UnityEngine.Tilemaps;
 /// </summary>
 public class LanceShooter : MonoBehaviour, IObserver
 {
+    [Header("Pool & Spawn")]
     [SerializeField] private ObjectPooler<Projectile> _pool;
     [SerializeField] private Transform _firePoint;
-    [SerializeField] private float _fireRate = 1f;
-    [SerializeField] private Vector2 _direction;
-    [SerializeField] private BoxCollider2D _coll;
-    [SerializeField] private GameObject gameObjectToDestroy;
-    private Coroutine _disableCoroutine;
-    [field:SerializeField] private Tilemap _targetTilemap;
+    [SerializeField] private Projectile _prefabProjectile;
 
-    public Projectile _prefabProjectile;
+    [Header("Settings")]
+    [SerializeField] private Vector2 _direction = new Vector2(-1f, 0f);
+    [SerializeField] private BoxCollider2D _coll;
+    [SerializeField] private Tilemap _targetTilemap;
+    [SerializeField] private GameObject gameObjectToDestroy; 
+    private Coroutine _disableCoroutine;
     private bool _isShooting;
 
     private void Awake()
@@ -28,8 +28,7 @@ public class LanceShooter : MonoBehaviour, IObserver
     private void Start()
     {
         Player player = FindFirstObjectByType<Player>();
-
-        if (player!=null)
+        if (player != null)
         {
             player.Attach(this);
             Debug.Log($"[Trap] Registrazione effettuata con successo su {player.name}");
@@ -46,27 +45,31 @@ public class LanceShooter : MonoBehaviour, IObserver
         proj.transform.position = _firePoint.position;
         proj.gameObject.SetActive(true);
 
-        proj.Initialize(_direction, _pool,_targetTilemap);
+       
+        proj.Initialize(_direction, _pool, _targetTilemap);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.TryGetComponent(out Player player))
+        
+        if (_isShooting) return;
+
+        if (collision.TryGetComponent(out Player player))
         {
-             Shoot();
-            _isShooting=true;
-            if(_disableCoroutine==null)
+            _isShooting = true;
+            Shoot();
+
+            if (_disableCoroutine == null)
             {
-                StartCoroutine(DisableTriggerCoroutine());
+                _disableCoroutine = StartCoroutine(DisableTriggerCoroutine());
             }
-           
         }
     }
-    
+
     private IEnumerator DisableTriggerCoroutine()
     {
-       yield return null;
-       _coll.enabled =false;
+        yield return null;
+        _coll.enabled = false;
         _disableCoroutine = null;
     }
 
@@ -77,19 +80,18 @@ public class LanceShooter : MonoBehaviour, IObserver
             StopCoroutine(_disableCoroutine);
             _disableCoroutine = null;
         }
-        _coll.enabled=true;
+
+        _isShooting = false; 
+        _coll.enabled = true;
         Debug.Log("Trappola resettata");
     }
 
     private void OnDestroy()
     {
         Player player = FindFirstObjectByType<Player>();
-
-        if( player != null )
+        if (player != null)
         {
             player.Detach(this);
         }
     }
-
-   
 }

@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviour
 
     public Vector2 LastLookDirection => _lastLookDirection;
 
+    
+
 
     private void Start()
     {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -34,11 +35,14 @@ public class Player : MonoBehaviour, ISubject
     [SerializeField] private Tilemap _placeableTilemap;
     [SerializeField] private GameObject _torchPrefab;
     private float _cellOffset = 0.2f;
+    [SerializeField] private Transform _feetTransform;
 
     public Tilemap PlaceableTilemap => _placeableTilemap;
     public float CellOffset => _cellOffset;
 
     public GameObject TorchPrefab => _torchPrefab;
+
+    public Transform FeetTransform=> _feetTransform;
 
     public void Attach(IObserver observer)
     {
