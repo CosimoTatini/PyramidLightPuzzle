@@ -47,6 +47,12 @@ TagManager:
   - name: WalkInFront
     uniqueID: 3805965837
     locked: 0
+  - name: Decal
+    uniqueID: 2077977487
+    locked: 0
+  - name: AO
+    uniqueID: 1144756153
+    locked: 0
   - name: Collision
     uniqueID: 3079749629
     locked: 0

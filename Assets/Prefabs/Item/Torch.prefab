@@ -57,7 +57,7 @@ MonoBehaviour:
   m_Intensity: 0.4
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 000000001d27dff40d6edae2fd3f91b7499d50f56794303939aec074
+  m_ApplyToSortingLayers: 000000001d27dff4fd3f91b7499d50f539aec0740d6edae267943039
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -181,6 +181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: inventory::TypeChooser
   _type: 0
+  _isEternal: 0
 --- !u!1 &3154056373876095995
 GameObject:
   m_ObjectHideFlags: 0
