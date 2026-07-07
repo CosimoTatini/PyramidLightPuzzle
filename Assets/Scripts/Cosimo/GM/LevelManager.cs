@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -31,9 +32,7 @@ public class LevelManager : MonoBehaviour
             _instance = value;
         }
     }
-
     #endregion
-
     public bool IsReloadingBattleScene;
 
     [SerializeField] private GameObject _loaderCanvas;
@@ -56,7 +55,8 @@ public class LevelManager : MonoBehaviour
         }
 
         Instance = this;
-        IsReloadingBattleScene = false;
+       
+        IsReloadingBattleScene= false;
         DontDestroyOnLoad(gameObject);
     }
 
@@ -119,8 +119,54 @@ public class LevelManager : MonoBehaviour
                         (
                             sceneName: sceneName,
                             loadMode: LoadSceneMode.Additive,
-                            onLoadSceneStart: () => { _loaderCanvas.SetActive(false); },
-                            onLoadSceneEnd: () => { }
+                            onLoadSceneStart: () => { },
+                            onLoadSceneEnd: () => { _loaderCanvas.SetActive(false); }
+                        )
+                   )
+            )
+         );
+    }
+
+    public void AddSceneWithLoadingScreen(string sceneName)
+    {
+        _loaderCanvas.SetActive(true);
+
+        StartCoroutine
+        (
+            PreLoadFadeIn
+            (
+                () => StartCoroutine
+                    (
+                        LoadSceneAsync
+                        (
+                            sceneName: sceneName,
+                            loadMode: LoadSceneMode.Additive,
+                            onLoadSceneStart:
+                            () =>
+                            {
+                                _progressBar.gameObject.SetActive(true);
+                                _userTipsText.gameObject.SetActive(true);
+                                _loadingText.gameObject.SetActive(true);
+                                _loadingText.text = "0%";
+                                _progressBar.fillAmount = 0;
+                                string tip = _userTips[UnityEngine.Random.Range(0, _userTips.Count)];
+                                _userTipsText.text = tip;
+
+                            },
+                            onLoadSceneEnd:
+                            () =>
+                            {
+                                _progressBar.gameObject.SetActive(false);
+                                _userTipsText.gameObject.SetActive(false);
+                                _loadingText.gameObject.SetActive(false);
+                                StartCoroutine(PostLoadFadeOut(() =>
+                                {
+                                    _loaderCanvas.SetActive(false);
+                                    _fadePanel.gameObject.SetActive(false);
+                                }
+                            )
+                        );
+                            }
                         )
                    )
             )

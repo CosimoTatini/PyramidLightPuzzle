@@ -22,7 +22,7 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
-        LevelManager.Instance.AddScene("PyramidCosimo");
+        LevelManager.Instance.AddSceneWithLoadingScreen("PyramidCosimo");
     }
 
 
