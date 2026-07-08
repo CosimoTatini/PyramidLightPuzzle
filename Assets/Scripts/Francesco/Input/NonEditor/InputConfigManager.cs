@@ -177,6 +177,8 @@ public static class InputConfigManager//Singleton<InputConfigManager>
         // we removed the only element in the list, remove it from enabled/disabled list and also call O
         if (actionStack.Count == 0)
         {
+            if (inputAction == null) return;
+
             // if action was enabled, disable it and remove it from enabled actions and add it to disable actions
             if (inputAction.enabled)
             {
@@ -184,10 +186,7 @@ public static class InputConfigManager//Singleton<InputConfigManager>
                 RemoveEnabledAction(id, inputAction);
                 AddDisabledAction(id, inputAction);
             }
-            else
-            {
 
-            }
             return;
         }
 
