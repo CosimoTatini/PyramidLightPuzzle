@@ -48,7 +48,7 @@ MonoBehaviour:
   IsReloadingBattleScene: 0
   _loaderCanvas: {fileID: 4752176989830978717, guid: d3c906f94fdf0ee4ba6268e73f03120b, type: 3}
   _progressBar: {fileID: 853527348915277583}
-  _maxProgress: 0.01
+  _maxProgress: 0.7
   _progressBarFinalLoadingSpeed: 0.5
   _fadePanel: {fileID: 165060170739089241}
   _loadingText: {fileID: 984438219046785941}

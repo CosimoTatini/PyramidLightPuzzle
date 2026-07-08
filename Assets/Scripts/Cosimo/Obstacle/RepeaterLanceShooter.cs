@@ -81,4 +81,26 @@ public class RepeaterLanceShooter : MonoBehaviour, IObserver
             player.Detach(this);
         }
     }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Vector3 startPoint = _firePoint != null ? _firePoint.position : transform.position;
+
+        // Calcoliamo la direzione (assicurandoci che sia un vettore normalizzato di lunghezza 1)
+        Vector3 direction3D = new Vector3(_direction.x, _direction.y, 0f).normalized;
+
+        // Impostiamo un colore visibile (es. Rosso per i proiettili)
+        Gizmos.color = Color.red;
+
+        // 1. Disegniamo la linea principale della traiettoria (lunga ad esempio 10 unità)
+        float lineLength = 10f;
+        Vector3 endPoint = startPoint + direction3D * lineLength;
+        Gizmos.DrawLine(startPoint, endPoint);
+
+        // 2. Disegniamo una piccola sfera sul punto di sparo per identificarlo chiaramente
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(startPoint, 0.2f);
+    }
+#endif
 }

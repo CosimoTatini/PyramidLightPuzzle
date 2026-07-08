@@ -55,8 +55,8 @@ public class LevelManager : MonoBehaviour
         }
 
         Instance = this;
-       
-        IsReloadingBattleScene= false;
+
+        IsReloadingBattleScene = false;
         DontDestroyOnLoad(gameObject);
     }
 
@@ -151,6 +151,7 @@ public class LevelManager : MonoBehaviour
                                 _progressBar.fillAmount = 0;
                                 string tip = _userTips[UnityEngine.Random.Range(0, _userTips.Count)];
                                 _userTipsText.text = tip;
+                                
 
                             },
                             onLoadSceneEnd:
@@ -258,10 +259,12 @@ public class LevelManager : MonoBehaviour
 
     private IEnumerator LoadSceneAsync(string sceneName, LoadSceneMode loadMode, Action onLoadSceneStart, Action onLoadSceneEnd)
     {
+        // LOG 1: Verifica quante volte viene avviato effettivamente il caricamento asincrono della scena
+        Debug.Log($"[LevelManager] Avvio LoadSceneAsync per la scena: {sceneName} in modalità {loadMode}");
+
         onLoadSceneStart?.Invoke();
 
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName, loadMode);
-
         operation.allowSceneActivation = false;
 
         while (!operation.isDone)
@@ -269,36 +272,90 @@ public class LevelManager : MonoBehaviour
             _progressBar.fillAmount = Mathf.Clamp01(operation.progress / 0.9f);
             _progressBar.fillAmount = Mathf.Clamp(_progressBar.fillAmount, 0, _maxProgress);
 
-            _loadingText.text = $"{Mathf.RoundToInt(_progressBar.fillAmount * 100)}%";
+            string currentTextValue = $"{Mathf.RoundToInt(_progressBar.fillAmount * 100)}%";
+
+            // LOG 2A: Aggiornamento percentuale basato sul progresso reale di Unity
+            Debug.Log($"[LevelManager] Update UI (Progresso Reale) - Fill: {_progressBar.fillAmount} | Testo: {currentTextValue}");
+
+            _loadingText.text = currentTextValue;
 
             yield return new WaitForEndOfFrame();
 
-            Debug.Log($"{operation.progress}");
-
             if (operation.progress >= 0.89f)
             {
-                Debug.Log("PROGERESS");
                 yield return new WaitForSeconds(0.3f);
 
                 int cycles = Mathf.RoundToInt(100 - _maxProgress * 100);
                 float speedPerCycle = _progressBarFinalLoadingSpeed / cycles;
 
-                for (int i = 0; i < 100 - _maxProgress * 100; i++)
+                for (int i = 0; i < cycles; i++)
                 {
                     yield return new WaitForSeconds(speedPerCycle);
                     _progressBar.fillAmount += 0.01f;
-                    _loadingText.text = $"{Mathf.RoundToInt(_progressBar.fillAmount * 100)}%";
+
+                    string fakeTextValue = $"{Mathf.RoundToInt(_progressBar.fillAmount * 100)}%";
+
+                    // LOG 2B: Aggiornamento percentuale nel ciclo for finale fittizio
+                    Debug.Log($"[LevelManager] Update UI (Ciclo Finale) - Step: {i}/{cycles} | Fill: {_progressBar.fillAmount} | Testo: {fakeTextValue}");
+
+                    _loadingText.text = fakeTextValue;
                 }
-                // add delay here if needed
 
                 yield return new WaitForSeconds(0.3f);
-
                 operation.allowSceneActivation = true;
             }
         }
-
+        Debug.Log($"[LevelManager] Fine LoadSceneAsync. La scena {sceneName} è ora attiva.");
         onLoadSceneEnd?.Invoke();
+    }
+    public void SwitchGameplayScene(string currentSceneName, string newSceneName)
+    {
+        _loaderCanvas.SetActive(true);
 
+        StartCoroutine(PreLoadFadeIn(() =>
+        {
+            StartCoroutine(ExecuteSceneSwitch(currentSceneName, newSceneName));
+        }));
+    }
+
+    private IEnumerator ExecuteSceneSwitch(string sceneToUnload, string sceneToLoad)
+    {
+        // 1. CARICHIAMO PRIMA la nuova scena (Additive)
+        yield return StartCoroutine(LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive,
+            onLoadSceneStart: () =>
+            {
+                _progressBar.gameObject.SetActive(true);
+                _loadingText.gameObject.SetActive(true);
+                _loadingText.text = "0%";
+                _progressBar.fillAmount = 0;
+            },
+            onLoadSceneEnd: () => { } // Lasciamo vuoto qui, gestiamo la chiusura alla fine
+        ));
+
+        // 2. SCARICHIAMO DOPO la vecchia scena in tutta sicurezza
+        if (SceneManager.GetSceneByName(sceneToUnload).isLoaded)
+        {
+            AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync(sceneToUnload);
+
+            // Controllo di sicurezza per evitare il NullReferenceException
+            if (unloadOperation != null)
+            {
+                while (!unloadOperation.isDone)
+                {
+                    yield return null;
+                }
+            }
+        }
+
+        // 3. ORA facciamo il fade out e chiudiamo il loader
+        _progressBar.gameObject.SetActive(false);
+        _loadingText.gameObject.SetActive(false);
+
+        StartCoroutine(PostLoadFadeOut(() =>
+        {
+            _loaderCanvas.SetActive(false);
+            _fadePanel.gameObject.SetActive(false);
+        }));
     }
 
     public void QuitGame()
