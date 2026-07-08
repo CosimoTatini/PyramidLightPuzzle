@@ -231,7 +231,7 @@ MonoBehaviour:
             Prompt: '@BUTTON Next'
       - Guid: 8111a4e7-2ecc-44e0-be3e-8845bf8cb323
         Name: Switch
-        Priority: 0
+        Priority: 1
         Enabled: 1
         NameOverride: 
         PromptSchemes:

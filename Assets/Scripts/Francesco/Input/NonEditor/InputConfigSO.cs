@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[CreateAssetMenu(menuName = "ScriptableObjects/" + nameof(InputConfigSO))]
+[CreateAssetMenu(menuName = "ScriptableObject/" + nameof(InputConfigSO))]
 public class InputConfigSO : ScriptableObject
 {
     [SerializeField] private List<InputAssetMapList> _inputAssetMaps = new();

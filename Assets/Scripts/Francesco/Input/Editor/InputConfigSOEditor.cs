@@ -1209,6 +1209,8 @@ public class InputConfigSOEditor : Editor
                             // binding doesn't exist in the action, disable the UI
                             if (action != null)
                                 GUI.enabled = bindings.Contains(guid);
+                            else
+                                GUI.enabled = false;
 
                             using (new EditorGUILayout.HorizontalScope())
                             {
