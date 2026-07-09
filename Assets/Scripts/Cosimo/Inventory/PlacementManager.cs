@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
@@ -16,6 +16,12 @@ public class PlacementManager : MonoBehaviour
     private Dictionary<Tilemap, HashSet<Vector3Int>> _restrictedCells = new Dictionary<Tilemap, HashSet<Vector3Int>>();
     private Dictionary<Vector3Int, TorchType> _torchTypes = new Dictionary<Vector3Int, TorchType>();
 
+    public Tilemap TargetTilemap
+    {
+        get => _targetTilemap;
+        set=>_targetTilemap = value;
+    }
+
     #region SINGLETON_INSTANCE
     private void Awake()
     {
@@ -25,29 +31,26 @@ public class PlacementManager : MonoBehaviour
             return;
         }
         Instance = this;
+
     }
     #endregion
-
-    private void Start()
-    {
-        RegisterPreExistentTorches();
-    }
 
     /// <summary>
     /// Player can grab the torches that are put from the editor,
     /// so i need that these torches must be registered all at the begin of the game.
     /// </summary>
-    private void RegisterPreExistentTorches()
+    public void RegisterPreExistentTorches()
     {
         TypeChooser[] torchesType = FindObjectsByType<TypeChooser>(FindObjectsSortMode.None);
 
         foreach (var torch in torchesType)
         {
             Vector3Int cellPos = _targetTilemap.WorldToCell(torch.transform.position);
+            Debug.Log($"[PlacementManager] Tento di registrare la torcia '{torch.name}' alla cella: {cellPos}");
 
             if (!_placedItems.ContainsKey(cellPos))
             {
-                torch.IsPrexistent = true;
+                torch.IsEternal = true;
                 _placedItems.Add(cellPos, torch.gameObject);
             }
             else
@@ -190,14 +193,13 @@ public class PlacementManager : MonoBehaviour
 
         return null;
     }
+    public void InitializeTilemap(Tilemap tilemap)
+    {
+        _targetTilemap = tilemap;
+        RegisterPreExistentTorches();
+    }
+
     #endregion
 
 
 }
-
-
-
-
-
-
-

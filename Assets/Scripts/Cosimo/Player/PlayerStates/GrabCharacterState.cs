@@ -16,6 +16,15 @@ internal class GrabCharacterState : IStateCollision2D
     private Animator _animator;
     private float _timer;
 
+    // Ottimizzazione allocazione: Array statico riutilizzabile per evitare Garbage Collection in OnStart
+    private static readonly Vector3Int[] CardinalDirections = new Vector3Int[]
+    {
+        Vector3Int.up,
+        Vector3Int.down,
+        Vector3Int.left,
+        Vector3Int.right
+    };
+
     public GrabCharacterState(Player player, PlayerController controller, GameObject torch, Tilemap tilemap, Animator animator)
     {
         _owner = player;
@@ -54,11 +63,34 @@ internal class GrabCharacterState : IStateCollision2D
             }
         }
 
+        
         if (itemToPick == null)
         {
-            Vector3 interactionPos = _owner.transform.position;
-            targetCellPos = _owner.PlaceableTilemap.WorldToCell(interactionPos);
-            itemToPick = PlacementManager.Instance.GetItemAt(targetCellPos);
+            Tilemap groundTilemap = _owner.PlaceableTilemap;
+
+           
+            Vector3 feetPosition = _owner.FeetTransform.position;
+            Vector3Int feetCellPos = groundTilemap.WorldToCell(feetPosition);
+            GameObject torchUnderFeet = PlacementManager.Instance.GetItemAt(feetCellPos);
+
+            
+            bool hasFreeAdjacentCell = false;
+            for (int i = 0; i < CardinalDirections.Length; i++)
+            {
+                Vector3Int checkCell = feetCellPos + CardinalDirections[i];
+
+                if (groundTilemap.HasTile(checkCell) && PlacementManager.Instance.IsCellAvailable(groundTilemap, checkCell))
+                {
+                    hasFreeAdjacentCell = true;
+                    break;
+                }
+            }
+
+            if (torchUnderFeet != null && (hasFreeAdjacentCell || itemToPick == null))
+            {
+                itemToPick = torchUnderFeet;
+                targetCellPos = feetCellPos;
+            }
         }
 
         if (itemToPick != null)
@@ -79,17 +111,15 @@ internal class GrabCharacterState : IStateCollision2D
 
                     InventoryManager.Instance.ReturnTorch(torchComponent.Type);
 
-                    // 🔔 1. Chiamiamo PRIMA il manager: leggerà la torcia come eterna e lancerà l'evento!
+                    
                     PlacementManager.Instance.UnregisterItem(targetCellPos);
 
-                    // 🌟 2. DOPO azzeriamo il flag IsEternal sul componente prima che venga distrutto
                     if (torchComponent.IsEternal)
                     {
                         torchComponent.IsEternal = false;
                         Debug.Log($"[Grab] Torcia eterna rilevata. Evento lanciato e flag resettato a false.");
                     }
 
-                    // ❌ 3. Infine, eliminiamo l'oggetto dalla scena
                     GameObject.Destroy(itemToPick);
                     Debug.Log($"[Grab] Raccolta torcia {torchComponent.Type} dalla cella {targetCellPos}. Contatore aggiornato!");
                     return;

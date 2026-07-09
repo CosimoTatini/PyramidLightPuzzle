@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
 /// <summary>
@@ -8,18 +6,17 @@ using UnityEngine.Tilemaps;
 /// </summary>
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] private float _speed;
-    [SerializeField] private float _lifetime;
+    [SerializeField] private float _speed = 5f;
+    [SerializeField] private float _lifetime = 3f;
 
-    [SerializeField] private Vector2 _direction;
+    private Vector2 _direction;
     private float _timer;
-
     private ObjectPooler<Projectile> _pool;
     private Tilemap _targetTilemap;
-   
-    internal void Initialize(Vector2 direction, ObjectPooler<Projectile> poolRef,Tilemap tilemap)
+
+    internal void Initialize(Vector2 direction, ObjectPooler<Projectile> poolRef, Tilemap tilemap)
     {
-        _direction = direction;
+        _direction = direction.normalized; 
         _targetTilemap = tilemap;
         _pool = poolRef;
         _timer = 0f;
@@ -27,10 +24,11 @@ public class Projectile : MonoBehaviour
 
     private void Update()
     {
-        transform.Translate(_direction * _speed * Time.deltaTime);
-       _timer += Time.deltaTime;
+        
+        transform.Translate(_direction * _speed * Time.deltaTime, Space.World);
 
-        if(_timer >= _lifetime)
+        _timer += Time.deltaTime;
+        if (_timer >= _lifetime)
         {
             ReturnToPool();
         }
@@ -38,12 +36,15 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.TryGetComponent(out Player player))
+       
+        if (collision.gameObject.TryGetComponent(out Player player))
         {
             ReturnToPool();
+            return; 
         }
 
-        if(_targetTilemap != null && collision.gameObject==_targetTilemap.gameObject)
+       
+        if (_targetTilemap != null && collision.gameObject == _targetTilemap.gameObject)
         {
             ReturnToPool();
         }
@@ -52,8 +53,6 @@ public class Projectile : MonoBehaviour
     private void ReturnToPool()
     {
         gameObject.SetActive(false);
-        _pool.Set(this);
+        _pool.Set(this); 
     }
 }
-
-

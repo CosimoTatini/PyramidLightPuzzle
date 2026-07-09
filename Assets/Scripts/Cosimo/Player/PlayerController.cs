@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private PlatformHandler _platformHandler;
 
+    [SerializeField] private CameraZoomController _cameraController;
+
     public PlatformHandler PlatformHandler => _platformHandler;
     public Rigidbody2D Rb => _rb;
     public InputSystem_Actions InputActions => _inputActions;
@@ -27,6 +29,8 @@ public class PlayerController : MonoBehaviour
     public float MoveSpeed => _moveSpeed;
 
     public Vector2 LastLookDirection => _lastLookDirection;
+
+    
 
 
     private void Start()
@@ -54,6 +58,22 @@ public class PlayerController : MonoBehaviour
         _inputActions.Player.NextColor.performed += _ => InventoryManager.Instance.CyclePowder(1);
         _inputActions.Player.PreviousColor.performed += _ => InventoryManager.Instance.CyclePowder(-1);
         _inputActions.Player.Throw.performed += _=>GetComponent<Player>().SetState(ECharacterStates.Throw);
+        _inputActions.Player.ZoomIn.performed += _ =>
+        {
+            if (_cameraController != null)
+            {
+                _cameraController.ZoomIn();
+            }
+        };
+
+        _inputActions.Player.ZoomOut.performed += _ =>
+        {
+            if (_cameraController != null)
+            {
+                _cameraController.ZoomOut();
+            }
+        };
+
 
     }
 
