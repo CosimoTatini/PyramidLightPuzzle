@@ -16,7 +16,7 @@ public class InventoryManager : MonoBehaviour
     public GameObject MagicalTorchPrefab;
     
     [Header("Settings")]
-    public int TorchMaxQuanitity = 4;
+    public int TorchMaxQuanitity = int.MaxValue;
     public readonly int MagicalTorchQuantity = 1;
     private int _currentTorchQuantity;
     private int _currentMagicalTorchQuantity;
