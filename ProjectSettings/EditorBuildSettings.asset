@@ -6,11 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/TutorialGabriBak.unity
+    guid: a306f482ae8184a2a8d3094604ed239d
+  - enabled: 1
     path: Assets/Scenes/ManagerScene.unity
     guid: 3cbd3a626fb78d3429702734544ae0ca
   - enabled: 1
     path: Assets/Scenes/TutorialCosimo.unity
-    guid: 36d54b2646295044eb8b8cb5f9ba9593
+    guid: 2afd87a9a0d95564196b7c9212f0f367
   - enabled: 1
     path: Assets/Scenes/PyramidCosOfficial.unity
     guid: b40d68bdeeac54541a9632c066579c9b

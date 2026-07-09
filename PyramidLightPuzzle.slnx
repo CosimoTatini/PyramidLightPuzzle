@@ -14,5 +14,6 @@
   <Project Path="GameManager.csproj" />
   <Project Path="CraftingSystem.csproj" />
   <Project Path="InputSystem.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Cosimo.Utility.csproj" />
 </Solution>

@@ -1,19 +1,16 @@
 fileFormatVersion: 2
-guid: 68d0f5ded8c5323c49e6a9f7ddc95df7
+guid: 7e90688c2e0177c7b87e5741004e565a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1755808636154048662
-    second: SecondGero_0
+      213: 5523239806196690610
+    second: ricevitore base_0
   - first:
-      213: -816309295382080088
-    second: SecondGero_1
+      213: -4196933771952368567
+    second: ricevitore base_1
   - first:
-      213: 7982243701089227083
-    second: SecondGero_2
-  - first:
-      213: -1286001364244690513
-    second: SecondGero_3
+      213: -7555424081180377046
+    second: ricevitore base_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -84,7 +81,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -109,13 +106,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SecondGero_0
+      name: ricevitore base_0
       rect:
         serializedVersion: 2
-        x: 21
-        y: 36
-        width: 152
-        height: 350
+        x: 53
+        y: 3
+        width: 54
+        height: 170
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,20 +121,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6907683e6a2ed5810800000000000000
-      internalID: 1755808636154048662
+      spriteID: 2bea6a1275d76ac40800000000000000
+      internalID: 5523239806196690610
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SecondGero_1
+      name: ricevitore base_1
       rect:
         serializedVersion: 2
-        x: 169
-        y: 34
-        width: 134
-        height: 382
+        x: 66
+        y: 4
+        width: 124
+        height: 251
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -146,20 +143,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8a5d6e55503eba4f0800000000000000
-      internalID: -816309295382080088
+      spriteID: 94450f088fe71c5c0800000000000000
+      internalID: -4196933771952368567
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SecondGero_2
+      name: ricevitore base_2
       rect:
         serializedVersion: 2
-        x: 333
-        y: 33
-        width: 118
-        height: 356
+        x: 149
+        y: 3
+        width: 54
+        height: 170
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -168,30 +165,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b41d50aba50a6ce60800000000000000
-      internalID: 7982243701089227083
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SecondGero_3
-      rect:
-        serializedVersion: 2
-        x: 490
-        y: 36
-        width: 247
-        height: 404
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: fa9078f9294372ee0800000000000000
-      internalID: -1286001364244690513
+      spriteID: a20cfc914ddb52790800000000000000
+      internalID: -7555424081180377046
       vertices: []
       indices: 
       edges: []
@@ -210,10 +185,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      SecondGero_0: 1755808636154048662
-      SecondGero_1: -816309295382080088
-      SecondGero_2: 7982243701089227083
-      SecondGero_3: -1286001364244690513
+      ricevitore base_0: 5523239806196690610
+      ricevitore base_1: -4196933771952368567
+      ricevitore base_2: -7555424081180377046
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
