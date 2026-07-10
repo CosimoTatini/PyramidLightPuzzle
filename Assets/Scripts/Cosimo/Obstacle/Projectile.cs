@@ -24,7 +24,6 @@ public class Projectile : MonoBehaviour
 
     private void Update()
     {
-        
         transform.Translate(_direction * _speed * Time.deltaTime, Space.World);
 
         _timer += Time.deltaTime;

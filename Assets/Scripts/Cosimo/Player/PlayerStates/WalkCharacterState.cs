@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using static Codice.Client.Commands.WkTree.WorkspaceTreeNode;
 
 /// <summary>
 /// Handles the Walk State.

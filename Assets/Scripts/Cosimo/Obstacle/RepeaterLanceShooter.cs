@@ -93,7 +93,7 @@ public class RepeaterLanceShooter : MonoBehaviour, IObserver
         // Impostiamo un colore visibile (es. Rosso per i proiettili)
         Gizmos.color = Color.red;
 
-        // 1. Disegniamo la linea principale della traiettoria (lunga ad esempio 10 unità)
+        // 1. Disegniamo la linea principale della traiettoria (lunga ad esempio 10 unitï¿½)
         float lineLength = 10f;
         Vector3 endPoint = startPoint + direction3D * lineLength;
         Gizmos.DrawLine(startPoint, endPoint);

@@ -1,6 +1,4 @@
 ﻿using Assets.Scripts.Cosimo.Inventory;
-using Codice.Client.Common.GameUI;
-using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 

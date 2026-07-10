@@ -53,7 +53,7 @@ MonoBehaviour:
   _config: {fileID: 0}
   _textControl: {fileID: 5078718931917952116}
   _disabledOpacity: 0.4
-  _spriteAssetsInputList: {fileID: 11400000, guid: b7db9580c2947e90d884461113f1f593, type: 2}
+  _spriteAssetsInputList: {fileID: 0}
   _playerNumber: 1
 --- !u!222 &2974696107620624209
 CanvasRenderer:
