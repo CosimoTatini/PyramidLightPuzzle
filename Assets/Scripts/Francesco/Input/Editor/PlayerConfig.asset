@@ -110,8 +110,6 @@ MonoBehaviour:
           - Guid: 8255d333-5683-4943-a58a-ccb207ff1dce
             Name: PrimaryAction
             Prompt: '@BUTTON Attack'
-        - Scheme: Keyboard&Mouse
-          Prompts: []
       - Guid: 852140f2-7766-474d-8707-702459ba45f3
         Name: Interact
         Priority: 0
@@ -165,38 +163,6 @@ MonoBehaviour:
           - Guid: 603f3daf-40bd-4854-8724-93e8017f59e3
             Name: secondaryButton
             Prompt: '@BUTTON Jump'
-      - Guid: 3023a761-89e2-4470-8fb4-3d6a5461ba84
-        Name: Jump1
-        Priority: 0
-        Enabled: 1
-        NameOverride: 
-        PromptSchemes:
-        - Scheme: Keyboard&Mouse
-          Prompts:
-          - Guid: bf76df3f-40f5-4096-b719-a5da9413c7c0
-            Name: Space
-            Prompt: '@BUTTON Jump1'
-        - Scheme: XR
-          Prompts:
-          - Guid: f8abd87b-84cb-4c9d-9b6b-a467b3cd4e01
-            Name: secondaryButton
-            Prompt: '@BUTTON Jump1'
-      - Guid: a6c4deee-80cf-4a46-b90f-35e806f78675
-        Name: Jump2
-        Priority: 0
-        Enabled: 1
-        NameOverride: 
-        PromptSchemes:
-        - Scheme: Gamepad
-          Prompts:
-          - Guid: 74c47ea8-3626-45e3-ab95-2aa730b54b58
-            Name: A
-            Prompt: '@BUTTON Jump2'
-        - Scheme: XR
-          Prompts:
-          - Guid: 219bc288-f7a7-419a-94cd-7f2dd02b3a2f
-            Name: secondaryButton
-            Prompt: '@BUTTON Jump2'
       - Guid: 2776c80d-3c14-4091-8c56-d04ced07a2b0
         Name: Previous
         Priority: 0
@@ -231,7 +197,7 @@ MonoBehaviour:
             Prompt: '@BUTTON Next'
       - Guid: 8111a4e7-2ecc-44e0-be3e-8845bf8cb323
         Name: Switch
-        Priority: 1
+        Priority: 0
         Enabled: 1
         NameOverride: 
         PromptSchemes:

@@ -1,9 +1,5 @@
 ﻿using Assets.Scripts.Cosimo.Inventory;
-using System;
-using System.Threading;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
-using static UnityEditor.Experimental.GraphView.GraphView;
 /// <summary>
 /// Handles the Throw State. When you throw, based on the color does +1 on the R,G,B value
 /// </summary>

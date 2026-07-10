@@ -1,6 +1,4 @@
 using Assets.Scripts.Cosimo.Inventory;
-using Codice.Client.Common.GameUI;
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
