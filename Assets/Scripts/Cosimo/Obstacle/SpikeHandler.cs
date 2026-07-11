@@ -1,10 +1,23 @@
 ﻿using System;
 using System.Collections;
-using System.Data.SqlTypes;
 using UnityEngine;
 
 public class SpikeHandler : MonoBehaviour
 {
+    [SerializeField] private Animator _animator;
+    [SerializeField] private AnimationClip _animationClip;
+
+    public void PlayTrapAnimation()
+    {
+        _animator.SetFloat("Speed", 1);
+        _animator.Play(_animationClip.name, 0, 0f);
+    }
+
+    public void DeactivateTrap()
+    {
+        _animator.SetFloat("Speed", -1);
+        _animator.Play(_animationClip.name, 0, 1f);
+    }
     // [Header("Animation Settings")]
     // [SerializeField] private AnimSettings _animSettings;
 

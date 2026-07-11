@@ -163,11 +163,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: LightSystem::LightEmitter
   _light: {fileID: 5384488082815668281}
-  _baseColor: {r: 0.1, g: 0.1, b: 0.1, a: 1}
+  _lightType: 0
   _redAmount: 0
   _greenAmount: 0
   _blueAmount: 0
-  _maxAmount: 4
+  _maxAmount: 5
   CanUpdateLight: 1
 --- !u!58 &8530101943984888043
 CircleCollider2D:
@@ -274,3 +274,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: inventory::TypeChooser
   _type: 1
+  _isEternal: 0

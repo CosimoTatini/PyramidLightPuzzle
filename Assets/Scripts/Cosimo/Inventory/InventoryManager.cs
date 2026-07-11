@@ -27,9 +27,9 @@ public class InventoryManager : MonoBehaviour
 
     private Dictionary<PowderColor, int> _powders= new Dictionary<PowderColor, int>()
     {
-        {PowderColor.Red,4 },
-        {PowderColor.Green,4},
-        {PowderColor.Blue,4},
+        {PowderColor.Red,0 },
+        {PowderColor.Green,0},
+        {PowderColor.Blue,0},
     };
     public PowderColor SelectedPowder {  get; private set; } = PowderColor.Red;
     public event Action OnPowderChanged;
@@ -43,7 +43,7 @@ public class InventoryManager : MonoBehaviour
             return;
         }
         Instance=this;
-        _currentTorchQuantity = 4;
+        _currentTorchQuantity = 0;
         _currentMagicalTorchQuantity= 1;
 
     }

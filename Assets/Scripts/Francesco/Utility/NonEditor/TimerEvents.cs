@@ -6,13 +6,31 @@ public class TimerEvents : MonoBehaviour
 {
     [SerializeField] private float _secondsToElapse;
     [SerializeField] private bool _beginOnStart = false;
+    [SerializeField] private float _beginOnStartSecondsDelay = 0f;
     [SerializeField] private bool _shouldLoop = false;
     [SerializeField] private float _secondsBeforeNextLoopCycle;
-    [SerializeField] private UnityEvent OnTimerStarted;
-    [SerializeField] private UnityEvent OnTimerFinished;
-    [SerializeField] private UnityEvent OnTimerInterrupted;
+    [SerializeField] private UnityEvent _onTimerStarted;
+    [SerializeField] private UnityEvent _onTimerFinished;
+    [SerializeField] private UnityEvent _onTimerInterrupted;
     // [SerializeField] private UnityEvent OnTimerStopped;
     // [SerializeField] private UnityEvent OnTimerResumed;
+
+    public float SecondsToElapse
+    {
+        get
+        {
+            return _secondsToElapse;
+        }
+        set
+        {
+            if (value < 0f) value = 0f;
+            _secondsToElapse = value;
+        }
+    }
+
+    public UnityEvent OnTimerStarted => _onTimerStarted;
+    public UnityEvent OnTimerFinished => _onTimerFinished;
+    public UnityEvent OnTimerInterrupted => _onTimerInterrupted;
 
     private Coroutine _timerCoroutine;
     private bool _isRunning = false;
@@ -25,7 +43,7 @@ public class TimerEvents : MonoBehaviour
     {
         if (_beginOnStart)
         {
-            StartTimer();
+            Invoke(nameof(StartTimer), _beginOnStartSecondsDelay);
         }
     }
 
@@ -35,11 +53,11 @@ public class TimerEvents : MonoBehaviour
         {
             _isRunning = true;
             float timeToElapse;
-            OnTimerStarted.Invoke();
+            _onTimerStarted.Invoke();
             timeToElapse = _secondsToElapse;
             yield return new WaitForSeconds(timeToElapse);
 
-            OnTimerFinished.Invoke();
+            _onTimerFinished.Invoke();
             _isRunning = false;
 
             if (_shouldLoop)
@@ -60,7 +78,7 @@ public class TimerEvents : MonoBehaviour
                 _timerCoroutine = null;
                 _isRunning = false;
             }
-            OnTimerInterrupted.Invoke();
+            _onTimerInterrupted.Invoke();
         }
 
         _isRunning = true;
@@ -81,8 +99,14 @@ public class TimerEvents : MonoBehaviour
             _timerCoroutine = null;
         }
         _isRunning = false;
-        OnTimerInterrupted.Invoke();
+        _onTimerInterrupted.Invoke();
     }
+
+    // public void SetUp(float secondsToElapse, bool beginOnStart = false, float beginOnStartSecondsDelay = 0f, bool shouldLoop = false, float secondsBeforeNextLoopCycle = 0f)
+    // {
+
+    // }
+
 
     // public void StopTimer()
     // {
