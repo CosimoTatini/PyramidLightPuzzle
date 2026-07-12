@@ -307,4 +307,36 @@ MonoBehaviour:
           - Guid: ad4eea47-d7e8-4997-8d5b-6616ffa97f31
             Name: RT
             Prompt: '@BUTTON Throw'
+      - Guid: 6ea8a0d4-8de3-45be-bb65-2b374d90d943
+        Name: ZoomIn
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: 3ea69765-4b84-4b68-9bc5-a5ce7127d6a5
+            Name: Z
+            Prompt: '@BUTTON ZoomIn'
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: 04e39cc8-a7db-49ea-87b0-215a1176c736
+            Name: D-Pad/Up
+            Prompt: '@BUTTON ZoomIn'
+      - Guid: dcc6b12c-756e-45c4-92fe-26009f621a9c
+        Name: ZoomOut
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: 70a08eb5-1807-435b-bdda-bdbef5578718
+            Name: X
+            Prompt: '@BUTTON ZoomOut'
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: 6c4818a9-b36e-4050-a211-5af412e8dfb7
+            Name: D-Pad/Down
+            Prompt: '@BUTTON ZoomOut'
   _lastUsedInputAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
