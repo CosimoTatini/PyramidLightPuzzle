@@ -1,12 +1,16 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlatformHandler : MonoBehaviour
 {
+    [SerializeField] private UnityEvent _onStop;
+    [SerializeField] private UnityEvent _onMove;
+    public event Action OnStopAction;
+    public event Action OnMoveAction;
+
     private List<IVelocityProvider> _velocityProviders = new();
-    public event Action OnStop;
-    public event Action OnMove;
     private static float MAGNITUDE_THRESHOLD = 0.00001f;
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -15,10 +19,11 @@ public class PlatformHandler : MonoBehaviour
         {
             Vector2 previousVelocity = Velocity;
             _velocityProviders.Add(velocityProvider);
-            // consider the platform moving
-            if (previousVelocity.sqrMagnitude > MAGNITUDE_THRESHOLD && Velocity.sqrMagnitude > MAGNITUDE_THRESHOLD)
+            // platform started moving because of thie new velocity provider
+            if (!IsMoving(previousVelocity) && IsMoving(Velocity))
             {
-
+                _onMove.Invoke();
+                OnMoveAction?.Invoke();
             }
         }
     }
@@ -27,8 +32,25 @@ public class PlatformHandler : MonoBehaviour
     {
         if (collision.TryGetComponent(out IVelocityProvider velocityProvider))
         {
+            Vector2 previousVelocity = Velocity;
             _velocityProviders.Remove(velocityProvider);
+            // platform stopped
+            if (IsMoving(previousVelocity) && !IsMoving(Velocity))
+            {
+                _onStop.Invoke();
+                OnStopAction?.Invoke();
+            }
         }
+    }
+
+    private bool IsMoving(Vector2 vector2)
+    {
+        return vector2.sqrMagnitude >= MAGNITUDE_THRESHOLD;
+    }
+
+    public bool IsMoving()
+    {
+        return IsMoving(Velocity);
     }
 
     public Vector2 Velocity

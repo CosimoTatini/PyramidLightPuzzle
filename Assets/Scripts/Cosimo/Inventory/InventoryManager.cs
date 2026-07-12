@@ -12,7 +12,7 @@ public class InventoryManager : MonoBehaviour
     [Header("Prefabs")]
     public GameObject TorchPrefab;
     public GameObject MagicalTorchPrefab;
-    
+
     [Header("Settings")]
     public int TorchMaxQuanitity = int.MaxValue;
     public readonly int MagicalTorchQuantity = 1;
@@ -20,31 +20,31 @@ public class InventoryManager : MonoBehaviour
     private int _currentMagicalTorchQuantity;
     public int CurrentTorchQuantity => _currentTorchQuantity;
     public int CurrentMagicTorchQuantity => _currentMagicalTorchQuantity;
-    public TorchType SelectedType {  get; private set; }= TorchType.Normal;
+    public TorchType SelectedType { get; private set; } = TorchType.Normal;
 
     public event Action<GameObject> OnSelectionChange;
     public event Action OnTorchChanged;//tengo conto dei consumi e dei ritorni delle torce con un evento
 
-    private Dictionary<PowderColor, int> _powders= new Dictionary<PowderColor, int>()
+    private Dictionary<PowderColor, int> _powders = new Dictionary<PowderColor, int>()
     {
         {PowderColor.Red,0 },
         {PowderColor.Green,0},
         {PowderColor.Blue,0},
     };
-    public PowderColor SelectedPowder {  get; private set; } = PowderColor.Red;
+    public PowderColor SelectedPowder { get; private set; } = PowderColor.Red;
     public event Action OnPowderChanged;
 
     #region SINGLETON_INSTANCE
     private void Awake()
     {
-        if(Instance != null && Instance!=this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
-        Instance=this;
+        Instance = this;
         _currentTorchQuantity = 0;
-        _currentMagicalTorchQuantity= 1;
+        _currentMagicalTorchQuantity = 1;
 
     }
     #endregion
@@ -55,7 +55,7 @@ public class InventoryManager : MonoBehaviour
     /// </summary>
     public void UseTorch()
     {
-        if(SelectedType== TorchType.Normal)
+        if (SelectedType == TorchType.Normal)
         {
             _currentTorchQuantity--;
         }
@@ -71,14 +71,14 @@ public class InventoryManager : MonoBehaviour
     /// <param name="type"></param>
     public void ReturnTorch(TorchType type)
     {
-        if(type==TorchType.Normal)
+        if (type == TorchType.Normal)
         {
-            _currentTorchQuantity= Mathf.Min(_currentTorchQuantity+1, TorchMaxQuanitity);
+            _currentTorchQuantity = Mathf.Min(_currentTorchQuantity + 1, TorchMaxQuanitity);
         }
 
-        if(type==TorchType.Magical)
+        if (type == TorchType.Magical)
         {
-            _currentMagicalTorchQuantity=Mathf.Min(_currentMagicalTorchQuantity+1, MagicalTorchQuantity);
+            _currentMagicalTorchQuantity = Mathf.Min(_currentMagicalTorchQuantity + 1, MagicalTorchQuantity);
         }
         OnTorchChanged?.Invoke();
     }
@@ -89,14 +89,14 @@ public class InventoryManager : MonoBehaviour
     /// <returns></returns>
     public bool CanPlace()
     {
-        if(SelectedType==TorchType.Normal)
+        if (SelectedType == TorchType.Normal)
         {
             return _currentTorchQuantity > 0;
         }
 
         else
         {
-          return _currentMagicalTorchQuantity > 0;
+            return _currentMagicalTorchQuantity > 0;
         }
     }
     /// <summary>
@@ -104,14 +104,14 @@ public class InventoryManager : MonoBehaviour
     /// </summary>
     public void SwitchSelection()
     {
-        SelectedType= (SelectedType==TorchType.Normal) ? TorchType.Magical:TorchType.Normal;
+        SelectedType = (SelectedType == TorchType.Normal) ? TorchType.Magical : TorchType.Normal;
 
         GameObject prefabToEquip = (SelectedType == TorchType.Normal) ? TorchPrefab : MagicalTorchPrefab;
         OnSelectionChange?.Invoke(prefabToEquip);
         OnTorchChanged?.Invoke();
     }
 
-  
+
     #endregion
 
     #region POWDER_METHODS
@@ -121,9 +121,9 @@ public class InventoryManager : MonoBehaviour
     /// </summary>
     /// <param name="color"></param>
     /// <param name="amount"></param>
-    public void AddPowder(PowderColor color,int amount)
+    public void AddPowder(PowderColor color, int amount)
     {
-        if(_powders.ContainsKey(color))
+        if (_powders.ContainsKey(color))
         {
             _powders[color] += amount;
             OnPowderChanged?.Invoke();
@@ -135,7 +135,7 @@ public class InventoryManager : MonoBehaviour
     /// <param name="color"></param>
     /// <returns></returns>
     public int GetPowderCount(PowderColor color) => _powders[color];
-    
+
     /// <summary>
     /// Show the Selection of a powder of a certain color.
     /// It's linked to the R,G,B keys.
@@ -152,11 +152,11 @@ public class InventoryManager : MonoBehaviour
     /// It is linked to K,O keys.
     /// </summary>
     /// <param name="direction"></param>
-    
+
     public void CyclePowder(int direction)
     {
-        int totalColors= Enum.GetValues(typeof(PowderColor)).Length;
-        int nextIndex = ((int) SelectedPowder+direction+totalColors) % totalColors;
+        int totalColors = Enum.GetValues(typeof(PowderColor)).Length;
+        int nextIndex = ((int)SelectedPowder + direction + totalColors) % totalColors;
         SelectPowder((PowderColor)nextIndex);
     }
 
@@ -171,7 +171,7 @@ public class InventoryManager : MonoBehaviour
     /// </summary>
     public void UsePowder()
     {
-        if(CanThrowPowder())
+        if (CanThrowPowder())
         {
             //TODO:When magical torch is ready fully, change also the RGB values +1 based on the type of used powder
             _powders[SelectedPowder]--;
@@ -179,7 +179,7 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    
+
 
     #endregion
 
