@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -16,7 +15,6 @@ public class Player : MonoBehaviour, ISubject
     public AnimSettings DeathSettings;
     public AnimSettings ThrowSettings;
 
-
     [Header("CheckpointSystem")]
     public List<Transform> CheckPoints = new List<Transform>();
     private Transform _currentCheckpoint;
@@ -27,6 +25,7 @@ public class Player : MonoBehaviour, ISubject
     private SpriteRenderer _renderer;
 
     private PlayerController _playerController;
+    public PlayerController PlayerController => _playerController;
 
     private IState _currentState;
     [SerializeField] private ECharacterStates _currentStateEnum;
@@ -37,12 +36,15 @@ public class Player : MonoBehaviour, ISubject
     private float _cellOffset = 0.2f;
     [SerializeField] private Transform _feetTransform;
 
+    [Header("Interaction")]
+    [SerializeField] private List<IPriorityInteractable> _interactionInputEntries = new();
+
     public Tilemap PlaceableTilemap => _placeableTilemap;
     public float CellOffset => _cellOffset;
 
     public GameObject TorchPrefab => _torchPrefab;
 
-    public Transform FeetTransform=> _feetTransform;
+    public Transform FeetTransform => _feetTransform;
 
     public void Attach(IObserver observer)
     {
@@ -80,7 +82,7 @@ public class Player : MonoBehaviour, ISubject
         StateMachine.RegisterState(ECharacterStates.Place, new PlaceCharacterState(this, _playerController, _placeableTilemap, _torchPrefab, Animator));
         StateMachine.RegisterState(ECharacterStates.Grab, new GrabCharacterState(this, _playerController, _torchPrefab, _placeableTilemap, Animator));
         StateMachine.RegisterState(ECharacterStates.Death, new DeathCharacterState(this, _playerController, Animator));
-        StateMachine.RegisterState(ECharacterStates.Throw, new ThrowCharacterState(this,_playerController,Animator));
+        StateMachine.RegisterState(ECharacterStates.Throw, new ThrowCharacterState(this, _playerController, Animator));
         SetState(ECharacterStates.Idle);
         _currentState = StateMachine.CurrentState;
 
@@ -111,20 +113,20 @@ public class Player : MonoBehaviour, ISubject
     private void OnEnable()
 
     {
-        if(InventoryManager.Instance != null) 
-        InventoryManager.Instance.OnSelectionChange += EquipEmitter;
+        if (InventoryManager.Instance != null)
+            InventoryManager.Instance.OnSelectionChange += EquipEmitter;
     }
 
     private void OnDisable()
     {
-        if(InventoryManager.Instance!= null)
-        InventoryManager.Instance.OnSelectionChange -= EquipEmitter;
+        if (InventoryManager.Instance != null)
+            InventoryManager.Instance.OnSelectionChange -= EquipEmitter;
     }
 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<Checkpoint>(out Checkpoint checkpoint))
+        if (collision.TryGetComponent(out Checkpoint checkpoint))
         {
             _currentCheckpoint = checkpoint.transform;
 
@@ -139,6 +141,19 @@ public class Player : MonoBehaviour, ISubject
         if (_currentState is IStateCollision2D collisionState)
         {
             collisionState.OnTriggerEnter2D(collision);
+        }
+
+        if (collision.TryGetComponent(out IPriorityInteractable interactable))
+        {
+            AddInteractionEntry(interactable);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent(out IPriorityInteractable interactable))
+        {
+            RemoveInteractioEntry(interactable);
         }
     }
 
@@ -178,39 +193,42 @@ public class Player : MonoBehaviour, ISubject
     {
         if (StateMachine.CurrentState is DeathCharacterState || _isRespawning) return;
 
-       
-        if (InventoryManager.Instance.SelectedType == TorchType.Magical)
-        {
-            if (PlacementManager.Instance.FindMagicalTorch().HasValue)
-            {
-                SetState(ECharacterStates.Grab);
-                return;
-            }
-        }
-        Vector3Int currentCellPos = _placeableTilemap.WorldToCell(transform.position);
 
-        if (!PlacementManager.Instance.IsCellAvailable(_placeableTilemap, currentCellPos))
-        {
-           
-            if (InventoryManager.Instance.SelectedType == TorchType.Normal)
-            {
-                SetState(ECharacterStates.Grab);
-                return;
-            }
-        }
-        Vector3 targetWorldPos = transform.position + (Vector3)_playerController.LastLookDirection * _cellOffset;
-        Vector3Int forwardCellPos = _placeableTilemap.WorldToCell(targetWorldPos);
+        if (_interactionInputEntries.Count == 0) return;
 
-        if (!PlacementManager.Instance.IsCellAvailable(_placeableTilemap, forwardCellPos))
-        {
-            Vector3 cellCenter = _placeableTilemap.GetCellCenterWorld(forwardCellPos);
+        _interactionInputEntries[0].Interact();
+        //if (InventoryManager.Instance.SelectedType == TorchType.Magical)
+        //{
+        //    if (PlacementManager.Instance.FindMagicalTorch().HasValue)
+        //    {
+        //        SetState(ECharacterStates.Grab);
+        //        return;
+        //    }
+        //}
+        //Vector3Int currentCellPos = _placeableTilemap.WorldToCell(transform.position);
 
-            if (Vector2.Distance(transform.position, cellCenter) <= 0.6f)
-            {
-                SetState(ECharacterStates.Grab);
-                return;
-            }
-        }
+        //if (!PlacementManager.Instance.IsCellAvailable(_placeableTilemap, currentCellPos))
+        //{
+
+        //    if (InventoryManager.Instance.SelectedType == TorchType.Normal)
+        //    {
+        //        SetState(ECharacterStates.Grab);
+        //        return;
+        //    }
+        //}
+        //Vector3 targetWorldPos = transform.position + (Vector3)_playerController.LastLookDirection * _cellOffset;
+        //Vector3Int forwardCellPos = _placeableTilemap.WorldToCell(targetWorldPos);
+
+        //if (!PlacementManager.Instance.IsCellAvailable(_placeableTilemap, forwardCellPos))
+        //{
+        //    Vector3 cellCenter = _placeableTilemap.GetCellCenterWorld(forwardCellPos);
+
+        //    if (Vector2.Distance(transform.position, cellCenter) <= 0.6f)
+        //    {
+        //        SetState(ECharacterStates.Grab);
+        //        return;
+        //    }
+        //}
 
         SetState(ECharacterStates.Place);
     }
@@ -223,5 +241,23 @@ public class Player : MonoBehaviour, ISubject
     public void HandleSwitch()
     {
         InventoryManager.Instance.SwitchSelection();
+    }
+
+    public void AddInteractionEntry(IPriorityInteractable interactable)
+    {
+        if (interactable == null || _interactionInputEntries.Contains(interactable)) return;
+
+        if (interactable.GetFirstEntry() == null) return;
+        _interactionInputEntries.Add(interactable);
+        _interactionInputEntries.Sort((a, b) => b.GetFirstEntry().Priority.CompareTo(a.GetFirstEntry().Priority));
+    }
+
+    public void RemoveInteractioEntry(IPriorityInteractable interactable)
+    {
+        if (interactable == null || !_interactionInputEntries.Contains(interactable)) return;
+
+        if (interactable.GetFirstEntry() == null) return;
+        _interactionInputEntries.Remove(interactable);
+        _interactionInputEntries.Sort((a, b) => b.GetFirstEntry().Priority.CompareTo(a.GetFirstEntry().Priority));
     }
 }

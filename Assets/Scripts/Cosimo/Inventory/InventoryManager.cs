@@ -173,7 +173,6 @@ public class InventoryManager : MonoBehaviour
     {
         if (CanThrowPowder())
         {
-            //TODO:When magical torch is ready fully, change also the RGB values +1 based on the type of used powder
             _powders[SelectedPowder]--;
             OnPowderChanged?.Invoke();
         }
