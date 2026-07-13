@@ -9,7 +9,7 @@ using UnityEngine;
 public class Pit : MonoBehaviour
 {
     [SerializeField] private LayerMask _groundLayer;
-    [SerializeField] private float delayBeforeRespawn = 0.1f;
+    [SerializeField] private float delayBeforeRespawn = 0.17f;
     private bool _isRespawning = false;
 
     private CompositeCollider2D _pitCollider;

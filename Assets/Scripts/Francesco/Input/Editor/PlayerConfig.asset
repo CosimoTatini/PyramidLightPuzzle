@@ -29,6 +29,9 @@ MonoBehaviour:
           - Guid: 978bfe49-cc26-4a3d-ab7b-7d7a29327403
             Name: LS
             Prompt: '@BUTTON Move'
+          - Guid: 2bebbbc5-9139-45a3-8b44-5d32e1c9c6c1
+            Name: LS
+            Prompt: '@BUTTON Move'
         - Scheme: Keyboard&Mouse
           Prompts:
           - Guid: 00ca640b-d935-4593-8157-c05846ea39b3
@@ -107,8 +110,6 @@ MonoBehaviour:
           - Guid: 8255d333-5683-4943-a58a-ccb207ff1dce
             Name: PrimaryAction
             Prompt: '@BUTTON Attack'
-        - Scheme: Keyboard&Mouse
-          Prompts: []
       - Guid: 852140f2-7766-474d-8707-702459ba45f3
         Name: Interact
         Priority: 0
@@ -317,6 +318,11 @@ MonoBehaviour:
           - Guid: 3ea69765-4b84-4b68-9bc5-a5ce7127d6a5
             Name: Z
             Prompt: '@BUTTON ZoomIn'
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: 04e39cc8-a7db-49ea-87b0-215a1176c736
+            Name: D-Pad/Up
+            Prompt: '@BUTTON ZoomIn'
       - Guid: dcc6b12c-756e-45c4-92fe-26009f621a9c
         Name: ZoomOut
         Priority: 0
@@ -328,179 +334,9 @@ MonoBehaviour:
           - Guid: 70a08eb5-1807-435b-bdda-bdbef5578718
             Name: X
             Prompt: '@BUTTON ZoomOut'
-    - Guid: 272f6d14-89ba-496f-b7ff-215263d3219f
-      Name: UI
-      InputActionEntries:
-      - Guid: c95b2375-e6d9-4b88-9c4c-c5e76515df4b
-        Name: Navigate
-        Priority: 0
-        Enabled: 1
-        NameOverride: 
-        PromptSchemes:
         - Scheme: Gamepad
           Prompts:
-          - Guid: 809f371f-c5e2-4e7a-83a1-d867598f40dd
-            Name: LS Up/LS Left/LS Down/LS Right
-            Prompt: '@BUTTON/@BUTTON/@BUTTON/@BUTTON Navigate'
-          - Guid: fb8277d4-c5cd-4663-9dc7-ee3f0b506d90
-            Name: D-Pad
-            Prompt: '@BUTTON Navigate'
-          - Guid: 5989a2fa-6b52-463b-9722-38ea51cc34d2
-            Name: RS Up/RS Left/RS Down/RS Right
-            Prompt: '@BUTTON/@BUTTON/@BUTTON/@BUTTON Navigate'
-          - Guid: 6e5365a4-ce83-47f7-8b31-a1f97239fb83
-            Name: LS
-            Prompt: '@BUTTON Navigate'
-        - Scheme: Joystick
-          Prompts:
-          - Guid: e25d9774-381c-4a61-b47c-7b6b299ad9f9
-            Name: Stick/Up/Stick/Left/Stick/Down/Stick/Right
-            Prompt: '@BUTTON/@BUTTON/@BUTTON/@BUTTON Navigate'
-        - Scheme: Keyboard&Mouse
-          Prompts:
-          - Guid: ff527021-f211-4c02-933e-5976594c46ed
-            Name: W/A/S/D
-            Prompt: '@BUTTON/@BUTTON/@BUTTON/@BUTTON Navigate'
-      - Guid: 7607c7b6-cd76-4816-beef-bd0341cfe950
-        Name: Submit
-        Priority: 0
-        Enabled: 1
-        NameOverride: 
-        PromptSchemes:
-        - Scheme: Keyboard&Mouse;Gamepad;Touch;Joystick;XR
-          Prompts:
-          - Guid: 9e92bb26-7e3b-4ec4-b06b-3c8f8e498ddc
-            Name: Submit
-            Prompt: '@BUTTON Submit'
-      - Guid: 15cef263-9014-4fd5-94d9-4e4a6234a6ef
-        Name: Cancel
-        Priority: 0
-        Enabled: 1
-        NameOverride: 
-        PromptSchemes:
-        - Scheme: Keyboard&Mouse;Gamepad;Touch;Joystick;XR
-          Prompts:
-          - Guid: 82627dcc-3b13-4ba9-841d-e4b746d6553e
-            Name: Cancel
-            Prompt: '@BUTTON Cancel'
-      - Guid: 32b35790-4ed0-4e9a-aa41-69ac6d629449
-        Name: Point
-        Priority: 0
-        Enabled: 1
-        NameOverride: 
-        PromptSchemes:
-        - Scheme: Keyboard&Mouse
-          Prompts:
-          - Guid: c52c8e0b-8179-41d3-b8a1-d149033bbe86
-            Name: Position
-            Prompt: '@BUTTON Point'
-          - Guid: e1394cbc-336e-44ce-9ea8-6007ed6193f7
-            Name: Position
-            Prompt: '@BUTTON Point'
-        - Scheme: Touch
-          Prompts:
-          - Guid: 5693e57a-238a-46ed-b5ae-e64e6e574302
-            Name: touch*/position
-            Prompt: '@BUTTON Point'
-      - Guid: 3c7022bf-7922-4f7c-a998-c437916075ad
-        Name: Click
-        Priority: 0
-        Enabled: 1
-        NameOverride: 
-        PromptSchemes:
-        - Scheme: Keyboard&Mouse
-          Prompts:
-          - Guid: 4faf7dc9-b979-4210-aa8c-e808e1ef89f5
-            Name: LMB
-            Prompt: '@BUTTON Click'
-          - Guid: 8d66d5ba-88d7-48e6-b1cd-198bbfef7ace
-            Name: Tip
-            Prompt: '@BUTTON Click'
-        - Scheme: Touch
-          Prompts:
-          - Guid: 47c2a644-3ebc-4dae-a106-589b7ca75b59
-            Name: touch*/press
-            Prompt: '@BUTTON Click'
-        - Scheme: XR
-          Prompts:
-          - Guid: bb9e6b34-44bf-4381-ac63-5aa15d19f677
-            Name: trigger
-            Prompt: '@BUTTON Click'
-      - Guid: 44b200b1-1557-4083-816c-b22cbdf77ddf
-        Name: RightClick
-        Priority: 0
-        Enabled: 1
-        NameOverride: 
-        PromptSchemes:
-        - Scheme: Keyboard&Mouse
-          Prompts:
-          - Guid: 4c191405-5738-4d4b-a523-c6a301dbf754
-            Name: RMB
-            Prompt: '@BUTTON RightClick'
-      - Guid: dad70c86-b58c-4b17-88ad-f5e53adf419e
-        Name: MiddleClick
-        Priority: 0
-        Enabled: 1
-        NameOverride: 
-        PromptSchemes:
-        - Scheme: Keyboard&Mouse
-          Prompts:
-          - Guid: 24066f69-da47-44f3-a07e-0015fb02eb2e
-            Name: MMB
-            Prompt: '@BUTTON MiddleClick'
-      - Guid: 0489e84a-4833-4c40-bfae-cea84b696689
-        Name: ScrollWheel
-        Priority: 0
-        Enabled: 1
-        NameOverride: 
-        PromptSchemes:
-        - Scheme: Keyboard&Mouse
-          Prompts:
-          - Guid: 38c99815-14ea-4617-8627-164d27641299
-            Name: Scroll
-            Prompt: '@BUTTON ScrollWheel'
-      - Guid: 24908448-c609-4bc3-a128-ea258674378a
-        Name: TrackedDevicePosition
-        Priority: 0
-        Enabled: 1
-        NameOverride: 
-        PromptSchemes:
-        - Scheme: XR
-          Prompts:
-          - Guid: 7236c0d9-6ca3-47cf-a6ee-a97f5b59ea77
-            Name: devicePosition
-            Prompt: '@BUTTON TrackedDevicePosition'
-      - Guid: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
-        Name: TrackedDeviceOrientation
-        Priority: 0
-        Enabled: 1
-        NameOverride: 
-        PromptSchemes:
-        - Scheme: XR
-          Prompts:
-          - Guid: 23e01e3a-f935-4948-8d8b-9bcac77714fb
-            Name: deviceRotation
-            Prompt: '@BUTTON TrackedDeviceOrientation'
-      - Guid: f79a7023-2599-4197-8d5b-b94d5b88bedf
-        Name: OpenMenu
-        Priority: 0
-        Enabled: 1
-        NameOverride: 
-        PromptSchemes:
-        - Scheme: Keyboard&Mouse
-          Prompts:
-          - Guid: 4cde4066-c12a-4467-bb55-ccff98267c3e
-            Name: M
-            Prompt: '@BUTTON OpenMenu'
-      - Guid: ecb63099-6af2-4724-afe8-9ea43db3a435
-        Name: Switch
-        Priority: 0
-        Enabled: 1
-        NameOverride: 
-        PromptSchemes:
-        - Scheme: Keyboard&Mouse
-          Prompts:
-          - Guid: 9ec7f3fb-e451-4979-89c5-5ad16c58d7c2
-            Name: Tab
-            Prompt: '@BUTTON Switch'
+          - Guid: 6c4818a9-b36e-4050-a211-5af412e8dfb7
+            Name: D-Pad/Down
+            Prompt: '@BUTTON ZoomOut'
   _lastUsedInputAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

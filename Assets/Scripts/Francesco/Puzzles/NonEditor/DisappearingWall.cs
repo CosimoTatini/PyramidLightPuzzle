@@ -104,14 +104,14 @@ public class DisappearingWall : MonoBehaviour, ILightTriggerReceiver
 
     private void OnEnable()
     {
-        _triggerArea.OnTriggerEnter += TriggerEnter;
-        _triggerArea.OnTriggerExit += TriggerExit;
+        _triggerArea.OnTriggerEnterAction += TriggerEnter;
+        _triggerArea.OnTriggerExitAction += TriggerExit;
     }
 
     private void OnDisable()
     {
-        _triggerArea.OnTriggerEnter -= TriggerEnter;
-        _triggerArea.OnTriggerExit -= TriggerExit;
+        _triggerArea.OnTriggerEnterAction -= TriggerEnter;
+        _triggerArea.OnTriggerExitAction -= TriggerExit;
     }
 
     private void Start()

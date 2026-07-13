@@ -1,28 +1,41 @@
 ﻿using System;
 using System.Collections;
-using System.Data.SqlTypes;
 using UnityEngine;
 
 public class SpikeHandler : MonoBehaviour
 {
-    //[Header("Animation Settings")]
-    //[SerializeField] private AnimSettings _animSettings;
+    [SerializeField] private Animator _animator;
+    [SerializeField] private AnimationClip _animationClip;
 
-    //[Header("Spike Config")]
-    //[SerializeField] private float _delay;
+    public void PlayTrapAnimation()
+    {
+        _animator.SetFloat("Speed", 1);
+        _animator.Play(_animationClip.name, 0, 0f);
+    }
 
-    //public float Delay
-    //{
+    public void DeactivateTrap()
+    {
+        _animator.SetFloat("Speed", -1);
+        _animator.Play(_animationClip.name, 0, 1f);
+    }
+    // [Header("Animation Settings")]
+    // [SerializeField] private AnimSettings _animSettings;
+
+    // [Header("Spike Config")]
+    // [SerializeField] private float _delay;
+
+    // public float Delay
+    // {
     //    get => _delay;
     //    set => _delay = value;
-    //}
+    // }
 
-    ////private Renderer _renderer;
-    //private Collider2D _collider;
-    //private Animator _animator;
+    // //private Renderer _renderer;
+    // private Collider2D _collider;
+    // private Animator _animator;
 
-    //private void Awake()
-    //{
+    // private void Awake()
+    // {
     //    //_renderer = GetComponentInChildren<Renderer>(true);
     //    _collider = GetComponent<Collider2D>();
     //    _animator = GetComponentInChildren<Animator>(true);
@@ -33,10 +46,10 @@ public class SpikeHandler : MonoBehaviour
 
     //    // Stato iniziale: spento
     //    SetSpikeState(false);
-    //}
+    // }
 
-    //public void ActivateTrap()
-    //{
+    // public void ActivateTrap()
+    // {
     //    SetSpikeState(true);
 
     //    if (_animator != null && _animSettings != null)
@@ -47,10 +60,10 @@ public class SpikeHandler : MonoBehaviour
     //        // Forza la clip a ripartire esattamente dal frame 0 (normalizedTime = 0f)
     //        _animator.Play(_animSettings.clipName, 0, 0f);
     //    }
-    //}
+    // }
 
-    //public IEnumerator DeactivateTrapCoroutine()
-    //{
+    // public IEnumerator DeactivateTrapCoroutine()
+    // {
     //    if (_animator != null && _animSettings != null)
     //    {
     //        _animator.speed = -1f; // Imposta la velocità in negativo per il Rewind ⏪
@@ -65,11 +78,11 @@ public class SpikeHandler : MonoBehaviour
     //    }
 
     //    SetSpikeState(false);
-    //}
+    // }
 
-    //private void SetSpikeState(bool isActive)
-    //{
+    // private void SetSpikeState(bool isActive)
+    // {
     //    //if (_renderer != null) _renderer.enabled = isActive;
     //    if (_collider != null) _collider.enabled = isActive;
-    //}
+    // }
 }

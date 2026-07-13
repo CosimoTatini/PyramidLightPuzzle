@@ -1,42 +1,30 @@
 using System;
 using UnityEngine;
 
-public class DeactivateWall : MonoBehaviour,ILightTriggerReceiver
+public class DeactivateWall : MonoBehaviour
 {
-    public LightTrigger LightTrigger {  get; private set; }
+    [SerializeField] private bool _removeOnEternalTorchRemoved = false;
+    [SerializeField] private GameObject _wallGameObject;
 
     private void OnEnable()
     {
-        PlacementManager.OnEternalTorchRemoved += HandleTorchRemoved;
+        if (_removeOnEternalTorchRemoved)
+            PlacementManager.OnEternalTorchRemoved += HandleTorchRemoved;
     }
 
     private void OnDisable()
     {
-        PlacementManager.OnEternalTorchRemoved -= HandleTorchRemoved;
+        if (_removeOnEternalTorchRemoved)
+            PlacementManager.OnEternalTorchRemoved -= HandleTorchRemoved;
     }
 
     public void HandleTorchRemoved()
     {
-        Destroy(gameObject);
+        ToggleWall(false);
     }
 
-    public void SetLightTrigger(LightTrigger lightTrigger)
+    public void ToggleWall(bool toggle)
     {
-        LightTrigger= lightTrigger;
-    }
-
-    public void LightActivated()
-    {
-        HandleTorchRemoved();
-    }
-
-    public void LightChanged()
-    {
-      
-    }
-
-    public void LightDeactivated()
-    {
-       
+        _wallGameObject.SetActive(toggle);
     }
 }

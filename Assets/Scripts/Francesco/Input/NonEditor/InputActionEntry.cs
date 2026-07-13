@@ -46,6 +46,12 @@ public class InputActionEntry
             return bindingPrompt;
         }
 
+        if (spriteAssetsInputList == null)
+        {
+            bindingPrompt = $"{inputAction.name}: SpriteAssetsInputList is null";
+            return bindingPrompt;
+        }
+
         //TODO: a binding can have multiple schemes, need to count each scheme as a new entry in the list of promptschemes
         // so each scheme is getting added to the list a bindingPromptData for the same binding
         int inputPromptSchemeIndex = inputActionEntry.PromptSchemes.FindIndex(k => k.Scheme == inputControlScheme.Value.name);

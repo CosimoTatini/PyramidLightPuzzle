@@ -1,13 +1,10 @@
-using NUnit.Framework.Interfaces;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEngine.UIElements.Experimental;
 
 public class LevelManager : MonoBehaviour
 {
@@ -260,7 +257,7 @@ public class LevelManager : MonoBehaviour
     private IEnumerator LoadSceneAsync(string sceneName, LoadSceneMode loadMode, Action onLoadSceneStart, Action onLoadSceneEnd)
     {
         // LOG 1: Verifica quante volte viene avviato effettivamente il caricamento asincrono della scena
-        Debug.Log($"[LevelManager] Avvio LoadSceneAsync per la scena: {sceneName} in modalità {loadMode}");
+        Debug.Log($"[LevelManager] Avvio LoadSceneAsync per la scena: {sceneName} in modalitï¿½ {loadMode}");
 
         onLoadSceneStart?.Invoke();
 
@@ -305,7 +302,7 @@ public class LevelManager : MonoBehaviour
                 operation.allowSceneActivation = true;
             }
         }
-        Debug.Log($"[LevelManager] Fine LoadSceneAsync. La scena {sceneName} è ora attiva.");
+        Debug.Log($"[LevelManager] Fine LoadSceneAsync. La scena {sceneName} ï¿½ ora attiva.");
         onLoadSceneEnd?.Invoke();
     }
     public void SwitchGameplayScene(string currentSceneName, string newSceneName)
