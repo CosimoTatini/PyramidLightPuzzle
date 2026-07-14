@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1277d0686abe4fe53a16307751050170, type: 3}
-  m_Name: PlacementConfig
+  m_Name: SplitterRotateConfig
   m_EditorClassIdentifier: InputTry::InputConfigSO
   _inputAssetMaps:
   - AssetType: {fileID: 11400000, guid: e96d257d5ef5782029bb3f86587ef374, type: 2}
@@ -20,7 +20,7 @@ MonoBehaviour:
       InputActionEntries:
       - Guid: 852140f2-7766-474d-8707-702459ba45f3
         Name: Interact
-        Priority: 10
+        Priority: 30
         Enabled: 1
         NameOverride: 
         PromptSchemes:
@@ -28,10 +28,10 @@ MonoBehaviour:
           Prompts:
           - Guid: 1c04ea5f-b012-41d1-a6f7-02e963b52893
             Name: E
-            Prompt: '@BUTTON Place'
+            Prompt: '@BUTTON Rotate'
         - Scheme: Gamepad
           Prompts:
           - Guid: b3f66d0b-7751-423f-908b-a11c5bd95930
             Name: X
-            Prompt: '@BUTTON Place'
+            Prompt: '@BUTTON Rotate'
   _lastUsedInputAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

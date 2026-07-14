@@ -98,7 +98,6 @@ GameObject:
   - component: {fileID: 8155834168172638382}
   - component: {fileID: 8064106555073959028}
   - component: {fileID: 7816278858457184693}
-  - component: {fileID: 6995427054455311147}
   - component: {fileID: 1072551024598566833}
   m_Layer: 3
   m_Name: Player
@@ -271,19 +270,6 @@ MonoBehaviour:
   _onMove:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &6995427054455311147
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4155689210647087670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b42639ecfede6954a8f2b4b6dcb65051, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Player::PlaceInteraction
-  _player: {fileID: 8523545448338647645}
 --- !u!114 &1072551024598566833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296,6 +282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f03f908877835a5488ba1f2b5cadc737, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Player::PlacementInteraction
+  <InputConfigSO>k__BackingField: {fileID: 11400000, guid: e346b7e2fe5b54c4ea55a2b12a617b9e, type: 2}
   _player: {fileID: 8523545448338647645}
 --- !u!1 &5550328600045715910
 GameObject:

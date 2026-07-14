@@ -1,18 +1,11 @@
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
-public class PlaceInteraction : MonoBehaviour, IPriorityInteractable
+public abstract class PriorityInteractable : MonoBehaviour, IPriorityInteractable
 {
-    [SerializeField] private Player _player;
-    [field: SerializeField] public InputConfigSO InputConfigSO { get; set;}
+    [field: SerializeField] public InputConfigSO InputConfigSO { get; set; }
 
-    private void Awake()
-    {
-        _player.AddInteractionEntry(this);
-    }
-
-    public InputActionEntry GetFirstEntry()
+    public virtual InputActionEntry GetFirstEntry()
     {
         if (InputConfigSO == null) return null;
 
@@ -30,8 +23,5 @@ public class PlaceInteraction : MonoBehaviour, IPriorityInteractable
         }
     }
 
-    public void Interact()
-    {
-        _player.SetState(ECharacterStates.Place);
-    }
+    public abstract void Interact();
 }

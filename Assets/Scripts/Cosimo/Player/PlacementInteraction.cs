@@ -1,37 +1,20 @@
-using log4net.Util;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class PlacementInteraction : MonoBehaviour, IPriorityInteractable
+public class PlacementInteraction : PriorityInteractable
 {
     [SerializeField] private Player _player;
-    [field: SerializeField] public InputConfigSO InputConfigSO { get; }
 
     private void Awake()
     {
-        _player.AddInteractionEntry(this);
+        //TODO: change it to false, but still need to implement logic to load this, actually I might need more than 1 script
+        // like 1 for when you can grab a torch, 1 for when you can place a torch (to make it easier probably place should be the base actually,
+        // so it always displays, even if u can't place it, like u facing a wall, it then gets overriden by grab when we collide we something to grab)
+        _player.AddInteractionEntry(this, true);
     }
 
-    public InputActionEntry GetFirstEntry()
-    {
-        if(InputConfigSO == null) return null;
-
-        var allConfigActionsGuids = InputConfigSO.GetInputAssetMaps()
-        .SelectMany(k => k.InputMapStructs)
-        .SelectMany(k => k.InputActionEntries);
-
-        if (allConfigActionsGuids != null && allConfigActionsGuids.Count() > 0)
-        {
-            return allConfigActionsGuids.ElementAt(0);
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    public void Interact()
+    public override void Interact()
     {
         if (InventoryManager.Instance.SelectedType == TorchType.Magical)
         {
@@ -66,5 +49,7 @@ public class PlacementInteraction : MonoBehaviour, IPriorityInteractable
                 return;
             }
         }
+
+        _player.SetState(ECharacterStates.Place);
     }
 }

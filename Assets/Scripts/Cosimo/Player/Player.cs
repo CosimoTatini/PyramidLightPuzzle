@@ -230,7 +230,7 @@ public class Player : MonoBehaviour, ISubject
         //    }
         //}
 
-        SetState(ECharacterStates.Place);
+        // SetState(ECharacterStates.Place);
     }
 
     public void FinishPlacing()
@@ -243,21 +243,25 @@ public class Player : MonoBehaviour, ISubject
         InventoryManager.Instance.SwitchSelection();
     }
 
-    public void AddInteractionEntry(IPriorityInteractable interactable)
+    public void AddInteractionEntry(IPriorityInteractable interactable, bool autoloadConfig = true)
     {
         if (interactable == null || _interactionInputEntries.Contains(interactable)) return;
 
         if (interactable.GetFirstEntry() == null) return;
         _interactionInputEntries.Add(interactable);
+        if (autoloadConfig)
+            InputConfigManager.RegisterConfig(interactable.InputConfigSO);
         _interactionInputEntries.Sort((a, b) => b.GetFirstEntry().Priority.CompareTo(a.GetFirstEntry().Priority));
     }
 
-    public void RemoveInteractioEntry(IPriorityInteractable interactable)
+    public void RemoveInteractioEntry(IPriorityInteractable interactable, bool autounloadConfig = true)
     {
         if (interactable == null || !_interactionInputEntries.Contains(interactable)) return;
 
         if (interactable.GetFirstEntry() == null) return;
         _interactionInputEntries.Remove(interactable);
+        if (autounloadConfig)
+            InputConfigManager.UnregisterConfig(interactable.InputConfigSO);
         _interactionInputEntries.Sort((a, b) => b.GetFirstEntry().Priority.CompareTo(a.GetFirstEntry().Priority));
     }
 }
