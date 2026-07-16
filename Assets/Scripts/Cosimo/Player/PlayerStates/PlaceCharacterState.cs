@@ -86,7 +86,7 @@ public class PlaceCharacterState : IStateCollision2D
             : InventoryManager.Instance.MagicalTorchPrefab;
         GameObject torchInstance = GameObject.Instantiate(prefabToSpawn, spawnWorldPos, Quaternion.identity);
 
-        if (PlacementManager.Instance.IsPossibleToRegisterItem(groundTilemap, cellPos, torchInstance,type))
+        if (PlacementManager.Instance.TryToRegisterItem(groundTilemap, cellPos, torchInstance))
         {
             _owner.Animator.Play(_owner.PlaceSettings.clipName);
             InventoryManager.Instance.UseTorch();
@@ -107,7 +107,7 @@ public class PlaceCharacterState : IStateCollision2D
 
         if (torchInstance != null && type is TorchType.Normal)
         {
-            PlacementManager.Instance.UnregisterItem(cellPos);
+            PlacementManager.Instance.TryToUnregisterItem(cellPos);
             GameObject.Destroy(torchInstance);
             InventoryManager.Instance.ReturnTorch(type);
             // Debug.Log($"[Lifetime] Torcia scaduta e rimossa dalla cella {cellPos}.");

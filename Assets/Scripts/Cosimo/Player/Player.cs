@@ -37,7 +37,9 @@ public class Player : MonoBehaviour, ISubject
     [SerializeField] private Transform _feetTransform;
 
     [Header("Interaction")]
-    [SerializeField] private List<IPriorityInteractable> _interactionInputEntries = new();
+    private List<IPriorityInteractable> _interactionInputEntries = new();
+    [SerializeField] private GrabInteraction _grabInteraction;
+    [SerializeField] private PlaceInteraction _placeInteraction;
 
     public Tilemap PlaceableTilemap => _placeableTilemap;
     public float CellOffset => _cellOffset;
@@ -263,5 +265,15 @@ public class Player : MonoBehaviour, ISubject
         if (autounloadConfig)
             InputConfigManager.UnregisterConfig(interactable.InputConfigSO);
         _interactionInputEntries.Sort((a, b) => b.GetFirstEntry().Priority.CompareTo(a.GetFirstEntry().Priority));
+    }
+
+    public void AddGrabInteraction()
+    {
+        AddInteractionEntry(_grabInteraction);
+    }
+
+    public void RemoveGrabInteraction()
+    {
+        RemoveInteractioEntry(_grabInteraction);
     }
 }

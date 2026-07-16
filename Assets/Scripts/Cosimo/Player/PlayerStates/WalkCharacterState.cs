@@ -67,6 +67,7 @@ public class WalkCharacterState : IStateCollision2D
             _owner.DetectedObject=collider.gameObject;
             _owner.SetState(ECharacterStates.Grab);
         }
+        
     }
 
     public void OnTriggerExit2D(Collider2D collider)

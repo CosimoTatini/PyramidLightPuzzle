@@ -49,15 +49,16 @@ internal class GrabCharacterState : IStateCollision2D
 
         GameObject itemToPick = null;
         Vector3Int targetCellPos = Vector3Int.zero;
-        bool isMagicalRecall = (InventoryManager.Instance.SelectedType == TorchType.Magical);
+        bool isMagicalRecall = InventoryManager.Instance.SelectedType == TorchType.Magical;
 
         if (isMagicalRecall)
         {
             var magicalTorchData = PlacementManager.Instance.FindMagicalTorch();
-            if (magicalTorchData.HasValue)
+            if (magicalTorchData != null)
             {
-                itemToPick = magicalTorchData.Value.Value;
-                targetCellPos = magicalTorchData.Value.Key;
+                itemToPick = magicalTorchData;
+                //TODO: this will be replaced by PlacementManager.TryToUnregisterItem
+                // targetCellPos = magicalTorchData.Value.Key;
             }
         }
 
@@ -110,7 +111,7 @@ internal class GrabCharacterState : IStateCollision2D
                     InventoryManager.Instance.ReturnTorch(torchComponent.Type);
 
                     
-                    PlacementManager.Instance.UnregisterItem(targetCellPos);
+                    PlacementManager.Instance.TryToUnregisterItem(targetCellPos);
 
                     if (torchComponent.IsEternal)
                     {
