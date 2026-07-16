@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1264690230262384348}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.27375, y: -1.20749, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -123,6 +123,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7d4b0e4bb4f3dd44ab6e2cf6a4f48b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Utility::TriggerArea2D
+  _typeFilters: []
+  _onlySearchSelf: 0
+  OnTriggerEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerStay:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!61 &3850104964127693932
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -167,7 +178,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 3}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!1 &3535675169688734900
 GameObject:
@@ -196,7 +207,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 3, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1649805863866636088}
