@@ -7,6 +7,9 @@ public class PlacementRestricter : MonoBehaviour
     [SerializeField] private Tilemap _tilemap;
     [SerializeField] private Collider2D _collder;
 
+    public Tilemap Tilemap => _tilemap;
+    public Collider2D Collider2D => _collder;
+
     private List<Vector3Int> _validCoveredCells = new();
 
     void Start()

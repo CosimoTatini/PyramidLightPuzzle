@@ -2,16 +2,11 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class PlaceInteraction : PriorityInteractable
+public class PlaceInteraction : PlayerPriorityInteractable
 {
-    [SerializeField] private Player _player;
-    private void Awake()
-    {
-        _player.AddInteractionEntry(this);
-    }
-
     public override void Interact()
     {
+        if(_player == null) return;
         _player.SetState(ECharacterStates.Place);
     }
 }

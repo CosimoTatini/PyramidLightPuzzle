@@ -12,8 +12,7 @@ public class PlaceCharacterState : IStateCollision2D
     private GameObject _torchPrefab;
     private Animator _animator;
     private float _timer;
-    private float _torchDuration = 30f;
-    public PlaceCharacterState(Player player,PlayerController controller, Tilemap tilemap, GameObject torch,Animator animator)
+    public PlaceCharacterState(Player player, PlayerController controller, Tilemap tilemap, GameObject torch, Animator animator)
     {
         _owner = player;
         _ownerController = controller;
@@ -42,7 +41,7 @@ public class PlaceCharacterState : IStateCollision2D
 
     public void OnFixedUpdate()
     {
-        
+
     }
 
     //TODO: after torch place and grab, player stops moving, make it so after animation is done player keeps moving if input is still on
@@ -53,90 +52,77 @@ public class PlaceCharacterState : IStateCollision2D
         _owner.Animator.SetFloat("MoveX", look.x);
         _owner.Animator.SetFloat("MoveY", look.y);
 
-        if (!InventoryManager.Instance.CanPlace())
-        {
-            // Debug.LogWarning("[PlaceState] Torce esaurite nel manager!");
-            _owner.SetState(ECharacterStates.Idle);
-            return;
-        }
+        // if (!InventoryManager.Instance.CanPlace())
+        // {
+        //     // Debug.LogWarning("[PlaceState] Torce esaurite nel manager!");
+        //     _owner.SetState(ECharacterStates.Idle);
+        //     return;
+        // }
 
-        Tilemap groundTilemap = _owner.PlaceableTilemap;
+        // Tilemap groundTilemap = _owner.PlaceableTilemap;
 
-        if (groundTilemap == null)
-        {
-            // Debug.LogError("[PlaceState] La PlaceableTilemap sul Player non è assegnata nell'Inspector!");
-            _owner.SetState(ECharacterStates.Idle);
-            return;
-        }
+        // if (groundTilemap == null)
+        // {
+        //     // Debug.LogError("[PlaceState] La PlaceableTilemap sul Player non è assegnata nell'Inspector!");
+        //     _owner.SetState(ECharacterStates.Idle);
+        //     return;
+        // }
 
-        Vector3 interactionPos = _owner.transform.position + (Vector3)look * 0.8f;
-        Vector3Int cellPos = groundTilemap.WorldToCell(interactionPos);
+        // Vector3 interactionPos = _owner.transform.position + (Vector3)look * 0.8f;
+        // Vector3Int cellPos = groundTilemap.WorldToCell(interactionPos);
 
-        if (!groundTilemap.HasTile(cellPos))
-        {
-            // Debug.LogWarning($"[PlaceState] Impossibile piazzare: Non c'è terreno nella cella {cellPos} della Tilemap Ground!");
-            _owner.SetState(ECharacterStates.Idle);
-            return;
-        }
-        Vector3 spawnWorldPos = groundTilemap.GetCellCenterWorld(cellPos);
+        // if (!groundTilemap.HasTile(cellPos))
+        // {
+        //     // Debug.LogWarning($"[PlaceState] Impossibile piazzare: Non c'è terreno nella cella {cellPos} della Tilemap Ground!");
+        //     _owner.SetState(ECharacterStates.Idle);
+        //     return;
+        // }
+        // Vector3 spawnWorldPos = groundTilemap.GetCellCenterWorld(cellPos);
 
-        TorchType type = InventoryManager.Instance.SelectedType;
-        GameObject prefabToSpawn = (type == TorchType.Normal)
-            ? InventoryManager.Instance.TorchPrefab
-            : InventoryManager.Instance.MagicalTorchPrefab;
-        GameObject torchInstance = GameObject.Instantiate(prefabToSpawn, spawnWorldPos, Quaternion.identity);
+        // TorchType type = InventoryManager.Instance.SelectedType;
+        // GameObject prefabToSpawn = (type == TorchType.Normal)
+        //     ? InventoryManager.Instance.TorchPrefab
+        //     : InventoryManager.Instance.MagicalTorchPrefab;
+        // GameObject torchInstance = GameObject.Instantiate(prefabToSpawn, spawnWorldPos, Quaternion.identity);
 
-        if (PlacementManager.Instance.TryToRegisterItem(groundTilemap, cellPos, torchInstance))
-        {
-            _owner.Animator.Play(_owner.PlaceSettings.clipName);
-            InventoryManager.Instance.UseTorch();
+        // if (PlacementManager.Instance.TryToRegisterItem(groundTilemap, cellPos, torchInstance))
+        // {
+        //     InventoryManager.Instance.UseTorch();
 
-            _owner.StartCoroutine(TorchLifetimeCoroutine(torchInstance, type, cellPos));
-            // Debug.Log($"[Place] Torcia di tipo {type} piazzata correttamente sulla Tilemap Ground nella cella: {cellPos}");
-        }
-        else
-        {
-            GameObject.Destroy(torchInstance);
-            _owner.SetState(ECharacterStates.Idle);
-        }
+        //     _owner.StartCoroutine(TorchLifetimeCoroutine(torchInstance, type, cellPos));
+        //     // Debug.Log($"[Place] Torcia di tipo {type} piazzata correttamente sulla Tilemap Ground nella cella: {cellPos}");
+        // }
+        // else
+        // {
+        //     GameObject.Destroy(torchInstance);
+        //     _owner.SetState(ECharacterStates.Idle);
+        // }
+        _owner.Animator.Play(_owner.PlaceSettings.clipName);
     }
 
-    private IEnumerator TorchLifetimeCoroutine(GameObject torchInstance, TorchType type, Vector3Int cellPos)
-    {
-        yield return new WaitForSeconds(_torchDuration);
 
-        if (torchInstance != null && type is TorchType.Normal)
-        {
-            PlacementManager.Instance.TryToUnregisterItem(cellPos);
-            GameObject.Destroy(torchInstance);
-            InventoryManager.Instance.ReturnTorch(type);
-            // Debug.Log($"[Lifetime] Torcia scaduta e rimossa dalla cella {cellPos}.");
-        }
-    }
     public void OnTriggerEnter2D(Collider2D collider)
     {
-       
+
     }
 
     public void OnTriggerExit2D(Collider2D collider)
     {
-        
+
     }
 
     public void OnTriggerStay2D(Collider2D collider)
     {
-        
+
     }
 
     public void OnUpdate()
     {
         _timer += Time.deltaTime;
-        
-        if(_timer >= _owner.PlaceSettings.clip.length)
+
+        if (_timer >= _owner.PlaceSettings.clip.length)
         {
             _owner.SetState(ECharacterStates.Idle);
         }
     }
-
-
 }

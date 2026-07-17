@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: -4076728259668275953}
   - component: {fileID: 3057349614395460040}
   - component: {fileID: 8341200095025534987}
+  - component: {fileID: -7485384895017156002}
+  - component: {fileID: 5156553770551856434}
   m_Layer: 0
   m_Name: GreenDust
   m_TagString: Untagged
@@ -186,4 +188,32 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 1
+  m_Radius: 0.45
+--- !u!114 &-7485384895017156002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5343427058163690124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f6244a3eed6924ab83d79009d3c4104, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: inventory::ItemPlacement
+  _tilemap: {fileID: 0}
+  _collder: {fileID: 8341200095025534987}
+--- !u!114 &5156553770551856434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5343427058163690124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4235db75c314be4b8887d8563cfdbff6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Player::PickUpDustInteraction
+  <InputConfigSO>k__BackingField: {fileID: 11400000, guid: d044c2224a1f1bb40915fd369278a7b4, type: 2}
+  _itemPlacement: {fileID: -7485384895017156002}

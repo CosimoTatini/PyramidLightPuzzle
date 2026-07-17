@@ -98,7 +98,9 @@ GameObject:
   - component: {fileID: 8155834168172638382}
   - component: {fileID: 8064106555073959028}
   - component: {fileID: 7816278858457184693}
-  - component: {fileID: 1072551024598566833}
+  - component: {fileID: 7050742327380512171}
+  - component: {fileID: 8929111729706422743}
+  - component: {fileID: 6189318054724317936}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -190,6 +192,9 @@ MonoBehaviour:
   _placeableTilemap: {fileID: 0}
   _torchPrefab: {fileID: 678640918433679956, guid: 091c486d4e0ae0949b1e372d348b210c, type: 3}
   _feetTransform: {fileID: 7952647831651912957}
+  _recallMagicalTorchInteraction: {fileID: 7050742327380512171}
+  _placeMagicalTorchInteraction: {fileID: 8929111729706422743}
+  _placeNormalTorchInteraction: {fileID: 6189318054724317936}
 --- !u!114 &8155834168172638382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,7 +275,7 @@ MonoBehaviour:
   _onMove:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1072551024598566833
+--- !u!114 &7050742327380512171
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -281,9 +286,34 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f03f908877835a5488ba1f2b5cadc737, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Player::PlacementInteraction
+  m_EditorClassIdentifier: Player::GrabMagicalTorchInteraction
+  <InputConfigSO>k__BackingField: {fileID: 11400000, guid: a7517e14b429f6f98a087b31d5cae0fc, type: 2}
+--- !u!114 &8929111729706422743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4155689210647087670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9947d7c432ae85839be29e7b7912a8bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Player::PlaceMagicalTorchInteraction
+  <InputConfigSO>k__BackingField: {fileID: 11400000, guid: f05c8696e7c70e5c68e3fdaa74431531, type: 2}
+--- !u!114 &6189318054724317936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4155689210647087670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10b3d64b5a80a11cd8ffd49c01756e98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Player::PlaceNormalTorchInteraction
   <InputConfigSO>k__BackingField: {fileID: 11400000, guid: e346b7e2fe5b54c4ea55a2b12a617b9e, type: 2}
-  _player: {fileID: 8523545448338647645}
 --- !u!1 &5550328600045715910
 GameObject:
   m_ObjectHideFlags: 0

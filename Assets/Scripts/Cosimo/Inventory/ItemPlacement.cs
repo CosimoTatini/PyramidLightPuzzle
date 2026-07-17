@@ -7,14 +7,25 @@ public class ItemPlacement : MonoBehaviour
     [SerializeField] private Tilemap _tilemap;
     [SerializeField] private Collider2D _collder;
 
+    public Tilemap Tilemap
+    {
+        get { return _tilemap; }
+        set { _tilemap = value; }
+    }
+    public Collider2D Collider2D => _collder;
+
     private List<Vector3Int> _validCoveredCells = new();
 
     void Start()
     {
+    }
+
+    void OnEnable()
+    {
         if (_tilemap == null)
         {
-            Debug.LogWarning("Unassigned Tilemap: " + gameObject.name);
-            return;
+            Debug.LogWarning("Unassigned Tilemap: " + gameObject.name + " using PlacementManager's");
+            _tilemap = PlacementManager.Instance.TargetTilemap;
         }
         var cells = GetCoveredCells(_collder, _tilemap);
         _validCoveredCells.Clear();
@@ -29,9 +40,17 @@ public class ItemPlacement : MonoBehaviour
             _validCoveredCells.Add(cells[i]);
         }
 
-        if(!PlacementManager.Instance.TryToRegisterItem(_tilemap, _validCoveredCells.ToArray(), gameObject))
+        if (!PlacementManager.Instance.TryToRegisterItem(_tilemap, _validCoveredCells.ToArray(), gameObject))
         {
             Debug.LogWarning("Couldn't register item " + gameObject.name);
+        }
+    }
+
+    void OnDisable()
+    {
+        if (!PlacementManager.Instance.TryToUnregisterItem(gameObject, _tilemap))
+        {
+            Debug.LogWarning("Couldn't unregister item " + gameObject.name);
         }
     }
 
@@ -108,9 +127,9 @@ public class ItemPlacement : MonoBehaviour
                 _validCoveredCells.Add(cells[i]);
             }
         }
+        Gizmos.color = new(1f, 0, 0, 0.4f);
         for (int i = 0; i < _validCoveredCells.Count; i++)
         {
-            Gizmos.color = new(1f, 0, 0, 0.4f);
             Gizmos.DrawCube(_validCoveredCells[i] + new Vector3(0.5f, 0.5f, 0f), Vector3Int.one - new Vector3(0.1f, 0.1f, 0));
         }
     }

@@ -4,7 +4,7 @@ public class RevealingPlatform : MonoBehaviour, ILightTriggerReceiver
 {
     [SerializeField] private Collider2D _platformCollider;
     [SerializeField] private TriggerArea2D _triggerArea;
-    [SerializeField] private SpriteRenderer _platformSprite;
+    [SerializeField] private SpriteRenderer[] _platformSprites;
 
     private bool _isActive = false;
 
@@ -23,47 +23,47 @@ public class RevealingPlatform : MonoBehaviour, ILightTriggerReceiver
         }
         set
         {
-#if UNITY_EDITOR
-            bool previousValue = _previousUseRadius;
-#else
-            bool previousValue = _useRadius;
-#endif
-            _useRadius = value;
-            // value changed
-            if (previousValue != _useRadius)
-            {
-                // using radius
-                if (_useRadius)
-                {
-                    // if outside we need to check if the light is active, if so call deactivated
-                    if (!_IsInsideRadius)
-                    {
-                        if (_platformSprite.color.a != 0f)
-                        {
-                            SetInactive();
-                        }
+// #if UNITY_EDITOR
+//             bool previousValue = _previousUseRadius;
+// #else
+//             bool previousValue = _useRadius;
+// #endif
+//             _useRadius = value;
+//             // value changed
+//             if (previousValue != _useRadius)
+//             {
+//                 // using radius
+//                 if (_useRadius)
+//                 {
+//                     // if outside we need to check if the light is active, if so call deactivated
+//                     if (!_IsInsideRadius)
+//                     {
+//                         if (_platformSprite.color.a != 0f)
+//                         {
+//                             SetInactive();
+//                         }
 
-                    }
-                }
-                // not using radius
-                else
-                {
-                    // if outside we need to check if light is active, if so activate it
-                    if (!_IsInsideRadius)
-                    {
-                        if (LightTrigger.IsActive)
-                        {
-                            LightChanged();
-                            LightActivated();
-                        }
-                        else
-                        {
-                            LightChanged();
-                            LightDeactivated();
-                        }
-                    }
-                }
-            }
+//                     }
+//                 }
+//                 // not using radius
+//                 else
+//                 {
+//                     // if outside we need to check if light is active, if so activate it
+//                     if (!_IsInsideRadius)
+//                     {
+//                         if (LightTrigger.IsActive)
+//                         {
+//                             LightChanged();
+//                             LightActivated();
+//                         }
+//                         else
+//                         {
+//                             LightChanged();
+//                             LightDeactivated();
+//                         }
+//                     }
+//                 }
+//             }
         }
     }
     /*
@@ -165,9 +165,12 @@ public class RevealingPlatform : MonoBehaviour, ILightTriggerReceiver
     private void SetAlpha(float alpha)
     {
         alpha = Mathf.Clamp01(alpha);
-        Color color = _platformSprite.color;
+        Color color = _platformSprites[0].color;
         color.a = alpha;
-        _platformSprite.color = color;
+        for (int i = 0; i < _platformSprites.Length; i++)
+        {
+            _platformSprites[i].color = color;
+        }
     }
 
     public void SetLightTrigger(LightTrigger lightTrigger)

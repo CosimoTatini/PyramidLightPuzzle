@@ -1,7 +1,9 @@
 using Assets.Scripts.Cosimo.Inventory;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 /// <summary>
 /// Handles the Inventory and how it works.
@@ -14,6 +16,7 @@ public class InventoryManager : MonoBehaviour
     public GameObject MagicalTorchPrefab;
 
     [Header("Settings")]
+    public float TorchDuration = 30f;
     public int TorchMaxQuanitity = int.MaxValue;
     public readonly int MagicalTorchQuantity = 1;
     private int _currentTorchQuantity;
@@ -111,6 +114,18 @@ public class InventoryManager : MonoBehaviour
         OnTorchChanged?.Invoke();
     }
 
+    public IEnumerator TorchLifetimeCoroutine(GameObject torchInstance, TorchType type, Vector3Int cellPos, Tilemap tilemap)
+    {
+        yield return new WaitForSeconds(TorchDuration);
+
+        if (torchInstance != null && type is TorchType.Normal)
+        {
+            PlacementManager.Instance.TryToUnregisterItem(cellPos, tilemap);
+            Destroy(torchInstance);
+            Instance.ReturnTorch(type);
+        }
+    }
+
 
     #endregion
 
@@ -177,6 +192,7 @@ public class InventoryManager : MonoBehaviour
             OnPowderChanged?.Invoke();
         }
     }
+
 
 
 

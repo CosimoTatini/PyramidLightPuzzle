@@ -62,11 +62,11 @@ public class WalkCharacterState : IStateCollision2D
 
     public void OnTriggerEnter2D(Collider2D collider)
     {
-        if(collider.TryGetComponent<PowderColorChooser>(out var powder))
-        {
-            _owner.DetectedObject=collider.gameObject;
-            _owner.SetState(ECharacterStates.Grab);
-        }
+        // if(collider.TryGetComponent<PowderColorChooser>(out var powder))
+        // {
+        //     _owner.DetectedObject=collider.gameObject;
+        //     _owner.SetState(ECharacterStates.Grab);
+        // }
         
     }
 
@@ -82,6 +82,7 @@ public class WalkCharacterState : IStateCollision2D
 
     public void OnUpdate()
     {
+        _owner.CalculateCurrentInteractable();
         StopMove();
     }
    

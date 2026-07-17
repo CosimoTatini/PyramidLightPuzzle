@@ -52,7 +52,7 @@ public class IdleCharacterState : IStateCollision2D
 
     public void OnUpdate()
     {
-
+        _owner.CalculateCurrentInteractable();
     }
 
     public void OnCollisionEnter2D(Collision2D collision)
