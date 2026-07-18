@@ -1002,10 +1002,10 @@ public class InputConfigSOEditor : Editor
         GUI.enabled = action != null;
         // draw the action name instead of the guid, then the enabled toggle, the priority field and a remove button
 
-        bool isOrphan = false;
+        // bool isOrphan = false;
         if (_actionsOrphan.Contains(actionGUID))
         {
-            isOrphan = true;
+            // isOrphan = true;
             GUI.color = Color.orange;
         }
 

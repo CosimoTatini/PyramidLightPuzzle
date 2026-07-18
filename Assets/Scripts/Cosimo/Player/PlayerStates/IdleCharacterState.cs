@@ -34,13 +34,18 @@ public class IdleCharacterState : IStateCollision2D
 
     public void OnStart()
     {
+        InputConfigManager.RegisterConfig(_ownerController.PlayerConfig);
+        if (_ownerController.MoveDirection.sqrMagnitude > 0.01f)
+        {
+            _owner.SetState(ECharacterStates.Walk);
+            return;
+        }
         _ownerController.Rb.linearVelocity = Vector2.zero + _ownerController.PlatformHandler.Velocity;
         //_owner.Animator.SetBool("IsMoving",false);
         //_owner.Animator.SetBool("IsAlive", true);
         //_owner.Animator.SetBool("IsPlacing", false);
         _owner.Animator.Play(_owner.IdleSettings.clipName);
         // _ownerController.InputActions.Player.Enable();
-        InputConfigManager.RegisterConfig(_ownerController.PlayerConfig);
         _ownerController.ResetMoveDirection();
 
         Vector2 look = _ownerController.LastLookDirection;
@@ -52,7 +57,7 @@ public class IdleCharacterState : IStateCollision2D
 
     public void OnUpdate()
     {
-
+        _owner.CalculateCurrentInteractable();
     }
 
     public void OnCollisionEnter2D(Collision2D collision)

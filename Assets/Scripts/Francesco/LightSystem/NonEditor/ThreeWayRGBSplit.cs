@@ -9,6 +9,7 @@ public class ThreeWayRGBSplit : MonoBehaviour
     [SerializeField] private float _rotationTime = 2f;
     [SerializeField] private AnimationCurve _rotationCurve = AnimationCurve.Linear(0, 0, 1, 1);
     [SerializeField] private LayerMask _hitMask;
+    [SerializeField] private float _maxRaycastDistance = 999f;
 
     [Header("Light References")]
     [SerializeField] private LightSensor _lightSensor;
@@ -117,7 +118,7 @@ public class ThreeWayRGBSplit : MonoBehaviour
         if (_redEmitter.RedAmount > 0)
         {
             if (_redEmitterCollider.enabled == false) _redEmitterCollider.enabled = true;
-            RaycastHit2D redCast = Physics2D.Raycast(_redEmitterPivot.position, _redEmitterPivot.up, Mathf.Infinity, _hitMask);
+            RaycastHit2D redCast = Physics2D.Raycast(_redEmitterPivot.position, _redEmitterPivot.up, _maxRaycastDistance, _hitMask);
             if (redCast.collider)
             {
                 // set new path with updated length for the freeform light
@@ -138,7 +139,7 @@ public class ThreeWayRGBSplit : MonoBehaviour
         if (_greenEmitter.GreenAmount > 0)
         {
             if (_greenEmitterCollider.enabled == false) _greenEmitterCollider.enabled = true;
-            RaycastHit2D greenCast = Physics2D.Raycast(_greenEmitterPivot.position, _greenEmitterPivot.up, Mathf.Infinity, _hitMask);
+            RaycastHit2D greenCast = Physics2D.Raycast(_greenEmitterPivot.position, _greenEmitterPivot.up, _maxRaycastDistance, _hitMask);
             if (greenCast.collider)
             {
                 // set new path with updated length for the freeform light
@@ -154,13 +155,12 @@ public class ThreeWayRGBSplit : MonoBehaviour
         else
         {
             if (_greenEmitterCollider.enabled == true) _greenEmitterCollider.enabled = false;
-
         }
 
         if (_blueEmitter.BlueAmount > 0)
         {
             if (_blueEmitterCollider.enabled == false) _blueEmitterCollider.enabled = true;
-            RaycastHit2D blueCast = Physics2D.Raycast(_blueEmitterPivot.position, _blueEmitterPivot.up, Mathf.Infinity, _hitMask);
+            RaycastHit2D blueCast = Physics2D.Raycast(_blueEmitterPivot.position, _blueEmitterPivot.up, _maxRaycastDistance, _hitMask);
             if (blueCast.collider)
             {
                 // set new path with updated length for the freeform light
@@ -176,7 +176,6 @@ public class ThreeWayRGBSplit : MonoBehaviour
         else
         {
             if (_blueEmitterCollider.enabled == true) _blueEmitterCollider.enabled = false;
-
         }
     }
 

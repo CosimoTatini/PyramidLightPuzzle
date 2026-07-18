@@ -12,14 +12,15 @@ public class PlacementManager : MonoBehaviour
     public static PlacementManager Instance;
     public static event Action OnEternalTorchRemoved;
     [SerializeField] private Tilemap _targetTilemap;
-    private Dictionary<Vector3Int, GameObject> _placedItems = new Dictionary<Vector3Int, GameObject>();
+    private Dictionary<Tilemap, Dictionary<Vector3Int, GameObject>> _tilemapCellsOccupied = new();
+    private Dictionary<Tilemap, Dictionary<GameObject, Vector3Int[]>> _tilemapItemsCells = new();
     private Dictionary<Tilemap, HashSet<Vector3Int>> _restrictedCells = new Dictionary<Tilemap, HashSet<Vector3Int>>();
-    private Dictionary<Vector3Int, TorchType> _torchTypes = new Dictionary<Vector3Int, TorchType>();
+    // private Dictionary<Vector3Int, TorchType> _torchTypes = new Dictionary<Vector3Int, TorchType>();
 
     public Tilemap TargetTilemap
     {
         get => _targetTilemap;
-        set=>_targetTilemap = value;
+        set => _targetTilemap = value;
     }
 
     #region SINGLETON_INSTANCE
@@ -35,29 +36,33 @@ public class PlacementManager : MonoBehaviour
     }
     #endregion
 
+    public static void InvokeEternalTorchRemoved()
+    {
+        OnEternalTorchRemoved?.Invoke();
+    }
+
     /// <summary>
     /// Player can grab the torches that are put from the editor,
     /// so i need that these torches must be registered all at the begin of the game.
     /// </summary>
     public void RegisterPreExistentTorches()
     {
-        TypeChooser[] torchesType = FindObjectsByType<TypeChooser>(FindObjectsSortMode.None);
+        // TypeChooser[] torchesType = FindObjectsByType<TypeChooser>(FindObjectsSortMode.None);
 
-        foreach (var torch in torchesType)
-        {
-            Vector3Int cellPos = _targetTilemap.WorldToCell(torch.transform.position);
-            Debug.Log($"[PlacementManager] Tento di registrare la torcia '{torch.name}' alla cella: {cellPos}");
+        // foreach (var torch in torchesType)
+        // {
+        //     Vector3Int cellPos = _targetTilemap.WorldToCell(torch.transform.position);
 
-            if (!_placedItems.ContainsKey(cellPos))
-            {
-                torch.IsEternal = true;
-                _placedItems.Add(cellPos, torch.gameObject);
-            }
-            else
-            {
-                Debug.Log("Pippo");
-            }
-        }
+        //     if (!_cellsOccupied.ContainsKey(cellPos))
+        //     {
+        //         torch.IsEternal = true;
+        //         _cellsOccupied.Add(cellPos, torch.gameObject);
+        //     }
+        //     else
+        //     {
+        //         Debug.Log("Pippo");
+        //     }
+        // }
     }
 
     /// <summary>
@@ -108,7 +113,8 @@ public class PlacementManager : MonoBehaviour
     /// <returns></returns>
     public bool IsCellAvailable(Tilemap tilemap, Vector3Int cellPos)
     {
-        if (_placedItems.ContainsKey(cellPos)) return false;
+        if (!_tilemapCellsOccupied.ContainsKey(tilemap)) return true;
+        if (_tilemapCellsOccupied[tilemap].ContainsKey(cellPos)) return false;
         if (IsCellRestricted(tilemap, cellPos)) return false;
         return true;
     }
@@ -118,20 +124,56 @@ public class PlacementManager : MonoBehaviour
     /// Try to register the items to the dictionaries
     /// </summary>
     /// <param name="tilemap"></param>
-    /// <param name="cellpos"></param>
+    /// <param name="neededCells"></param>
     /// <param name="item"></param>
     /// <param name="type"></param>
     /// <returns></returns>
-    public bool IsPossibleToRegisterItem(Tilemap tilemap, Vector3Int cellpos, GameObject item, TorchType type)
+    public bool TryToRegisterItem(Tilemap tilemap, Vector3Int neededCell, GameObject item)
     {
-        if (!IsCellAvailable(tilemap, cellpos))
+        return TryToRegisterItem(tilemap, new Vector3Int[] { neededCell }, item);
+    }
+
+    public bool TryToRegisterItem(Tilemap tilemap, Vector3Int[] neededCells, GameObject item)
+    {
+        if (item == null || tilemap == null) return false;
+        if (neededCells == null || neededCells.Length == 0) return false;
+
+        for (int i = 0; i < neededCells.Length; i++)
+        {
+            Vector3Int cell = neededCells[i];
+            if (!IsCellAvailable(tilemap, cell))
+            {
+                return false;
+            }
+        }
+
+        if (!_tilemapItemsCells.ContainsKey(tilemap))
+        {
+            _tilemapItemsCells[tilemap] = new();
+        }
+
+        var itemsCells = _tilemapItemsCells[tilemap];
+
+        if (!itemsCells.ContainsKey(item))
+        {
+            itemsCells[item] = neededCells;
+        }
+        else
         {
             return false;
         }
-        if (!_placedItems.ContainsKey(cellpos))
-            _placedItems.Add(cellpos, item);
-        if (!_torchTypes.ContainsKey(cellpos))
-            _torchTypes.Add(cellpos, type);
+
+        if (!_tilemapCellsOccupied.ContainsKey(tilemap))
+        {
+            _tilemapCellsOccupied[tilemap] = new();
+        }
+
+        for (int i = 0; i < neededCells.Length; i++)
+        {
+            Vector3Int cell = neededCells[i];
+            _tilemapCellsOccupied[tilemap].Add(cell, item);
+        }
+
         return true;
     }
 
@@ -139,57 +181,119 @@ public class PlacementManager : MonoBehaviour
     /// Unregirester the item from the dictionaries
     /// </summary>
     /// <param name="cellpos"></param>
-    public void UnregisterItem(Vector3Int cellpos)
+    public bool TryToUnregisterItem(Vector3Int cellpos, Tilemap tilemap)
     {
-        if (_placedItems.TryGetValue(cellpos, out GameObject item))
+        if (_tilemapCellsOccupied.ContainsKey(tilemap) && _tilemapCellsOccupied[tilemap].TryGetValue(cellpos, out GameObject item))
         {
-            if (item != null)
-            {
-                if (item.TryGetComponent<TypeChooser>(out var torch))
-                {
-                    if (torch.IsEternal)
-                    {
-                        OnEternalTorchRemoved?.Invoke();
-                    }
+            //TODO: Logic for eternal torch removed should be in the grab Interaction script for magical torch
+            // or maybe just OnDisable => if(_isEternal) Invoke;
+            // if (item != null)
+            // {
+            //     if (item.TryGetComponent<TypeChooser>(out var torch))
+            //     {
+            //         if (torch.IsEternal)
+            //         {
+            //             OnEternalTorchRemoved?.Invoke();
+            //         }
 
-                }
-            }
-            _placedItems.Remove(cellpos);
+            //     }
+            // }
+            return TryToUnregisterItem(item, tilemap);
+            // Vector3Int[] occupiedCells = _itemsCells.ContainsKey(item) ? _itemsCells[item] : Array.Empty<Vector3Int>();
+            // for (int i = 0; i < occupiedCells.Length; i++)
+            // {
+            //     _cellsOccupied.Remove(occupiedCells[i]);
+            // }
+            // _itemsCells.Remove(item);
+            // return true;
+        }
+        else
+        {
+            return false;
         }
     }
+
+    public bool TryToUnregisterItem(GameObject gameObject, Tilemap tilemap)
+    {
+        if (gameObject == null || tilemap == null) return false;
+        if (_tilemapItemsCells.ContainsKey(tilemap) && _tilemapItemsCells[tilemap].TryGetValue(gameObject, out var occupiedCells))
+        {
+            if (!_tilemapCellsOccupied.ContainsKey(tilemap)) return false;
+
+            for (int i = 0; i < occupiedCells.Length; i++)
+            {
+                _tilemapCellsOccupied[tilemap].Remove(occupiedCells[i]);
+            }
+            _tilemapItemsCells[tilemap].Remove(gameObject);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 
     /// <summary>
     /// Retrieves the placed item from the map
     /// </summary>
     /// <param name="cellPos"></param>
     /// <returns></returns>
-    public GameObject GetItemAt(Vector3Int cellPos)
+    public GameObject GetItemAt(Vector3Int cellPos, Tilemap tilemap)
     {
-        if (_placedItems.TryGetValue(cellPos, out GameObject item))
+        if (_tilemapCellsOccupied.ContainsKey(tilemap) && _tilemapCellsOccupied[tilemap].TryGetValue(cellPos, out GameObject item))
         {
             return item;
         }
         return null;
     }
+
+    public bool HasItem(GameObject gameObject)
+    {
+        if (gameObject == null) return false;
+
+        foreach (var itemsCells in _tilemapItemsCells.Values)
+        {
+            foreach (var item in itemsCells.Keys)
+            {
+                if (item == gameObject) return true;
+            }
+        }
+
+        return false;
+    }
     /// <summary>
     /// With this method i can retrieve the magical torch from anywhere
     /// </summary>
     /// <returns></returns>
-    public KeyValuePair<Vector3Int, GameObject>? FindMagicalTorch()
+    public GameObject FindMagicalTorch()
     {
-        foreach (var pair in _placedItems)
+        // foreach (var pair in _cellsOccupied)
+        // {
+        //     if (pair.Value != null && pair.Value.TryGetComponent<TypeChooser>(out var torch))
+        //     {
+
+        //         if (torch.Type == TorchType.Magical && !torch.IsPrexistent)
+        //         {
+        //             return pair;
+        //         }
+        //     }
+        // }
+
+        foreach (var itemsCells in _tilemapItemsCells.Values)
         {
-
-            if (pair.Value != null && pair.Value.TryGetComponent<TypeChooser>(out var torch))
+            foreach (var item in itemsCells.Keys)
             {
-
-                if (torch.Type == TorchType.Magical && !torch.IsPrexistent)
+                if (item == null) continue;
+                if (item.TryGetComponent(out TypeChooser torch))
                 {
-                    return pair;
+                    if (torch.Type == TorchType.Magical && !torch.IsEternal)
+                    {
+                        return item;
+                    }
                 }
             }
         }
-
 
         return null;
     }
@@ -201,5 +305,29 @@ public class PlacementManager : MonoBehaviour
 
     #endregion
 
+    void OnDrawGizmos()
+    {
+        if (!Application.isPlaying || _targetTilemap == null) return;
 
+        BoundsInt bounds = _targetTilemap.cellBounds;
+        TileBase[] allTiles = _targetTilemap.GetTilesBlock(bounds);
+
+        Color gizmoColor = Color.lightGreen;
+        gizmoColor.a = 0.4f;
+        Gizmos.color = gizmoColor;
+
+        for (int i = 0; i < allTiles.Length; i++)
+        {
+            TileBase tile = allTiles[i];
+            if (tile != null)
+            {
+                int x = (i % bounds.size.x) + bounds.xMin;
+                int y = (i / bounds.size.x) + bounds.yMin;
+                Vector3Int position = new Vector3Int(x, y, bounds.zMin);
+                if (IsCellAvailable(_targetTilemap, position))
+                    Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0f), Vector3Int.one - new Vector3(0.1f, 0.1f, 0));
+            }
+
+        }
+    }
 }

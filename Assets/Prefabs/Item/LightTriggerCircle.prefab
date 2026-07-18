@@ -196,6 +196,8 @@ GameObject:
   - component: {fileID: 3428712710132092164}
   - component: {fileID: 2118004161174361594}
   - component: {fileID: 2120007844478556962}
+  - component: {fileID: 3525121742786845354}
+  - component: {fileID: 3078646107565398992}
   m_Layer: 0
   m_Name: LightTriggerCircle
   m_TagString: Untagged
@@ -232,6 +234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: LightSystem::LightSensor
   _isActive: 0
+  _acceptedLightType: 0
   _excludedEmitters: []
   OnLightActivated:
     m_PersistentCalls:
@@ -257,8 +260,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b480047c1bcb4234a814e99b628e3828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: LightSystem::LightTrigger
-  _activationRadius: 5
-  _detectionTrigger: {fileID: 2118004161174361594}
   _receivers:
   - _gameObject: {fileID: 0}
 --- !u!58 &2118004161174361594
@@ -324,3 +325,53 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &3525121742786845354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5860875978903695193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b271b3416f1aeb8bb88bddd5fed2461, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: inventory::PlacementRestricter
+  _tilemap: {fileID: 0}
+  _collder: {fileID: 3078646107565398992}
+--- !u!58 &3078646107565398992
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5860875978903695193}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0.5}
+  m_Radius: 0.45

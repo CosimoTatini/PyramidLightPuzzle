@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -37,7 +38,13 @@ public class Player : MonoBehaviour, ISubject
     [SerializeField] private Transform _feetTransform;
 
     [Header("Interaction")]
-    [SerializeField] private List<IPriorityInteractable> _interactionInputEntries = new();
+    private Dictionary<int, List<IPriorityInteractable>> _interactablesPriorityDict = new();
+    [SerializeField] private RecallMagicalTorchInteraction _recallMagicalTorchInteraction;
+    private bool _isTriggeringWithMagicalTorch = false;
+    [SerializeField] private PlaceMagicalTorchInteraction _placeMagicalTorchInteraction;
+    [SerializeField] private PlaceNormalTorchInteraction _placeNormalTorchInteraction;
+    private IPriorityInteractable _currentInteractable = null;
+    private int? _currentInteractableListKey;
 
     public Tilemap PlaceableTilemap => _placeableTilemap;
     public float CellOffset => _cellOffset;
@@ -70,11 +77,14 @@ public class Player : MonoBehaviour, ISubject
     }
     private void Start()
     {
-
         Animator = GetComponentInChildren<Animator>();
         _playerController = GetComponent<PlayerController>();
         _renderer = GetComponentInChildren<SpriteRenderer>();
 
+        // _grabMagicalTorchInteraction = gameObject.AddComponent<GrabMagicalTorchInteraction>();
+        // _grabNormalTorchInteraction = gameObject.AddComponent<GrabNormalTorchInteraction>();
+        // _placeMagicalTorchInteraction = gameObject.AddComponent<PlaceMagicalTorchInteraction>();
+        // _placeNormalTorchInteraction = gameObject.AddComponent<PlaceNormalTorchInteraction>();
 
         StateMachine = new GenericStateMachine<ECharacterStates>();
         StateMachine.RegisterState(ECharacterStates.Idle, new IdleCharacterState(this, _playerController, Animator));
@@ -91,6 +101,8 @@ public class Player : MonoBehaviour, ISubject
             _currentCheckpoint = CheckPoints[0];
         }
         transform.position = CheckPoints[0].position;
+
+        HandleTorchChange();
     }
 
     public void SetState(ECharacterStates state)
@@ -111,16 +123,21 @@ public class Player : MonoBehaviour, ISubject
     }
 
     private void OnEnable()
-
     {
         if (InventoryManager.Instance != null)
+        {
             InventoryManager.Instance.OnSelectionChange += EquipEmitter;
+            InventoryManager.Instance.OnTorchChanged += HandleTorchChange;
+        }
     }
 
     private void OnDisable()
     {
         if (InventoryManager.Instance != null)
+        {
             InventoryManager.Instance.OnSelectionChange -= EquipEmitter;
+            InventoryManager.Instance.OnTorchChanged -= HandleTorchChange;
+        }
     }
 
 
@@ -135,7 +152,6 @@ public class Player : MonoBehaviour, ISubject
                 CheckPoints.Add(_currentCheckpoint);
                 Debug.Log("Checkpoint reached:" + checkpoint.CheckpointID);
             }
-
         }
 
         if (_currentState is IStateCollision2D collisionState)
@@ -145,15 +161,63 @@ public class Player : MonoBehaviour, ISubject
 
         if (collision.TryGetComponent(out IPriorityInteractable interactable))
         {
-            AddInteractionEntry(interactable);
+            if (interactable is ItemInteraction grabInteraction && grabInteraction.ItemPlacement != null && grabInteraction.ItemPlacement.Collider2D != null)
+            {
+                if (grabInteraction.ItemPlacement.Collider2D == collision)
+                {
+                    // if it's magical torch don't add the one in the torch but the player's one
+                    if (grabInteraction is RecallMagicalTorchInteraction)
+                    {
+                        _isTriggeringWithMagicalTorch = true;
+                        AddInteractable(_recallMagicalTorchInteraction);
+                    }
+                    else
+                    {
+                        AddInteractable(interactable);
+                    }
+                }
+            }
+            else
+            {
+                AddInteractable(interactable);
+            }
+        }
+    }
+
+    void OnTriggerStay2D(Collider2D collision)
+    {
+        if (_currentState is IStateCollision2D collisionState)
+        {
+            collisionState.OnTriggerStay2D(collision);
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if (_currentState is IStateCollision2D collisionState)
+        {
+            collisionState.OnTriggerExit2D(collision);
+        }
+
         if (collision.TryGetComponent(out IPriorityInteractable interactable))
         {
-            RemoveInteractioEntry(interactable);
+            if (interactable is ItemInteraction grabInteraction && grabInteraction.ItemPlacement != null && grabInteraction.ItemPlacement.Collider2D != null)
+            {
+                // if it's magical torch don't remove the one in the torch but the player's one
+                if (grabInteraction is RecallMagicalTorchInteraction)
+                {
+                    _isTriggeringWithMagicalTorch = false;
+                    HandleTorchChange();
+                }
+                else
+                {
+                    RemoveInteractable(interactable);
+                }
+            }
+            else
+            {
+                RemoveInteractable(interactable);
+            }
         }
     }
 
@@ -191,12 +255,15 @@ public class Player : MonoBehaviour, ISubject
 
     public void HandleInteract()
     {
-        if (StateMachine.CurrentState is DeathCharacterState || _isRespawning) return;
+        if (StateMachine.CurrentStateType != ECharacterStates.Walk && StateMachine.CurrentStateType != ECharacterStates.Idle || _isRespawning) return;
 
+        if (_interactablesPriorityDict.Count == 0) return;
 
-        if (_interactionInputEntries.Count == 0) return;
-
-        _interactionInputEntries[0].Interact();
+        if (_currentInteractable is PlayerPriorityInteractable playerPriorityInteractable)
+        {
+            playerPriorityInteractable.SetPlayer(this);
+        }
+        _currentInteractable.Interact();
         //if (InventoryManager.Instance.SelectedType == TorchType.Magical)
         //{
         //    if (PlacementManager.Instance.FindMagicalTorch().HasValue)
@@ -230,7 +297,7 @@ public class Player : MonoBehaviour, ISubject
         //    }
         //}
 
-        SetState(ECharacterStates.Place);
+        // SetState(ECharacterStates.Place);
     }
 
     public void FinishPlacing()
@@ -243,21 +310,162 @@ public class Player : MonoBehaviour, ISubject
         InventoryManager.Instance.SwitchSelection();
     }
 
-    public void AddInteractionEntry(IPriorityInteractable interactable)
+    public void CalculateCurrentInteractable()
     {
-        if (interactable == null || _interactionInputEntries.Contains(interactable)) return;
+        //TODO: search closest Interactable of the current list
+        if (_currentInteractableListKey.HasValue)
+        {
+            List<IPriorityInteractable> priorityInteractables = _interactablesPriorityDict[_currentInteractableListKey.Value];
+            if (priorityInteractables.Count == 0) return;
 
-        if (interactable.GetFirstEntry() == null) return;
-        _interactionInputEntries.Add(interactable);
-        _interactionInputEntries.Sort((a, b) => b.GetFirstEntry().Priority.CompareTo(a.GetFirstEntry().Priority));
+            IPriorityInteractable closerInteractable = priorityInteractables[0];
+            float shortestDistance;
+            if (closerInteractable is MonoBehaviour monoBehaviour)
+            {
+                shortestDistance = Vector2.Distance(monoBehaviour.transform.position, _feetTransform.position);
+            }
+            else
+            {
+                shortestDistance = float.MaxValue;
+            }
+
+            for (int i = 1; i < priorityInteractables.Count; i++)
+            {
+                float distance;
+                IPriorityInteractable currentInteractable = priorityInteractables[i];
+                if (currentInteractable is MonoBehaviour monoBehaviour2)
+                {
+                    distance = Vector2.Distance(monoBehaviour2.transform.position, _feetTransform.position);
+                }
+                else
+                {
+                    distance = float.MaxValue;
+                }
+
+                if (distance < shortestDistance)
+                {
+                    shortestDistance = distance;
+                    closerInteractable = currentInteractable;
+                }
+            }
+
+            if (closerInteractable != null && closerInteractable != _currentInteractable)
+            {
+                if (_currentInteractable != null)
+                {
+                    InputConfigManager.UnregisterConfig(_currentInteractable.InputConfigSO);
+                }
+                InputConfigManager.RegisterConfig(closerInteractable.InputConfigSO);
+                _currentInteractable = closerInteractable;
+                // Debug.Log("UPDATE " + _currentInteractable);
+            }
+            else
+            {
+                // Debug.Log("UPDATE POLLO " + _currentInteractable);
+            }
+        }
     }
 
-    public void RemoveInteractioEntry(IPriorityInteractable interactable)
+    public void AddInteractable(IPriorityInteractable interactable)
     {
-        if (interactable == null || !_interactionInputEntries.Contains(interactable)) return;
+        if (interactable == null) return;
 
-        if (interactable.GetFirstEntry() == null) return;
-        _interactionInputEntries.Remove(interactable);
-        _interactionInputEntries.Sort((a, b) => b.GetFirstEntry().Priority.CompareTo(a.GetFirstEntry().Priority));
+        var entry = interactable.GetFirstEntry();
+        if (entry == null) return;
+
+        bool createdNewList = false;
+        if (!_interactablesPriorityDict.ContainsKey(entry.Priority))
+        {
+            _interactablesPriorityDict[entry.Priority] = new();
+            createdNewList = true;
+        }
+
+        if (_interactablesPriorityDict[entry.Priority].Contains(interactable)) return;
+
+        if (interactable is PlayerPriorityInteractable playerPriorityInteractable)
+        {
+            playerPriorityInteractable.SetPlayer(this);
+        }
+        _interactablesPriorityDict[entry.Priority].Add(interactable);
+        Debug.Log("Added" + interactable);
+        if (createdNewList)
+        {
+            Debug.Log("Add Recalculated key");
+            int? highestPriorityKey = _interactablesPriorityDict.Keys.ElementAt(0);
+            foreach (var priority in _interactablesPriorityDict.Keys)
+            {
+                if (priority > highestPriorityKey)
+                {
+                    highestPriorityKey = priority;
+                }
+            }
+            _currentInteractableListKey = highestPriorityKey;
+        }
+    }
+
+    public void RemoveInteractable(IPriorityInteractable interactable)
+    {
+        if (interactable == null) return;
+        if (interactable == _currentInteractable)
+        {
+            InputConfigManager.UnregisterConfig(interactable.InputConfigSO);
+            _currentInteractable = null;
+        }
+        var entry = interactable.GetFirstEntry();
+        if (entry == null) return;
+        if (!_interactablesPriorityDict.ContainsKey(entry.Priority)) return;
+
+        if (!_interactablesPriorityDict[entry.Priority].Contains(interactable)) return;
+
+        _interactablesPriorityDict[entry.Priority].Remove(item: interactable);
+        Debug.Log("REMOVED" + interactable);
+
+        if (_interactablesPriorityDict[entry.Priority].Count == 0)
+        {
+            Debug.Log("Remove Recalculated key");
+            _interactablesPriorityDict.Remove(entry.Priority);
+            int? highestPriorityKey = _interactablesPriorityDict.Keys.Count > 0 ? _interactablesPriorityDict.Keys.ElementAt(0) : null;
+            foreach (var priority in _interactablesPriorityDict.Keys)
+            {
+                if (priority > highestPriorityKey)
+                {
+                    highestPriorityKey = priority;
+                }
+            }
+            _currentInteractableListKey = highestPriorityKey;
+        }
+    }
+
+    private void HandleTorchChange()
+    {
+        var invMan = InventoryManager.Instance;
+        RemoveInteractable(_placeNormalTorchInteraction);
+        RemoveInteractable(_recallMagicalTorchInteraction);
+        RemoveInteractable(_placeMagicalTorchInteraction);
+        if (invMan.SelectedType == TorchType.Magical || _isTriggeringWithMagicalTorch)
+        {
+            if (invMan.CurrentMagicTorchQuantity > 0)
+            {
+                AddInteractable(_placeMagicalTorchInteraction);
+            }
+            else
+            {
+                AddInteractable(_recallMagicalTorchInteraction);
+            }
+        }
+        else if (invMan.SelectedType == TorchType.Normal)
+        {
+            if (invMan.CurrentTorchQuantity > 0)
+            {
+                AddInteractable(_placeNormalTorchInteraction);
+            }
+            else
+            {
+                if (invMan.CurrentMagicTorchQuantity < 1)
+                {
+                    AddInteractable(_recallMagicalTorchInteraction);
+                }
+            }
+        }
     }
 }

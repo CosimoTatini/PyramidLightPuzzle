@@ -47,105 +47,107 @@ internal class GrabCharacterState : IStateCollision2D
     {
         _ownerController.Rb.linearVelocity = Vector2.zero;
 
-        GameObject itemToPick = null;
-        Vector3Int targetCellPos = Vector3Int.zero;
-        bool isMagicalRecall = (InventoryManager.Instance.SelectedType == TorchType.Magical);
+        // GameObject itemToPick = null;
+        // Vector3Int targetCellPos = Vector3Int.zero;
+        // bool isMagicalRecall = InventoryManager.Instance.SelectedType == TorchType.Magical;
 
-        if (isMagicalRecall)
-        {
-            var magicalTorchData = PlacementManager.Instance.FindMagicalTorch();
-            if (magicalTorchData.HasValue)
-            {
-                itemToPick = magicalTorchData.Value.Value;
-                targetCellPos = magicalTorchData.Value.Key;
-            }
-        }
+        // if (isMagicalRecall)
+        // {
+        //     var magicalTorchData = PlacementManager.Instance.FindMagicalTorch();
+        //     if (magicalTorchData != null)
+        //     {
+        //         itemToPick = magicalTorchData;
+        //         //TODO: this will be replaced by PlacementManager.TryToUnregisterItem
+        //         // targetCellPos = magicalTorchData.Value.Key;
+        //     }
+        // }
 
-        
-        if (itemToPick == null)
-        {
-            Tilemap groundTilemap = _owner.PlaceableTilemap;
 
-           
-            Vector3 feetPosition = _owner.FeetTransform.position;
-            Vector3Int feetCellPos = groundTilemap.WorldToCell(feetPosition);
-            GameObject torchUnderFeet = PlacementManager.Instance.GetItemAt(feetCellPos);
+        // if (itemToPick == null)
+        // {
+        //     Tilemap groundTilemap = _owner.PlaceableTilemap;
 
-            
-            bool hasFreeAdjacentCell = false;
-            for (int i = 0; i < CardinalDirections.Length; i++)
-            {
-                Vector3Int checkCell = feetCellPos + CardinalDirections[i];
 
-                if (groundTilemap.HasTile(checkCell) && PlacementManager.Instance.IsCellAvailable(groundTilemap, checkCell))
-                {
-                    hasFreeAdjacentCell = true;
-                    break;
-                }
-            }
+        //     Vector3 feetPosition = _owner.FeetTransform.position;
+        //     Vector3Int feetCellPos = groundTilemap.WorldToCell(feetPosition);
+        //     GameObject torchUnderFeet = PlacementManager.Instance.GetItemAt(feetCellPos);
 
-            if (torchUnderFeet != null && (hasFreeAdjacentCell || itemToPick == null))
-            {
-                itemToPick = torchUnderFeet;
-                targetCellPos = feetCellPos;
-            }
-        }
 
-        if (itemToPick != null)
-        {
-            if (itemToPick.TryGetComponent<TypeChooser>(out var torchComponent))
-            {
-                if (torchComponent.Type == InventoryManager.Instance.SelectedType)
-                {
-                    _owner.Animator.Play(_owner.GrabSettings.clipName);
+        //     bool hasFreeAdjacentCell = false;
+        //     for (int i = 0; i < CardinalDirections.Length; i++)
+        //     {
+        //         Vector3Int checkCell = feetCellPos + CardinalDirections[i];
 
-                    if (torchComponent.Type == TorchType.Magical)
-                    {
-                        if (itemToPick.TryGetComponent<LightEmitter>(out var lightEmitter))
-                        {
-                            RecoverPowder(lightEmitter);
-                        }
-                    }
+        //         if (groundTilemap.HasTile(checkCell) && PlacementManager.Instance.IsCellAvailable(groundTilemap, checkCell))
+        //         {
+        //             hasFreeAdjacentCell = true;
+        //             break;
+        //         }
+        //     }
 
-                    InventoryManager.Instance.ReturnTorch(torchComponent.Type);
+        //     if (torchUnderFeet != null && (hasFreeAdjacentCell || itemToPick == null))
+        //     {
+        //         itemToPick = torchUnderFeet;
+        //         targetCellPos = feetCellPos;
+        //     }
+        // }
 
-                    
-                    PlacementManager.Instance.UnregisterItem(targetCellPos);
+        // if (itemToPick != null)
+        // {
+        //     if (itemToPick.TryGetComponent<TypeChooser>(out var torchComponent))
+        //     {
+        //         if (torchComponent.Type == InventoryManager.Instance.SelectedType)
+        //         {
+        //             _owner.Animator.Play(_owner.GrabSettings.clipName);
 
-                    if (torchComponent.IsEternal)
-                    {
-                        torchComponent.IsEternal = false;
-                        Debug.Log($"[Grab] Torcia eterna rilevata. Evento lanciato e flag resettato a false.");
-                    }
+        //             if (torchComponent.Type == TorchType.Magical)
+        //             {
+        //                 if (itemToPick.TryGetComponent<LightEmitter>(out var lightEmitter))
+        //                 {
+        //                     RecoverPowder(lightEmitter);
+        //                 }
+        //             }
 
-                    GameObject.Destroy(itemToPick);
-                    Debug.Log($"[Grab] Raccolta torcia {torchComponent.Type} dalla cella {targetCellPos}. Contatore aggiornato!");
-                    return;
-                }
-                else
-                {
-                    itemToPick = null;
-                }
-            }
-            else
-            {
-                itemToPick = null;
-            }
-        }
+        //             InventoryManager.Instance.ReturnTorch(torchComponent.Type);
 
-        if (_owner.DetectedObject != null && _owner.DetectedObject.TryGetComponent<PowderColorChooser>(out var powderData))
-        {
-            _owner.Animator.Play(_owner.GrabSettings.clipName);
 
-            PowderColor color = powderData.Color;
-            InventoryManager.Instance.AddPowder(color, 1);
+        //             PlacementManager.Instance.TryToUnregisterItem(targetCellPos);
 
-            GameObject.Destroy(_owner.DetectedObject);
-            _owner.DetectedObject = null;
-            return;
-        }
+        //             if (torchComponent.IsEternal)
+        //             {
+        //                 torchComponent.IsEternal = false;
+        //                 Debug.Log($"[Grab] Torcia eterna rilevata. Evento lanciato e flag resettato a false.");
+        //             }
 
-        _owner.SetState(ECharacterStates.Idle);
+        //             GameObject.Destroy(itemToPick);
+        //             Debug.Log($"[Grab] Raccolta torcia {torchComponent.Type} dalla cella {targetCellPos}. Contatore aggiornato!");
+        //             return;
+        //         }
+        //         else
+        //         {
+        //             itemToPick = null;
+        //         }
+        //     }
+        //     else
+        //     {
+        //         itemToPick = null;
+        //     }
+        // }
+
+        // if (_owner.DetectedObject != null && _owner.DetectedObject.TryGetComponent<PowderColorChooser>(out var powderData))
+        // {
+        //     _owner.Animator.Play(_owner.GrabSettings.clipName);
+
+        //     PowderColor color = powderData.Color;
+        //     InventoryManager.Instance.AddPowder(color, 1);
+
+        //     GameObject.Destroy(_owner.DetectedObject);
+        //     _owner.DetectedObject = null;
+        //     return;
+        // }
+
+        // _owner.SetState(ECharacterStates.Idle);
+        _owner.Animator.Play(_owner.GrabSettings.clipName);
     }
 
     private void RecoverPowder(LightEmitter lightEmitter)
