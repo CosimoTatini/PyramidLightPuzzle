@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 4093634697031525920}
   - component: {fileID: 321972841180045343}
   - component: {fileID: 823143961045490681}
+  - component: {fileID: 1368385707385020307}
   m_Layer: 0
   m_Name: RespawnPoint
   m_TagString: Untagged
@@ -184,3 +185,38 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1368385707385020307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3227695599089436594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7d4b0e4bb4f3dd44ab6e2cf6a4f48b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Utility::TriggerArea2D
+  _typeFilters: []
+  _onlySearchSelf: 0
+  OnTriggerEnter:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4113715638933214902}
+        m_TargetAssemblyTypeName: UnityEngine.SpriteRenderer, UnityEngine
+        m_MethodName: set_sprite
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnTriggerStay:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExit:
+    m_PersistentCalls:
+      m_Calls: []
