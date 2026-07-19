@@ -33,8 +33,6 @@ public class ControlsPanel : MonoBehaviour
 
     private HashSet<string> _excludedActionGuids;
 
-    //TODO: might use pub sub to call this, so when LobbyManager adds a player this checks if the player count is equals to the player number in here (to be added as a int field)
-    // so for instace we have 1 player on, this script has player 2, checks that InputUser.All.Count == playerNumber, then it's our call and we set this up
     public void PlayerSetUp(InputUser inputUser, InputDevice device = null)
     {
         if (inputUser == null || !inputUser.valid) return;
@@ -127,11 +125,6 @@ public class ControlsPanel : MonoBehaviour
         var rows = _parent.GetComponentsInChildren<ControlRow>();
 
         var enabledInputActions = InputConfigManager.GetEnabledActions(_inputUser);
-        //TODO: grab from InputConfigManager the first on the stack of the action, this lets us grab the PromptSchemes
-        // from there based on the currentControlScheme (need to subscribe to LobbyManager), we can draw the inputs with the right icons which 
-        // we grab from SpriteAssetsInputList, we just need to do a quick scheme search to grab the right SpriteAsset
-
-        //TODO: add a scheme validity check, if null, can't draw, also display one UI row for it
 
         HashSet<int> skippedActions = new();
         if (!_currentScheme.HasValue)

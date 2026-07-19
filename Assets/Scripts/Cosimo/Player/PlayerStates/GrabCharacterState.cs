@@ -57,7 +57,6 @@ internal class GrabCharacterState : IStateCollision2D
         //     if (magicalTorchData != null)
         //     {
         //         itemToPick = magicalTorchData;
-        //         //TODO: this will be replaced by PlacementManager.TryToUnregisterItem
         //         // targetCellPos = magicalTorchData.Value.Key;
         //     }
         // }

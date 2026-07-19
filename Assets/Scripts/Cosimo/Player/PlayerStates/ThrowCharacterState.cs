@@ -48,41 +48,41 @@ internal class ThrowCharacterState : IStateCollision2D
     {
         _ownerController.Rb.linearVelocity = Vector2.zero;
         _timer = 0f;
+        _animator.Play(_owner.ThrowSettings.clipName);
+
+        // if (!InventoryManager.Instance.CanThrowPowder())
+        // {
+        //     Debug.LogWarning("[Throw] Impossibile lanciare: polvere esaurita nell'inventario.");
+        //     _owner.SetState(ECharacterStates.Idle);
+        //     return;
+        // }
 
 
-        if (!InventoryManager.Instance.CanThrowPowder())
-        {
-            Debug.LogWarning("[Throw] Impossibile lanciare: polvere esaurita nell'inventario.");
-            _owner.SetState(ECharacterStates.Idle);
-            return;
-        }
+        // if (!IsOverTorch(out LightEmitter targetEmitter))
+        // {
+        //     Debug.LogWarning("[Throw] Impossibile lanciare: nessuna torcia magica rilevata davanti al giocatore.");
+        //     _owner.SetState(ECharacterStates.Idle);
+        //     return;
+        // }
 
 
-        if (!IsOverTorch(out LightEmitter targetEmitter))
-        {
-            Debug.LogWarning("[Throw] Impossibile lanciare: nessuna torcia magica rilevata davanti al giocatore.");
-            _owner.SetState(ECharacterStates.Idle);
-            return;
-        }
+        // PowderColor selectedColor = InventoryManager.Instance.SelectedPowder;
 
 
-        PowderColor selectedColor = InventoryManager.Instance.SelectedPowder;
+        // if (HasRoomForPowder(targetEmitter, selectedColor))
+        // {
 
+        //     _animator.Play(_owner.ThrowSettings.clipName);
+        //     InventoryManager.Instance.UsePowder();
+        //     ApplyPowderToEmitter(targetEmitter, selectedColor);
 
-        if (HasRoomForPowder(targetEmitter, selectedColor))
-        {
-
-            _animator.Play(_owner.ThrowSettings.clipName);
-            InventoryManager.Instance.UsePowder();
-            ApplyPowderToEmitter(targetEmitter, selectedColor);
-
-            Debug.Log($"[Throw] Lancio completato con successo per il colore: {selectedColor}");
-        }
-        else
-        {
-            Debug.LogWarning($"[Throw] Il canale {selectedColor} della torcia è già pieno. Lancio annullato.");
-            _owner.SetState(ECharacterStates.Idle);
-        }
+        //     Debug.Log($"[Throw] Lancio completato con successo per il colore: {selectedColor}");
+        // }
+        // else
+        // {
+        //     Debug.LogWarning($"[Throw] Il canale {selectedColor} della torcia è già pieno. Lancio annullato.");
+        //     _owner.SetState(ECharacterStates.Idle);
+        // }
 
     }
 
