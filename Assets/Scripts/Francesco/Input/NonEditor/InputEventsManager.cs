@@ -13,7 +13,6 @@ public static class InputEventsManager
 
     public static Dictionary<InputDevice, InputUser> DeviceUsers => _devicesUsers;
 
-    //TODO: Add all the actions, including OnHotSwap and OnNewDevice (when inputDevice isn't in _devicesUsers)
     #region Public InputUser Events
     public static event Action<InputUser, InputDevice> OnUserAdded;
     public static event Action<InputUser, InputDevice> OnUserRemoved;
@@ -193,9 +192,6 @@ public static class InputEventsManager
                 break;
         }
     }
-
-    //TODO: could add a camera confiner with a box collider slightly bigger than the camera's view, this would allow the player to look around and get a better
-    // understanding of the enviroment, this avoids having to zoom out/in the game, maybe not useful but
 
     private static void OnUnpairedDeviceUsed(InputControl control, InputEventPtr ptr)
     {

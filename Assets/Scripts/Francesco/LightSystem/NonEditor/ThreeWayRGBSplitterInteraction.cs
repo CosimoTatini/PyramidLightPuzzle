@@ -8,4 +8,20 @@ public class ThreeWayRGBSplitterInteraction : PriorityInteractable
     {
         _threeWayRGBSplit.Rotate();
     }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent(out IPriorityInteractableHost host))
+        {
+            host.AddInteractable(this);
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent(out IPriorityInteractableHost host))
+        {
+            host.RemoveInteractable(this);
+        }
+    }
 }

@@ -402,4 +402,68 @@ MonoBehaviour:
           - Guid: c9264b5c-3172-4e52-993a-6e57be73f344
             Name: Left Stick Press
             Prompt: '@BUTTON Switch'
+      - Guid: 6ea8a0d4-8de3-45be-bb65-2b374d90d943
+        Name: ZoomIn
+        Priority: -1
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: 3ea69765-4b84-4b68-9bc5-a5ce7127d6a5
+            Name: Z
+            Prompt: '@BUTTON ZoomIn'
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: 04e39cc8-a7db-49ea-87b0-215a1176c736
+            Name: D-Pad/Up
+            Prompt: '@BUTTON ZoomIn'
+      - Guid: dcc6b12c-756e-45c4-92fe-26009f621a9c
+        Name: ZoomOut
+        Priority: -1
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: 70a08eb5-1807-435b-bdda-bdbef5578718
+            Name: X
+            Prompt: '@BUTTON ZoomOut'
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: 6c4818a9-b36e-4050-a211-5af412e8dfb7
+            Name: D-Pad/Down
+            Prompt: '@BUTTON ZoomOut'
+      - Guid: f14be638-ae99-4ea6-bb63-6b910da41c5b
+        Name: NextColor
+        Priority: -1
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: 079187ee-06db-4b59-bd1a-f600d54cbe31
+            Name: O
+            Prompt: '@BUTTON NextColor'
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: 59fad096-18d0-48a4-9410-15386eee6c4c
+            Name: RB
+            Prompt: '@BUTTON NextColor'
+      - Guid: a2946c86-b3cb-42ee-80c4-f94c88165a29
+        Name: PreviousColor
+        Priority: -1
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: ee89a0d2-c6f3-4f48-8d06-8002870ecf72
+            Name: K
+            Prompt: '@BUTTON PreviousColor'
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: 1dabd63d-83ff-408d-a15c-c47c04845c07
+            Name: LB
+            Prompt: '@BUTTON PreviousColor'
   _lastUsedInputAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

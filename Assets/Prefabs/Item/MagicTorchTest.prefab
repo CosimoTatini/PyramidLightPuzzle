@@ -19,8 +19,8 @@ GameObject:
   - component: {fileID: 4302490538080836231}
   - component: {fileID: 7025356947305621873}
   - component: {fileID: 2346642929711741624}
-  - component: {fileID: 6462210452494345013}
   - component: {fileID: 7603261597527431485}
+  - component: {fileID: 7316327852326608940}
   m_Layer: 6
   m_Name: MagicTorchTest
   m_TagString: Untagged
@@ -307,42 +307,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: inventory::ItemPlacement
   _tilemap: {fileID: 0}
   _collder: {fileID: 7603261597527431485}
---- !u!58 &6462210452494345013
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5815135948996897342}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.42
 --- !u!58 &7603261597527431485
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -379,3 +343,17 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.49
+--- !u!114 &7316327852326608940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5815135948996897342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ff2380e4b3d8b0bfa44df5c52ac1403, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Player::ThrowDustInteraction
+  <InputConfigSO>k__BackingField: {fileID: 11400000, guid: 2fe2263eb2dbfb373bb4912b4f839639, type: 2}
+  _itemPlacement: {fileID: 2346642929711741624}

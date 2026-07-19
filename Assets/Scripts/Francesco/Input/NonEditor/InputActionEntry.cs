@@ -158,12 +158,6 @@ public class InputActionEntry
             return bindingPrompt;
         }
 
-        //TODO: add support for composites
-        // while (bindingPrompt.IndexOf(InputActionEntry.BUTTON_PLACEHOLDER, StringComparison.Ordinal) > 0)
-        // {
-        //     bindingPrompt.Replace();
-        // }
-
         if (bindingPrompt == string.Empty)
         {
             bindingPrompt = "Something Happened";

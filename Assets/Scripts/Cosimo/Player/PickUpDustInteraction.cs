@@ -1,4 +1,5 @@
 using Assets.Scripts.Cosimo.Inventory;
+using UnityEngine;
 
 public class PickUpDustInteraction : ItemInteraction
 {
@@ -15,6 +16,22 @@ public class PickUpDustInteraction : ItemInteraction
 
             _player.SetState(ECharacterStates.Grab);
             Destroy(gameObject);
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent(out IPriorityInteractableHost host))
+        {
+            host.AddInteractable(this);
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent(out IPriorityInteractableHost host))
+        {
+            host.RemoveInteractable(this);
         }
     }
 }

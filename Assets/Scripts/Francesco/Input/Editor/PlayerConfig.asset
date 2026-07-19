@@ -275,22 +275,6 @@ MonoBehaviour:
           - Guid: 1dabd63d-83ff-408d-a15c-c47c04845c07
             Name: LB
             Prompt: '@BUTTON PreviousColor'
-      - Guid: fc5aee51-93f4-42b8-b8f5-56703389d4ca
-        Name: Throw
-        Priority: 0
-        Enabled: 1
-        NameOverride: 
-        PromptSchemes:
-        - Scheme: Keyboard&Mouse
-          Prompts:
-          - Guid: f82262f4-7706-48b6-92c4-a1d801f1f906
-            Name: P
-            Prompt: '@BUTTON Throw'
-        - Scheme: Gamepad
-          Prompts:
-          - Guid: ad4eea47-d7e8-4997-8d5b-6616ffa97f31
-            Name: RT
-            Prompt: '@BUTTON Throw'
       - Guid: 6ea8a0d4-8de3-45be-bb65-2b374d90d943
         Name: ZoomIn
         Priority: 0

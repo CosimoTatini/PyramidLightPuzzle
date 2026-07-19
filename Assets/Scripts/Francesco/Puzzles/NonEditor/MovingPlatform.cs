@@ -175,8 +175,6 @@ public class MovingPlatform : MonoBehaviour, ILightTriggerReceiver, IVelocityPro
 
 #endif
 
-    //TODO: doesn't work properly since the radius check compares this transform's center with its transform center, the problem is the add is called
-    // when we trigger, but in that moment our center is not inside the radius, so we don't actually subscribe
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent(out LightTrigger trigger) && trigger == LightTrigger)

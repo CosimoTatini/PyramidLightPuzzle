@@ -185,19 +185,6 @@ public class PlacementManager : MonoBehaviour
     {
         if (_tilemapCellsOccupied.ContainsKey(tilemap) && _tilemapCellsOccupied[tilemap].TryGetValue(cellpos, out GameObject item))
         {
-            //TODO: Logic for eternal torch removed should be in the grab Interaction script for magical torch
-            // or maybe just OnDisable => if(_isEternal) Invoke;
-            // if (item != null)
-            // {
-            //     if (item.TryGetComponent<TypeChooser>(out var torch))
-            //     {
-            //         if (torch.IsEternal)
-            //         {
-            //             OnEternalTorchRemoved?.Invoke();
-            //         }
-
-            //     }
-            // }
             return TryToUnregisterItem(item, tilemap);
             // Vector3Int[] occupiedCells = _itemsCells.ContainsKey(item) ? _itemsCells[item] : Array.Empty<Vector3Int>();
             // for (int i = 0; i < occupiedCells.Length; i++)

@@ -82,7 +82,7 @@ public class WalkCharacterState : IStateCollision2D
 
     public void OnUpdate()
     {
-        _owner.CalculateCurrentInteractable();
+        _owner.CalculateCurrentInteractables();
         StopMove();
     }
    

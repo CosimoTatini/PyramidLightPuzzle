@@ -6,7 +6,7 @@ public class AnimationClipPostProcessor : AssetModificationProcessor
     // Questo metodo viene chiamato da Unity ogni volta che viene creato un nuovo asset
     static void OnWillCreateAsset(string assetName)
     {
-        // Controlliamo se l'asset che sta per essere creato è una clip di animazione (.anim)
+        // Controlliamo se l'asset che sta per essere creato ï¿½ una clip di animazione (.anim)
         if (assetName.EndsWith(".anim.meta"))
         {
             // Usiamo un leggero ritardo per permettere a Unity di finire la creazione del file

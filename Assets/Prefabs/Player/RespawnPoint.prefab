@@ -138,7 +138,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3d4c6c298ef3004487c7b90b78dba7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Player::Checkpoint
-  CheckpointID: 0
+  _spriteRenderer: {fileID: 4113715638933214902}
+  _onSpriteColor: {r: 1.1294118, g: 1.8666668, b: 1.1294118, a: 1}
+  _offSpriteColor: {r: 0, g: 0.3921569, b: 0, a: 1}
+  _triggerArea2D: {fileID: 1368385707385020307}
 --- !u!61 &823143961045490681
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -201,19 +204,7 @@ MonoBehaviour:
   _onlySearchSelf: 0
   OnTriggerEnter:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4113715638933214902}
-        m_TargetAssemblyTypeName: UnityEngine.SpriteRenderer, UnityEngine
-        m_MethodName: set_sprite
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   OnTriggerStay:
     m_PersistentCalls:
       m_Calls: []
