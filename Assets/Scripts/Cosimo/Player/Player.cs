@@ -300,6 +300,8 @@ public class Player : MonoBehaviour, ISubject, IPriorityInteractableHost
     {
         if (CurrentCheckPoint != null)
         {
+            RetrieveTorches();
+
             transform.position = CurrentCheckPoint.transform.position;
             // Debug.Log("Respawn done");
             Notify();
@@ -312,7 +314,22 @@ public class Player : MonoBehaviour, ISubject, IPriorityInteractableHost
         }
     }
 
+    private void RetrieveTorches()
+    {
+        GameObject magicalTorch = PlacementManager.Instance.FindItemOfType(typeof(MagicalTorch));
+        NormalTorch[] normalTorches = PlacementManager.Instance.FindItemsOfType(typeof(NormalTorch)).Select(torch => torch.GetComponent<NormalTorch>()).ToArray();
 
+        if (magicalTorch != null) Destroy(magicalTorch);
+        if (normalTorches.Length > 0)
+        {
+            int normalTorchesCount = normalTorches.Length;
+            for (int i = normalTorchesCount - 1; i >= 0; i--)
+            {
+                if (normalTorches[i].IsEternal) continue;
+                Destroy(normalTorches[i].gameObject);
+            }
+        }
+    }
 
     public void EquipEmitter(GameObject newTorch)
     {

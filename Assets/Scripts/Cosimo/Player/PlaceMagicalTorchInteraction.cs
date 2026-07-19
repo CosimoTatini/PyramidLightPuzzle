@@ -20,9 +20,9 @@ public class PlaceMagicalTorchInteraction : PlayerPriorityInteractable
             return;
         }
 
-        Vector2 look = _player.PlayerController.LastLookDirection;
-
-        Vector3 interactionPos = _player.transform.position + (Vector3)look * 0.8f;
+        // Vector2 look = _player.PlayerController.LastLookDirection;
+        // Vector3 interactionPos = _player.transform.position + (Vector3)look * 0.5f;
+        Vector3 interactionPos = _player.FeetTransform.position;
         Vector3Int cellPos = groundTilemap.WorldToCell(interactionPos);
 
         if (!groundTilemap.HasTile(cellPos))
@@ -41,7 +41,6 @@ public class PlaceMagicalTorchInteraction : PlayerPriorityInteractable
 
         if (PlacementManager.Instance.HasItem(torchInstance))
         {
-            InventoryManager.Instance.UseTorch();
             _player.SetState(ECharacterStates.Place);
         }
         else

@@ -2,6 +2,7 @@ using Assets.Scripts.Cosimo.Inventory;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -114,17 +115,17 @@ public class InventoryManager : MonoBehaviour
         OnTorchChanged?.Invoke();
     }
 
-    public IEnumerator TorchLifetimeCoroutine(GameObject torchInstance, TorchType type, Vector3Int cellPos, Tilemap tilemap)
-    {
-        yield return new WaitForSeconds(TorchDuration);
+    // public IEnumerator TorchLifetimeCoroutine(GameObject torchInstance, TorchType type, Vector3Int cellPos, Tilemap tilemap)
+    // {
+    //     yield return new WaitForSeconds(TorchDuration);
 
-        if (torchInstance != null && type is TorchType.Normal)
-        {
-            PlacementManager.Instance.TryToUnregisterItem(cellPos, tilemap);
-            Destroy(torchInstance);
-            Instance.ReturnTorch(type);
-        }
-    }
+    //     if (torchInstance != null && type is TorchType.Normal)
+    //     {
+    //         // PlacementManager.Instance.TryToUnregisterItem(cellPos, tilemap);
+    //         Destroy(torchInstance);
+    //         // Instance.ReturnTorch(type);
+    //     }
+    // }
 
 
     #endregion

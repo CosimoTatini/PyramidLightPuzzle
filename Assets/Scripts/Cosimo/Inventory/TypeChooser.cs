@@ -7,8 +7,6 @@ public class TypeChooser : MonoBehaviour
 
     public TorchType Type => _type;
 
-    public bool IsPrexistent { get;set; }
-
     public bool IsEternal
     {
         get => _isEternal;
