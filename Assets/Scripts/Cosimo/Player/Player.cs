@@ -17,8 +17,7 @@ public class Player : MonoBehaviour, ISubject, IPriorityInteractableHost
     public AnimSettings ThrowSettings;
 
     [Header("CheckpointSystem")]
-    public List<Transform> CheckPoints = new List<Transform>();
-    private Transform _currentCheckpoint;
+    public Checkpoint CurrentCheckPoint;
     private bool _isRespawning;
     private List<IObserver> _observers = new List<IObserver>();
     public GenericStateMachine<ECharacterStates> StateMachine;
@@ -102,11 +101,10 @@ public class Player : MonoBehaviour, ISubject, IPriorityInteractableHost
         SetState(ECharacterStates.Idle);
         _currentState = StateMachine.CurrentState;
 
-        if (CheckPoints.Count > 0)
+        if (CurrentCheckPoint != null)
         {
-            _currentCheckpoint = CheckPoints[0];
+            transform.position = CurrentCheckPoint.transform.position;
         }
-        transform.position = CheckPoints[0].position;
 
         _interactPrioritySet = InteractableContextRegistry.GetOrCreatePriorityInteractableSet(_playerController.InputActions.Player.Interact.id.ToString());
         _throwPrioritySet = InteractableContextRegistry.GetOrCreatePriorityInteractableSet(_playerController.InputActions.Player.Throw.id.ToString());
@@ -151,16 +149,15 @@ public class Player : MonoBehaviour, ISubject, IPriorityInteractableHost
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out Checkpoint checkpoint))
-        {
-            _currentCheckpoint = checkpoint.transform;
+        // if (collision.TryGetComponent(out Checkpoint checkpoint))
+        // {
+        //     CurrentCheckPoint = checkpoint.transform;
 
-            if (!CheckPoints.Contains(_currentCheckpoint))
-            {
-                CheckPoints.Add(_currentCheckpoint);
-                Debug.Log("Checkpoint reached:" + checkpoint.CheckpointID);
-            }
-        }
+        //     if (!CheckPoints.Contains(CurrentCheckPoint))
+        //     {
+        //         CheckPoints.Add(CurrentCheckPoint);
+        //     }
+        // }
 
         if (_currentState is IStateCollision2D collisionState)
         {
@@ -301,9 +298,9 @@ public class Player : MonoBehaviour, ISubject, IPriorityInteractableHost
 
     public void Respawn()
     {
-        if (_currentCheckpoint != null)
+        if (CurrentCheckPoint != null)
         {
-            transform.position = _currentCheckpoint.transform.position;
+            transform.position = CurrentCheckPoint.transform.position;
             // Debug.Log("Respawn done");
             Notify();
             _isRespawning = false;
