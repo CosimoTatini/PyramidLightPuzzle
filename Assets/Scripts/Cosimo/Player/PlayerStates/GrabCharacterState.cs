@@ -9,9 +9,6 @@ internal class GrabCharacterState : IStateCollision2D
 {
     private Player _owner;
     private PlayerController _ownerController;
-    private GameObject _torch;
-    private Tilemap _tilemap;
-    private Animator _animator;
     private float _timer;
 
     // Ottimizzazione allocazione: Array statico riutilizzabile per evitare Garbage Collection in OnStart
@@ -23,13 +20,10 @@ internal class GrabCharacterState : IStateCollision2D
         Vector3Int.right
     };
 
-    public GrabCharacterState(Player player, PlayerController controller, GameObject torch, Tilemap tilemap, Animator animator)
+    public GrabCharacterState(Player player, PlayerController controller, Animator animator)
     {
         _owner = player;
         _ownerController = controller;
-        _torch = torch;
-        _tilemap = tilemap;
-        _animator = animator;
     }
 
     public void OnCollisionEnter2D(Collision2D collision) { }

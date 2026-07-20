@@ -232,8 +232,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0e2b027f876684b943a324fde9bb00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: LightSystem::LightSensor
-  _isActive: 0
-  _acceptedLightType: 0
+  _isActive: 1
+  _acceptedLightType: 1
   _excludedEmitters: []
   OnLightActivated:
     m_PersistentCalls:
@@ -246,7 +246,7 @@ MonoBehaviour:
       m_Calls: []
   _neededRedAmount: 0
   _neededGreenAmount: 0
-  _neededBlueAmount: 2
+  _neededBlueAmount: 0
 --- !u!114 &6044861247704778922
 MonoBehaviour:
   m_ObjectHideFlags: 0

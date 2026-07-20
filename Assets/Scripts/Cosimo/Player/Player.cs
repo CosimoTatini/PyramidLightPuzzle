@@ -31,32 +31,23 @@ public class Player : MonoBehaviour, ISubject, IPriorityInteractableHost
     [SerializeField] private ECharacterStates _currentStateEnum;
     private DeathCharacterState _deathState;
     public GameObject DetectedObject { get; set; }
-    [SerializeField] private Tilemap _placeableTilemap;
-    [SerializeField] private GameObject _torchPrefab;
     private float _cellOffset = 0.2f;
     [SerializeField] private Transform _feetTransform;
 
     [Header("Interaction")]
-    private InteractableContextRegistry _interactableContextRegistry = new();
+    public InteractableContextRegistry InteractableContextRegistry { get; private set; } = new();
     private PriorityInteractableSet _interactPrioritySet;
     private PriorityInteractableSet _throwPrioritySet;
-    private Dictionary<int, List<IPriorityInteractable>> _interactablesPriorityDict = new();
     [SerializeField] private RecallMagicalTorchInteraction _recallMagicalTorchInteraction;
     private bool _isTriggeringWithMagicalTorch = false;
     [SerializeField] private PlaceMagicalTorchInteraction _placeMagicalTorchInteraction;
     [SerializeField] private PlaceNormalTorchInteraction _placeNormalTorchInteraction;
     private IPriorityInteractable _currentInteractInteractable = null;
     private IPriorityInteractable _currentThrowInteractable = null;
-    private int? _currentInteractableListKey;
 
-    public Tilemap PlaceableTilemap => _placeableTilemap;
     public float CellOffset => _cellOffset;
-
-    public GameObject TorchPrefab => _torchPrefab;
-
     public Transform FeetTransform => _feetTransform;
 
-    public InteractableContextRegistry InteractableContextRegistry { get; private set; } = new();
 
     public void Attach(IObserver observer)
     {
@@ -94,8 +85,8 @@ public class Player : MonoBehaviour, ISubject, IPriorityInteractableHost
         StateMachine = new GenericStateMachine<ECharacterStates>();
         StateMachine.RegisterState(ECharacterStates.Idle, new IdleCharacterState(this, _playerController, Animator));
         StateMachine.RegisterState(ECharacterStates.Walk, new WalkCharacterState(this, _playerController, Animator));
-        StateMachine.RegisterState(ECharacterStates.Place, new PlaceCharacterState(this, _playerController, _placeableTilemap, _torchPrefab, Animator));
-        StateMachine.RegisterState(ECharacterStates.Grab, new GrabCharacterState(this, _playerController, _torchPrefab, _placeableTilemap, Animator));
+        StateMachine.RegisterState(ECharacterStates.Place, new PlaceCharacterState(this, _playerController, Animator));
+        StateMachine.RegisterState(ECharacterStates.Grab, new GrabCharacterState(this, _playerController, Animator));
         StateMachine.RegisterState(ECharacterStates.Death, new DeathCharacterState(this, _playerController, Animator));
         StateMachine.RegisterState(ECharacterStates.Throw, new ThrowCharacterState(this, _playerController, Animator));
         SetState(ECharacterStates.Idle);
@@ -132,7 +123,7 @@ public class Player : MonoBehaviour, ISubject, IPriorityInteractableHost
     {
         if (InventoryManager.Instance != null)
         {
-            InventoryManager.Instance.OnSelectionChange += EquipEmitter;
+            // InventoryManager.Instance.OnSelectionChange += EquipEmitter;
             InventoryManager.Instance.OnTorchChanged += HandleTorchChange;
         }
     }
@@ -141,7 +132,7 @@ public class Player : MonoBehaviour, ISubject, IPriorityInteractableHost
     {
         if (InventoryManager.Instance != null)
         {
-            InventoryManager.Instance.OnSelectionChange -= EquipEmitter;
+            // InventoryManager.Instance.OnSelectionChange -= EquipEmitter;
             InventoryManager.Instance.OnTorchChanged -= HandleTorchChange;
         }
     }
@@ -331,10 +322,10 @@ public class Player : MonoBehaviour, ISubject, IPriorityInteractableHost
         }
     }
 
-    public void EquipEmitter(GameObject newTorch)
-    {
-        _torchPrefab = newTorch;
-    }
+    // public void EquipEmitter(GameObject newTorch)
+    // {
+    //     _torchPrefab = newTorch;
+    // }
 
     public void HandleInteract()
     {
