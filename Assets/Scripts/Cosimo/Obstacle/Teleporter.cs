@@ -1,19 +1,20 @@
-using System;
 using UnityEngine;
 
 public class Teleporter : MonoBehaviour
 {
     [SerializeField] private TeleporterDestination _destination;
 
-
     private void Awake()
     {
-        GetComponent<Collider2D>().isTrigger = true;
+        if (TryGetComponent<Collider2D>(out var col))
+        {
+            col.isTrigger = true;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.TryGetComponent<PlayerController>(out var player))
+        if (collision.TryGetComponent<PlayerController>(out var player))
         {
             PerformTeleport(player);
         }
@@ -23,36 +24,10 @@ public class Teleporter : MonoBehaviour
     {
         if (_destination == null) return;
 
+       
         player.ResetMoveDirection();
 
-        Rigidbody2D rb = player.Rb;
-
-        Collider2D collider = player.Collider;
-
-        if(collider != null)
-        {
-            collider.enabled = false;
-        }
-
-        if (rb != null)
-        {
-            rb.linearVelocity = Vector2.zero;
-            rb.angularVelocity = 0f;
-
-            rb.MovePosition(_destination.GetDestinationPosition());
-
-
-        } 
-
-        else
-        {
-            player.transform.position = _destination.GetDestinationPosition();
-        }
-
-        if(collider != null)
-        {
-            collider.enabled = true;
-        }
-
+       
+        player.transform.position = _destination.GetDestinationPosition();
     }
 }
