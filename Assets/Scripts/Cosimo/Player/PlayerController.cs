@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D _rb;
     private Vector2 _moveDirection;
     private Vector2 _lastLookDirection = Vector2.down;
+    private Collider2D _collider;
 
     [SerializeField] private PlatformHandler _platformHandler;
 
@@ -27,7 +28,9 @@ public class PlayerController : MonoBehaviour
 
     public Vector2 LastLookDirection => _lastLookDirection;
 
-    
+    public Collider2D Collider => _collider;
+
+
 
 
     private void Start()

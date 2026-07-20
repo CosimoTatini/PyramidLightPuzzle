@@ -1,56 +1,87 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-public class MummyVerticalAnimationController : MonoBehaviour
+[RequireComponent(typeof(SpriteRenderer))] // Garantisce la presenza dello SpriteRenderer 🎨
+public class MummyAnimationController : MonoBehaviour
 {
     private IVelocityProvider _velocityProvider;
     private Animator _animator;
+    private SpriteRenderer _spriteRenderer;
 
     [Header("Impostazioni Movimento")]
-    [SerializeField] private float _speedThreshold = 0.05f; // Soglia di tolleranza antirumore fisica
+    [SerializeField] private float _speedThreshold = 0.05f;
 
-    // Caching dell'hash per massimizzare le prestazioni della CPU
+    private static readonly int VelocityXHash = Animator.StringToHash("VelocityX");
     private static readonly int VelocityYHash = Animator.StringToHash("VelocityY");
+
+    private Vector2 _currentActiveDirection = Vector2.right;
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         _velocityProvider = GetComponent<IVelocityProvider>();
 
         if (_velocityProvider == null)
         {
-            Debug.LogError($"[{gameObject.name}] Manca un componente che implementa IVelocityProvider!", this);
+            Debug.LogError($"[{gameObject.name}] Manca il componente IVelocityProvider!", this);
         }
     }
 
     private void Start()
     {
-        // Pulizia frame zero
-        _animator.SetFloat(VelocityYHash, 0f);
+        ApplyDirection(_currentActiveDirection);
     }
 
     private void Update()
     {
         if (_velocityProvider == null) return;
 
-        // Otteniamo il vettore velocità reale dalla piattaforma (es. Vector2(0, 2) o Vector2(0, -2))
-        Vector2 currentVelocity = _velocityProvider.Velocity;
+        Vector2 velocity = _velocityProvider.Velocity;
+        float absX = Mathf.Abs(velocity.x);
+        float absY = Mathf.Abs(velocity.y);
 
-        // Isoliamo la componente verticale reale
-        float verticalVelocity = currentVelocity.y;
-
-        // Se la velocità verticale assoluta supera la soglia, passiamo la direzione normalizzata
-        if (Mathf.Abs(verticalVelocity) > _speedThreshold)
+        // 1. Antirumore per i waypoint: se siamo quasi fermi, congeliamo lo stato attuale
+        if (absX <= _speedThreshold && absY <= _speedThreshold)
         {
-            // Mathf.Sign restituisce 1f se positivo (sale), -1f se negativo (scende)
-            float targetY = Mathf.Sign(verticalVelocity);
+            return;
+        }
 
-            _animator.SetFloat(VelocityYHash, targetY);
+        Vector2 newDirection = _currentActiveDirection;
+
+        // 2. Rilevamento dell'asse dominante
+        if (absX > absY)
+        {
+            // Movimento orizzontale dominato: forziamo X a 1f per attivare WalkRight nel Blend Tree
+            newDirection = new Vector2(1f, 0f);
+
+            // Gestiamo il lato visivo (FlipX) basandoci sul segno reale della velocità 🔄
+            // Se la velocità è negativa stiamo andando a sinistra, quindi flippiamo lo sprite
+            bool shouldFlip = velocity.x < 0f;
+
+            // Ottimizzazione: cambiamo il flip solo se è diverso dallo stato attuale
+            if (_spriteRenderer.flipX != shouldFlip)
+            {
+                _spriteRenderer.flipX = shouldFlip;
+            }
         }
         else
         {
-            // Idle quando è ferma
-            _animator.SetFloat(VelocityYHash, 0f);
+            // Movimento verticale dominato: azzeriamo X
+            newDirection = new Vector2(0f, Mathf.Sign(velocity.y));
         }
+
+        // 3. Aggiorniamo i parametri dell'Animator solo se c'è un cambio effettivo
+        if (newDirection != _currentActiveDirection)
+        {
+            _currentActiveDirection = newDirection;
+            ApplyDirection(_currentActiveDirection);
+        }
+    }
+
+    private void ApplyDirection(Vector2 dir)
+    {
+        _animator.SetFloat(VelocityXHash, dir.x);
+        _animator.SetFloat(VelocityYHash, dir.y);
     }
 }

@@ -32,28 +32,44 @@ BlendTree:
   m_Name: MummyMovement
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: f2189d9f8dae6c841ae8a4a15bbb3443, type: 2}
+    m_Motion: {fileID: 7400000, guid: 1d2ee23fe67178440a1107224e4eee21, type: 2}
     m_Threshold: -1
-    m_Position: {x: 0, y: -1}
+    m_Position: {x: 1, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
-    m_DirectBlendParameter: Blend
+    m_DirectBlendParameter: VelocityX
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 7400000, guid: 1d2ee23fe67178440a1107224e4eee21, type: 2}
+    m_Threshold: 1
+    m_Position: {x: -1, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: VelocityX
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 4c2bdd90f1bf5ff49b85b6fe845243ed, type: 2}
-    m_Threshold: 1
+    m_Threshold: 3
     m_Position: {x: 0, y: 1}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Blend
     m_Mirror: 0
-  m_BlendParameter: VelocityY
+  - serializedVersion: 2
+    m_Motion: {fileID: 7400000, guid: f2189d9f8dae6c841ae8a4a15bbb3443, type: 2}
+    m_Threshold: 5
+    m_Position: {x: 0, y: -1}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Blend
+    m_Mirror: 0
+  m_BlendParameter: VelocityX
   m_BlendParameterY: VelocityY
   m_MinThreshold: -1
-  m_MaxThreshold: 1
+  m_MaxThreshold: 5
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
-  m_BlendType: 0
+  m_BlendType: 3
 --- !u!91 &9100000
 AnimatorController:
   m_ObjectHideFlags: 0
