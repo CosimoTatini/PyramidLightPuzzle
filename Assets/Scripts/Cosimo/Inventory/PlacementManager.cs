@@ -12,6 +12,9 @@ public class PlacementManager : MonoBehaviour
     public static PlacementManager Instance;
     public static event Action OnEternalTorchRemoved;
     [SerializeField] private Tilemap _targetTilemap;
+    
+    [Header("Debug")]
+    [SerializeField] private bool _visualizedGrid = true;
     private Dictionary<Tilemap, Dictionary<Vector3Int, GameObject>> _tilemapCellsOccupied = new();
     private Dictionary<Tilemap, Dictionary<GameObject, Vector3Int[]>> _tilemapItemsCells = new();
     private Dictionary<Tilemap, HashSet<Vector3Int>> _restrictedCells = new Dictionary<Tilemap, HashSet<Vector3Int>>();
@@ -76,14 +79,12 @@ public class PlacementManager : MonoBehaviour
         if (!_restrictedCells.ContainsKey(tilemap))
         {
             _restrictedCells[tilemap] = new HashSet<Vector3Int>();
-
-
         }
+        
         if (isRestricted)
         {
             _restrictedCells[tilemap].Add(cellPos);
         }
-
         else
         {
             _restrictedCells[tilemap].Remove(cellPos);
@@ -311,7 +312,7 @@ public class PlacementManager : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        if (!Application.isPlaying || _targetTilemap == null) return;
+        if (!Application.isPlaying || _targetTilemap == null || !_visualizedGrid) return;
 
         BoundsInt bounds = _targetTilemap.cellBounds;
         TileBase[] allTiles = _targetTilemap.GetTilesBlock(bounds);
