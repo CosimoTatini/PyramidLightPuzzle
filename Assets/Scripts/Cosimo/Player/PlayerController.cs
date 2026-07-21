@@ -91,6 +91,17 @@ public class PlayerController : MonoBehaviour
     {
         _moveDirection = Vector2.zero;
     }
+
+    public void EnableInput()
+    {
+        _inputActions?.Player.Enable();
+    }
+
+    public void DisableInput()
+    {
+        _inputActions?.Player.Disable();
+        _moveDirection= Vector2.zero;
+    }
     // private void OnEnable() => _inputActions.Enable();
     // private void OnDisable() => _inputActions.Disable();
 
