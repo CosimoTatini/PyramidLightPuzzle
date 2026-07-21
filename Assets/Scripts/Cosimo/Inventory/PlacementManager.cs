@@ -253,7 +253,7 @@ public class PlacementManager : MonoBehaviour
     /// With this method i can retrieve the magical torch from anywhere
     /// </summary>
     /// <returns></returns>
-    public GameObject FindMagicalTorch()
+    public GameObject FindItemOfType(Type type)
     {
         // foreach (var pair in _cellsOccupied)
         // {
@@ -272,18 +272,35 @@ public class PlacementManager : MonoBehaviour
             foreach (var item in itemsCells.Keys)
             {
                 if (item == null) continue;
-                if (item.TryGetComponent(out TypeChooser torch))
+                if (item.TryGetComponent(type, out var component))
                 {
-                    if (torch.Type == TorchType.Magical && !torch.IsEternal)
-                    {
-                        return item;
-                    }
+                    return item;
                 }
             }
         }
 
         return null;
     }
+
+    public GameObject[] FindItemsOfType(Type type)
+    {
+        List<GameObject> itemsFound = new();
+
+        foreach (var itemsCells in _tilemapItemsCells.Values)
+        {
+            foreach (var item in itemsCells.Keys)
+            {
+                if (item == null) continue;
+                if (item.TryGetComponent(type, out var component))
+                {
+                    itemsFound.Add(item);
+                }
+            }
+        }
+
+        return itemsFound.ToArray();
+    }
+
     public void InitializeTilemap(Tilemap tilemap)
     {
         _targetTilemap = tilemap;

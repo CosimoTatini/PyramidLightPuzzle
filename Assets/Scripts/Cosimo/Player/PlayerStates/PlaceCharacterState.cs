@@ -8,16 +8,13 @@ public class PlaceCharacterState : IStateCollision2D
 {
     private Player _owner;
     private PlayerController _ownerController;
-    private Tilemap _tilemap;
     private GameObject _torchPrefab;
     private Animator _animator;
     private float _timer;
-    public PlaceCharacterState(Player player, PlayerController controller, Tilemap tilemap, GameObject torch, Animator animator)
+    public PlaceCharacterState(Player player, PlayerController controller, Animator animator)
     {
         _owner = player;
         _ownerController = controller;
-        _tilemap = tilemap;
-        _torchPrefab = torch;
         _animator = animator;
 
     }

@@ -7,22 +7,24 @@ public class GrabNormalTorchInteraction : ItemInteraction
         if (_player == null) return;
         if (_itemPlacement == null) return;
 
-        if (TryGetComponent<TypeChooser>(out var torchComponent))
-        {
-            if (torchComponent.Type == TorchType.Magical) return;
+        _player.SetState(ECharacterStates.Grab);
+        Destroy(gameObject);
 
-            InventoryManager.Instance.ReturnTorch(torchComponent.Type);
-            // PlacementManager.Instance.TryToUnregisterItem(gameObject, PlacementManager.Instance.TargetTilemap);
+        // if (TryGetComponent<TypeChooser>(out var torchComponent))
+        // {
+        //     if (torchComponent.Type == TorchType.Magical) return;
 
-            if (torchComponent.IsEternal)
-            {
-                PlacementManager.InvokeEternalTorchRemoved();
-                torchComponent.IsEternal = false;
-            }
+        //     InventoryManager.Instance.ReturnTorch(torchComponent.Type);
 
-            _player.SetState(ECharacterStates.Grab);
-            Destroy(gameObject);
-        }
+        //     if (torchComponent.IsEternal)
+        //     {
+        //         PlacementManager.InvokeEternalTorchRemoved();
+        //         torchComponent.IsEternal = false;
+        //     }
+
+        //     _player.SetState(ECharacterStates.Grab);
+        //     Destroy(gameObject);
+        // }
     }
 
     void OnTriggerEnter2D(Collider2D collision)

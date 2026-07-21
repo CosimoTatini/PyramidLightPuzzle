@@ -125,7 +125,7 @@ internal class ThrowCharacterState : IStateCollision2D
     private bool IsOverTorch(out LightEmitter lightEmitter)
     {
         lightEmitter = null;
-        GameObject magicalTorch = PlacementManager.Instance.FindMagicalTorch();
+        GameObject magicalTorch = PlacementManager.Instance.FindItemOfType(typeof(MagicalTorch));
         if (magicalTorch == null || !magicalTorch.TryGetComponent(out ItemPlacement itemPlacement))
         {
             return false;

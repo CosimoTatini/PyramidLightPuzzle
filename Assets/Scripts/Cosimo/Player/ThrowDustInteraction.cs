@@ -13,7 +13,7 @@ public class ThrowDustInteraction : ItemInteraction
             return;
         }
 
-        GameObject magicalTorch = PlacementManager.Instance.FindMagicalTorch();
+        GameObject magicalTorch = PlacementManager.Instance.FindItemOfType(typeof(MagicalTorch));
         if (magicalTorch == null)
         {
             return;
