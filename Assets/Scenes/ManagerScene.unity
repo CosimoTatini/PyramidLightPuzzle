@@ -542,34 +542,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 964558444809568391, guid: 3dfd5cb0444f9dd4fbb1cbfa37793cc3, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2099508354614424114, guid: 3dfd5cb0444f9dd4fbb1cbfa37793cc3, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2282379653261033301, guid: 3dfd5cb0444f9dd4fbb1cbfa37793cc3, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2282379653261033301, guid: 3dfd5cb0444f9dd4fbb1cbfa37793cc3, type: 3}
-      propertyPath: m_isOrthographic
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3649130530528237566, guid: 3dfd5cb0444f9dd4fbb1cbfa37793cc3, type: 3}
-      propertyPath: _maxProgress
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3649130530528237566, guid: 3dfd5cb0444f9dd4fbb1cbfa37793cc3, type: 3}
-      propertyPath: _loaderCanvas
-      value: 
-      objectReference: {fileID: 1874137104}
-    - target: {fileID: 4436056067407956968, guid: 3dfd5cb0444f9dd4fbb1cbfa37793cc3, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6080702048886757144, guid: 3dfd5cb0444f9dd4fbb1cbfa37793cc3, type: 3}
       propertyPath: m_Name
       value: LevelManager
@@ -614,16 +586,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7898309727624624707, guid: 3dfd5cb0444f9dd4fbb1cbfa37793cc3, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7898309727624624707, guid: 3dfd5cb0444f9dd4fbb1cbfa37793cc3, type: 3}
-      propertyPath: m_isOrthographic
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 5653648422479323080, guid: 3dfd5cb0444f9dd4fbb1cbfa37793cc3, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -686,11 +649,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1874137104 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4436056067407956968, guid: 3dfd5cb0444f9dd4fbb1cbfa37793cc3, type: 3}
-  m_PrefabInstance: {fileID: 1582118377}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2023646081
 PrefabInstance:
   m_ObjectHideFlags: 0

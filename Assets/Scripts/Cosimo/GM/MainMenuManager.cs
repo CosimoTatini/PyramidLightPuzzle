@@ -34,12 +34,12 @@ public class MainMenuManager : MonoBehaviour
 
     private IEnumerator Start()
     {
-        // Attendiamo la fine del frame per assicurarci che l'InputSystem del Player sia inizializzato[cite: 3]
+        // Attendiamo la fine del frame per assicurarci che l'InputSystem del Player sia inizializzato
         yield return new WaitForEndOfFrame();
 
         if (_playerController != null)
         {
-            _playerController.DisableInput(); // Blocco iniziale dell'input[cite: 3]
+            _playerController.DisableInput(); // Blocco iniziale dell'input
         }
     }
 
@@ -60,7 +60,7 @@ public class MainMenuManager : MonoBehaviour
 
     private void OnStartButtonClicked()
     {
-        // Disabilitiamo il bottone ed eliminiamo/nascondiamo il menu per sempre
+       
         _startButton.interactable = false;
 
         if (_menuPanel != null)
@@ -68,7 +68,7 @@ public class MainMenuManager : MonoBehaviour
             _menuPanel.SetActive(false);
         }
 
-        // Avviamo la transizione della torcia
+       
         StartCoroutine(TurnOnTorchRoutine());
     }
     private void OnQuitButtonCLicked()
@@ -88,18 +88,18 @@ public class MainMenuManager : MonoBehaviour
         float elapsedTime = 0f;
         float startIntensity = _torchLight.intensity;
 
-        // Transizione fluida da 0 a 0.4 in 1 secondo
+        
         while (elapsedTime < _fadeDuration)
         {
             elapsedTime += Time.deltaTime;
             float t = elapsedTime / _fadeDuration;
             _torchLight.intensity = Mathf.Lerp(startIntensity, _targetIntensity, t);
-            yield return null; // Attende il frame successivo
+            yield return null; 
         }
 
         _torchLight.intensity = _targetIntensity;
 
-        // Abilitiamo il giocatore al termine dell'animazione
+       
         EnableGameplay();
     }
 
@@ -107,10 +107,10 @@ public class MainMenuManager : MonoBehaviour
     {
         if (_playerController != null)
         {
-            _playerController.EnableInput(); // Sblocco dell'input[cite: 3]
+            _playerController.EnableInput(); 
         }
 
-        // Il menu ha completato il suo ciclo di vita per questo avvio
+        
         gameObject.SetActive(false);
     }
 }

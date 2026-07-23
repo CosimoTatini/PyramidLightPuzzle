@@ -35,7 +35,7 @@ public class GameManager : Singleton<GameManager>
         if (_uiCanvas != null)
         {
           _uiCanvas.SetActive(true);
-       }
+         }
     }
 
 

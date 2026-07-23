@@ -306,6 +306,7 @@ public class LevelManager : MonoBehaviour
             }
         }
         Debug.Log($"[LevelManager] Fine LoadSceneAsync. La scena {sceneName} � ora attiva.");
+        PlacementManager.NotifySceneLoaded();
         onLoadSceneEnd?.Invoke();
     }
     public void SwitchGameplayScene(string currentSceneName, string newSceneName)
