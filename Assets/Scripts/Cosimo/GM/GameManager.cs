@@ -19,24 +19,24 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
-        //LevelManager.Instance.OnLoadingStart += HandleLoadingStart;
-        //LevelManager.Instance.OnLoadingEnd += HandleLoadingEnd;
+        LevelManager.Instance.OnLoadingStart += HandleLoadingStart;
+        LevelManager.Instance.OnLoadingEnd += HandleLoadingEnd;
         LevelManager.Instance.AddSceneWithLoadingScreen("TutorialFra");
     }
-    //private void HandleLoadingStart()
-    //{
-    //    if (_uiCanvas != null)
-    //    {
-    //        _uiCanvas.SetActive(false);
-    //    }
-    //}
-    //private void HandleLoadingEnd()
-    //{
-    //    if (_uiCanvas != null)
-    //    {
-    //        _uiCanvas.SetActive(true);
-    //    }
-    //}
+    private void HandleLoadingStart()
+    {
+        if (_uiCanvas != null)
+        {
+           _uiCanvas.SetActive(false);
+        }
+    }
+    private void HandleLoadingEnd()
+    {
+        if (_uiCanvas != null)
+        {
+          _uiCanvas.SetActive(true);
+       }
+    }
 
 
 }
