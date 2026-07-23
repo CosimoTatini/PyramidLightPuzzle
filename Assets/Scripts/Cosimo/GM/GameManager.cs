@@ -21,7 +21,7 @@ public class GameManager : Singleton<GameManager>
     {
         LevelManager.Instance.OnLoadingStart += HandleLoadingStart;
         LevelManager.Instance.OnLoadingEnd += HandleLoadingEnd;
-        LevelManager.Instance.AddSceneWithLoadingScreen("TutorialFra");
+        LevelManager.Instance.AddSceneWithLoadingScreen("TutorialFra2");
     }
     private void HandleLoadingStart()
     {
