@@ -1,7 +1,10 @@
 using Assets.Scripts.Cosimo.Inventory;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 /// <summary>
 /// Handles the Inventory and how it works.
@@ -15,7 +18,11 @@ public class InventoryManager : MonoBehaviour
 
     [Header("Settings")]
     public int TorchMaxQuanitity = int.MaxValue;
-    public readonly int MagicalTorchQuantity = 1;
+    public readonly int MagicalTorchMaxQuantity = 1;
+    public int StartTorchQuantity = 1;
+    public int StartRedDustQuantity = 2;
+    public int StartGreenDustQuantity = 2;
+    public int StartBlueDustQuantity = 2;
     private int _currentTorchQuantity;
     private int _currentMagicalTorchQuantity;
     public int CurrentTorchQuantity => _currentTorchQuantity;
@@ -27,7 +34,7 @@ public class InventoryManager : MonoBehaviour
 
     private Dictionary<PowderColor, int> _powders = new Dictionary<PowderColor, int>()
     {
-        {PowderColor.Red,0 },
+        {PowderColor.Red, 0 },
         {PowderColor.Green,0},
         {PowderColor.Blue,0},
     };
@@ -43,9 +50,14 @@ public class InventoryManager : MonoBehaviour
             return;
         }
         Instance = this;
-        _currentTorchQuantity = 0;
+        _currentTorchQuantity = StartTorchQuantity;
         _currentMagicalTorchQuantity = 1;
-
+        _powders = new()
+        {
+            {PowderColor.Red, StartRedDustQuantity },
+            {PowderColor.Green, StartGreenDustQuantity},
+            {PowderColor.Blue, StartBlueDustQuantity},
+        };
     }
     #endregion
 
@@ -78,7 +90,7 @@ public class InventoryManager : MonoBehaviour
 
         if (type == TorchType.Magical)
         {
-            _currentMagicalTorchQuantity = Mathf.Min(_currentMagicalTorchQuantity + 1, MagicalTorchQuantity);
+            _currentMagicalTorchQuantity = Mathf.Min(_currentMagicalTorchQuantity + 1, MagicalTorchMaxQuantity);
         }
         OnTorchChanged?.Invoke();
     }
@@ -110,6 +122,18 @@ public class InventoryManager : MonoBehaviour
         OnSelectionChange?.Invoke(prefabToEquip);
         OnTorchChanged?.Invoke();
     }
+
+    // public IEnumerator TorchLifetimeCoroutine(GameObject torchInstance, TorchType type, Vector3Int cellPos, Tilemap tilemap)
+    // {
+    //     yield return new WaitForSeconds(TorchDuration);
+
+    //     if (torchInstance != null && type is TorchType.Normal)
+    //     {
+    //         // PlacementManager.Instance.TryToUnregisterItem(cellPos, tilemap);
+    //         Destroy(torchInstance);
+    //         // Instance.ReturnTorch(type);
+    //     }
+    // }
 
 
     #endregion
@@ -177,6 +201,7 @@ public class InventoryManager : MonoBehaviour
             OnPowderChanged?.Invoke();
         }
     }
+
 
 
 

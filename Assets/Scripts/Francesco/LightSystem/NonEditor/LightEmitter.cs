@@ -139,6 +139,14 @@ public class LightEmitter : MonoBehaviour
         }
     }
 
+    void OnEnable()
+    {
+        if (_light)
+        {
+            UpdateLight();
+        }
+    }
+
     private void UpdateLight()
     {
         if (!_light && !CanUpdateLight) return;

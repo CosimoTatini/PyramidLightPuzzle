@@ -13,7 +13,9 @@ GameObject:
   - component: {fileID: 134603771093580459}
   - component: {fileID: 5499464877652086398}
   - component: {fileID: 990332720824171550}
-  - component: {fileID: 8023314714142116907}
+  - component: {fileID: -323222469107097341}
+  - component: {fileID: -8457113168630427258}
+  - component: {fileID: -1889575838034058280}
   m_Layer: 0
   m_Name: RedDust
   m_TagString: Untagged
@@ -30,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 3610019699748193855}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 128.54408, y: -20.77282, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -85,8 +87,8 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 6375651559227999974, guid: 6c0e0852176d5ee418dd3fd0552828f2, type: 3}
+  m_Color: {r: 1, g: 0.12556054, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -109,7 +111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: inventory::Item
   Name: 
   Prefab: {fileID: 3610019699748193855}
-  Quantity: 2
+  Quantity: 1
   Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
 --- !u!114 &5499464877652086398
 MonoBehaviour:
@@ -151,8 +153,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!60 &8023314714142116907
-PolygonCollider2D:
+--- !u!58 &-323222469107097341
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -186,18 +188,32 @@ PolygonCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.28866667}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0, y: 0.5773587}
-      - {x: -0.5, y: -0.28866667}
-      - {x: 0.5, y: -0.28866667}
-  m_UseDelaunayMesh: 1
+  m_Radius: 0.45
+--- !u!114 &-8457113168630427258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3610019699748193855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f6244a3eed6924ab83d79009d3c4104, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: inventory::ItemPlacement
+  _tilemap: {fileID: 0}
+  _collder: {fileID: -323222469107097341}
+--- !u!114 &-1889575838034058280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3610019699748193855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4235db75c314be4b8887d8563cfdbff6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Player::PickUpDustInteraction
+  <InputConfigSO>k__BackingField: {fileID: 11400000, guid: d044c2224a1f1bb40915fd369278a7b4, type: 2}
+  _itemPlacement: {fileID: -8457113168630427258}

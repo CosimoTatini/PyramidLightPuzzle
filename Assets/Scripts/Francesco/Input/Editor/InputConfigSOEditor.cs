@@ -17,8 +17,6 @@ using PriorityAvailabilityEnum = InputConfigPriorityCache.PriorityAvailabilityEn
 [CustomEditor(typeof(InputConfigSO))]
 public class InputConfigSOEditor : Editor
 {
-    //TODO: maybe add a string displayName to actionInputStruct, which is an override of the name, so for instance E would normally be Interact, but maybe we want something more specific like look, open
-    // this would become a tabbed window, one for priority, so just like it is now, one for overriding the names, also the "Press @BUTTON to interact"
     private InputActionAsset _loaderAsset;
     private TypeVar _loaderAssetInstanceType;
     private SerializedProperty _assetMapListProp;
@@ -55,7 +53,6 @@ public class InputConfigSOEditor : Editor
         InputConfigSO inputConfigSO = target as InputConfigSO;
         _loaderAsset = inputConfigSO.LastUsedInputAsset;
 
-        //TODO also implement this ondisable
         bool arrayChanged = false;
 
         for (int i = _assetMapListProp.arraySize - 1; i >= 0; i--)
@@ -88,9 +85,6 @@ public class InputConfigSOEditor : Editor
         _actionsOrphan = new HashSet<string>(maps.SelectMany(m => m.InputActionEntries).Select(a => a.Guid));
         _bindingsOrphan = new HashSet<string>(maps.SelectMany(m => m.InputActionEntries).SelectMany(a => a.PromptSchemes).SelectMany(p => p.Prompts).Select(b => b.Guid));
 
-        //TODO: populate the hashsets so when drawing an a element we know if it's valid or orphane and in that case there should be some visual feedback
-        // like red or some, or for instance the button remove should be red or shi
-        // also a remove all orphanes button a the top could be a thing
         foreach (var inputAsset in inputActionAssets)
         {
             foreach (var map in maps)
@@ -147,7 +141,6 @@ public class InputConfigSOEditor : Editor
         EditorApplication.update -= PriorityChangeCheck;
         InputConfigPriorityCache.OnRebuildCompleted -= RefreshInspector;
 
-        //TODO also implement this ondisable
         bool arrayChanged = false;
 
         for (int i = _assetMapListProp.arraySize - 1; i >= 0; i--)
@@ -1002,14 +995,13 @@ public class InputConfigSOEditor : Editor
         GUI.enabled = action != null;
         // draw the action name instead of the guid, then the enabled toggle, the priority field and a remove button
 
-        bool isOrphan = false;
+        // bool isOrphan = false;
         if (_actionsOrphan.Contains(actionGUID))
         {
-            isOrphan = true;
+            // isOrphan = true;
             GUI.color = Color.orange;
         }
 
-        //TODO: update remove orphans, so it removes all, not just maps 
         EditorGUILayout.BeginVertical("helpbox");
         EditorGUILayout.BeginHorizontal();
         Rect foldoutRect = EditorGUILayout.GetControlRect(false, EditorGUIUtility.singleLineHeight, GUILayout.Width(150));

@@ -123,9 +123,6 @@ public static class InputConfigManager//Singleton<InputConfigManager>
             return;
         }
 
-        // CACHE
-        // CacheActionIfNotAlready(id, actionData.Guid, inputAssetCsharp);
-
         InputActionEntry firstElement = actionStack[0];
 
         // SORT
@@ -138,8 +135,19 @@ public static class InputConfigManager//Singleton<InputConfigManager>
             InputAction inputAction = GetAction(id, actionStack[0].Guid);
             if (inputAction != null)
             {
-                // if action status is the same of previous one, there's nothing to do 
-                if (actionStack[0].Enabled == inputAction.enabled) return;
+                // if action status is the same of previous one, just invoke the events 
+                if (actionStack[0].Enabled == inputAction.enabled)
+                {
+                    if (actionStack[0].Enabled)
+                    {
+                        InvokeEnabledActionsChanged(id);
+                    }
+                    else
+                    {
+                        InvokeDisabledActionsChanged(id);
+                    }
+                    return;
+                }
 
                 if (actionStack[0].Enabled)
                 {
@@ -177,7 +185,7 @@ public static class InputConfigManager//Singleton<InputConfigManager>
         {
             if (inputAction == null) return;
 
-            // if action was enabled, disable it and remove it from enabled actions and add it to disable actions
+            // if action was enabled, disable it and remove it from enabled actions and add it to disabled actions
             if (inputAction.enabled)
             {
                 inputAction.Disable();
@@ -188,14 +196,26 @@ public static class InputConfigManager//Singleton<InputConfigManager>
             return;
         }
 
-        // we removed first element, we need to process the new first element if there's one
+        // if we removed first element, we need to process the new first one
         if (!firstElement.Equals(actionStack[0]))
         {
             if (inputAction == null) return;
 
-            // if old and new first elements have different enabled values
-            if (actionStack[0].Enabled == inputAction.enabled) return;
+            // same values, just invoke that it changed
+            if (actionStack[0].Enabled == inputAction.enabled)
+            {
+                if (actionStack[0].Enabled)
+                {
+                    InvokeEnabledActionsChanged(id);
+                }
+                else
+                {
+                    InvokeDisabledActionsChanged(id);
+                }
+                return;
+            }
 
+            // if old and new first elements have different enabled values
             if (actionStack[0].Enabled)
             {
                 inputAction.Enable();
@@ -237,6 +257,7 @@ public static class InputConfigManager//Singleton<InputConfigManager>
     {
         // if user is null or there isn't a bundle associated, quit 
         if (id == null || !_inputBundles.ContainsKey(id)) return;
+        if (configSO == null) return;
 
         var inputAssetMapLists = configSO.GetInputAssetMaps();
         foreach (var inputAssetMapList in inputAssetMapLists)
@@ -276,6 +297,7 @@ public static class InputConfigManager//Singleton<InputConfigManager>
     {
         // if user is null or there isn't a bundle associated, quit 
         if (id == null || !_inputBundles.ContainsKey(id)) return;
+        if (configSO == null) return;
 
         var inputAssetMapLists = configSO.GetInputAssetMaps();
         foreach (var inputAssetMapList in inputAssetMapLists)
@@ -317,13 +339,6 @@ public static class InputConfigManager//Singleton<InputConfigManager>
             // find inputActionInstance
             IInputActionCollection2 inputActions = inputBundle.GetInputSystemInstance(inputAssetCsharp);
             InputAction inputAction = inputActions.FindAction(actionGuid);
-            // InputUser.onChange +=  ;
-            // InputUser se;
-            // InputUser s = InputUser.CreateUserWithoutPairedDevices();
-            // s (inputActions);
-            // InputDevice g;
-            // inputActions.devices;
-            // InputUser.PerformPairingWithDevice()
             actionCache[actionGuid] = inputAction ?? null;
         }
     }
@@ -358,8 +373,7 @@ public static class InputConfigManager//Singleton<InputConfigManager>
         if (_actionsEnabled[id].Contains(inputAction)) return;
         _actionsEnabled[id].Add(inputAction);
 
-        if (!_enabledDisabledActionsEvents.ContainsKey(id)) _enabledDisabledActionsEvents[id] = new();
-        _enabledDisabledActionsEvents[id].OnEnabledActionsChanged?.Invoke();
+        InvokeEnabledActionsChanged(id);
     }
 
     private static void AddDisabledAction(InputUser id, InputAction inputAction)
@@ -368,8 +382,7 @@ public static class InputConfigManager//Singleton<InputConfigManager>
         if (_actionsDisabled[id].Contains(inputAction)) return;
         _actionsDisabled[id].Add(inputAction);
 
-        if (!_enabledDisabledActionsEvents.ContainsKey(id)) _enabledDisabledActionsEvents[id] = new();
-        _enabledDisabledActionsEvents[id].OnDisabledActionsChanged?.Invoke();
+        InvokeDisabledActionsChanged(id);
     }
 
     private static void RemoveEnabledAction(InputUser id, InputAction inputAction)
@@ -378,9 +391,9 @@ public static class InputConfigManager//Singleton<InputConfigManager>
         if (!_actionsEnabled[id].Contains(inputAction)) return;
         _actionsEnabled[id].Remove(inputAction);
 
-        if (!_enabledDisabledActionsEvents.ContainsKey(id)) _enabledDisabledActionsEvents[id] = new();
-        _enabledDisabledActionsEvents[id].OnEnabledActionsChanged?.Invoke();
+        InvokeEnabledActionsChanged(id);
     }
+
 
     private static void RemoveDisabledAction(InputUser id, InputAction inputAction)
     {
@@ -388,6 +401,17 @@ public static class InputConfigManager//Singleton<InputConfigManager>
         if (!_actionsDisabled[id].Contains(inputAction)) return;
         _actionsDisabled[id].Remove(inputAction);
 
+        InvokeDisabledActionsChanged(id);
+    }
+
+    private static void InvokeEnabledActionsChanged(InputUser id)
+    {
+        if (!_enabledDisabledActionsEvents.ContainsKey(id)) _enabledDisabledActionsEvents[id] = new();
+        _enabledDisabledActionsEvents[id].OnEnabledActionsChanged?.Invoke();
+    }
+
+    private static void InvokeDisabledActionsChanged(InputUser id)
+    {
         if (!_enabledDisabledActionsEvents.ContainsKey(id)) _enabledDisabledActionsEvents[id] = new();
         _enabledDisabledActionsEvents[id].OnDisabledActionsChanged?.Invoke();
     }
