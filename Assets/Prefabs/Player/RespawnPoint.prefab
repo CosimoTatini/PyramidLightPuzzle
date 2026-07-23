@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Player::Checkpoint
   _spriteRenderer: {fileID: 4113715638933214902}
-  _onSpriteColor: {r: 1.1294118, g: 1.8666668, b: 1.1294118, a: 1}
+  _onSpriteColor: {r: 0.2117083, g: 1.951398, b: 0.2117083, a: 1}
   _offSpriteColor: {r: 0, g: 0.3921569, b: 0, a: 1}
   _triggerArea2D: {fileID: 1368385707385020307}
 --- !u!61 &823143961045490681
