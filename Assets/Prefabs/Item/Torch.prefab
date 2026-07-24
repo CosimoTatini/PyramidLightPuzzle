@@ -175,7 +175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: LightSystem::NormalTorch
   _isEternal: 0
-  _torchDuration: 30
+  _torchDuration: 20
 --- !u!61 &4529708214542933931
 BoxCollider2D:
   m_ObjectHideFlags: 0
