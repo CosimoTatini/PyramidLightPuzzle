@@ -466,4 +466,36 @@ MonoBehaviour:
           - Guid: 1dabd63d-83ff-408d-a15c-c47c04845c07
             Name: LB
             Prompt: '@BUTTON PreviousColor'
+      - Guid: 4d05dbcf-7c40-4654-bb0a-c26cdbbfe28b
+        Name: Esc
+        Priority: -1
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: a383c7a7-9d2c-4e73-8ce1-814d75aac917
+            Name: Escape
+            Prompt: '@BUTTON Esc'
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: 39dcf8c5-b899-4734-9c5c-56c9d9ba8ede
+            Name: Start
+            Prompt: '@BUTTON Esc'
+      - Guid: e7a9044d-254d-4ad1-a5e8-b32866296c5f
+        Name: Back
+        Priority: -1
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: 90dbeea9-2513-4050-ac7c-9a0275b6819e
+            Name: Tab
+            Prompt: '@BUTTON Back'
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: f85d4934-3d8b-49fa-a21d-f69bc2604e90
+            Name: B
+            Prompt: '@BUTTON Back'
   _lastUsedInputAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

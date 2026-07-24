@@ -33,7 +33,7 @@ public class InputActionEntry
             return bindingPrompt;
         }
 
-        InputActionEntry inputActionEntry = overrideEntry ?? InputConfigManager.GetInputActionEntry(inputUser, inputAction.id.ToString());
+        InputActionEntry inputActionEntry = overrideEntry ?? InputConfigManager.GetStackFirstActionEntry(inputUser, inputAction.id.ToString());
         if (inputActionEntry == null)
         {
             bindingPrompt = $"{inputAction.name}: Missing InputActionEntry";

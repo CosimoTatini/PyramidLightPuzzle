@@ -164,12 +164,12 @@ MonoBehaviour:
     m_Unicode: 65534
     m_GlyphIndex: 14
     m_Scale: 1
-    m_Name: Ps5White_14
+    m_Name: Ps5White
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 15
     m_Scale: 1
-    m_Name: Ps5White_15
+    m_Name: gamepad_start
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 16

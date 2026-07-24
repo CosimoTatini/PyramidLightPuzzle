@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2342370113f389339bc92893eaf82069, type: 3}
-  m_Name: New Sprite Assets Input List
+  m_Name: SpriteAssetsInputList
   m_EditorClassIdentifier: InputTry::SpriteAssetsInputList
   _spriteAssetInputSchemes:
   - _schemeName: Keyboard&Mouse

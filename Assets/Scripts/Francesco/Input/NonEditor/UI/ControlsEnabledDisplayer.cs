@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
 
-public class ControlsPanel : MonoBehaviour
+public class ControlsEnabledDisplayer : MonoBehaviour
 {
     [SerializeField] private ControlRow _rowPrefab;
     [SerializeField] private GameObject _parent;
@@ -22,7 +22,7 @@ public class ControlsPanel : MonoBehaviour
         }
         set
         {
-            if(value < 1) value = 1;
+            if (value < 1) value = 1;
             _playerNumber = value;
         }
     }
@@ -105,6 +105,17 @@ public class ControlsPanel : MonoBehaviour
         InputEventsManager.OnUserAdded += PlayerSetUp;
         InputEventsManager.OnControlSchemeChanged -= SchemeChanged;
         InputEventsManager.OnControlSchemeChanged += SchemeChanged;
+
+        if (InputConfigManager.EnabledDisabledActionEvents.TryGetValue(_inputUser, out var enabledDisabledAction))
+        {
+            enabledDisabledAction.OnEnabledActionsChanged -= UpdateRows;
+            enabledDisabledAction.OnEnabledActionsChanged += UpdateRows;
+            enabledDisabledAction.OnDisabledActionsChanged -= UpdateRows;
+            enabledDisabledAction.OnDisabledActionsChanged += UpdateRows;
+        }
+
+        SchemeChanged(_inputUser);
+        UpdateRows();
     }
 
     void OnDisable()
@@ -124,13 +135,18 @@ public class ControlsPanel : MonoBehaviour
     {
         var rows = _parent.GetComponentsInChildren<ControlRow>();
 
-        var enabledInputActions = InputConfigManager.GetEnabledActions(_inputUser);
+
+        if (!_currentScheme.HasValue || _inputUser == null || !_inputUser.valid)
+        {
+            for (int i = rows.Length - 1; i >= 0; i--)
+            {
+                _rowsPooler.Set(rows[i]);
+            }
+            return;
+        }
 
         HashSet<int> skippedActions = new();
-        if (!_currentScheme.HasValue)
-        {
-            goto PoolUnusedRows;
-        }
+        var enabledInputActions = InputConfigManager.GetEnabledActions(_inputUser);
 
         for (int i = 0; i < enabledInputActions.Count; i++)
         {
@@ -157,12 +173,9 @@ public class ControlsPanel : MonoBehaviour
                 controlRow = _rowsPooler.Get(_parent.transform);
             }
 
-            // I can get the name override and the "Press @BUTTON to interact" from inputActionStruct, i just need to grab the first one in _actionsStacks
             controlRow.Initialize(bindingPrompt);
         }
 
-
-    PoolUnusedRows:
 
         // disable the skipped rows and the extra ones if any
         foreach (var index in skippedActions)

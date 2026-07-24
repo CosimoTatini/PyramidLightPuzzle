@@ -4,12 +4,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
+using UnityEngine.UI;
 
-public class SingleControlDisplayer : MonoBehaviour
+public class SingleButtonControlDisplayer : MonoBehaviour
 {
     [Tooltip("Only first action is taken into account")]
     [SerializeField] private InputConfigSO _config;
     [SerializeField] private TextMeshProUGUI _textControl;
+    [SerializeField] private Button _buttonToControl;
     [SerializeField, Range(0f, 1f)] private float _disabledOpacity;
     [SerializeField] private SpriteAssetsInputList _spriteAssetsInputList;
 
@@ -31,6 +33,7 @@ public class SingleControlDisplayer : MonoBehaviour
     private InputUser _inputUser;
     private InputControlScheme? _currentScheme;
     private InputActionEntry _firstActionEntry;
+    private InputAction _linkedInputAction;
 
     public void PlayerSetUp(InputUser inputUser, InputDevice device = null)
     {
@@ -97,10 +100,16 @@ public class SingleControlDisplayer : MonoBehaviour
             }
         }
 
-        if (_inputUser != null)
+        if (_inputUser != null && _firstActionEntry != null)
         {
             SchemeChanged(_inputUser);
+            _linkedInputAction = InputConfigManager.GetInputAction(_inputUser, _firstActionEntry.Guid);
         }
+    }
+
+    private void InvokeButtonClick(InputAction.CallbackContext context)
+    {
+        _buttonToControl.onClick.Invoke();
     }
 
     void OnEnable()
@@ -118,6 +127,10 @@ public class SingleControlDisplayer : MonoBehaviour
             enabledDisabledAction.OnDisabledActionsChanged += UpdateText;
         }
 
+        Activate();
+
+        Debug.Log(gameObject.name);
+
         SchemeChanged(_inputUser);
         UpdateText();
     }
@@ -132,8 +145,28 @@ public class SingleControlDisplayer : MonoBehaviour
             enabledDisabledAction.OnEnabledActionsChanged -= UpdateText;
             enabledDisabledAction.OnDisabledActionsChanged -= UpdateText;
         }
+
+        Deactivate();
     }
 
+    public void Activate()
+    {
+        if (_linkedInputAction != null)
+        {
+            _linkedInputAction.performed -= InvokeButtonClick;
+            _linkedInputAction.performed += InvokeButtonClick;
+            InputConfigManager.RegisterConfig(_config);
+        }
+    }
+
+    public void Deactivate()
+    {
+        if (_linkedInputAction != null)
+        {
+            _linkedInputAction.performed -= InvokeButtonClick;
+        }
+        InputConfigManager.UnregisterConfig(_config);
+    }
 
     private void UpdateText()
     {
