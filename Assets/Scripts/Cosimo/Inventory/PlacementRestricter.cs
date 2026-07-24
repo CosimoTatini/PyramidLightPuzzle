@@ -38,6 +38,40 @@ public class PlacementRestricter : MonoBehaviour
         }
     }
 
+    void OnEnable()
+    {
+        if (_tilemap == null)
+        {
+            Debug.LogWarning("Unassigned Tilemap: " + gameObject.name + " using PlacementManager's");
+            _tilemap = PlacementManager.Instance.TargetTilemap;
+        }
+        var cells = GetCoveredCells(_collder, _tilemap);
+        _validCoveredCells.Clear();
+
+        for (int i = 0; i < cells.Count; i++)
+        {
+            TileBase tile = _tilemap.GetTile(cells[i]);
+            if (tile == null)
+            {
+                continue;
+            }
+            _validCoveredCells.Add(cells[i]);
+        }
+
+        for (int i = 0; i < _validCoveredCells.Count; i++)
+        {
+            PlacementManager.Instance.SetCellRestriction(_tilemap, _validCoveredCells[i], true);
+        }
+    }
+
+    void OnDisable()
+    {
+        for (int i = 0; i < _validCoveredCells.Count; i++)
+        {
+            PlacementManager.Instance.SetCellRestriction(_tilemap, _validCoveredCells[i], false);
+        }
+    }
+
     public static List<Vector3Int> GetCoveredCells(Collider2D collider, Tilemap tilemap)
     {
         if (collider == null || tilemap == null)

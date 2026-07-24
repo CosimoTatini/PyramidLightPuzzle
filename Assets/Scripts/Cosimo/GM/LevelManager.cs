@@ -31,7 +31,8 @@ public class LevelManager : MonoBehaviour
     }
     #endregion
     public bool IsReloadingBattleScene;
-
+    public event Action OnLoadingStart;
+    public event Action OnLoadingEnd;
     [SerializeField] private GameObject _loaderCanvas;
     [SerializeField] private Image _progressBar;
     [SerializeField, Range(0.01f, 1f)] private float _maxProgress;
@@ -132,14 +133,17 @@ public class LevelManager : MonoBehaviour
         (
             PreLoadFadeIn
             (
-                () => StartCoroutine
+                () => {
+                    // Invochiamo l'evento quando il fade in è completato e lo schermo è nero
+                    OnLoadingStart?.Invoke();
+
+                    StartCoroutine
                     (
                         LoadSceneAsync
                         (
                             sceneName: sceneName,
                             loadMode: LoadSceneMode.Additive,
-                            onLoadSceneStart:
-                            () =>
+                            onLoadSceneStart: () =>
                             {
                                 _progressBar.gameObject.SetActive(true);
                                 _userTipsText.gameObject.SetActive(true);
@@ -148,11 +152,8 @@ public class LevelManager : MonoBehaviour
                                 _progressBar.fillAmount = 0;
                                 string tip = _userTips[UnityEngine.Random.Range(0, _userTips.Count)];
                                 _userTipsText.text = tip;
-                                
-
                             },
-                            onLoadSceneEnd:
-                            () =>
+                            onLoadSceneEnd: () =>
                             {
                                 _progressBar.gameObject.SetActive(false);
                                 _userTipsText.gameObject.SetActive(false);
@@ -161,12 +162,14 @@ public class LevelManager : MonoBehaviour
                                 {
                                     _loaderCanvas.SetActive(false);
                                     _fadePanel.gameObject.SetActive(false);
-                                }
-                            )
-                        );
+
+                                    // Invochiamo l'evento alla fine di tutto, quando il pannello è invisibile
+                                    OnLoadingEnd?.Invoke();
+                                }));
                             }
                         )
-                   )
+                   );
+                }
             )
          );
     }
@@ -303,6 +306,7 @@ public class LevelManager : MonoBehaviour
             }
         }
         Debug.Log($"[LevelManager] Fine LoadSceneAsync. La scena {sceneName} � ora attiva.");
+        PlacementManager.NotifySceneLoaded();
         onLoadSceneEnd?.Invoke();
     }
     public void SwitchGameplayScene(string currentSceneName, string newSceneName)

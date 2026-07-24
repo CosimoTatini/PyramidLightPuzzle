@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 5011505308115884236}
   - component: {fileID: 8622417059431508421}
   - component: {fileID: 7676580829639698738}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BlueSplit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -963,7 +963,7 @@ GameObject:
   - component: {fileID: 4281028816495176380}
   - component: {fileID: 7691363113357137239}
   - component: {fileID: 3711504176460908452}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: GreenSplit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1357,7 +1357,7 @@ GameObject:
   - component: {fileID: 3905726049635165699}
   - component: {fileID: 523759834892425703}
   - component: {fileID: 5986076999255190351}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: RedSplit
   m_TagString: Untagged
   m_Icon: {fileID: 0}

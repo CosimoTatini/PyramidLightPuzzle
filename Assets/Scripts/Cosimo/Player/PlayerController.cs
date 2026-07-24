@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D _rb;
     private Vector2 _moveDirection;
     private Vector2 _lastLookDirection = Vector2.down;
+    private Collider2D _collider;
 
     [SerializeField] private PlatformHandler _platformHandler;
 
@@ -26,6 +27,8 @@ public class PlayerController : MonoBehaviour
     public float MoveSpeed => _moveSpeed;
 
     public Vector2 LastLookDirection => _lastLookDirection;
+
+    public Collider2D Collider => _collider;
 
 
 
@@ -88,6 +91,17 @@ public class PlayerController : MonoBehaviour
     public void ResetMoveDirection()
     {
         _moveDirection = Vector2.zero;
+    }
+
+    public void EnableInput()
+    {
+        _inputActions?.Player.Enable();
+    }
+
+    public void DisableInput()
+    {
+        _inputActions?.Player.Disable();
+        _moveDirection= Vector2.zero;
     }
     // private void OnEnable() => _inputActions.Enable();
     // private void OnDisable() => _inputActions.Disable();

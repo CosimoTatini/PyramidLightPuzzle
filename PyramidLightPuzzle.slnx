@@ -4,9 +4,9 @@
   <Project Path="DesignPatterns.csproj" />
   <Project Path="InputTry.csproj" />
   <Project Path="InventorySystem.csproj" />
+  <Project Path="Obstacles.csproj" />
   <Project Path="Utility.csproj" />
   <Project Path="inventory.csproj" />
-  <Project Path="Obstacles.csproj" />
   <Project Path="Enemy.csproj" />
   <Project Path="NewAssembly.csproj" />
   <Project Path="Puzzles.csproj" />
