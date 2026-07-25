@@ -442,9 +442,9 @@ public class Player : MonoBehaviour, ISubject, IPriorityInteractableHost
                 {
                     InputConfigManager.UnregisterConfig(_currentInteractInteractable.InputConfigSO);
                 }
+                Debug.Log("UPDATE " + closerInteractable);
                 InputConfigManager.RegisterConfig(closerInteractable.InputConfigSO);
                 _currentInteractInteractable = closerInteractable;
-                // Debug.Log("UPDATE " + _currentInteractable);
             }
             else
             {

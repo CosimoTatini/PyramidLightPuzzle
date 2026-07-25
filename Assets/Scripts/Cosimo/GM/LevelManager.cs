@@ -275,7 +275,7 @@ public class LevelManager : MonoBehaviour
             string currentTextValue = $"{Mathf.RoundToInt(_progressBar.fillAmount * 100)}%";
 
             // LOG 2A: Aggiornamento percentuale basato sul progresso reale di Unity
-            Debug.Log($"[LevelManager] Update UI (Progresso Reale) - Fill: {_progressBar.fillAmount} | Testo: {currentTextValue}");
+            // Debug.Log($"[LevelManager] Update UI (Progresso Reale) - Fill: {_progressBar.fillAmount} | Testo: {currentTextValue}");
 
             _loadingText.text = currentTextValue;
 
@@ -296,7 +296,7 @@ public class LevelManager : MonoBehaviour
                     string fakeTextValue = $"{Mathf.RoundToInt(_progressBar.fillAmount * 100)}%";
 
                     // LOG 2B: Aggiornamento percentuale nel ciclo for finale fittizio
-                    Debug.Log($"[LevelManager] Update UI (Ciclo Finale) - Step: {i}/{cycles} | Fill: {_progressBar.fillAmount} | Testo: {fakeTextValue}");
+                    // Debug.Log($"[LevelManager] Update UI (Ciclo Finale) - Step: {i}/{cycles} | Fill: {_progressBar.fillAmount} | Testo: {fakeTextValue}");
 
                     _loadingText.text = fakeTextValue;
                 }

@@ -30,6 +30,11 @@ public class PlaceMagicalTorchInteraction : PlayerPriorityInteractable
             return;
         }
 
+        if (!PlacementManager.Instance.IsCellAvailable(PlacementManager.Instance.TargetTilemap, cellPos))
+        {
+            return;
+        }
+
         Vector3 spawnWorldPos = groundTilemap.GetCellCenterWorld(cellPos);
 
         TorchType type = InventoryManager.Instance.SelectedType;
