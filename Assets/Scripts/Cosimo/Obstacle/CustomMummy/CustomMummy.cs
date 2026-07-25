@@ -3,6 +3,7 @@ using UnityEngine;
 public class CustomMummy : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] private Animator _animator;
     [SerializeField] private PlatformHandler _platformHandler;
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private bool _startGoingLeft = true;
@@ -13,6 +14,14 @@ public class CustomMummy : MonoBehaviour
     [SerializeField] private Collider2D _collider;
     [SerializeField] private float _xLeftPosition;
     [SerializeField] private float _xRightPosition;
+
+    [Header("Impostazioni Movimento")]
+    [SerializeField] private float _speedThreshold = 0.05f;
+
+    private static readonly int VelocityXHash = Animator.StringToHash("VelocityX");
+    private static readonly int VelocityYHash = Animator.StringToHash("VelocityY");
+
+    private Vector2 _currentActiveDirection = Vector2.right;
 
     private bool _goingLeft;
 
@@ -105,14 +114,24 @@ public class CustomMummy : MonoBehaviour
     private void MoveLeft()
     {
         _rb.linearVelocity = new(-_movementSpeed, 0f);
-        _spriteRenderer.flipX = false;
+        _spriteRenderer.flipX = true;
         _goingLeft = true;
+        _currentActiveDirection = Vector2.left;
+        ApplyDirection(_currentActiveDirection);
     }
 
     private void MoveRight()
     {
         _rb.linearVelocity = new(_movementSpeed, 0f);
-        _spriteRenderer.flipX = true;
+        _spriteRenderer.flipX = false;
         _goingLeft = false;
+        _currentActiveDirection = Vector2.right;
+        ApplyDirection(_currentActiveDirection);
+    }
+
+    private void ApplyDirection(Vector2 dir)
+    {
+        _animator.SetFloat(VelocityXHash, dir.x);
+        _animator.SetFloat(VelocityYHash, dir.y);
     }
 }
