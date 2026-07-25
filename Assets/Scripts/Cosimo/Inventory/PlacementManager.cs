@@ -4,6 +4,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+
 /// <summary>
 /// Placement manager handles the Place/Grab interactions of the player.
 /// </summary>
@@ -18,7 +19,26 @@ public class PlacementManager : MonoBehaviour
     private Dictionary<Tilemap, Dictionary<Vector3Int, GameObject>> _tilemapCellsOccupied = new();
     private Dictionary<Tilemap, Dictionary<GameObject, Vector3Int[]>> _tilemapItemsCells = new();
     private Dictionary<Tilemap, HashSet<Vector3Int>> _restrictedCells = new Dictionary<Tilemap, HashSet<Vector3Int>>();
-    // private Dictionary<Vector3Int, TorchType> _torchTypes = new Dictionary<Vector3Int, TorchType>();
+    private Dictionary<Vector3Int, TorchType> _torchTypes = new Dictionary<Vector3Int, TorchType>();
+    public static event Action OnSceneLoaded;
+
+    public static void NotifySceneLoaded()
+    {
+        OnSceneLoaded?.Invoke();
+    }
+    private void OnEnable()
+    {
+        OnSceneLoaded += HandleSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        OnSceneLoaded -= HandleSceneLoaded;
+    }
+    private void HandleSceneLoaded()
+    {
+        RegisterPreExistentTorches();
+    }
 
     public Tilemap TargetTilemap
     {
@@ -26,6 +46,7 @@ public class PlacementManager : MonoBehaviour
         set => _targetTilemap = value;
     }
 
+   
     #region SINGLETON_INSTANCE
     private void Awake()
     {
@@ -48,6 +69,7 @@ public class PlacementManager : MonoBehaviour
     /// Player can grab the torches that are put from the editor,
     /// so i need that these torches must be registered all at the begin of the game.
     /// </summary>
+    /// 
     public void RegisterPreExistentTorches()
     {
         // TypeChooser[] torchesType = FindObjectsByType<TypeChooser>(FindObjectsSortMode.None);
@@ -305,7 +327,6 @@ public class PlacementManager : MonoBehaviour
     public void InitializeTilemap(Tilemap tilemap)
     {
         _targetTilemap = tilemap;
-        RegisterPreExistentTorches();
     }
 
     #endregion
