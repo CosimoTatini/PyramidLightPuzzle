@@ -1,0 +1,234 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1277d0686abe4fe53a16307751050170, type: 3}
+  m_Name: DisplayedKeybindingsConfig
+  m_EditorClassIdentifier: InputTry::InputConfigSO
+  _inputAssetMaps:
+  - AssetType: {fileID: 11400000, guid: e96d257d5ef5782029bb3f86587ef374, type: 2}
+    InputMapStructs:
+    - Guid: df70fa95-8a34-4494-b137-73ab6b9c7d37
+      Name: Player
+      InputActionEntries:
+      - Guid: 351f2ccd-1f9f-44bf-9bec-d62ac5c5f408
+        Name: Move
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: 978bfe49-cc26-4a3d-ab7b-7d7a29327403
+            Name: LS
+            Prompt: '@BUTTON Move'
+          - Guid: 2bebbbc5-9139-45a3-8b44-5d32e1c9c6c1
+            Name: LS
+            Prompt: '@BUTTON Move'
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: 00ca640b-d935-4593-8157-c05846ea39b3
+            Name: W/A/S/D
+            Prompt: '@BUTTON/@BUTTON/@BUTTON/@BUTTON Move'
+          - Guid: 28cbf7fd-3426-4794-b65e-3f998d071fb9
+            Name: Control+Shift+T
+            Prompt: '@BUTTON + @BUTTON + @BUTTON Move'
+        - Scheme: XR
+          Prompts:
+          - Guid: 1635d3fe-58b6-4ba9-a4e2-f4b964f6b5c8
+            Name: Primary2DAxis
+            Prompt: '@BUTTON Move'
+        - Scheme: Joystick
+          Prompts:
+          - Guid: 3ea4d645-4504-4529-b061-ab81934c3752
+            Name: Stick
+            Prompt: '@BUTTON Move'
+      - Guid: 852140f2-7766-474d-8707-702459ba45f3
+        Name: Interact
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: 1c04ea5f-b012-41d1-a6f7-02e963b52893
+            Name: E
+            Prompt: '@BUTTON Interact'
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: b3f66d0b-7751-423f-908b-a11c5bd95930
+            Name: X
+            Prompt: '@BUTTON Interact'
+      - Guid: f1ba0d36-48eb-4cd5-b651-1c94a6531f70
+        Name: Jump
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: eb40bb66-4559-4dfa-9a2f-820438abb426
+            Name: Space
+            Prompt: '@BUTTON Jump'
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: daba33a1-ad0c-4742-a909-43ad1cdfbeb6
+            Name: A
+            Prompt: '@BUTTON Jump'
+        - Scheme: XR
+          Prompts:
+          - Guid: 603f3daf-40bd-4854-8724-93e8017f59e3
+            Name: secondaryButton
+            Prompt: '@BUTTON Jump'
+      - Guid: 8111a4e7-2ecc-44e0-be3e-8845bf8cb323
+        Name: Switch
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: 73d83de3-4bc7-4844-887a-3eba48c68c1d
+            Name: Tab
+            Prompt: '@BUTTON Switch'
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: c9264b5c-3172-4e52-993a-6e57be73f344
+            Name: Left Stick Press
+            Prompt: '@BUTTON Switch'
+      - Guid: caf14774-abd8-4d43-9996-dc353909bc3f
+        Name: SetRed
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: 104b7783-e416-4b48-a9dd-b67e08607e88
+            Name: R
+            Prompt: '@BUTTON SetRed'
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: 8e99d160-5b6b-4a7b-89a8-c0d15aca6d54
+            Name: Y
+            Prompt: '@BUTTON SetRed'
+      - Guid: 99a84728-3311-4211-a8a1-17a929539c1b
+        Name: SetGreen
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: efc36d98-84cf-4674-88ed-bca0d0b89345
+            Name: G
+            Prompt: '@BUTTON SetGreen'
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: 0b6955fa-5047-48d6-9f7b-75b1e3dddbf6
+            Name: B
+            Prompt: '@BUTTON SetGreen'
+      - Guid: 539c73e2-8745-4bcd-9f54-57bb70274ce9
+        Name: SetBlue
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: 7c8698ab-f4c0-4d63-94a1-bc36a48d6f34
+            Name: B
+            Prompt: '@BUTTON SetBlue'
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: 1d7fd3b7-93d7-48aa-b1e1-3eccc8979fdb
+            Name: A
+            Prompt: '@BUTTON SetBlue'
+      - Guid: f14be638-ae99-4ea6-bb63-6b910da41c5b
+        Name: NextColor
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: 079187ee-06db-4b59-bd1a-f600d54cbe31
+            Name: O
+            Prompt: '@BUTTON NextColor'
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: 59fad096-18d0-48a4-9410-15386eee6c4c
+            Name: RB
+            Prompt: '@BUTTON NextColor'
+      - Guid: a2946c86-b3cb-42ee-80c4-f94c88165a29
+        Name: PreviousColor
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: ee89a0d2-c6f3-4f48-8d06-8002870ecf72
+            Name: K
+            Prompt: '@BUTTON PreviousColor'
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: 1dabd63d-83ff-408d-a15c-c47c04845c07
+            Name: LB
+            Prompt: '@BUTTON PreviousColor'
+      - Guid: fc5aee51-93f4-42b8-b8f5-56703389d4ca
+        Name: Throw
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: f82262f4-7706-48b6-92c4-a1d801f1f906
+            Name: P
+            Prompt: '@BUTTON Throw'
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: ad4eea47-d7e8-4997-8d5b-6616ffa97f31
+            Name: RT
+            Prompt: '@BUTTON Throw'
+      - Guid: 6ea8a0d4-8de3-45be-bb65-2b374d90d943
+        Name: ZoomIn
+        Priority: -1
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: 3ea69765-4b84-4b68-9bc5-a5ce7127d6a5
+            Name: Z
+            Prompt: '@BUTTON ZoomIn'
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: 04e39cc8-a7db-49ea-87b0-215a1176c736
+            Name: D-Pad/Up
+            Prompt: '@BUTTON ZoomIn'
+      - Guid: dcc6b12c-756e-45c4-92fe-26009f621a9c
+        Name: ZoomOut
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: 70a08eb5-1807-435b-bdda-bdbef5578718
+            Name: X
+            Prompt: '@BUTTON ZoomOut'
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: 6c4818a9-b36e-4050-a211-5af412e8dfb7
+            Name: D-Pad/Down
+            Prompt: '@BUTTON ZoomOut'
+  _lastUsedInputAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

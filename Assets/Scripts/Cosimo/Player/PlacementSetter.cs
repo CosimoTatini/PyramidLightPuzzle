@@ -7,7 +7,7 @@ public class PlacementSetter : MonoBehaviour
 {
     [SerializeField] private Tilemap tilemap;
 
-    private void Start()
+    private void Awake()
     {
        if(PlacementManager.Instance != null)
         {

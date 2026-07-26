@@ -109,6 +109,17 @@ public class SingleControlDisplayer : MonoBehaviour
         InputEventsManager.OnUserAdded += PlayerSetUp;
         InputEventsManager.OnControlSchemeChanged -= SchemeChanged;
         InputEventsManager.OnControlSchemeChanged += SchemeChanged;
+
+        if (InputConfigManager.EnabledDisabledActionEvents.TryGetValue(_inputUser, out var enabledDisabledAction))
+        {
+            enabledDisabledAction.OnEnabledActionsChanged -= UpdateText;
+            enabledDisabledAction.OnEnabledActionsChanged += UpdateText;
+            enabledDisabledAction.OnDisabledActionsChanged -= UpdateText;
+            enabledDisabledAction.OnDisabledActionsChanged += UpdateText;
+        }
+
+        SchemeChanged(_inputUser);
+        UpdateText();
     }
 
     void OnDisable()

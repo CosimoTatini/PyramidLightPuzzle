@@ -48,7 +48,25 @@ public static class InputConfigManager//Singleton<InputConfigManager>
         Application.quitting -= Cleanup;
     }
 
-    public static InputActionEntry GetInputActionEntry(InputUser id, string actionGuid)
+    public static InputAction GetInputAction(InputUser id, string actionGuid)
+    {
+        if (id == null || !id.valid) return null;
+        if (string.IsNullOrEmpty(actionGuid)) return null;
+
+        if (_actionsCaches.TryGetValue(id, out var dict))
+        {
+            if (dict.TryGetValue(actionGuid, out var inputAction))
+            {
+                if (inputAction != null)
+                {
+                    return inputAction;
+                }
+            }
+        }
+        return null;
+    }
+
+    public static InputActionEntry GetStackFirstActionEntry(InputUser id, string actionGuid)
     {
         if (id == null || !id.valid) return null;
         if (string.IsNullOrEmpty(actionGuid)) return null;

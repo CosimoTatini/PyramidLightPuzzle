@@ -11,9 +11,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TutorialFra2.unity
     guid: 8d13df390b4e3d1a39c78e33207f50a9
+  - enabled: 0
+    path: Assets/Scenes/TutorialGabriBak.unity
+    guid: a306f482ae8184a2a8d3094604ed239d
   - enabled: 1
-    path: Assets/Scenes/PyramidGabriele.unity
-    guid: 0bbb3b9fb28db6ba5b6bd9469c233194
+    path: Assets/Scenes/TutorialCosimo.unity
+    guid: 2afd87a9a0d95564196b7c9212f0f367
+  - enabled: 1
+    path: Assets/Scenes/PyramidCosOfficial.unity
+    guid: b40d68bdeeac54541a9632c066579c9b
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

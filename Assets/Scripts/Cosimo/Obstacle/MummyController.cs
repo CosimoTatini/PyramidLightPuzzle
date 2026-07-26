@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))] // Garantisce la presenza dello SpriteRenderer 🎨
 public class MummyAnimationController : MonoBehaviour
 {
-    private IVelocityProvider _velocityProvider;
+    [SerializeField] private PlatformHandler _platformHandler;
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
 
@@ -20,9 +20,8 @@ public class MummyAnimationController : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _velocityProvider = GetComponent<IVelocityProvider>();
 
-        if (_velocityProvider == null)
+        if (_platformHandler == null)
         {
             Debug.LogError($"[{gameObject.name}] Manca il componente IVelocityProvider!", this);
         }
@@ -35,9 +34,9 @@ public class MummyAnimationController : MonoBehaviour
 
     private void Update()
     {
-        if (_velocityProvider == null) return;
+        if (_platformHandler == null) return;
 
-        Vector2 velocity = _velocityProvider.Velocity;
+        Vector2 velocity = _platformHandler.Velocity;
         float absX = Mathf.Abs(velocity.x);
         float absY = Mathf.Abs(velocity.y);
 

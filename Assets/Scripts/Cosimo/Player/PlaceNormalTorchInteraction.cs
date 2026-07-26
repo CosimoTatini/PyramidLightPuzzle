@@ -30,8 +30,14 @@ public class PlaceNormalTorchInteraction : PlayerPriorityInteractable
         {
             return;
         }
+        
+        if(!PlacementManager.Instance.IsCellAvailable(PlacementManager.Instance.TargetTilemap,cellPos))
+        {
+            return;
+        }
 
         Vector3 spawnWorldPos = groundTilemap.GetCellCenterWorld(cellPos);
+
 
         TorchType type = InventoryManager.Instance.SelectedType;
         GameObject torchInstance = Instantiate(InventoryManager.Instance.TorchPrefab, spawnWorldPos, Quaternion.identity);

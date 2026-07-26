@@ -95,13 +95,14 @@ public class PlayerController : MonoBehaviour
 
     public void EnableInput()
     {
-        _inputActions?.Player.Enable();
+        InputConfigManager.RegisterConfig(_playerConfig);
     }
 
     public void DisableInput()
     {
-        _inputActions?.Player.Disable();
+        InputConfigManager.UnregisterConfig(_playerConfig);
         _moveDirection= Vector2.zero;
+        // _inputActions?.Player.Disable();
     }
     // private void OnEnable() => _inputActions.Enable();
     // private void OnDisable() => _inputActions.Disable();

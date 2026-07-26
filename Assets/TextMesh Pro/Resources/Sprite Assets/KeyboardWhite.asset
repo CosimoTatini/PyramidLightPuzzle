@@ -229,7 +229,7 @@ MonoBehaviour:
     m_Unicode: 65534
     m_GlyphIndex: 29
     m_Scale: 1
-    m_Name: keyboard_esc
+    m_Name: keyboard_escape
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 30
