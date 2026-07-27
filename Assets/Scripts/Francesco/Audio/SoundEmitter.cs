@@ -87,6 +87,11 @@ public class SoundEmitter : MonoBehaviour
         _activeReturnAudioSourcesCoroutines.Add(guid, StartCoroutine(ReturnAudioSourceToPoolAfterPlaying(audioSource, guid)));
     }
 
+    public void PlayOneShotTracked(SoundConfig soundConfig)
+    {
+        PlayOneShotTracked(soundConfig, true);
+    }
+
     public void PlayOneShotTracked(SoundConfig soundConfig, bool shouldRestartIfPlayingAlready = true)
     {
         if (soundConfig == null) return;
@@ -176,6 +181,11 @@ public class SoundEmitter : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void PlayLoop(SoundConfig soundConfig)
+    {
+        PlayLoop(soundConfig, true);
     }
 
     public void PlayLoop(SoundConfig soundConfig, bool shouldRestartIfPlayingAlready = true)

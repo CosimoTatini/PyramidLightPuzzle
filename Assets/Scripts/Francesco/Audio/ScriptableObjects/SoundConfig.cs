@@ -43,7 +43,8 @@ public class SoundConfig : ScriptableObject
     [Header("Spatial (3D)")]
     [Tooltip("How much 3D spatialization to apply. 0 = fully 2D (no distance attenuation or panning), 1 = fully 3D (positional audio).")]
     [SerializeField][Range(0f, 1f)] private float _spatialBlend = 1f;
-    [SerializeField] private AnimationCurve _rolloffCurve;
+    [Tooltip("How the audio fades with distance")]
+    [SerializeField] private AnimationCurve _volumeRolloffCurve;
 
     [Tooltip("How much the pitch changes based on the velocity of the source relative to the listener. 0 = Doppler effect disabled.")]
     [SerializeField][Range(0f, 5f)] private float _dopplerLevel = 1f;
@@ -136,7 +137,7 @@ public class SoundConfig : ScriptableObject
         source.dopplerLevel = _dopplerLevel;
         source.minDistance = _minDistance;
         source.maxDistance = _maxDistance;
-        source.SetCustomCurve(AudioSourceCurveType.CustomRolloff, _rolloffCurve);
+        source.SetCustomCurve(AudioSourceCurveType.CustomRolloff, _volumeRolloffCurve);
         source.rolloffMode = AudioRolloffMode.Custom;
 
         // Panning & Spread
@@ -172,7 +173,7 @@ public void SetupDefaultVolumeCurve()
     if (_minDistance >= _maxDistance) _minDistance = _maxDistance;
 
     float normalizedMin = _minDistance / _maxDistance;
-    _rolloffCurve = new AnimationCurve();
+    _volumeRolloffCurve = new AnimationCurve();
 
     // --- Settings for the true logarithmic shape ---
     // Base of the logarithm. Higher base -> steeper drop right after minDistance,
@@ -206,16 +207,16 @@ public void SetupDefaultVolumeCurve()
             volume = 1f - logVal;
         }
 
-        _rolloffCurve.AddKey(x, volume);
+        _volumeRolloffCurve.AddKey(x, volume);
     }
 
     // Force linear tangents between all keyframes to prevent any
     // "ease‑in‑ease‑out" interpolation artifacts.
 #if UNITY_EDITOR
-    for (int i = 0; i < _rolloffCurve.keys.Length; i++)
+    for (int i = 0; i < _volumeRolloffCurve.keys.Length; i++)
     {
-        UnityEditor.AnimationUtility.SetKeyLeftTangentMode(_rolloffCurve, i, UnityEditor.AnimationUtility.TangentMode.Linear);
-        UnityEditor.AnimationUtility.SetKeyRightTangentMode(_rolloffCurve, i, UnityEditor.AnimationUtility.TangentMode.Linear);
+        UnityEditor.AnimationUtility.SetKeyLeftTangentMode(_volumeRolloffCurve, i, UnityEditor.AnimationUtility.TangentMode.Linear);
+        UnityEditor.AnimationUtility.SetKeyRightTangentMode(_volumeRolloffCurve, i, UnityEditor.AnimationUtility.TangentMode.Linear);
     }
 #endif
 }
