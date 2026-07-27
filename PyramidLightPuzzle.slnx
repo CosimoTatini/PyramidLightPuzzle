@@ -4,6 +4,7 @@
   <Project Path="DesignPatterns.csproj" />
   <Project Path="InputTry.csproj" />
   <Project Path="InventorySystem.csproj" />
+  <Project Path="Audio.csproj" />
   <Project Path="Obstacles.csproj" />
   <Project Path="Utility.csproj" />
   <Project Path="inventory.csproj" />

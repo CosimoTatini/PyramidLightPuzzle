@@ -5,6 +5,8 @@ using UnityEngine.Tilemaps;
 
 public class RecallMagicalTorchInteraction : ItemInteraction
 {
+    [SerializeField] private AudioClipListGroup _audioClipListGroup;
+    
     public override void Interact()
     {
         if (_player == null) return;
@@ -12,6 +14,7 @@ public class RecallMagicalTorchInteraction : ItemInteraction
         GameObject magicalTorch = PlacementManager.Instance.FindItemOfType(typeof(MagicalTorch));
         if (magicalTorch == null) return;
 
+        SFXManager.Instance.PlayOneShotRandom(_audioClipListGroup);
         _player.SetState(ECharacterStates.Grab);
         Destroy(magicalTorch);
 
