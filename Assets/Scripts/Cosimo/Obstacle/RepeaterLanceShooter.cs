@@ -79,7 +79,7 @@ public class RepeaterLanceShooter : MonoBehaviour, IObserver
 
         
         float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
-        proj.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        proj.transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
 
         proj.gameObject.SetActive(true);
 
