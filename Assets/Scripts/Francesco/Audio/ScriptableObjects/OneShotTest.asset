@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 534788000ac8df234bd4bda487723736, type: 3}
   m_Name: OneShotTest
   m_EditorClassIdentifier: Audio::SoundConfig
-  _clip: {fileID: 8300000, guid: c409b8d0066b9c27ab33eb58ee74ce32, type: 3}
+  _clip: {fileID: 8300000, guid: 764bbb42d100daa6daf56e6c133760b5, type: 3}
   _randomize: 1
   _clipsAlternatives:
-  - {fileID: 8300000, guid: bca90756fb471a2b38731e8c9bc32f71, type: 3}
-  - {fileID: 8300000, guid: e4a55b6fbacc80f46a5b69e893747080, type: 3}
-  - {fileID: 8300000, guid: f2ab4b27fa871fd4885b2a9352650387, type: 3}
+  - {fileID: 8300000, guid: abce7e2a31db840a08785a45e99e25c3, type: 3}
+  - {fileID: 8300000, guid: 2905d41ad81c8044b85dbec3155de579, type: 3}
+  - {fileID: 8300000, guid: 2905d41ad81c8044b85dbec3155de579, type: 3}
   _mixerGroup: {fileID: -1553663287405846815, guid: 484e486787fb29756b28b8035aef8903, type: 2}
   _priority: 128
   _loop: 0
@@ -26,7 +26,7 @@ MonoBehaviour:
   _pitch: 1
   _pitchVariance: 0.05
   _spatialBlend: 1
-  _rolloffCurve:
+  _volumeRolloffCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3

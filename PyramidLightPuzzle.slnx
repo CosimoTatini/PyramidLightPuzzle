@@ -1,4 +1,5 @@
 ﻿<Solution>
+  <Project Path="Utility.csproj" />
   <Project Path="Player.csproj" />
   <Project Path="Assembly-CSharp-Editor.csproj" />
   <Project Path="DesignPatterns.csproj" />
@@ -6,7 +7,6 @@
   <Project Path="InventorySystem.csproj" />
   <Project Path="Audio.csproj" />
   <Project Path="Obstacles.csproj" />
-  <Project Path="Utility.csproj" />
   <Project Path="inventory.csproj" />
   <Project Path="Enemy.csproj" />
   <Project Path="NewAssembly.csproj" />
