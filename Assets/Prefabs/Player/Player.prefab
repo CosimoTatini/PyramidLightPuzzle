@@ -634,8 +634,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Player::CameraZoomController
   _minZoom: 4
-  _maxZoom: 6
-  _zoomStep: 2
+  _maxZoom: 12
+  _zoomStep: 4
   _zoomSpeed: 5
   _targetTolerance: 0.01
 --- !u!1 &7746538460979912033
