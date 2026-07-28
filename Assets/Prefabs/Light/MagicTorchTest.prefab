@@ -88,7 +88,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -489001459
-  m_SortingLayer: 2
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
@@ -278,6 +278,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Player::RecallMagicalTorchInteraction
   <InputConfigSO>k__BackingField: {fileID: 11400000, guid: a7517e14b429f6f98a087b31d5cae0fc, type: 2}
   _itemPlacement: {fileID: 2346642929711741624}
+  _audioClipListGroup: {fileID: 0}
 --- !u!114 &2346642929711741624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,6 +307,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Player::ThrowDustInteraction
   <InputConfigSO>k__BackingField: {fileID: 11400000, guid: 2fe2263eb2dbfb373bb4912b4f839639, type: 2}
   _itemPlacement: {fileID: 2346642929711741624}
+  _audioClipListGroup: {fileID: 11400000, guid: 93ade03ccb2179f4ca63bac5228c9652, type: 2}
 --- !u!61 &1553372535340748330
 BoxCollider2D:
   m_ObjectHideFlags: 0

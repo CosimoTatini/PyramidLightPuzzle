@@ -162,6 +162,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Player::GrabNormalTorchInteraction
   <InputConfigSO>k__BackingField: {fileID: 11400000, guid: 2a75a5a609d14736fb7e476e13284167, type: 2}
   _itemPlacement: {fileID: 165076883788538747}
+  _audioClipListGroup: {fileID: 11400000, guid: 166fe73f07da836808cee82662065d67, type: 2}
 --- !u!114 &194477825392880268
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -185,12 +185,9 @@ MonoBehaviour:
   ThrowSettings:
     clipName: Throw
     clip: {fileID: 7400000, guid: 9f5ebd00c2f86684595417da8bc5e715, type: 2}
-  CheckPoints:
-  - {fileID: 0}
+  CurrentCheckPoint: {fileID: 0}
   Animator: {fileID: 0}
   _currentStateEnum: 0
-  _placeableTilemap: {fileID: 0}
-  _torchPrefab: {fileID: 678640918433679956, guid: 091c486d4e0ae0949b1e372d348b210c, type: 3}
   _feetTransform: {fileID: 7952647831651912957}
   _recallMagicalTorchInteraction: {fileID: 7050742327380512171}
   _placeMagicalTorchInteraction: {fileID: 8929111729706422743}
@@ -288,6 +285,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Player::GrabMagicalTorchInteraction
   <InputConfigSO>k__BackingField: {fileID: 11400000, guid: a7517e14b429f6f98a087b31d5cae0fc, type: 2}
+  _itemPlacement: {fileID: 0}
+  _audioClipListGroup: {fileID: 11400000, guid: 166fe73f07da836808cee82662065d67, type: 2}
 --- !u!114 &8929111729706422743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,6 +300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Player::PlaceMagicalTorchInteraction
   <InputConfigSO>k__BackingField: {fileID: 11400000, guid: f05c8696e7c70e5c68e3fdaa74431531, type: 2}
+  _audioClipListGroup: {fileID: 11400000, guid: 2248109385978ac509b9adde50d44b09, type: 2}
 --- !u!114 &6189318054724317936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,6 +314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Player::PlaceNormalTorchInteraction
   <InputConfigSO>k__BackingField: {fileID: 11400000, guid: e346b7e2fe5b54c4ea55a2b12a617b9e, type: 2}
+  _audioClipListGroup: {fileID: 11400000, guid: 2248109385978ac509b9adde50d44b09, type: 2}
 --- !u!1 &5550328600045715910
 GameObject:
   m_ObjectHideFlags: 0
@@ -540,7 +541,7 @@ Transform:
   m_GameObject: {fileID: 6204006812434994769}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -0.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -572,7 +573,7 @@ MonoBehaviour:
   Lens:
     FieldOfView: 60
     OrthographicSize: 4.408926
-    NearClipPlane: 0.3
+    NearClipPlane: 0.01
     FarClipPlane: 1000
     Dutch: 0
     ModeOverride: 0
@@ -601,7 +602,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 886251e9a18ece04ea8e61686c173e1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachinePositionComposer
-  CameraDistance: 10
+  CameraDistance: 0.01
   DeadZoneDepth: 0
   Composition:
     ScreenPosition: {x: 0, y: 0}

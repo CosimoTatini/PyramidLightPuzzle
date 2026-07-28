@@ -2,11 +2,14 @@ using UnityEngine;
 
 public class GrabNormalTorchInteraction : ItemInteraction
 {
+    [SerializeField] private AudioClipListGroup _audioClipListGroup;
+
     public override void Interact()
     {
         if (_player == null) return;
         if (_itemPlacement == null) return;
-
+        
+        SFXManager.Instance.PlayOneShotRandom(_audioClipListGroup);
         _player.SetState(ECharacterStates.Grab);
         Destroy(gameObject);
 

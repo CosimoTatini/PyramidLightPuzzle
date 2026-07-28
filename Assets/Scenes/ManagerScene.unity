@@ -299,11 +299,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9940420c9fe087d49ac3cb886b2b4a2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: GameManager::GameManager
-  _uiManager: {fileID: 2023646082}
+  _uiManager: {fileID: 0}
   _placementManager: {fileID: 1357928796}
   _inventoryManager: {fileID: 448751464}
   _levelManager: {fileID: 1582118379}
-  _uiCanvas: {fileID: 2039063296}
+  _uiCanvas: {fileID: 0}
 --- !u!1001 &1582118377
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -419,6 +419,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< HEAD
 --- !u!1001 &2023646081
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -803,14 +804,14 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3763864033982313804, guid: cc4a2cbc65d780946b89d86fc95f8a87, type: 3}
   m_PrefabInstance: {fileID: 2039063295}
   m_PrefabAsset: {fileID: 0}
+=======
+>>>>>>> origin/Merge_25-07-26
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 448751463}
   - {fileID: 1357928795}
-  - {fileID: 2023646081}
   - {fileID: 1707503828}
   - {fileID: 1567811151}
   - {fileID: 1582118377}
-  - {fileID: 2039063295}

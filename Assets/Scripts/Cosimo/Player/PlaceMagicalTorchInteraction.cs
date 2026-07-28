@@ -4,6 +4,8 @@ using UnityEngine.Tilemaps;
 
 public class PlaceMagicalTorchInteraction : PlayerPriorityInteractable
 {
+    [SerializeField] private AudioClipListGroup _audioClipListGroup;
+
     public override void Interact()
     {
         if (_player == null) return;
@@ -46,6 +48,7 @@ public class PlaceMagicalTorchInteraction : PlayerPriorityInteractable
 
         if (PlacementManager.Instance.HasItem(torchInstance))
         {
+            SFXManager.Instance.PlayOneShotRandom(_audioClipListGroup);
             _player.SetState(ECharacterStates.Place);
         }
         else

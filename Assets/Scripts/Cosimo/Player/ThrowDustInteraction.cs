@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class ThrowDustInteraction : ItemInteraction
 {
+    [SerializeField] private AudioClipListGroup _audioClipListGroup;
+    
     public override void Interact()
     {
         if (_player == null) return;
@@ -35,6 +37,7 @@ public class ThrowDustInteraction : ItemInteraction
         {
             InventoryManager.Instance.UsePowder();
             ApplyPowderToEmitter(lightEmitter, selectedColor);
+            SFXManager.Instance.PlayOneShotRandom(_audioClipListGroup);
             _player.SetState(ECharacterStates.Throw);
         }
     }
