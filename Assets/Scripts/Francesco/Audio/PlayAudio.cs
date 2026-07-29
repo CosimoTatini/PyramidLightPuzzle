@@ -15,21 +15,21 @@ public class PlayAudio : MonoBehaviour
 
     public void PlayOneShot(AudioClipGroup clipGroup)
     {
-        SFXManager.Instance.PlayLoop(clipGroup);
+        Global2DAudioPlayer.Instance.PlayLoop(clipGroup);
     }
 
     public void PlayOneShotRandom(AudioClipListGroup clipListGroup)
     {
-        SFXManager.Instance.PlayOneShotRandom(clipListGroup);
+        Global2DAudioPlayer.Instance.PlayOneShotRandom(clipListGroup);
     }
 
     public void PlayLoop(AudioClipGroup clipGroup)
     {
-        SFXManager.Instance.PlayLoop(clipGroup);
+        Global2DAudioPlayer.Instance.PlayLoop(clipGroup);
     }
 
     public void PlayLoopRandom(AudioClipListGroup clipListGroup)
     {
-        SFXManager.Instance.PlayLoopRandom(clipListGroup);
+        Global2DAudioPlayer.Instance.PlayLoopRandom(clipListGroup);
     }
 }

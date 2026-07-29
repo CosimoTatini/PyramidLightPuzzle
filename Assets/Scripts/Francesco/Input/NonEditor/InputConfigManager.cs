@@ -305,8 +305,8 @@ public static class InputConfigManager//Singleton<InputConfigManager>
     /// <param name="configSO"></param>
     public static void RegisterConfig(InputConfigSO configSO)
     {
-        if (InputEventsManager.Player1.HasValue)
-            RegisterConfig(configSO, InputEventsManager.Player1.Value);
+        if (InputUserEventsManager.Player1.HasValue)
+            RegisterConfig(configSO, InputUserEventsManager.Player1.Value);
         else
             Debug.LogWarning("Can't register config, No Players Detected");
     }
@@ -339,8 +339,8 @@ public static class InputConfigManager//Singleton<InputConfigManager>
 
     public static void UnregisterConfig(InputConfigSO configSO)
     {
-        if (InputEventsManager.Player1.HasValue)
-            UnregisterConfig(configSO, InputEventsManager.Player1.Value);
+        if (InputUserEventsManager.Player1.HasValue)
+            UnregisterConfig(configSO, InputUserEventsManager.Player1.Value);
         else
             Debug.LogWarning("Can't unregister config, No Players Detected");
     }

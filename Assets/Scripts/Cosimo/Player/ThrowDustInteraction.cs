@@ -38,7 +38,7 @@ public class ThrowDustInteraction : ItemInteraction
         {
             InventoryManager.Instance.UsePowder();
             ApplyPowderToEmitter(lightEmitter, selectedColor);
-            SFXManager.Instance.PlayOneShotRandom(_audioClipListGroup);
+            Global2DAudioPlayer.Instance.PlayOneShotRandom(_audioClipListGroup);
             _player.SetState(ECharacterStates.Throw);
         }
     }
