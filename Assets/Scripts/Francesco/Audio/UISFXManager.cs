@@ -13,7 +13,7 @@ public class UISFXManager : Singleton<UISFXManager>
         if (IsOnEnterSoundPlaying) return;
 
         IsOnEnterSoundPlaying = true;
-        SFXManager.Instance.PlayOneShotRandom(OnEnterSoundList);
+        Global2DAudioPlayer.Instance.PlayOneShotRandom(OnEnterSoundList);
         
         Invoke(nameof(ResetOnEnterSoundPlaying), DelayEnterSound);
     }

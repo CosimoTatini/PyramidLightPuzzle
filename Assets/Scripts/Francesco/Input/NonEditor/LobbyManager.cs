@@ -3,7 +3,7 @@ using DesignPatterns.Generics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
-using IEM = InputEventsManager;
+using IEM = InputUserEventsManager;
 
 // To display the icons I need to have a referenceto the inputUser, this lets me retrieve the control scheme
 // then in the UI i can retrieve the list of all enabled inputActions (need to put a list of hidden ones, so they are skipped when creating the rows, for instance Movement)

@@ -1,7 +1,7 @@
 using System.Linq;
 using UnityEngine;
 
-public abstract class PriorityInteractable : MonoBehaviour, IPriorityInteractable
+public abstract class PriorityInteraction : MonoBehaviour, IPriorityInteractable
 {
     [field: SerializeField] public InputConfigSO InputConfigSO { get; set; }
 

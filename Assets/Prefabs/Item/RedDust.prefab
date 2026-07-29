@@ -84,7 +84,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -489001459
-  m_SortingLayer: 2
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 6375651559227999974, guid: 6c0e0852176d5ee418dd3fd0552828f2, type: 3}
@@ -188,7 +188,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.45
+  m_Radius: 0.35
 --- !u!114 &-8457113168630427258
 MonoBehaviour:
   m_ObjectHideFlags: 0

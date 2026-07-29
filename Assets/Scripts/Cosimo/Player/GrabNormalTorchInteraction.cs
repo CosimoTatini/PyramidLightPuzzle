@@ -9,7 +9,7 @@ public class GrabNormalTorchInteraction : ItemInteraction
         if (_player == null) return;
         if (_itemPlacement == null) return;
         
-        SFXManager.Instance.PlayOneShotRandom(_audioClipListGroup);
+        Global2DAudioPlayer.Instance.PlayOneShotRandom(_audioClipListGroup);
         _player.SetState(ECharacterStates.Grab);
         Destroy(gameObject);
 

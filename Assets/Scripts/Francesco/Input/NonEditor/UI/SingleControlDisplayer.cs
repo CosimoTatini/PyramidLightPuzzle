@@ -105,10 +105,10 @@ public class SingleControlDisplayer : MonoBehaviour
 
     void OnEnable()
     {
-        InputEventsManager.OnUserAdded -= PlayerSetUp;
-        InputEventsManager.OnUserAdded += PlayerSetUp;
-        InputEventsManager.OnControlSchemeChanged -= SchemeChanged;
-        InputEventsManager.OnControlSchemeChanged += SchemeChanged;
+        InputUserEventsManager.OnUserAdded -= PlayerSetUp;
+        InputUserEventsManager.OnUserAdded += PlayerSetUp;
+        InputUserEventsManager.OnControlSchemeChanged -= SchemeChanged;
+        InputUserEventsManager.OnControlSchemeChanged += SchemeChanged;
 
         if (InputConfigManager.EnabledDisabledActionEvents.TryGetValue(_inputUser, out var enabledDisabledAction))
         {
@@ -124,8 +124,8 @@ public class SingleControlDisplayer : MonoBehaviour
 
     void OnDisable()
     {
-        InputEventsManager.OnUserAdded -= PlayerSetUp;
-        InputEventsManager.OnControlSchemeChanged -= SchemeChanged;
+        InputUserEventsManager.OnUserAdded -= PlayerSetUp;
+        InputUserEventsManager.OnControlSchemeChanged -= SchemeChanged;
 
         if (InputConfigManager.EnabledDisabledActionEvents.TryGetValue(_inputUser, out var enabledDisabledAction))
         {
