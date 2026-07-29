@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 598021885551155462}
   - component: {fileID: 3956438005875717702}
   - component: {fileID: 1188458825908034977}
+  - component: {fileID: 2025596949602514873}
   m_Layer: 0
   m_Name: TelePoint1
   m_TagString: Untagged
@@ -80,7 +81,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -489001459
-  m_SortingLayer: 2
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 27a1f5ee2f2acaf4880592225518f27d, type: 3}
@@ -152,6 +153,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Obstacles::Teleporter
   _destination: {fileID: 5575678261117767118}
+  _isReusable: 1
+  _cooldownBeforeTeleport: 0.5
+--- !u!114 &2025596949602514873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896087325089823425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f49e2a9a65448b54697556ddf7c75ff8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Obstacles::TeleporterDestination
 --- !u!1 &1317423171347433709
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,6 +179,7 @@ GameObject:
   - component: {fileID: 5540152980920919449}
   - component: {fileID: 1098018177818059893}
   - component: {fileID: 5575678261117767118}
+  - component: {fileID: 4534942010230368679}
   m_Layer: 0
   m_Name: TelePoint2
   m_TagString: Untagged
@@ -232,7 +248,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -489001459
-  m_SortingLayer: 2
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 27a1f5ee2f2acaf4880592225518f27d, type: 3}
@@ -303,6 +319,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f49e2a9a65448b54697556ddf7c75ff8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Obstacles::TeleporterDestination
+--- !u!114 &4534942010230368679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1317423171347433709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a6c8336bd3edaf48bfd84bd2b9f1cf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Obstacles::Teleporter
+  _destination: {fileID: 2025596949602514873}
+  _isReusable: 1
+  _cooldownBeforeTeleport: 0.5
 --- !u!1 &4517640016928374012
 GameObject:
   m_ObjectHideFlags: 0
