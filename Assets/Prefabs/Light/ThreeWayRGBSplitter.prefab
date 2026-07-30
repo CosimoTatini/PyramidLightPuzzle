@@ -171,8 +171,8 @@ MonoBehaviour:
   _redAmount: 0
   _greenAmount: 0
   _blueAmount: 0
-  _maxAmount: 4
-  CanUpdateLight: 0
+  _maxAmount: 5
+  CanUpdateLight: 1
 --- !u!61 &8622417059431508421
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1032,8 +1032,8 @@ MonoBehaviour:
   _redAmount: 0
   _greenAmount: 0
   _blueAmount: 0
-  _maxAmount: 4
-  CanUpdateLight: 0
+  _maxAmount: 5
+  CanUpdateLight: 1
 --- !u!61 &7691363113357137239
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1426,8 +1426,8 @@ MonoBehaviour:
   _redAmount: 0
   _greenAmount: 0
   _blueAmount: 0
-  _maxAmount: 4
-  CanUpdateLight: 0
+  _maxAmount: 5
+  CanUpdateLight: 1
 --- !u!61 &523759834892425703
 BoxCollider2D:
   m_ObjectHideFlags: 0

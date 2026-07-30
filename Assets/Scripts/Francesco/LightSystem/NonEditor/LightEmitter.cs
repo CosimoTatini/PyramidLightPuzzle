@@ -19,7 +19,7 @@ public class LightEmitter : MonoBehaviour
 
     public event Action<LightEmitter> OnLightChanged;
 
-    public bool CanUpdateLight;
+    public bool CanUpdateLight = true;
 
     public int RedAmount
     {
