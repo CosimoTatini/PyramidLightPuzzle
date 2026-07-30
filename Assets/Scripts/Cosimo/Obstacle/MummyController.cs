@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(SpriteRenderer))] // Garantisce la presenza dello SpriteRenderer 🎨
+[RequireComponent(typeof(SpriteRenderer))] 
 public class MummyAnimationController : MonoBehaviour
 {
     [SerializeField] private PlatformHandler _platformHandler;
@@ -40,6 +40,8 @@ public class MummyAnimationController : MonoBehaviour
         float absX = Mathf.Abs(velocity.x);
         float absY = Mathf.Abs(velocity.y);
 
+  Debug.Log($"[{gameObject.name}] Velocità: {velocity}");
+
         // 1. Antirumore per i waypoint: se siamo quasi fermi, congeliamo lo stato attuale
         if (absX <= _speedThreshold && absY <= _speedThreshold)
         {
@@ -56,7 +58,8 @@ public class MummyAnimationController : MonoBehaviour
 
             // Gestiamo il lato visivo (FlipX) basandoci sul segno reale della velocità 🔄
             // Se la velocità è negativa stiamo andando a sinistra, quindi flippiamo lo sprite
-            bool shouldFlip = velocity.x < 0f;
+            bool shouldFlip = velocity.x < 0f; 
+            Debug.Log($"[{gameObject.name}] FlipX: {shouldFlip} (Velocità X: {velocity.x})");
 
             // Ottimizzazione: cambiamo il flip solo se è diverso dallo stato attuale
             if (_spriteRenderer.flipX != shouldFlip)

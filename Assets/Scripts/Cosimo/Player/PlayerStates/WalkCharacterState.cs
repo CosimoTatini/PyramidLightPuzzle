@@ -8,11 +8,13 @@ public class WalkCharacterState : IStateCollision2D
     private Player _owner { get; }
     private PlayerController _ownerController;
     private Animator _animator;
+    private WalkSounds _walkSounds;
     public WalkCharacterState(Player player, PlayerController controller,Animator animator)
     {
         _owner = player;
         _ownerController = controller;
         _animator= animator;
+        _walkSounds= _owner.GetComponentInChildren<WalkSounds>();
     }
     public void OnCollisionEnter2D(Collision2D collision)
     {
@@ -31,7 +33,10 @@ public class WalkCharacterState : IStateCollision2D
 
     public void OnEnd()
     {
-
+        if(_walkSounds != null)
+        {
+            _walkSounds.StopWalking();
+        }
     }
 
     public void OnFixedUpdate()
@@ -58,6 +63,11 @@ public class WalkCharacterState : IStateCollision2D
     public void OnStart()
     {
         _owner.Animator.Play(_owner.WalkSettings.clipName);
+
+        if(_walkSounds!=null)
+        {
+            _walkSounds.StartWalking();
+        }
     }
 
     public void OnTriggerEnter2D(Collider2D collider)

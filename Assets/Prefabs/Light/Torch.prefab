@@ -110,6 +110,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Player::GrabNormalTorchInteraction
   <InputConfigSO>k__BackingField: {fileID: 11400000, guid: 2a75a5a609d14736fb7e476e13284167, type: 2}
+  <OnInteract>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
   _itemPlacement: {fileID: 165076883788538747}
   _audioClipListGroup: {fileID: 11400000, guid: 166fe73f07da836808cee82662065d67, type: 2}
 --- !u!114 &194477825392880268
@@ -326,6 +329,8 @@ GameObject:
   - component: {fileID: 1183806861767102928}
   - component: {fileID: 7156005765217623809}
   - component: {fileID: 3711931533399430380}
+  - component: {fileID: 6721214693153607596}
+  - component: {fileID: 7720407158405098022}
   m_Layer: 6
   m_Name: Light
   m_TagString: Untagged
@@ -429,3 +434,28 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6721214693153607596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5024594191380933520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03fc65180cb252c40aec92762f61d05a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  soundConfig: {fileID: 11400000, guid: 574da8f844e4f664892c090056507e81, type: 2}
+--- !u!114 &7720407158405098022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5024594191380933520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32f695d19a0685288ad3e29c4a387568, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Audio::SoundEmitter

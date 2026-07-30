@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: -323222469107097341}
   - component: {fileID: -8457113168630427258}
   - component: {fileID: -1889575838034058280}
+  - component: {fileID: -5408739781385932304}
   m_Layer: 0
   m_Name: RedDust
   m_TagString: Untagged
@@ -216,4 +217,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Player::PickUpDustInteraction
   <InputConfigSO>k__BackingField: {fileID: 11400000, guid: d044c2224a1f1bb40915fd369278a7b4, type: 2}
+  <OnInteract>k__BackingField:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -5408739781385932304}
+        m_TargetAssemblyTypeName: SoundEmitter, Audio
+        m_MethodName: PlayOneShot
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: ea5d208181f8cbf4495ba7266ce3bee4, type: 2}
+          m_ObjectArgumentAssemblyTypeName: SoundConfig, Audio
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _itemPlacement: {fileID: -8457113168630427258}
+--- !u!114 &-5408739781385932304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3610019699748193855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32f695d19a0685288ad3e29c4a387568, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Audio::SoundEmitter

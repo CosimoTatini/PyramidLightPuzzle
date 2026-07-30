@@ -5,8 +5,6 @@ using UnityEngine.Tilemaps;
 
 public class RecallMagicalTorchInteraction : ItemInteraction
 {
-    [SerializeField] private AudioClipListGroup _audioClipListGroup;
-    
     public override void Interact()
     {
         if (_player == null) return;

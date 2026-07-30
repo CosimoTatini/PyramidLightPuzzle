@@ -13,6 +13,17 @@ public class PlatformHandler : MonoBehaviour
     private List<IVelocityProvider> _velocityProviders = new();
     private static float MAGNITUDE_THRESHOLD = 0.00001f;
 
+    private void Awake()
+    {
+        if (TryGetComponent(out IVelocityProvider localProvider))
+        {
+            if (!_velocityProviders.Contains(localProvider))
+            {
+                _velocityProviders.Add(localProvider);
+            }
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent(out IVelocityProvider velocityProvider))

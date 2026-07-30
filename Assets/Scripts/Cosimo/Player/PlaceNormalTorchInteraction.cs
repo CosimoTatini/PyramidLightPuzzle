@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 
 public class PlaceNormalTorchInteraction : PlayerPriorityInteractable
 {
-    [SerializeField] private AudioClipListGroup _audioClipListGroup;
+    
     public override void Interact()
     {
         if (_player == null) return;

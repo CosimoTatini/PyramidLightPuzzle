@@ -12,18 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 534788000ac8df234bd4bda487723736, type: 3}
   m_Name: Steps
   m_EditorClassIdentifier: Audio::SoundConfig
-  _clip: {fileID: 8300000, guid: 925f295ee3417afe787508878be19371, type: 3}
-  _randomize: 1
-  _clipsAlternatives:
-  - {fileID: 8300000, guid: bca90756fb471a2b38731e8c9bc32f71, type: 3}
-  - {fileID: 8300000, guid: e4a55b6fbacc80f46a5b69e893747080, type: 3}
-  - {fileID: 8300000, guid: d5b0c3455e8f85d5dad48566010f4545, type: 3}
-  - {fileID: 8300000, guid: 42f7680e10c238a7995341edbba833d2, type: 3}
-  - {fileID: 8300000, guid: 66faf9ef0977f1d97952cd2e56d0b035, type: 3}
-  - {fileID: 8300000, guid: dfc7ce057822926388b48d533f803be3, type: 3}
-  - {fileID: 8300000, guid: c409b8d0066b9c27ab33eb58ee74ce32, type: 3}
-  - {fileID: 8300000, guid: f2ab4b27fa871fd4885b2a9352650387, type: 3}
-  - {fileID: 8300000, guid: ecef28fa19fd079628b2055437cdb2fb, type: 3}
+  _clip: {fileID: 8300000, guid: fa97c8e18601f76449cfce1ee673cd8b, type: 3}
+  _randomize: 0
+  _clipsAlternatives: []
   _mixerGroup: {fileID: -1553663287405846815, guid: 484e486787fb29756b28b8035aef8903, type: 2}
   _priority: 128
   _loop: 0

@@ -1,13 +1,31 @@
 using UnityEngine;
-using UnityEngine.Events;
 
 public class WalkSounds : MonoBehaviour
 {
-    public UnityEvent OnPlayerWalks;
-    public void PlayerWalks()
+    [SerializeField] private SoundConfig _soundConfig;
+
+    private SoundEmitter _soundEmitter;
+
+    private void Awake()
     {
-        OnPlayerWalks.Invoke();
+        _soundEmitter = GetComponentInParent<SoundEmitter>();
     }
 
-   
+    // Call this when entering the walking state
+    public void StartWalking()
+    {
+        if (_soundEmitter != null && _soundConfig != null)
+        {
+            _soundEmitter.PlayLoop(_soundConfig);
+        }
+    }
+
+    // Call this when exiting to Idle or stopping
+    public void StopWalking()
+    {
+        if (_soundEmitter != null)
+        {
+            _soundEmitter.StopLoop(_soundConfig);
+        }
+    }
 }
