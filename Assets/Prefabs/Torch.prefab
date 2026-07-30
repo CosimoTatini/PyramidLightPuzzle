@@ -101,11 +101,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: LightSystem::LightEmitter
   _light: {fileID: 775935026106918184}
-  _baseColor: {r: 1, g: 0.7971698, b: 0.7971698, a: 1}
+  _lightType: 0
   _redAmount: 1
   _greenAmount: 2
   _blueAmount: 2
   _maxAmount: 6
+  CanUpdateLight: 1
 --- !u!58 &1698555561051756343
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -333,7 +333,7 @@ MonoBehaviour:
   _greenAmount: 0
   _blueAmount: 0
   _maxAmount: 5
-  CanUpdateLight: 0
+  CanUpdateLight: 1
 --- !u!58 &1282592973332248543
 CircleCollider2D:
   m_ObjectHideFlags: 0
