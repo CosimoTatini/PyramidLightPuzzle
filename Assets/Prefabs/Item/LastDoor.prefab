@@ -229,6 +229,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Player::OpenLastDoorInteraction
   <InputConfigSO>k__BackingField: {fileID: 11400000, guid: de75fcfec705944219b6291c70ba6b8e, type: 2}
+  <OnInteract>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
   _placementRestricer: {fileID: 7289057923955972422}
   _lastDoor: {fileID: 1220095571780506915}
 --- !u!1 &2083946882236745204
@@ -944,6 +947,7 @@ GameObject:
   - component: {fileID: 4273975333899355267}
   - component: {fileID: 386128523141443729}
   - component: {fileID: 3006276414256695184}
+  - component: {fileID: 3630729579817152502}
   m_Layer: 0
   m_Name: DoorTriggerEnter
   m_TagString: Untagged
@@ -991,6 +995,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: 6976f884b076f99b694533c21e49477a, type: 2}
           m_ObjectArgumentAssemblyTypeName: SoundConfig, Audio
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3630729579817152502}
+        m_TargetAssemblyTypeName: EndPyramid, GameManager
+        m_MethodName: End
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1060,6 +1076,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 3, y: 5.5}
   m_EdgeRadius: 0
+--- !u!114 &3630729579817152502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8751022667422496111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb89e515a7f9720309ce1aad9e281d93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameManager::EndPyramid
 --- !u!1001 &3246859374937315433
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -20,16 +20,16 @@ public class ThreeWayRGBSplitterInteraction : PriorityInteraction
     {
         if (collision.TryGetComponent(out IPriorityInteractableHost host))
         {
-            _host = host;
-            _threeWayRGBSplit.OnRotationCompleted -= AddHostWhenRotationCompleted;
-            _threeWayRGBSplit.OnRotationCompleted += AddHostWhenRotationCompleted;
-            _threeWayRGBSplit.OnRotationStarted -= RemoveHostWhenRotationStarted;
-            _threeWayRGBSplit.OnRotationStarted += RemoveHostWhenRotationStarted;
+            // _host = host;
+            // _threeWayRGBSplit.OnRotationCompleted -= AddHostWhenRotationCompleted;
+            // _threeWayRGBSplit.OnRotationCompleted += AddHostWhenRotationCompleted;
+            // _threeWayRGBSplit.OnRotationStarted -= RemoveHostWhenRotationStarted;
+            // _threeWayRGBSplit.OnRotationStarted += RemoveHostWhenRotationStarted;
 
-            if (!_threeWayRGBSplit.IsRotating)
-            {
+            // if (!_threeWayRGBSplit.IsRotating)
+            // {
                 host.AddInteractable(this);
-            }
+            // }
         }
     }
 
@@ -54,9 +54,9 @@ public class ThreeWayRGBSplitterInteraction : PriorityInteraction
         if (collision.TryGetComponent(out IPriorityInteractableHost host))
         {
             host.RemoveInteractable(this);
-            _host = null;
-            _threeWayRGBSplit.OnRotationCompleted -= AddHostWhenRotationCompleted;
-            _threeWayRGBSplit.OnRotationStarted -= RemoveHostWhenRotationStarted;
+            // _host = null;
+            // _threeWayRGBSplit.OnRotationCompleted -= AddHostWhenRotationCompleted;
+            // _threeWayRGBSplit.OnRotationStarted -= RemoveHostWhenRotationStarted;
         }
     }
 }
