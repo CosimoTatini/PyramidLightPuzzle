@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 6584493346048115660}
   - component: {fileID: 3740644148496277106}
   - component: {fileID: 4730153571177982925}
+  - component: {fileID: 347069948243495244}
+  - component: {fileID: 5517820286267176468}
   m_Layer: 4
   m_Name: Graphics
   m_TagString: Untagged
@@ -129,6 +131,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: Obstacles::MummyController
   _platformHandler: {fileID: 7519451769735435916}
   _speedThreshold: 0.05
+--- !u!114 &347069948243495244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1107838474343854311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9712db2ee95fae940a3d4d2798db65fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Player::WalkSounds
+  _audioClipListGroup: {fileID: 11400000, guid: cb25792d41afa3947ae8c5f93e51facb, type: 2}
+--- !u!114 &5517820286267176468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1107838474343854311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 334322767721a75449157dd3d2a5b2ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &1957747530867643023
 GameObject:
   m_ObjectHideFlags: 0
