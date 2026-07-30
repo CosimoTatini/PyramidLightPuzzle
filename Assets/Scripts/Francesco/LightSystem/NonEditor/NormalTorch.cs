@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NormalTorch : MonoBehaviour
 {
@@ -26,11 +27,21 @@ public class NormalTorch : MonoBehaviour
 
     void OnDestroy()
     {
-        InventoryManager.Instance.ReturnTorch(TorchType.Normal);
-        if (_isEternal)
+        if (gameObject.scene.isLoaded)
         {
-            _isEternal = false;
-            PlacementManager.InvokeEternalTorchRemoved();
+            InventoryManager.Instance.ReturnTorch(TorchType.Normal);
+            if (_isEternal)
+            {
+                _isEternal = false;
+                PlacementManager.InvokeEternalTorchRemoved();
+            }
+        }
+        else
+        {
+            if (!_isEternal)
+            {
+                InventoryManager.Instance.ReturnTorch(TorchType.Normal);
+            }
         }
     }
 }

@@ -1,9 +1,11 @@
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class PriorityInteraction : MonoBehaviour, IPriorityInteractable
 {
     [field: SerializeField] public InputConfigSO InputConfigSO { get; set; }
+    [field: SerializeField] public UnityEvent OnInteract { get; set; }
 
     public virtual InputActionEntry GetFirstEntry()
     {

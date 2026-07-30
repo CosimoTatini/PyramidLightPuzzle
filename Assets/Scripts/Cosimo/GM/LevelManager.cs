@@ -58,6 +58,11 @@ public class LevelManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    public void SetImage(Sprite sprite)
+    {
+        _fadePanel.sprite = sprite;
+    }
+
     public void ChangeScene(string sceneName)
     {
         _loaderCanvas.SetActive(true);
@@ -125,6 +130,11 @@ public class LevelManager : MonoBehaviour
          );
     }
 
+    public void UnloadScene(string name)
+    {
+        StartCoroutine(UnloadSceneAsync(name));
+    }
+
     public void AddSceneWithLoadingScreen(string sceneName)
     {
         _loaderCanvas.SetActive(true);
@@ -133,7 +143,8 @@ public class LevelManager : MonoBehaviour
         (
             PreLoadFadeIn
             (
-                () => {
+                () =>
+                {
                     // Invochiamo l'evento quando il fade in è completato e lo schermo è nero
                     OnLoadingStart?.Invoke();
 
@@ -150,8 +161,11 @@ public class LevelManager : MonoBehaviour
                                 _loadingText.gameObject.SetActive(true);
                                 _loadingText.text = "0%";
                                 _progressBar.fillAmount = 0;
-                                string tip = _userTips[UnityEngine.Random.Range(0, _userTips.Count)];
-                                _userTipsText.text = tip;
+                                if (_userTips != null && _userTips.Count > 0)
+                                {
+                                    string tip = _userTips[UnityEngine.Random.Range(0, _userTips.Count)];
+                                    _userTipsText.text = tip;
+                                }
                             },
                             onLoadSceneEnd: () =>
                             {
@@ -309,10 +323,17 @@ public class LevelManager : MonoBehaviour
         PlacementManager.NotifySceneLoaded();
         onLoadSceneEnd?.Invoke();
     }
+
+    private IEnumerator UnloadSceneAsync(string name)
+    {
+        yield return SceneManager.UnloadSceneAsync(name);
+    }
+
     public void SwitchGameplayScene(string currentSceneName, string newSceneName)
     {
         _loaderCanvas.SetActive(true);
 
+        OnLoadingStart?.Invoke();
         StartCoroutine(PreLoadFadeIn(() =>
         {
             StartCoroutine(ExecuteSceneSwitch(currentSceneName, newSceneName));
@@ -326,11 +347,19 @@ public class LevelManager : MonoBehaviour
             onLoadSceneStart: () =>
             {
                 _progressBar.gameObject.SetActive(true);
+                _userTipsText.gameObject.SetActive(true);
                 _loadingText.gameObject.SetActive(true);
                 _loadingText.text = "0%";
                 _progressBar.fillAmount = 0;
+                if (_userTips != null && _userTips.Count > 0)
+                {
+                    string tip = _userTips[UnityEngine.Random.Range(0, _userTips.Count)];
+                    _userTipsText.text = tip;
+                }
             },
-            onLoadSceneEnd: () => { } // Lasciamo vuoto qui, gestiamo la chiusura alla fine
+            onLoadSceneEnd: () =>
+            {
+            } // Lasciamo vuoto qui, gestiamo la chiusura alla fine
         ));
 
         // 2. SCARICHIAMO DOPO la vecchia scena in tutta sicurezza
@@ -350,12 +379,14 @@ public class LevelManager : MonoBehaviour
 
         // 3. ORA facciamo il fade out e chiudiamo il loader
         _progressBar.gameObject.SetActive(false);
+        _userTipsText.gameObject.SetActive(false);
         _loadingText.gameObject.SetActive(false);
 
         StartCoroutine(PostLoadFadeOut(() =>
         {
             _loaderCanvas.SetActive(false);
             _fadePanel.gameObject.SetActive(false);
+            OnLoadingEnd?.Invoke();
         }));
     }
 

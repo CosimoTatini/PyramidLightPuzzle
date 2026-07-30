@@ -32,6 +32,7 @@ public class TurnOffFlameInteraction : PlacemenetRestricterInteraction
         if (_player == null) return;
         if (_placementRestricer == null) return;
 
+        OnInteract.Invoke();
         _bigFlame.TurnOff();
         _player.SetState(ECharacterStates.Grab);
     }
