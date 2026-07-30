@@ -337,7 +337,7 @@ MonoBehaviour:
         m_MethodName: PlayLoop
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 09863a7e71ec51b349fd959095605978, type: 2}
+          m_ObjectArgument: {fileID: 11400000, guid: 574da8f844e4f664892c090056507e81, type: 2}
           m_ObjectArgumentAssemblyTypeName: SoundConfig, Audio
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -352,19 +352,7 @@ MonoBehaviour:
         m_MethodName: StopLoop
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 09863a7e71ec51b349fd959095605978, type: 2}
-          m_ObjectArgumentAssemblyTypeName: SoundConfig, Audio
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 7889351492986552828}
-        m_TargetAssemblyTypeName: SoundEmitter, Audio
-        m_MethodName: StopLoop
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 50381c0d6f9a49e32ae3d890e53ed3b6, type: 2}
+          m_ObjectArgument: {fileID: 11400000, guid: 574da8f844e4f664892c090056507e81, type: 2}
           m_ObjectArgumentAssemblyTypeName: SoundConfig, Audio
           m_IntArgument: 0
           m_FloatArgument: 0

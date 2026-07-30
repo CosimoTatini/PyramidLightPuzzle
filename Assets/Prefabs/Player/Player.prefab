@@ -101,8 +101,7 @@ GameObject:
   - component: {fileID: 7050742327380512171}
   - component: {fileID: 8929111729706422743}
   - component: {fileID: 6189318054724317936}
-  - component: {fileID: 5844181137394240403}
-  - component: {fileID: 4993466876631345066}
+  - component: {fileID: 5502599211470893975}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -290,7 +289,7 @@ MonoBehaviour:
   <OnInteract>k__BackingField:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4993466876631345066}
+      - m_Target: {fileID: 6212097075861263772}
         m_TargetAssemblyTypeName: SoundEmitter, Audio
         m_MethodName: PlayOneShot
         m_Mode: 2
@@ -319,7 +318,7 @@ MonoBehaviour:
   <OnInteract>k__BackingField:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4993466876631345066}
+      - m_Target: {fileID: 6212097075861263772}
         m_TargetAssemblyTypeName: SoundEmitter, Audio
         m_MethodName: PlayOneShot
         m_Mode: 2
@@ -347,7 +346,7 @@ MonoBehaviour:
   <OnInteract>k__BackingField:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4993466876631345066}
+      - m_Target: {fileID: 6212097075861263772}
         m_TargetAssemblyTypeName: SoundEmitter, Audio
         m_MethodName: PlayOneShot
         m_Mode: 2
@@ -359,7 +358,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &5844181137394240403
+--- !u!114 &5502599211470893975
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -368,38 +367,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4155689210647087670}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ff2380e4b3d8b0bfa44df5c52ac1403, type: 3}
+  m_Script: {fileID: 11500000, guid: 9712db2ee95fae940a3d4d2798db65fa, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Player::ThrowDustInteraction
-  <InputConfigSO>k__BackingField: {fileID: 11400000, guid: 2fe2263eb2dbfb373bb4912b4f839639, type: 2}
-  <OnInteract>k__BackingField:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4993466876631345066}
-        m_TargetAssemblyTypeName: SoundEmitter, Audio
-        m_MethodName: PlayOneShot
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: f22f8fd6beb8c4e44968a54b9336b7e7, type: 2}
-          m_ObjectArgumentAssemblyTypeName: SoundConfig, Audio
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _itemPlacement: {fileID: 0}
---- !u!114 &4993466876631345066
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4155689210647087670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32f695d19a0685288ad3e29c4a387568, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Audio::SoundEmitter
+  m_EditorClassIdentifier: Player::WalkSounds
+  _soundConfig: {fileID: 11400000, guid: e4d664ad8e5065d4ba755314369518b4, type: 2}
+  _soundEmitter: {fileID: 6212097075861263772}
 --- !u!1 &5550328600045715910
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,7 +383,6 @@ GameObject:
   - component: {fileID: 4951932229051494743}
   - component: {fileID: 4666284692352345179}
   - component: {fileID: 4945456964192325722}
-  - component: {fileID: 8021533373742393457}
   - component: {fileID: 8115263911566258655}
   m_Layer: 3
   m_Name: Graphics
@@ -516,19 +487,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8021533373742393457
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5550328600045715910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9712db2ee95fae940a3d4d2798db65fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Player::WalkSounds
-  _soundConfig: {fileID: 11400000, guid: e4d664ad8e5065d4ba755314369518b4, type: 2}
 --- !u!114 &8115263911566258655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -542,6 +500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   _soundConfig: {fileID: 11400000, guid: f333a3fc2b98ca04498afba97dd11e76, type: 2}
+  _emitter: {fileID: 6212097075861263772}
 --- !u!1 &6180991171707377737
 GameObject:
   m_ObjectHideFlags: 0
@@ -638,6 +597,7 @@ GameObject:
   - component: {fileID: 8927047367217174395}
   - component: {fileID: 4447217646836594260}
   - component: {fileID: 8969119124249222070}
+  - component: {fileID: 6212097075861263772}
   m_Layer: 0
   m_Name: CinemachineCamera
   m_TagString: Untagged
@@ -751,6 +711,18 @@ MonoBehaviour:
   _zoomStep: 4
   _zoomSpeed: 5
   _targetTolerance: 0.01
+--- !u!114 &6212097075861263772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6204006812434994769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32f695d19a0685288ad3e29c4a387568, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Audio::SoundEmitter
 --- !u!1 &7746538460979912033
 GameObject:
   m_ObjectHideFlags: 0

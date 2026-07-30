@@ -4,12 +4,7 @@ public class WalkSounds : MonoBehaviour
 {
     [SerializeField] private SoundConfig _soundConfig;
 
-    private SoundEmitter _soundEmitter;
-
-    private void Awake()
-    {
-        _soundEmitter = GetComponentInParent<SoundEmitter>();
-    }
+   [SerializeField] private SoundEmitter _soundEmitter;
 
     // Call this when entering the walking state
     public void StartWalking()
