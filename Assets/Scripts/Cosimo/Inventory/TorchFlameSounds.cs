@@ -7,24 +7,38 @@ public class TorchFlameSounds : MonoBehaviour
 
     private void Awake()
     {
-        emitter = GetComponent<SoundEmitter>();
+        // 🛠️ Garantiamo il recupero del componente al momento del caricamento
+        FetchEmitter();
     }
 
-    private void OnEnable()
+    private void Start()
     {
-        if(emitter!=null && soundConfig!=null)
-        {
-            emitter.PlayLoop(soundConfig);
-        }
+        // 🎵 'Start' viene eseguito solo DOPO che tutti gli 'Awake' della scena sono stati completati.
+        // È il momento più sicuro per avviare l'audio dopo l'instanziazione!
+        PlayTorchSound();
     }
 
     private void OnDisable()
     {
-        if(emitter!=null)
+        if (emitter != null && soundConfig != null)
         {
             emitter.StopLoop(soundConfig);
         }
     }
 
+    private void FetchEmitter()
+    {
+        if (emitter == null)
+        {
+            emitter = GetComponent<SoundEmitter>();
+        }
+    }
 
+    private void PlayTorchSound()
+    {
+        if (emitter != null && soundConfig != null)
+        {
+            emitter.PlayLoop(soundConfig);
+        }
+    }
 }

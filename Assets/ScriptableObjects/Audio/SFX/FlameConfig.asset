@@ -17,7 +17,7 @@ MonoBehaviour:
   _clipsAlternatives: []
   _mixerGroup: {fileID: -1553663287405846815, guid: 484e486787fb29756b28b8035aef8903, type: 2}
   _priority: 128
-  _loop: 0
+  _loop: 1
   _volume: 1
   _volumeVariance: 0.05
   _pitch: 1.3
