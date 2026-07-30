@@ -179,22 +179,6 @@ MonoBehaviour:
           - Guid: e15ca19d-e649-4852-97d5-7fe8ccc44e94
             Name: D-Pad/Right
             Prompt: '@BUTTON Next'
-      - Guid: 8111a4e7-2ecc-44e0-be3e-8845bf8cb323
-        Name: Switch
-        Priority: 0
-        Enabled: 1
-        NameOverride: 
-        PromptSchemes:
-        - Scheme: Keyboard&Mouse
-          Prompts:
-          - Guid: 73d83de3-4bc7-4844-887a-3eba48c68c1d
-            Name: Tab
-            Prompt: '@BUTTON Switch'
-        - Scheme: Gamepad
-          Prompts:
-          - Guid: c9264b5c-3172-4e52-993a-6e57be73f344
-            Name: Left Stick Press
-            Prompt: '@BUTTON Switch'
       - Guid: caf14774-abd8-4d43-9996-dc353909bc3f
         Name: SetRed
         Priority: 0
@@ -307,6 +291,22 @@ MonoBehaviour:
           - Guid: 6c4818a9-b36e-4050-a211-5af412e8dfb7
             Name: D-Pad/Down
             Prompt: '@BUTTON ZoomOut'
+      - Guid: 8111a4e7-2ecc-44e0-be3e-8845bf8cb323
+        Name: Switch
+        Priority: 0
+        Enabled: 1
+        NameOverride: 
+        PromptSchemes:
+        - Scheme: Keyboard&Mouse
+          Prompts:
+          - Guid: 73d83de3-4bc7-4844-887a-3eba48c68c1d
+            Name: Tab
+            Prompt: '@BUTTON Switch'
+        - Scheme: Gamepad
+          Prompts:
+          - Guid: c9264b5c-3172-4e52-993a-6e57be73f344
+            Name: Left Stick Press
+            Prompt: '@BUTTON Switch'
     - Guid: 272f6d14-89ba-496f-b7ff-215263d3219f
       Name: UI
       InputActionEntries:

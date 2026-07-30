@@ -235,6 +235,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3683547113865466506, guid: fd5eff4ec27cb354a92e4e92df68f2d7, type: 3}
+      propertyPath: StartMagicalTorchQuantity
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7567345170112231853, guid: fd5eff4ec27cb354a92e4e92df68f2d7, type: 3}
       propertyPath: m_Name
       value: InventoryManager

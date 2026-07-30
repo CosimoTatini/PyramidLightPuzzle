@@ -313,14 +313,20 @@ public class Player : MonoBehaviour, ISubject, IPriorityInteractableHost
         GameObject magicalTorch = PlacementManager.Instance.FindItemOfType(typeof(MagicalTorch));
         NormalTorch[] normalTorches = PlacementManager.Instance.FindItemsOfType(typeof(NormalTorch)).Select(torch => torch.GetComponent<NormalTorch>()).ToArray();
 
-        if (magicalTorch != null) Destroy(magicalTorch);
+        if (magicalTorch != null)
+        {
+            if (!magicalTorch.TryGetComponent(out MagicalTorchDisableSwitch _))
+            {
+                Destroy(magicalTorch);
+            }
+        }
         if (normalTorches.Length > 0)
         {
             int normalTorchesCount = normalTorches.Length;
             for (int i = normalTorchesCount - 1; i >= 0; i--)
             {
                 if (normalTorches[i].IsEternal) continue;
-                Destroy(normalTorches[i]);
+                Destroy(normalTorches[i].gameObject);
             }
         }
     }
@@ -559,7 +565,7 @@ public class Player : MonoBehaviour, ISubject, IPriorityInteractableHost
             {
                 AddInteractable(_placeMagicalTorchInteraction);
             }
-            else
+            else if (_isTriggeringWithMagicalTorch || invMan.MagicalTorchUnlocked)
             {
                 AddInteractable(_recallMagicalTorchInteraction);
             }
@@ -572,7 +578,7 @@ public class Player : MonoBehaviour, ISubject, IPriorityInteractableHost
             }
             else
             {
-                if (invMan.CurrentMagicTorchQuantity < 1)
+                if (invMan.CurrentMagicTorchQuantity < 1 && invMan.MagicalTorchUnlocked)
                 {
                     AddInteractable(_recallMagicalTorchInteraction);
                 }

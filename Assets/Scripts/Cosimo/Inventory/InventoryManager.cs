@@ -20,6 +20,7 @@ public class InventoryManager : MonoBehaviour
     public int TorchMaxQuanitity = int.MaxValue;
     public readonly int MagicalTorchMaxQuantity = 1;
     public int StartTorchQuantity = 1;
+    public int StartMagicalTorchQuantity = 1;
     public int StartRedDustQuantity = 2;
     public int StartGreenDustQuantity = 2;
     public int StartBlueDustQuantity = 2;
@@ -28,6 +29,8 @@ public class InventoryManager : MonoBehaviour
     public int CurrentTorchQuantity => _currentTorchQuantity;
     public int CurrentMagicTorchQuantity => _currentMagicalTorchQuantity;
     public TorchType SelectedType { get; private set; } = TorchType.Normal;
+
+    public bool MagicalTorchUnlocked = false;
 
     public event Action<GameObject> OnSelectionChange;
     public event Action OnTorchChanged;//tengo conto dei consumi e dei ritorni delle torce con un evento
@@ -51,7 +54,7 @@ public class InventoryManager : MonoBehaviour
         }
         Instance = this;
         _currentTorchQuantity = StartTorchQuantity;
-        _currentMagicalTorchQuantity = 1;
+        _currentMagicalTorchQuantity = StartMagicalTorchQuantity;
         _powders = new()
         {
             {PowderColor.Red, StartRedDustQuantity },
@@ -117,6 +120,7 @@ public class InventoryManager : MonoBehaviour
     public void SwitchSelection()
     {
         SelectedType = (SelectedType == TorchType.Normal) ? TorchType.Magical : TorchType.Normal;
+        if(!MagicalTorchUnlocked) SelectedType = TorchType.Normal;
 
         GameObject prefabToEquip = (SelectedType == TorchType.Normal) ? TorchPrefab : MagicalTorchPrefab;
         OnSelectionChange?.Invoke(prefabToEquip);
