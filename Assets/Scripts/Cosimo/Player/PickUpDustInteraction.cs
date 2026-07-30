@@ -14,6 +14,7 @@ public class PickUpDustInteraction : ItemInteraction
             InventoryManager.Instance.AddPowder(color, 1);
             // PlacementManager.Instance.TryToUnregisterItem(gameObject, _itemPlacement.Tilemap);
 
+            OnInteract.Invoke();
             _player.SetState(ECharacterStates.Grab);
             Destroy(gameObject);
         }

@@ -14,7 +14,7 @@ public class RecallMagicalTorchInteraction : ItemInteraction
         GameObject magicalTorch = PlacementManager.Instance.FindItemOfType(typeof(MagicalTorch));
         if (magicalTorch == null) return;
 
-        Global2DAudioPlayer.Instance.PlayOneShotRandom(_audioClipListGroup);
+        OnInteract.Invoke();
         _player.SetState(ECharacterStates.Grab);
         Destroy(magicalTorch);
 

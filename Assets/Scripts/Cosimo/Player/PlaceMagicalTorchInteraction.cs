@@ -48,7 +48,7 @@ public class PlaceMagicalTorchInteraction : PlayerPriorityInteractable
 
         if (PlacementManager.Instance.HasItem(torchInstance))
         {
-            Global2DAudioPlayer.Instance.PlayOneShotRandom(_audioClipListGroup);
+            OnInteract.Invoke();
             _player.SetState(ECharacterStates.Place);
         }
         else

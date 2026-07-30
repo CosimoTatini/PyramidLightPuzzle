@@ -26,7 +26,7 @@ MonoBehaviour:
   _pitch: 1
   _pitchVariance: 0.05
   _spatialBlend: 1
-  _rolloffCurve:
+  _volumeRolloffCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3

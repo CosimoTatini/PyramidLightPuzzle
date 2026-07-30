@@ -27,7 +27,10 @@ public class ThreeWayRGBSplit : MonoBehaviour
     private Dictionary<LightEmitter, Vector2Int> _emittersFreeFormLengthIndexes = new();
 
     private bool _isRotating = false;
+    public bool IsRotating => _isRotating;
     private float _rotationAngle = 90f;
+    public event Action OnRotationStarted;
+    public event Action OnRotationCompleted;
 
     private void Awake()
     {
@@ -65,6 +68,7 @@ public class ThreeWayRGBSplit : MonoBehaviour
     {
         if (_isRotating) return;
         _isRotating = true;
+        OnRotationStarted?.Invoke();
         SetEmittersToZero();
         ToggleColliders(false);
         StartCoroutine(RotationCoroutine());
@@ -98,6 +102,7 @@ public class ThreeWayRGBSplit : MonoBehaviour
         // allow for a new rotation
         ToggleColliders(true);
         _isRotating = false;
+        OnRotationCompleted?.Invoke();
         LightChanged();
     }
 

@@ -6,6 +6,7 @@
   <Project Path="InputTry.csproj" />
   <Project Path="InventorySystem.csproj" />
   <Project Path="Audio.csproj" />
+  <Project Path="GameManager.csproj" />
   <Project Path="Obstacles.csproj" />
   <Project Path="inventory.csproj" />
   <Project Path="Flame.csproj" />
@@ -13,7 +14,6 @@
   <Project Path="NewAssembly.csproj" />
   <Project Path="Puzzles.csproj" />
   <Project Path="LightSystem.csproj" />
-  <Project Path="GameManager.csproj" />
   <Project Path="CraftingSystem.csproj" />
   <Project Path="InputSystem.csproj" />
   <Project Path="Cosimo.Utility.csproj" />

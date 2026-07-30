@@ -9,13 +9,17 @@ public class OpenLastDoorInteraction : PlacemenetRestricterInteraction
         if (_player == null) return;
         if (_placementRestricer == null) return;
 
-        _lastDoor.OpenDoorIfAllFlamesActive();
-        Destroy(this);
+        if (_lastDoor.AreAllFlamesActive())
+        {
+            _lastDoor.OpenDoor();
+            OnInteract.Invoke();
+            Destroy(this);
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (_lastDoor.AreAllFlamesActive() && collision.TryGetComponent(out IPriorityInteractableHost host))
+        if (_lastDoor.AreAllFlamesActive() && !_lastDoor.IsDoorOpen && collision.TryGetComponent(out IPriorityInteractableHost host))
         {
             host.AddInteractable(this);
         }

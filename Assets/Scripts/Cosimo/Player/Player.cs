@@ -137,7 +137,10 @@ public class Player : MonoBehaviour, ISubject, IPriorityInteractableHost
         }
     }
 
-
+    void OnDestroy()
+    {
+        RetrieveTorches();
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // if (collision.TryGetComponent(out Checkpoint checkpoint))
@@ -317,7 +320,7 @@ public class Player : MonoBehaviour, ISubject, IPriorityInteractableHost
             for (int i = normalTorchesCount - 1; i >= 0; i--)
             {
                 if (normalTorches[i].IsEternal) continue;
-                Destroy(normalTorches[i].gameObject);
+                Destroy(normalTorches[i]);
             }
         }
     }
