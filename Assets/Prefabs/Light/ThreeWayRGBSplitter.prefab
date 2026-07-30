@@ -171,8 +171,8 @@ MonoBehaviour:
   _redAmount: 0
   _greenAmount: 0
   _blueAmount: 0
-  _maxAmount: 4
-  CanUpdateLight: 0
+  _maxAmount: 5
+  CanUpdateLight: 1
 --- !u!61 &8622417059431508421
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -467,6 +467,7 @@ GameObject:
   - component: {fileID: 6238695630723110951}
   - component: {fileID: 2372806577451559242}
   - component: {fileID: 5022001042980149926}
+  - component: {fileID: 5371201764496223172}
   m_Layer: 0
   m_Name: ThreeWayRGBSplitterBody
   m_TagString: Untagged
@@ -620,6 +621,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: LightSystem::ThreeWayRGBSplitterInteraction
   <InputConfigSO>k__BackingField: {fileID: 11400000, guid: 0b0fcc8e01b4f67e39eff1907e704676, type: 2}
+  <OnInteract>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
   _threeWayRGBSplit: {fileID: 3155081556596450054}
 --- !u!114 &5022001042980149926
 MonoBehaviour:
@@ -635,6 +639,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: inventory::PlacementRestricter
   _tilemap: {fileID: 0}
   _collder: {fileID: 2883941034938484388}
+--- !u!114 &5371201764496223172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3653619049490149360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34ab3fc79ce27c6dab2fd68e35ed5bdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Player::ThreeWayRGBSPlitterDisableInteractionWhenRotating
+  _threeWayRGBSplit: {fileID: 3155081556596450054}
+  _disableRotationConfig: {fileID: 11400000, guid: 145fc5433316922d3b230f4971fa7b3b, type: 2}
 --- !u!1 &4211687215596004110
 GameObject:
   m_ObjectHideFlags: 0
@@ -944,8 +962,8 @@ MonoBehaviour:
   _redAmount: 0
   _greenAmount: 0
   _blueAmount: 0
-  _maxAmount: 4
-  CanUpdateLight: 0
+  _maxAmount: 5
+  CanUpdateLight: 1
 --- !u!61 &7691363113357137239
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1246,8 +1264,8 @@ MonoBehaviour:
   _redAmount: 0
   _greenAmount: 0
   _blueAmount: 0
-  _maxAmount: 4
-  CanUpdateLight: 0
+  _maxAmount: 5
+  CanUpdateLight: 1
 --- !u!61 &523759834892425703
 BoxCollider2D:
   m_ObjectHideFlags: 0
