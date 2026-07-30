@@ -32,7 +32,10 @@ public class ControlsDisplayer : MonoBehaviour
 
     void Awake()
     {
-        _rowsPooler = new(_rowPrefab);
+        GameObject poolParent = new();
+        poolParent.transform.SetParent(transform);
+        poolParent.transform.localPosition = Vector3.zero;
+        _rowsPooler = new(_rowPrefab, parent: poolParent.transform, poolName: "ControlsDisplayer");
 
         if (InputUser.all.Count > 0)
         {

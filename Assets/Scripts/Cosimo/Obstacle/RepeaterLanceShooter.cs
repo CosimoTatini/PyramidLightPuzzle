@@ -33,7 +33,7 @@ public class RepeaterLanceShooter : MonoBehaviour, IObserver
 
     private void Awake()
     {
-        _projectilePooler = new ObjectPooler<Projectile>(_projectilePrefab, parent: transform);
+        _projectilePooler = new ObjectPooler<Projectile>(_projectilePrefab, parent: transform, poolName: "Lances");
     }
 
     private void Start()

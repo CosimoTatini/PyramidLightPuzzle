@@ -169,6 +169,7 @@ public class LevelManager : MonoBehaviour
                             },
                             onLoadSceneEnd: () =>
                             {
+                                SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
                                 _progressBar.gameObject.SetActive(false);
                                 _userTipsText.gameObject.SetActive(false);
                                 _loadingText.gameObject.SetActive(false);
@@ -319,6 +320,7 @@ public class LevelManager : MonoBehaviour
                 operation.allowSceneActivation = true;
             }
         }
+
         Debug.Log($"[LevelManager] Fine LoadSceneAsync. La scena {sceneName} � ora attiva.");
         PlacementManager.NotifySceneLoaded();
         onLoadSceneEnd?.Invoke();
@@ -376,6 +378,7 @@ public class LevelManager : MonoBehaviour
                 }
             }
         }
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneToLoad));
 
         // 3. ORA facciamo il fade out e chiudiamo il loader
         _progressBar.gameObject.SetActive(false);

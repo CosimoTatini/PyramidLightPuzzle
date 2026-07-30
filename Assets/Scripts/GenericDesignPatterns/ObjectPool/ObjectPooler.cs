@@ -21,6 +21,7 @@ public class ObjectPooler<T> where T : Component // Changed to Component so we c
             Object.DontDestroyOnLoad(rootGo);
         }
         poolRoot = parent == null ? rootGo.transform : parent;
+        if (parent) Object.Destroy(rootGo);
         poolRoot.gameObject.SetActive(false); // Turning off the root automatically turns off all its children!
     }
 

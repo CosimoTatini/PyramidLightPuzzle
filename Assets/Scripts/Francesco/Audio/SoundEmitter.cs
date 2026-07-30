@@ -48,8 +48,8 @@ public class SoundEmitter : MonoBehaviour
         GameObject audioSourcePrefab = new("AudioSourcePrefab");
         audioSourcePrefab.transform.SetParent(_audioSourcesParent);
         AudioSource audioSource = audioSourcePrefab.AddComponent<AudioSource>();
-        _poolerOneShot = new(audioSource, parent: _poolerOneShotParent);
-        _poolerLoop = new(audioSource, parent: _poolerLoopParent);
+        _poolerOneShot = new(audioSource, parent: _poolerOneShotParent, poolName: "OneShot");
+        _poolerLoop = new(audioSource, parent: _poolerLoopParent, poolName: "Loop");
 
         _poolerOneShot.Set(audioSource);
 

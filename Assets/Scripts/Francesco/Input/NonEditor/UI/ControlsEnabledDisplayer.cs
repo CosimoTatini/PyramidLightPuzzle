@@ -70,7 +70,10 @@ public class ControlsEnabledDisplayer : MonoBehaviour
 
     void Awake()
     {
-        _rowsPooler = new(_rowPrefab);
+        GameObject poolParent = new();
+        poolParent.transform.SetParent(transform);
+        poolParent.transform.localPosition = Vector3.zero;
+        _rowsPooler = new(_rowPrefab, parent: poolParent.transform, poolName: "ControlRows");
         if (_excludedActions != null)
         {
             _excludedActionGuids = _excludedActions.GetInputAssetMaps()
