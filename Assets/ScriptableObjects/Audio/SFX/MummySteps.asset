@@ -12,20 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 534788000ac8df234bd4bda487723736, type: 3}
   m_Name: MummySteps
   m_EditorClassIdentifier: Audio::SoundConfig
-  _clip: {fileID: 8300000, guid: b77addcc0890e114290e44b2bb331fc7, type: 3}
-  _randomize: 1
-  _clipsAlternatives:
-  - {fileID: 8300000, guid: b16fd9d3e4b7e384b9215cc44eba5555, type: 3}
-  - {fileID: 8300000, guid: da675c01ca6c16e45aa585cd2ed55268, type: 3}
-  - {fileID: 8300000, guid: b40f2c129bf2c9441b1224a52710bdae, type: 3}
-  - {fileID: 8300000, guid: 9ad1f24317fed7948bb8983a424624e2, type: 3}
-  - {fileID: 8300000, guid: 67686b6ab43602c4780dc9d30cbcde87, type: 3}
-  - {fileID: 8300000, guid: 33517cea8248e8a4399a64f61e353ca8, type: 3}
-  - {fileID: 8300000, guid: 29c842134eced3343adfe2f88fcbdd1c, type: 3}
+  _clip: {fileID: 8300000, guid: fa97c8e18601f76449cfce1ee673cd8b, type: 3}
+  _randomize: 0
+  _clipsAlternatives: []
   _mixerGroup: {fileID: -1553663287405846815, guid: 484e486787fb29756b28b8035aef8903, type: 2}
   _priority: 128
-  _loop: 0
-  _volume: 1
+  _loop: 1
+  _volume: 0.8
   _volumeVariance: 0.05
   _pitch: 1
   _pitchVariance: 0.05

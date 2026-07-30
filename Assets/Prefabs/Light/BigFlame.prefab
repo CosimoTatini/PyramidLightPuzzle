@@ -430,6 +430,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Player::TurnOffFlameInteraction
   <InputConfigSO>k__BackingField: {fileID: 11400000, guid: 778fdcd4ea97094f99d81ff32dbe4a46, type: 2}
+  <OnInteract>k__BackingField:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7889351492986552828}
+        m_TargetAssemblyTypeName: SoundEmitter, Audio
+        m_MethodName: PlayOneShot
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: 09863a7e71ec51b349fd959095605978, type: 2}
+          m_ObjectArgumentAssemblyTypeName: SoundConfig, Audio
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _placementRestricer: {fileID: 8477910941601939088}
   _bigFlame: {fileID: 3427522266271389537}
 --- !u!114 &7889351492986552828

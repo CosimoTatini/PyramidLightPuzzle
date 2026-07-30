@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ThrowDustInteraction : ItemInteraction
 {
-    [SerializeField] private AudioClipListGroup _audioClipListGroup;
+
 
     public override void Interact()
     {
