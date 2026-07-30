@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03fc65180cb252c40aec92762f61d05a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: inventory::TorchFlameSounds
-  soundConfig: {fileID: 11400000, guid: 574da8f844e4f664892c090056507e81, type: 2}
+  soundConfig: {fileID: 11400000, guid: a2c6210de62a7154b99d4dc65777301e, type: 2}
 --- !u!1 &5815135948996897342
 GameObject:
   m_ObjectHideFlags: 0
@@ -466,7 +466,19 @@ MonoBehaviour:
   <InputConfigSO>k__BackingField: {fileID: 11400000, guid: 2fe2263eb2dbfb373bb4912b4f839639, type: 2}
   <OnInteract>k__BackingField:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7789966163286697457}
+        m_TargetAssemblyTypeName: SoundEmitter, Audio
+        m_MethodName: PlayOneShot
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: f22f8fd6beb8c4e44968a54b9336b7e7, type: 2}
+          m_ObjectArgumentAssemblyTypeName: SoundConfig, Audio
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _itemPlacement: {fileID: 2346642929711741624}
 --- !u!61 &1553372535340748330
 BoxCollider2D:

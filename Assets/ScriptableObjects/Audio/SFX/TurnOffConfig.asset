@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 534788000ac8df234bd4bda487723736, type: 3}
-  m_Name: ThrowDustConfig
+  m_Name: TurnOffConfig
   m_EditorClassIdentifier: Audio::SoundConfig
-  _clip: {fileID: 8300000, guid: f65c37a93cbb80868ae6165d4c002b1b, type: 3}
+  _clip: {fileID: 8300000, guid: 80b6f89423f2d3c4e95253fba64e305d, type: 3}
   _randomize: 0
   _clipsAlternatives: []
-  _mixerGroup: {fileID: -1553663287405846815, guid: 484e486787fb29756b28b8035aef8903, type: 2}
+  _mixerGroup: {fileID: 0}
   _priority: 128
   _loop: 0
   _volume: 1

@@ -15,7 +15,7 @@ MonoBehaviour:
   _clip: {fileID: 8300000, guid: bf4d708596503aa4681c8e8a0ba67109, type: 3}
   _randomize: 0
   _clipsAlternatives: []
-  _mixerGroup: {fileID: 0}
+  _mixerGroup: {fileID: -1553663287405846815, guid: 484e486787fb29756b28b8035aef8903, type: 2}
   _priority: 128
   _loop: 0
   _volume: 1

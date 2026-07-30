@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1649805863866636088}
   - component: {fileID: 3615108861172038257}
   - component: {fileID: 3341568608139556156}
-  m_Layer: 4
+  m_Layer: 9
   m_Name: AppearingPlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 1038159419483173852}
   - component: {fileID: 3958365208317406973}
   - component: {fileID: 3850104964127693932}
-  m_Layer: 4
+  m_Layer: 9
   m_Name: TriggeArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -189,7 +189,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2299491047291181908}
-  m_Layer: 4
+  m_Layer: 9
   m_Name: Graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -223,7 +223,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5903161525183810037}
   - component: {fileID: 4076588616547572469}
-  m_Layer: 4
+  m_Layer: 9
   m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -314,7 +314,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7581370614822061072}
   - component: {fileID: 5464745551708474338}
-  m_Layer: 4
+  m_Layer: 9
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
