@@ -12,11 +12,11 @@ public class RepeaterLanceShooter : MonoBehaviour, IObserver
     private ObjectPooler<Projectile> _projectilePooler;
 
     [Header("Fisica")]
-    [SerializeField] private float _launchForce = 10f; 
+    [SerializeField] private float _launchForce = 10f;
 
     [Header("Time Settings")]
     [Tooltip("Ogni quanto tempo la torretta esegue una raffica di spari")]
-    [SerializeField] private float _cooldownBetweenBursts = 5f; 
+    [SerializeField] private float _cooldownBetweenBursts = 5f;
     [Tooltip("Ritardo iniziale prima del primo sparo (per desincronizzare)")]
     [SerializeField] private float _shootingDelay = 0f; // Ogni quanto spara la torretta 
     [SerializeField] private int _projectilePerBurst = 3;
@@ -33,7 +33,10 @@ public class RepeaterLanceShooter : MonoBehaviour, IObserver
 
     private void Awake()
     {
-        _projectilePooler = new ObjectPooler<Projectile>(_projectilePrefab, parent: transform, poolName: "Lances");
+        GameObject poolParent = new();
+        poolParent.transform.SetParent(transform);
+        poolParent.transform.localPosition = Vector3.zero;
+        _projectilePooler = new ObjectPooler<Projectile>(_projectilePrefab, parent: poolParent.transform, poolName: "Lances");
     }
 
     private void Start()
@@ -50,7 +53,7 @@ public class RepeaterLanceShooter : MonoBehaviour, IObserver
 
     private IEnumerator ShootingCoroutine()
     {
-        
+
         if (_isFirstSpawn && _shootingDelay > 0f)
         {
             yield return new WaitForSeconds(_shootingDelay);
@@ -59,7 +62,7 @@ public class RepeaterLanceShooter : MonoBehaviour, IObserver
 
         while (true)
         {
-        
+
             for (int i = 0; i < _projectilePerBurst; i++)
             {
                 SpawnProjectile();
@@ -77,7 +80,7 @@ public class RepeaterLanceShooter : MonoBehaviour, IObserver
         Projectile proj = _projectilePooler.Get();
         proj.transform.position = _firePoint.position;
 
-        
+
         float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
         proj.transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
 
@@ -85,9 +88,9 @@ public class RepeaterLanceShooter : MonoBehaviour, IObserver
 
         proj.Initialize(_projectilePooler, _targetTilemap, _projectileLifetime);
 
-        
+
         Vector2 force = _direction.normalized * _launchForce;
-        proj.Rb.AddForce(force, ForceMode2D.Impulse); 
+        proj.Rb.AddForce(force, ForceMode2D.Impulse);
     }
 
     public void ObserverUpdate(ISubject subject)
