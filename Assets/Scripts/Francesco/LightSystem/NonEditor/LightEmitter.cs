@@ -149,8 +149,10 @@ public class LightEmitter : MonoBehaviour
 
     private void UpdateLight()
     {
-        if (!_light && !CanUpdateLight) return;
+       
+    if (_light == null || !CanUpdateLight) return;
 
+       
         if (_redAmount == 0 && _greenAmount == 0 && _blueAmount == 0)
         {
             _light.enabled = false;
@@ -160,10 +162,14 @@ public class LightEmitter : MonoBehaviour
 
         if (!_light.enabled) _light.enabled = true;
 
+       
         float r = Mathf.Clamp01((float)_redAmount / _maxAmount);
         float g = Mathf.Clamp01((float)_greenAmount / _maxAmount);
         float b = Mathf.Clamp01((float)_blueAmount / _maxAmount);
-        _light.color = new Color(r, g, b);
+
+        _light.color = new Color(r, g, b, 1f);
+
+        
         OnLightChanged?.Invoke(this);
     }
 

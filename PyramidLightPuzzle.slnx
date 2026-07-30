@@ -9,6 +9,7 @@
   <Project Path="GameManager.csproj" />
   <Project Path="Obstacles.csproj" />
   <Project Path="inventory.csproj" />
+  <Project Path="Flame.csproj" />
   <Project Path="Enemy.csproj" />
   <Project Path="NewAssembly.csproj" />
   <Project Path="Puzzles.csproj" />
