@@ -6,23 +6,23 @@ using UnityEngine.Audio;
 using UnityEngine.Events;
 
 // TODO, Can't be a Singleton since for now the class Destroys the instances to allow Reloading correctly
-public class SFXManager : MonoBehaviour
+public class Global2DAudioPlayer : MonoBehaviour
 {
     #region Singleton
 
-    private static SFXManager _instance;
+    private static Global2DAudioPlayer _instance;
 
-    public static SFXManager Instance
+    public static Global2DAudioPlayer Instance
     {
         get
         {
             if (_instance) return _instance;
 
-            _instance = FindFirstObjectByType<SFXManager>(FindObjectsInactive.Include);
+            _instance = FindFirstObjectByType<Global2DAudioPlayer>(FindObjectsInactive.Include);
 
             if (_instance) return _instance;
 
-            return Instantiate(Resources.Load<SFXManager>(nameof(SFXManager)), Vector3.zero, Quaternion.identity).GetComponent<SFXManager>();
+            return Instantiate(Resources.Load<Global2DAudioPlayer>(nameof(Global2DAudioPlayer)), Vector3.zero, Quaternion.identity).GetComponent<Global2DAudioPlayer>();
         }
         set
         {

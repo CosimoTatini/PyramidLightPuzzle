@@ -48,7 +48,7 @@ internal class ThrowCharacterState : IStateCollision2D
     {
         _ownerController.Rb.linearVelocity = Vector2.zero;
         _timer = 0f;
-        _animator.Play(_owner.ThrowSettings.clipName);
+        _animator.Play(_owner.ThrowSettings.clipName, 0, 0f);
 
         // if (!InventoryManager.Instance.CanThrowPowder())
         // {
@@ -188,6 +188,7 @@ internal class ThrowCharacterState : IStateCollision2D
     {
         _timer += Time.deltaTime;
 
+        _owner.CalculateCurrentInteractables();
         if (_timer >= _owner.ThrowSettings.clip.length)
         {
             _owner.SetState(ECharacterStates.Idle);

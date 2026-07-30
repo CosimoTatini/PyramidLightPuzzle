@@ -88,7 +88,7 @@ public class TimerEvents : MonoBehaviour
     [ContextMenu("InterruptTimer")]
     public void InterruptTimer()
     {
-        if (!_isRunning)
+        if (!_isRunning && !_shouldLoop)
         {
             return;
         }

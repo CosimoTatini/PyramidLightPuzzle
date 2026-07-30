@@ -21,12 +21,9 @@ public class DeathCharacterState : IStateCollision2D
         _animator = animator;
     }
 
-
-
-
     public void OnEnd()
     {
-
+        _owner.PlayerController.Rb.simulated = true;
     }
 
     public void OnFixedUpdate()
@@ -37,6 +34,7 @@ public class DeathCharacterState : IStateCollision2D
     public void OnStart()
     {
         _ownerController.Rb.linearVelocity = Vector2.zero;
+        _owner.PlayerController.Rb.simulated = false;
 
         // _ownerController.InputActions.Player.Disable();
         InputConfigManager.UnregisterConfig(_ownerController.PlayerConfig);

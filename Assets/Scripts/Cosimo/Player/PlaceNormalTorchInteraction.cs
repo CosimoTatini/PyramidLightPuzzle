@@ -50,7 +50,7 @@ public class PlaceNormalTorchInteraction : PlayerPriorityInteractable
 
         if (PlacementManager.Instance.HasItem(torchInstance))
         {
-            SFXManager.Instance.PlayOneShotRandom(_audioClipListGroup);
+            Global2DAudioPlayer.Instance.PlayOneShotRandom(_audioClipListGroup);
             _player.SetState(ECharacterStates.Place);
         }
         else

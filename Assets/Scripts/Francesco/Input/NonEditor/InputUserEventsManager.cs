@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.InputSystem.Users;
 
-public static class InputEventsManager
+public static class InputUserEventsManager
 {
     [Tooltip("The default input action asset assigned to InputUsers, it can be changed later at any time")]
     private static Type _defaultInputActionAsset = typeof(InputSystem_Actions);

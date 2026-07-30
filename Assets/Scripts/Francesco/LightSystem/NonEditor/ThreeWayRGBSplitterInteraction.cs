@@ -1,7 +1,7 @@
 using System.Linq;
 using UnityEngine;
 
-public class ThreeWayRGBSplitterInteraction : PriorityInteractable
+public class ThreeWayRGBSplitterInteraction : PriorityInteraction
 {
     [SerializeField] private ThreeWayRGBSplit _threeWayRGBSplit;
     public override void Interact()

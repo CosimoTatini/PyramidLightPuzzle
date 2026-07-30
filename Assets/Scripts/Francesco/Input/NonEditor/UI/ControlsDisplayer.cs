@@ -36,7 +36,7 @@ public class ControlsDisplayer : MonoBehaviour
 
         if (InputUser.all.Count > 0)
         {
-            _inputUser = InputEventsManager.Player1.Value;
+            _inputUser = InputUserEventsManager.Player1.Value;
         }
 
         if (_inputUser != null)
@@ -79,8 +79,8 @@ public class ControlsDisplayer : MonoBehaviour
     {
         // if (_inputUser == null || !_inputUser.valid) return;
 
-        InputEventsManager.OnControlSchemeChanged -= SchemeChanged;
-        InputEventsManager.OnControlSchemeChanged += SchemeChanged;
+        InputUserEventsManager.OnControlSchemeChanged -= SchemeChanged;
+        InputUserEventsManager.OnControlSchemeChanged += SchemeChanged;
 
         SchemeChanged(_inputUser);
     }
@@ -88,7 +88,7 @@ public class ControlsDisplayer : MonoBehaviour
     void OnDisable()
     {
         // if (_inputUser == null || !_inputUser.valid) return;
-        InputEventsManager.OnControlSchemeChanged -= SchemeChanged;
+        InputUserEventsManager.OnControlSchemeChanged -= SchemeChanged;
 
         // if (InputConfigManager.EnabledDisabledActionEvents.TryGetValue(_inputUser, out var enabledDisabledAction))
         // {

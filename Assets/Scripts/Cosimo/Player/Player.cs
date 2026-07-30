@@ -376,7 +376,7 @@ public class Player : MonoBehaviour, ISubject, IPriorityInteractableHost
 
     public void HandleThrow()
     {
-        if (StateMachine.CurrentStateType != ECharacterStates.Walk && StateMachine.CurrentStateType != ECharacterStates.Idle || _isRespawning) return;
+        if (StateMachine.CurrentStateType != ECharacterStates.Walk && StateMachine.CurrentStateType != ECharacterStates.Idle && StateMachine.CurrentStateType != ECharacterStates.Throw || _isRespawning) return;
 
         if (_throwPrioritySet.InteractablesPriorityDict.Count == 0 || _currentThrowInteractable == null) return;
 
@@ -399,10 +399,30 @@ public class Player : MonoBehaviour, ISubject, IPriorityInteractableHost
 
     public void CalculateCurrentInteractables()
     {
+        CalculateCurrentInteractInteractable();
+        CalculateCurrentThrowInteractable();
+    }
+
+    public void CalculateCurrentInteractInteractable()
+    {
         if (_interactPrioritySet.CurrentInteractableListKey.HasValue)
         {
             var dict = _interactPrioritySet.InteractablesPriorityDict;
             List<IPriorityInteractable> priorityInteractables = dict[_interactPrioritySet.CurrentInteractableListKey.Value];
+            for (int i = priorityInteractables.Count - 1; i >= 0; i--)
+            {
+                if (priorityInteractables[i] == null)
+                {
+                    priorityInteractables.RemoveAt(i);
+                }
+                else if (priorityInteractables[i] is MonoBehaviour monobehaviorCheck)
+                {
+                    if (monobehaviorCheck == null)
+                    {
+                        priorityInteractables.RemoveAt(i);
+                    }
+                }
+            }
             if (priorityInteractables.Count == 0) return;
 
             IPriorityInteractable closerInteractable = priorityInteractables[0];
@@ -451,11 +471,30 @@ public class Player : MonoBehaviour, ISubject, IPriorityInteractableHost
                 // Debug.Log("UPDATE POLLO " + _currentInteractable);
             }
         }
+    }
+
+    public void CalculateCurrentThrowInteractable()
+    {
         if (_throwPrioritySet.CurrentInteractableListKey.HasValue)
         {
             var dict = _throwPrioritySet.InteractablesPriorityDict;
             List<IPriorityInteractable> priorityInteractables = dict[_throwPrioritySet.CurrentInteractableListKey.Value];
             if (priorityInteractables.Count == 0) return;
+
+            for (int i = priorityInteractables.Count - 1; i >= 0; i--)
+            {
+                if (priorityInteractables[i] == null)
+                {
+                    priorityInteractables.RemoveAt(i);
+                }
+                else if (priorityInteractables[i] is MonoBehaviour monobehaviorCheck)
+                {
+                    if (monobehaviorCheck == null)
+                    {
+                        priorityInteractables.RemoveAt(i);
+                    }
+                }
+            }
 
             IPriorityInteractable closerInteractable = priorityInteractables[0];
             float shortestDistance;

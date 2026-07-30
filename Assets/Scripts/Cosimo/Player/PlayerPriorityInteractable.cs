@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class PlayerPriorityInteractable : PriorityInteractable
+public abstract class PlayerPriorityInteractable : PriorityInteraction
 {
     protected Player _player = null;
 
