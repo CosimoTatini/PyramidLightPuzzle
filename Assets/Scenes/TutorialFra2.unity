@@ -17231,12 +17231,12 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5550328600045715910, guid: bcbd17571cc4e58429f17cf9583a261c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 677483546}
-    - targetCorrespondingSourceObject: {fileID: 5550328600045715910, guid: bcbd17571cc4e58429f17cf9583a261c, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 4155689210647087670, guid: bcbd17571cc4e58429f17cf9583a261c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 677483547}
+    - targetCorrespondingSourceObject: {fileID: 4155689210647087670, guid: bcbd17571cc4e58429f17cf9583a261c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 677483546}
   m_SourcePrefab: {fileID: 100100000, guid: bcbd17571cc4e58429f17cf9583a261c, type: 3}
 --- !u!4 &677483543 stripped
 Transform:
@@ -17248,7 +17248,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8155834168172638382, guid: bcbd17571cc4e58429f17cf9583a261c, type: 3}
   m_PrefabInstance: {fileID: 677483542}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 677483545}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8230a752acd80f4698c0abb20ba72c2, type: 3}
@@ -17256,7 +17256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Input::PlayerController
 --- !u!1 &677483545 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 5550328600045715910, guid: bcbd17571cc4e58429f17cf9583a261c, type: 3}
+  m_CorrespondingSourceObject: {fileID: 4155689210647087670, guid: bcbd17571cc4e58429f17cf9583a261c, type: 3}
   m_PrefabInstance: {fileID: 677483542}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &677483546
@@ -17268,10 +17268,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 677483545}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9712db2ee95fae940a3d4d2798db65fa, type: 3}
+  m_Script: {fileID: 11500000, guid: 32f695d19a0685288ad3e29c4a387568, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Player::WalkSounds
-  _audioClipListGroup: {fileID: 11400000, guid: 036fe42d874d812448ac2a77f5898291, type: 2}
+  m_EditorClassIdentifier: Audio::SoundEmitter
 --- !u!114 &677483547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17281,9 +17280,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 677483545}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32f695d19a0685288ad3e29c4a387568, type: 3}
+  m_Script: {fileID: 11500000, guid: 9712db2ee95fae940a3d4d2798db65fa, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Audio::SoundEmitter
+  m_EditorClassIdentifier: Player::WalkSounds
+  OnPlayerWalks:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 677483546}
+        m_TargetAssemblyTypeName: SoundEmitter, Audio
+        m_MethodName: PlayOneShot
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: e4d664ad8e5065d4ba755314369518b4, type: 2}
+          m_ObjectArgumentAssemblyTypeName: SoundConfig, Audio
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnPlayerStops:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &713531071
 PrefabInstance:
   m_ObjectHideFlags: 0

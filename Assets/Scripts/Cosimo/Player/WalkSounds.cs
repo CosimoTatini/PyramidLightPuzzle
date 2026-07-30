@@ -1,12 +1,13 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class WalkSounds : MonoBehaviour
 {
+    public UnityEvent OnPlayerWalks;
+    public void PlayerWalks()
+    {
+        OnPlayerWalks.Invoke();
+    }
 
-
-  public void OnFootStepsAnimSound()
-  {
-    Global2DAudioPlayer.Instance.PlayOneShotRandom(_audioClipListGroup);
-    Debug.Log("Clip riprodotta" + _audioClipListGroup.AudioClips);
-  }
+   
 }
