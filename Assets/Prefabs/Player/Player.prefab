@@ -102,7 +102,6 @@ GameObject:
   - component: {fileID: 8929111729706422743}
   - component: {fileID: 6189318054724317936}
   - component: {fileID: 5844181137394240403}
-  - component: {fileID: 4993466876631345066}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -290,7 +289,7 @@ MonoBehaviour:
   <OnInteract>k__BackingField:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4993466876631345066}
+      - m_Target: {fileID: 6212097075861263772}
         m_TargetAssemblyTypeName: SoundEmitter, Audio
         m_MethodName: PlayOneShot
         m_Mode: 2
@@ -319,7 +318,7 @@ MonoBehaviour:
   <OnInteract>k__BackingField:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4993466876631345066}
+      - m_Target: {fileID: 6212097075861263772}
         m_TargetAssemblyTypeName: SoundEmitter, Audio
         m_MethodName: PlayOneShot
         m_Mode: 2
@@ -347,7 +346,7 @@ MonoBehaviour:
   <OnInteract>k__BackingField:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4993466876631345066}
+      - m_Target: {fileID: 6212097075861263772}
         m_TargetAssemblyTypeName: SoundEmitter, Audio
         m_MethodName: PlayOneShot
         m_Mode: 2
@@ -375,7 +374,7 @@ MonoBehaviour:
   <OnInteract>k__BackingField:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4993466876631345066}
+      - m_Target: {fileID: 6212097075861263772}
         m_TargetAssemblyTypeName: SoundEmitter, Audio
         m_MethodName: PlayOneShot
         m_Mode: 2
@@ -388,18 +387,6 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   _itemPlacement: {fileID: 0}
---- !u!114 &4993466876631345066
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4155689210647087670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32f695d19a0685288ad3e29c4a387568, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Audio::SoundEmitter
 --- !u!1 &5550328600045715910
 GameObject:
   m_ObjectHideFlags: 0
@@ -638,6 +625,7 @@ GameObject:
   - component: {fileID: 8927047367217174395}
   - component: {fileID: 4447217646836594260}
   - component: {fileID: 8969119124249222070}
+  - component: {fileID: 6212097075861263772}
   m_Layer: 0
   m_Name: CinemachineCamera
   m_TagString: Untagged
@@ -751,6 +739,18 @@ MonoBehaviour:
   _zoomStep: 4
   _zoomSpeed: 5
   _targetTolerance: 0.01
+--- !u!114 &6212097075861263772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6204006812434994769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32f695d19a0685288ad3e29c4a387568, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Audio::SoundEmitter
 --- !u!1 &7746538460979912033
 GameObject:
   m_ObjectHideFlags: 0
