@@ -317,6 +317,6 @@ MonoBehaviour:
   _bypassEffects: 0
   _bypassListenerEffects: 0
   _bypassReverbZones: 0
-  _ignoreListenerVolume: 0
+  _ignoreListenerVolume: 1
   _ignoreListenerPause: 0
   _velocityUpdateMode: 0

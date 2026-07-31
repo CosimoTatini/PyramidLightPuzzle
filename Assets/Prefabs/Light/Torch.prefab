@@ -112,9 +112,21 @@ MonoBehaviour:
   <InputConfigSO>k__BackingField: {fileID: 11400000, guid: 2a75a5a609d14736fb7e476e13284167, type: 2}
   <OnInteract>k__BackingField:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7720407158405098022}
+        m_TargetAssemblyTypeName: SoundEmitter, Audio
+        m_MethodName: PlayOneShot
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: 45dd9390d2a632a409a31530974df783, type: 2}
+          m_ObjectArgumentAssemblyTypeName: SoundConfig, Audio
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _itemPlacement: {fileID: 165076883788538747}
-  _audioClipListGroup: {fileID: 11400000, guid: 166fe73f07da836808cee82662065d67, type: 2}
+  _audioClipListGroup: {fileID: 0}
 --- !u!114 &194477825392880268
 MonoBehaviour:
   m_ObjectHideFlags: 0
