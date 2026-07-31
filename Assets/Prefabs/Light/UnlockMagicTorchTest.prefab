@@ -552,3 +552,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Player::MagicalTorchDisableSwitch
   _disableSwitchConfig: {fileID: 11400000, guid: 32ef3959b9c41527589250041ee01c3e, type: 2}
+  _itemPlacement: {fileID: 2346642929711741624}

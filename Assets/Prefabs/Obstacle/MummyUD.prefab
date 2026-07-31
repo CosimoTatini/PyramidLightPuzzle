@@ -145,6 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Player::WalkSounds
   _soundConfig: {fileID: 11400000, guid: cb25792d41afa3947ae8c5f93e51facb, type: 2}
+  _soundEmitter: {fileID: 0}
 --- !u!114 &5517820286267176468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,9 +173,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  _baseInterval: 3
-  _minReduction: 1
-  _maxReduction: 2
+  _minInterval: 10
+  _maxInterval: 13
 --- !u!114 &2789325703251600214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -399,7 +399,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.55}
+  m_Offset: {x: 0, y: 0.4}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -409,7 +409,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.48, y: 1.1}
+  m_Size: {x: 0.48, y: 0.7}
   m_EdgeRadius: 0
 --- !u!114 &4144965635337930620
 MonoBehaviour:
