@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ThreeWayRGBSplit : MonoBehaviour
 {
+    [SerializeField] private SpriteRenderer _diamondRenderer;
     [Header("Settings")]
     [SerializeField] private float _rotationTime = 1f;
     [SerializeField] private AnimationCurve _rotationCurve = AnimationCurve.Linear(0, 0, 1, 1);
@@ -114,6 +115,16 @@ public class ThreeWayRGBSplit : MonoBehaviour
         }
         SetDusts();
         RaycastAndLightExpansion();
+        UpdateDiamondColor();
+    }
+
+    private void UpdateDiamondColor()
+    {
+        float r = Mathf.Clamp01((float)_lightSensor.CurrentRedAmount / _lightSensor.MaxAmount);
+        float g = Mathf.Clamp01((float)_lightSensor.CurrentGreenAmount / _lightSensor.MaxAmount);
+        float b = Mathf.Clamp01((float)_lightSensor.CurrentBlueAmount / _lightSensor.MaxAmount);
+
+        _diamondRenderer.color = new Color(r, g, b, 1f);
     }
 
     private void RaycastAndLightExpansion()
