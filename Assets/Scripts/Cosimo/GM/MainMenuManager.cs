@@ -78,6 +78,19 @@ public class MainMenuManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(_startButton.gameObject);
     }
 
+    void Update()
+    {
+        var current = EventSystem.current;
+        if (current != null)
+        {
+            if (current.currentSelectedGameObject != _startButton.gameObject && current.currentSelectedGameObject != _quitButton.gameObject)
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(_startButton.gameObject);
+            }
+        }
+    }
+
 
 
     private void OnDisable()
