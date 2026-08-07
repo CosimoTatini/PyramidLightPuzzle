@@ -241,23 +241,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3683547113865466506, guid: fd5eff4ec27cb354a92e4e92df68f2d7, type: 3}
       propertyPath: StartTorchQuantity
-      value: 0
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3683547113865466506, guid: fd5eff4ec27cb354a92e4e92df68f2d7, type: 3}
+      propertyPath: MagicalTorchUnlocked
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3683547113865466506, guid: fd5eff4ec27cb354a92e4e92df68f2d7, type: 3}
       propertyPath: StartRedDustQuantity
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3683547113865466506, guid: fd5eff4ec27cb354a92e4e92df68f2d7, type: 3}
       propertyPath: StartBlueDustQuantity
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3683547113865466506, guid: fd5eff4ec27cb354a92e4e92df68f2d7, type: 3}
       propertyPath: StartGreenDustQuantity
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3683547113865466506, guid: fd5eff4ec27cb354a92e4e92df68f2d7, type: 3}
       propertyPath: StartMagicalTorchQuantity
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7567345170112231853, guid: fd5eff4ec27cb354a92e4e92df68f2d7, type: 3}
       propertyPath: m_Name
